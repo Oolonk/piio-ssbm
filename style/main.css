@@ -1296,3 +1296,64 @@ body:not(.fixedSmashggQueue) #smashgg-queue:hover .list {
 	top:5px;
 	opacity:0.6;
 }
+
+#stage-striking {
+	display: flex;
+	flex-direction: row;
+}
+
+#stage-striking .stage-controls {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+#stages {
+	display: flex;
+	flex-direction: row;
+	flex-grow: 1;
+	justify-content: center;
+}
+
+#reset-strikes {
+	margin-left: auto;
+}
+
+#stage-striking .stage {
+	width: 107px;
+	height: 90px;
+	cursor: pointer;
+	background-size: contain;
+	background-repeat: no-repeat;
+	flex: none;
+	
+	transition: all 300ms ease-in-out;
+	
+	filter: saturate(100%);
+	transform: scale(1);
+}
+
+#stage-striking .stage.struck {
+	filter: saturate(0%);
+	transform: scale(0.8);
+}
+
+#fd {
+	background-image: url('../img/stages/fd.png');
+}
+
+#fod {
+	background-image: url('../img/stages/fod.png');
+}
+
+#bf {
+	background-image: url('../img/stages/bf.png');
+}
+
+#ys {
+	background-image: url('../img/stages/ys.png');
+}
+
+#dl {
+	background-image: url('../img/stages/dl.png');
+}
