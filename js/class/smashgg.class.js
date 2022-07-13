@@ -518,6 +518,9 @@ class SmashggWrapper {
 			}
 			if(data.user.location){
 				fixed.country = data.user.location.country;
+				if (data.user.location.country === 'Australia' && data.user.location.state) {
+					fixed.country = data.user.location.state
+				}
 			}
 		}
 

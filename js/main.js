@@ -592,6 +592,7 @@ function setTeamType(num){
 function resetScore(){
 	modifyScore(1, 0, true);
 	modifyScore(2, 0, true);
+	scoreboard.strikes = []
 }
 
 function modifyScore(team, inc, absolute){
@@ -624,6 +625,7 @@ function clearBoard(){
 	}
 	scoreboard.ports = [null,null,null,null];
 	scoreboard.smashgg = null;
+	scoreboard.strikes = []
 	
 	fire("scoreboardsmashggchanged");
 	fire("scoreboardteamschanged");
@@ -1012,7 +1014,6 @@ function strikeStage(stageId) {
 
 function resetStrikes() {
 	scoreboard.strikes = []
-	fire("scoreboardchanged")
 }
 
 async function buildStageStriking() {
@@ -1022,10 +1023,10 @@ async function buildStageStriking() {
 	const stages = {
 		ssbm: [
 			{name: "Battlefield", id: "bf"},
+			{name: "Dreamland", id: "dl"},
 			{name: "Fountain Of Dreams", id: "fod"},
 			{name: "Yoshi's Story", id: "ys"},
-			{name: "Dreamland", id: "dl"},
-			{name: "Final Destination", id: "fd"},
+			{name: "Pokemon Stadium", id: "ps"},
 		]
 	}
 	
@@ -1033,29 +1034,35 @@ async function buildStageStriking() {
 
 	const element = document.getElementById('stages')
 	element.innerHTML = '';
-	
-	if (stages[gameShort]?.length) {
-		for (const stage of stages[gameShort]) {
-			let className = 'stage'
-			console.log(scoreboard.strikes, stage.id)
-			if (scoreboard.strikes.includes(stage.id)) {
-				className = className.concat(' struck')
-			}
-			const stg = createElement({
-				id: stage.id,
-				className,
-				onclick: () =>  {
-					strikeStage(stage.id)
-					console.log(scoreboard.strikes)
-					fire("scoreboardchanged")
-				}
-			})
 
-			element.appendChild(stg)
-		}
-
-
+	if (!stages[gameShort]?.length) {
+		element.parentElement.classList.add('d-none')
+		return
 	}
+	
+	for (const stage of stages[gameShort]) {
+		let className = 'stage'
+		console.log(scoreboard.strikes, stage.id)
+		if (scoreboard.strikes.includes(stage.id)) {
+			className = className.concat(' struck')
+		}
+		const stg = createElement({
+			id: stage.id,
+			className,
+			onclick: () =>  {
+				strikeStage(stage.id)
+				console.log(scoreboard.strikes)
+				fire("scoreboardchanged")
+			}
+		})
+
+		element.appendChild(stg)
+	}
+
+	element.parentElement.classList.remove('d-none')
+
+
+
 
 }
 
@@ -1403,6 +1410,10 @@ function handleWsCommand(data){
 		break;
 		case "strike-stage":
 			strikeStage(data.value);
+			fire("scoreboardchanged", true);
+		break;
+		case "reset-strikes":
+			resetStrikes()
 			fire("scoreboardchanged", true);
 		break;
 	}
