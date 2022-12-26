@@ -175,11 +175,11 @@ function buildRelatedItem(isFileList, name, dirPath, id, rel){
 			childElm.appendChild(labelEl);
 			childElm.appendChild(fileEl);
 		}
-		childElm.lastChild.onclick = () => {
-			console.log("childElm.lastChild.onclick", dirPath, id);
-			editAsset(name, path.join(dirPath, id+".png")).then(getList);
+		// childElm.lastChild.onclick = () => {
+		// 	console.log("childElm.lastChild.onclick", dirPath, id);
+		// 	editAsset(name, path.join(dirPath, id+".png")).then(getList);
 			
-		}
+		// }
 		childElm.lastChild.ondragenter = e => {
 			childElm.classList.add("dropfile");
 			e.preventDefault();
@@ -193,7 +193,7 @@ function buildRelatedItem(isFileList, name, dirPath, id, rel){
 		}
 		childElm.lastChild.ondrop  = e => {
 			childElm.classList.remove("dropfile");
-			editAsset(name, path.join(dirPath, id+".png"), e.dataTransfer.files[0].path).then(getList);
+			editAsset(name, path.join(dirPath, id+"."+e.dataTransfer.files[0].path.split('.').pop()), e.dataTransfer.files[0].path).then(getList);
 			e.preventDefault();
 		}
 		return childElm;
@@ -256,7 +256,6 @@ function editAsset(name, filePath, uploadFile){
 		} catch(e) {
 			fs.mkdirSync(dir, {recursive: true});
 		}
-	
 		fs.copyFile(path.normalize(file[0]), filePath, (err) => {
 			if (err) return reject(err);
 			resolve();
