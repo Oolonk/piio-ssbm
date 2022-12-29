@@ -46,6 +46,7 @@
 				<!-- <a href="javascript:openWindow('overlays');">Overlays</a> -->
 				<a href="javascript:openSettingsWindow();">Settings</a> 
 				<a href="javascript:shell.openExternal(APPRES+'/');">File Explorer*</a>
+				<a href="javascript:shell.openExternal('http://127.0.0.1:'+ (remote.getGlobal('ARGV').port ? remote.getGlobal('ARGV').port  :(process.platform === 'win32' ? '80': '8000')))">Website</a>
 			</nav>
 			<div id="sidebar-matchlist">
 				<!-- <button id="new-match-btn" onclick="newMatch();">NEW MATCH</button> -->
