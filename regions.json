@@ -1711,7 +1711,7 @@
     "stateLong": null,
     "region": null,
     "defaultTimezone": "Asia/Jakarta",
-    "countryCode": "smashgg-id",
+    "countryCode": "ID",
     "continent": "AS"
 },
 {
@@ -3318,5 +3318,16 @@
     "countryCode": "GB-SC",
     "continent": "EU",
     "isEU": 1
+},
+{
+    "smashgg-id":330,
+    "country":"England",
+    "state":null,
+    "stateLong":null,
+    "region":null,
+    "defaultTimezone":null,
+    "countryCode":"GB-EN",
+    "continent":"EU",
+    "isEU":true
 }
 ]
