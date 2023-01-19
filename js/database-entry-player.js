@@ -136,6 +136,11 @@ async function buildForm(){
 	let countrySelect = document.querySelector("#field-country .input > *");
 
 	let optionVals = await db.get("country");
+	optionVals.sort(function(a, b) {
+		if (a.name < b.name) {return -1;}
+		if (a.name > b.name) {return 1;}
+		return 0;
+	});
 	optionVals.unshift({"_id":"", name: " - None - "});
 	optionVals.forEach((entry) => {
 		let opt = document.createElement("option");
