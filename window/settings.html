@@ -60,6 +60,25 @@
 						<a href="javascript:shell.openExternal('https://developer.start.gg/docs/authentication');">How to generate your Token</a>
 					</div>
 				</div>
+				<div class="item">
+					<div class="label">Slippi Type</div>
+					<div class="saved" id="connection-type-saved"></div>
+					<select id="connection-type-value" onchange="set('connection-type', this.value)">
+						<option value="relay">Relay</option>
+						<option value="dolphin">Dolphin</option>
+					</select>
+					<div class="description">
+						The Slippi Connection Type
+					</div>
+				</div>
+				<div class="item">
+					<div class="label">Slippi Relay</div>
+					<div class="saved" id="relay-port-saved"></div>
+					<input type="number" id="relay-port-value" oninput="set('relay-port', this.value)" value="" placeholder="Your Slippi Relay Port" />
+					<div class="description">
+						Add your Slippi Relay Code here
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>
