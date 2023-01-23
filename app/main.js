@@ -12,7 +12,12 @@ const fs = require('fs-extra');
 const path = require('path');
 const nedb = require("nedb");
 const { dialog } = require('electron');
+const SlippiServer = require('./slippiserver.class.js');
 
+var slippi = new SlippiServer;
+
+
+console.log(slippi.ws);
 global.ARGV = {argv:{}};
 process.argv.forEach((arg) => {
 	if(arg.startsWith("--")){
@@ -83,6 +88,7 @@ electron.on("ready", async () => { // programm is ready
 	server.webPath = APPRES;
 	server.setTheme((await getClientSetting("theme")));
 	server.start();
+	slippi.start();
 });
 
 

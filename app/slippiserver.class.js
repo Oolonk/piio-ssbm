@@ -12,17 +12,16 @@ class SlippiServer{
 
 	constructor(){
 		this.slippiIP = '127.0.0.1';
-		this.slippiPort = 0000;
+		this.slippiPort = 0;
 		this.slippiFolder = '';
-		this.realtime = new SlippiRealtime;
-		this.stream = new SlpLiveStream("console");
+		this.realtime = new SlpRealTime;
+		this.slippiType = "dolphin";
+		this.stream = new SlpLiveStream(this.slippiType);
 
-		this.server = express();
-		this.expressWs = ExpressWs(this.server);
-		this.port = 42069;
-		
+		this.port = 42070;
+		this.ws = new WebSocket.Server({ port: this.port });
+
 		this.pingInterval = 10; // seconds
-		this.socket = require('dgram').createSocket('udp4');
 		
 		this.event = new EventEmitter();
 	
@@ -33,11 +32,13 @@ class SlippiServer{
 		this.root = ''
 		this.themeWatcher;
 		this.dynStatic;
-		this.realtime = new SlippiRealtime;
 		()=>{
-			
+			this.ws.on("connection", (client) => {
+			  console.log("Overlay client connected!");
+			});
 		}
 	}
+	
 	set SlippiIP(val){
 		this.slippiIP = val;
 	}
@@ -47,6 +48,11 @@ class SlippiServer{
 	set SlippiFolder(val){
 		this.slippiFolder = val;
 	}
+	set SlippiType(val){
+		this.slippiType = val;
+		this.stream = new SlpLiveStream(this.slippiType);
+	}
+	
 	start(){
 	this.realtime.setStream(this.stream);
     this.stream.start(this.SlippiIP, this.SlippiPort)
@@ -88,6 +94,6 @@ class SlippiServer{
 	  }
 	  return stats;
 	}
-
+	
 }
 module.exports = SlippiServer;
