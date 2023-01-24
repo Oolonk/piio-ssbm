@@ -16,7 +16,6 @@ const SlippiServer = require('./slippiserver.js');
 
 
 
-console.log(slippi.ws);
 global.ARGV = {argv:{}};
 process.argv.forEach((arg) => {
 	if(arg.startsWith("--")){
@@ -44,6 +43,7 @@ var clientSettings = new nedb({ filename: path.join(APPUSERDATA, 'settings.db'),
 //init slippiserver
 
 let slippi = new SlippiServer;
+slippi.startServer();
 
 // init server
 let server = new PiioServer();
@@ -89,7 +89,6 @@ electron.on("ready", async () => { // programm is ready
 	server.webPath = APPRES;
 	server.setTheme((await getClientSetting("theme")));
 	server.start();
-	slippi.start();
 });
 
 

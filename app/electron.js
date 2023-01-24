@@ -88,8 +88,9 @@ async function createMainWindow() {
 		show: false,
 		icon: path.join(__dirname, 'logo.png'),
 		autoHideMenuBar:true,
-		webPreferences:{devTools: _debug, experimentalFeatures :true, nodeIntegration: true}
+		webPreferences:{devTools: _debug, experimentalFeatures :true, nodeIntegration: true, contextIsolation: false, enableRemoteModule: true}
 	});
+		mainWin.webContents.openDevTools();
 	mainWin.once('ready-to-show', () => setTimeout(() => {
 		mainWin.show();
 		if(mainConf.maxi)
