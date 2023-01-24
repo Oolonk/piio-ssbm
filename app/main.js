@@ -12,9 +12,8 @@ const fs = require('fs-extra');
 const path = require('path');
 const nedb = require("nedb");
 const { dialog } = require('electron');
-const SlippiServer = require('./slippiserver.class.js');
+const SlippiServer = require('./slippiserver.js');
 
-var slippi = new SlippiServer;
 
 
 console.log(slippi.ws);
@@ -42,7 +41,9 @@ var sessionTimestamp = new Date().getTime();
 var clientSettings = new nedb({ filename: path.join(APPUSERDATA, 'settings.db'), autoload :true});
 
 
+//init slippiserver
 
+let slippi = new SlippiServer;
 
 // init server
 let server = new PiioServer();
