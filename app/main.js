@@ -93,6 +93,12 @@ electron.on("ready", async () => { // programm is ready
 
 
 
+electron.ipcMain.on('slippiPort', (event, name) => slippi.setSlippiPort(name));
+electron.ipcMain.on('connectionType', (event, name) => slippi.setSlippiType(name));
+electron.ipcMain.on('connectionType', (event, name) => slippi.setSlippiType(name));
+electron.ipcMain.on('slippiFolder', (event, name) => slippi.setSlippiFolder(name));
+
+
 electron.ipcMain.on('theme', (event, name) => applyTheme(name));
 
 electron.ipcMain.handle('get', async (event, name) => {
