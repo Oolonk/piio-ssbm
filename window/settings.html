@@ -63,9 +63,9 @@
 				<div class="item">
 					<div class="label">Slippi Type</div>
 					<div class="saved" id="connection-type-saved"></div>
-					<select id="connection-type-value" onchange="set('connection-type', this.value)">
-						<option value="console">Console</option>
-						<option value="dolphin">Dolphin</option>
+					<select id="connection-type-value" onchange="set('connection-type', this.value == 1)">
+						<option value="0">Console</option>
+						<option value="1">Dolphin</option>
 					</select>
 					<div class="description">
 						The Slippi Connection Type

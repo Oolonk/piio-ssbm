@@ -1,6 +1,7 @@
 const { SlippiGame, Ports, DolphinConnection, ConnectionStatus} = require('@slippi/slippi-js');
 const { SlpFolderStream, SlpLiveStream, Slpstream, SlpRealTime } = require("@vinceau/slp-realtime");
 
+
 const express = require('express');
 const path = require('path');
 const fs = require("fs")
@@ -9,6 +10,7 @@ const EventEmitter = require('events');
 const ExpressWs = require('express-ws');
 const WebSocket = require('ws');
 const { windowsStore } = require('process');
+const watch = require('object-watcher').watch;
 
 async function  getStats(games, slpLiveFolderPath){
 	var files = fs.readdirSync(slpLiveFolderPath, [])
@@ -48,11 +50,12 @@ async function  getStats(games, slpLiveFolderPath){
 function SlippiServer(){
 	this.server = express();
 	this.expressWs = ExpressWs(this.server);
-	this.slippiIP = '127.0.0.1';
+	this.slippiIP = 'localhost';
 	this.slippiPort = 0;
 	this.slippiFolder = "";
+	this.connectionStatus = ConnectionStatus;
 	this.realtime = new SlpRealTime;
-	this.slippiType = "dolphin";
+	this.slippiType = "";
 	this.stream = new SlpLiveStream(this.slippiType);
 
 	this.port = 42070;
@@ -67,6 +70,18 @@ function SlippiServer(){
 	this.msgCache = {};
 	this.root = ''
 	this.themeWatcher;
+	this.playerbackup = [];
+	this.cache = {
+	  "settings": undefined ,
+	  "options": undefined ,
+	  "lastFinalizedFrame": undefined,
+	  "latestFrameIndex": undefined ,
+	  "options": undefined ,
+	  "frame": undefined ,
+	  "gameEnd": undefined ,
+	  "lras": undefined,
+	  "combo": undefined
+	};
 
 }
 
@@ -137,23 +152,108 @@ SlippiServer.prototype.setSlippiIP = function setSlippiIP(val){
 	this.slippiIP = val;
 }
 SlippiServer.prototype.setSlippiPort = function setSlippiPort(val){
-	this.slippiPort = val;
+	this.slippiPort = parseInt(val);
 }
 SlippiServer.prototype.setSlippiFolder = function setSlippiFolder(val){
 	this.slippiFolder = val;
 }
 SlippiServer.prototype.setSlippiType = function setSlippiType(val){
 	this.slippiType = val;
-	this.stream = new SlpLiveStream(this.slippiType);
 }
 
 SlippiServer.prototype.startSlippi = function startSlippi(){
-this.realtime.setStream(this.stream);
-this.stream.start(this.SlippiIP, this.SlippiPort)
-	.catch(console.error);
+	this.stream = new SlpLiveStream(this.slippiType);
+	this.realtime.setStream(this.stream);
+	// try {
+		this.stream.start(this.slippiIP, (this.slippiType == "dolphin")? Ports.DEFAULT : this.slippiPort)
+		.catch(console.error());
+
+	  const sendUpdateOverlay = (data) => {
+		this.server.ws.clients.forEach((client) => {
+		  //const data = `hello world ${counter}!`;
+		  if (client.readyState === WebSocket.OPEN) {
+			client.send(
+			  JSON.stringify({
+				data
+			  })
+			);
+		  }
+		});
+	  };
+	  watch(this.stream.parser, 'lastFinalizedFrame', function(){
+	  //fs.writeFileSync('json/realtime.combo.json', util.inspect(realtime.combo.comboComputer, {depth: Infinity}));
+		var overlayData = {
+			"settings": undefined ,
+			"options": undefined ,
+			"lastFinalizedFrame": undefined,
+			"latestFrameIndex": undefined ,
+			"options": undefined ,
+			"frame": undefined ,
+			"gameEnd": undefined ,
+			"lras": undefined,
+			"combo": undefined
+		};
+	   overlayData.combo = this.realtime.combo.comboComputer.combos;
+		overlayData.settings = this.stream.parser.settings;
+		overlayData.options = this.stream.parser.options;
+		overlayData.lastFinalizedFrame = this.stream.parser.lastFinalizedFrame;
+		overlayData.settingsComplete = this.stream.parser.settingsComplete;
+		overlayData.latestFrameIndex = this.stream.parser.latestFrameIndex;
+		overlayData.gameEnd = null;
+		overlayData.lras = null;
+		overlayData.frame = this.stream.parser.frames[this.stream.parser.latestFrameIndex];
+		overlayData.combo = this.realtime.combo.comboComputer.combos;
+		//fs.writeFileSync('json/overlay.json', util.inspect(stream.parser.frames[stream.parser.latestFrameIndex]));
+		for(var i = 0; i < 4; i++){
+		  if(this.stream.parser.frames[this.stream.parser.latestFrameIndex]){
+		  if(this.stream.parser.frames[this.stream.parser.latestFrameIndex].players[i]){
+		   this.playerbackup[i] = this.stream.parser.frames[this.stream.parser.latestFrameIndex].players[i];
+		   //console.log("Normal wurde genommen");
+		  }else{
+		   overlayData.frame.players[i] = this.playerbackup[i];
+		  }
+		}
+	   }
+	   this.cache = [...overlayData];
+	   sendUpdateOverlay(this.cache);
+	   
+	  });
+	  this.realtime.game.end$.subscribe((payload) => {
+		var overlayData = {
+			"settings": undefined ,
+			"options": undefined ,
+			"lastFinalizedFrame": undefined,
+			"latestFrameIndex": undefined ,
+			"options": undefined ,
+			"frame": undefined ,
+			"gameEnd": undefined ,
+			"lras": undefined,
+			"combo": undefined
+		  };
+		  overlayData.settings = this.stream.parser.settings;
+		  overlayData.options = this.stream.parser.options;
+		  overlayData.lastFinalizedFrame = this.stream.parser.lastFinalizedFrame;
+		  overlayData.settingsComplete = this.stream.parser.settingsComplete;
+		  overlayData.latestFrameIndex = this.stream.parser.latestFrameIndex;
+		  overlayData.options = this.stream.parser.options;
+		  overlayData.frame = this.stream.parser.frames[this.stream.parser.latestFrameIndex];
+		  overlayData.combo = this.realtime.combo.comboComputer.combos;
+		  overlayData.gameEnd = payload.gameEndMethod;
+		  overlayData.lras = payload.winnerPlayerIndex;
+		  //fs.writeFileSync('realtime.json', util.inspect(stream.parser));
+		  //fs.writeFileSync('json/game/overlay.json', util.inspect(overlayData));
+	 
+		  this.cache = [...overlayData];
+		  sendUpdateOverlay(this.cache);
+		});
+		
+	// } catch (error) {
+	// 	console.log(error);
+	// }
+
 }
 SlippiServer.prototype.stopSlippi = function stopSlippi(){
-	this.stream.stop();
+	this.stream.destroy();
 }
 SlippiServer.prototype.getStats = function getStats(val){
 	var files = fs.readdirSync(this.slippiFolder, [])

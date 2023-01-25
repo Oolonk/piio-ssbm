@@ -1,4 +1,4 @@
-const {shell} = require('electron');
+const {shell, ipcMain} = require('electron');
 const fs = require('fs');
 const emitter = new (require("events"))();
 
@@ -1393,3 +1393,27 @@ var bgWork = {
 		document.body.classList.toggle("working", this.workers.length > 0);
 	}
 }
+
+function startSlippi(){
+	ipcRenderer.send("slippi", "start");
+}
+
+
+ipcRenderer.on("slippi_status", (event, name) => {
+	switch (name) {
+		case "disconnected":
+			document.getElementById("start-slippi-btn").disabled = false;
+            document.getElementById("start-slippi-btn").style.visibility = 'visible';
+            document.getElementById('stop-slippi-btn').style.visibility = 'hidden';
+			break;
+		case "connected":
+			document.getElementById("start-slippi-btn").disabled = true;
+            document.getElementById("start-slippi-btn").style.visibility = 'hidden';
+            document.getElementById("stop-slippi-btn").style.visibility = 'visible';
+			break;
+		case 'connecting':
+			document.getElementById("start-slippi-btn").disabled = true;
+            document.getElementById("start-slippi-btn").style.visibility = 'visible';
+            document.getElementById("stop-slippi-btn").style.visibility = 'hidden';
+	}
+});

@@ -93,6 +93,7 @@
     "fs": "^0.0.1-security",
     "fs-extra": "^7.0.1",
     "nedb": "^1.8.0",
+    "object-watcher": "^1.0.2",
     "rxjs": "^7.8.0",
     "ws": "^6.1.0"
   }
