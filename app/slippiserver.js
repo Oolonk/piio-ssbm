@@ -57,6 +57,7 @@ function SlippiServer(){
 	this.realtime = new SlpRealTime;
 	this.slippiType = "";
 	this.stream = new SlpLiveStream(this.slippiType);
+	this.app = this.expressWs.app;
 
 	this.port = 42070;
 
@@ -110,22 +111,19 @@ SlippiServer.prototype.startServer = async function startServer(){
 	});
 	
 	
-	this.server.ws('/', (ws, req) => {
+	this.app.ws('/', (ws, req) => {
 		ws.isAlive = true;
 		ws.subscriptions = [];
 		ws._SELF = null;
 		ws.receiveAll = false;
 		ws.on('pong', () => ws.isAlive = true);
 		ws.on('message', (msg) => {
-			console.log(msg);
-			ws.send(msg);
-		});
+		console.log(msg);
+	});
 		ws.on("connection", (client) => {
 		  console.log("Client connected!");
 		});
 	});
-	// handle 404
-	this.server.get("/*", (req, res, next) => res.sendStatus(404));
 	this.checkPort(this.port).then(() => {
 		console.log("Start server on port", this.port);
 		this.server.listen(this.port, () => this.event.emit("listening"));
@@ -161,26 +159,34 @@ SlippiServer.prototype.setSlippiType = function setSlippiType(val){
 	this.slippiType = val;
 }
 
+SlippiServer.prototype.sendUpdateOverlay = function sendUpdateOverlay(data) {
+	var aWss = this.expressWs.getWss('/');
+	aWss.clients.forEach(function (client) {
+		client.send(
+		  JSON.stringify({
+			data
+		  })
+		);
+	});
+	// this.expressWs.clients.forEach((client) => {
+	// 	console.log("this client")
+	//   if (client !== wss && client.readyState === WebSocket.OPEN) {
+	// 	client.send(
+	// 	  JSON.stringify({
+	// 		data
+	// 	  })
+	// 	);
+	//   }
+	// });
+	
+};
 SlippiServer.prototype.startSlippi = function startSlippi(){
 	this.stream = new SlpLiveStream(this.slippiType);
 	this.realtime.setStream(this.stream);
 	// try {
 		this.stream.start(this.slippiIP, (this.slippiType == "dolphin")? Ports.DEFAULT : this.slippiPort)
 		.catch(console.error());
-
-	  const sendUpdateOverlay = (data) => {
-		this.server.ws.clients.forEach((client) => {
-		  //const data = `hello world ${counter}!`;
-		  if (client.readyState === WebSocket.OPEN) {
-			client.send(
-			  JSON.stringify({
-				data
-			  })
-			);
-		  }
-		});
-	  };
-	  watch(this.stream.parser, 'lastFinalizedFrame', function(){
+	  watch(this.stream.parser, 'lastFinalizedFrame', () =>{
 	  //fs.writeFileSync('json/realtime.combo.json', util.inspect(realtime.combo.comboComputer, {depth: Infinity}));
 		var overlayData = {
 			"settings": undefined ,
@@ -193,7 +199,7 @@ SlippiServer.prototype.startSlippi = function startSlippi(){
 			"lras": undefined,
 			"combo": undefined
 		};
-	   overlayData.combo = this.realtime.combo.comboComputer.combos;
+		// console.log(this.stream);
 		overlayData.settings = this.stream.parser.settings;
 		overlayData.options = this.stream.parser.options;
 		overlayData.lastFinalizedFrame = this.stream.parser.lastFinalizedFrame;
@@ -214,8 +220,8 @@ SlippiServer.prototype.startSlippi = function startSlippi(){
 		  }
 		}
 	   }
-	   this.cache = [...overlayData];
-	   sendUpdateOverlay(this.cache);
+	   this.cache = Object.assign({}, overlayData);
+	   this.sendUpdateOverlay(this.cache);
 	   
 	  });
 	  this.realtime.game.end$.subscribe((payload) => {
@@ -237,14 +243,14 @@ SlippiServer.prototype.startSlippi = function startSlippi(){
 		  overlayData.latestFrameIndex = this.stream.parser.latestFrameIndex;
 		  overlayData.options = this.stream.parser.options;
 		  overlayData.frame = this.stream.parser.frames[this.stream.parser.latestFrameIndex];
-		  overlayData.combo = this.realtime.combo.comboComputer.combos;
+		//   overlayData.combo = this.realtime.combo.comboComputer.combos;
 		  overlayData.gameEnd = payload.gameEndMethod;
 		  overlayData.lras = payload.winnerPlayerIndex;
 		  //fs.writeFileSync('realtime.json', util.inspect(stream.parser));
 		  //fs.writeFileSync('json/game/overlay.json', util.inspect(overlayData));
 	 
-		  this.cache = [...overlayData];
-		  sendUpdateOverlay(this.cache);
+		  this.cache = Object.assign({}, overlayData);
+		  this.sendUpdateOverlay(this.cache);
 		});
 		
 	// } catch (error) {
