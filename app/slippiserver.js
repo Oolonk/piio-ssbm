@@ -98,11 +98,11 @@ SlippiServer.prototype.startServer = async function startServer(){
 	  next();
 	});
 	
-	this.server.get('/:amount', async (req, res, next) => {
+	this.server.get('/stats/:amount', async (req, res, next) => {
 		try {
-			res.json( {
-				games: await getStats(req.params.amount, this.slippiFolder)
-			});
+			res.json(
+				await getStats(req.params.amount, this.slippiFolder)
+			);
 			// res.end();
 
 		}catch(err){
@@ -244,7 +244,7 @@ SlippiServer.prototype.startSlippi = function startSlippi(){
 		  overlayData.latestFrameIndex = this.stream.parser.latestFrameIndex;
 		  overlayData.options = this.stream.parser.options;
 		  overlayData.frame = this.stream.parser.frames[this.stream.parser.lastFinalizedFrame];
-		//   overlayData.combo = this.realtime.combo.comboComputer.combos;
+		  overlayData.combo = this.realtime.combo.comboComputer.combos;
 		  overlayData.gameEnd = payload.gameEndMethod;
 		  overlayData.lras = payload.winnerPlayerIndex;
 		  //fs.writeFileSync('realtime.json', util.inspect(stream.parser));
