@@ -80,6 +80,11 @@ async function buildForm(){
 			switch(field.type){
 				case "relation":
 					let optionVals = await db.get(field.relation);
+					optionVals.sort(function(a, b) {
+						if (a.name < b.name) {return -1;}
+						if (a.name > b.name) {return 1;}
+						return 0;
+					});
 					optionVals.unshift({_id:"", name:" - none - "});
 					optionVals.forEach(entry => {
 						let opt = document.createElement("option");
