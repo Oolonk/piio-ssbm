@@ -1,4 +1,4 @@
-const {shell} = require('electron');
+const {shell, ipcMain} = require('electron');
 const fs = require('fs');
 const emitter = new (require("events"))();
 
@@ -155,6 +155,15 @@ async function applyClientSettings(settings){
 			case "fixedSmashggQueue": 
 				client.fixedSmashggQueue = row.value;
 				document.body.classList.toggle("fixedSmashggQueue", row.value);
+			break;
+			case "connection-type":
+				ipcRenderer.send("connectionType", row.value);
+			break;
+			case "relay-port":
+				ipcRenderer.send("slippiPort", row.value);
+			break;
+			case "slippi-folder":
+				ipcRenderer.send("slippiFolder", row.value);
 			break;
 		}
 	}
@@ -1384,3 +1393,30 @@ var bgWork = {
 		document.body.classList.toggle("working", this.workers.length > 0);
 	}
 }
+
+function startSlippi(){
+	ipcRenderer.send("slippi", "start");
+}
+function stopSlippi(){
+	ipcRenderer.send("slippi", "stop");
+}
+
+
+ipcRenderer.on("slippi_status", (event, name) => {
+	switch (name) {
+		case "disconnected":
+			document.getElementById("start-slippi-btn").disabled = false;
+            document.getElementById("start-slippi-btn").style.display = 'inherit';
+            document.getElementById('stop-slippi-btn').style.display = 'none';
+			break;
+		case "connected":
+			document.getElementById("start-slippi-btn").disabled = true;
+            document.getElementById("start-slippi-btn").style.display = 'none';
+            document.getElementById("stop-slippi-btn").style.display = 'inherit';
+			break;
+		case 'connecting':
+			document.getElementById("start-slippi-btn").disabled = true;
+            document.getElementById("start-slippi-btn").style.display = 'inherit';
+            document.getElementById("stop-slippi-btn").style.display = 'none';
+	}
+});

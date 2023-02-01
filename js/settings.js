@@ -13,6 +13,7 @@ addEventListener("load", async () => {
 
 		switch(entry.name){
 			case "fixedSmashggQueue":
+			case "connection-type":
 			case "fixedSidebar":
 				el.value = entry.value ? 1 : 0;
 			break;

@@ -41,6 +41,7 @@ class WSWrapper {
 			this.ws = new WebSocket(url+":"+this.port);
 		}catch(err){
 			this._wsErrored(err);
+			console.log(err);
 		}
 		this.ws.onopen = e => this._wsOpened(e);
 		this.ws.onclose = e => this._wsClosed(e);

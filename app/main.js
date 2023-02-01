@@ -12,6 +12,10 @@ const fs = require('fs-extra');
 const path = require('path');
 const nedb = require("nedb");
 const { dialog } = require('electron');
+const SlippiServer = require('./slippiserver.js');
+const { ipcMain } = require('./electron.js');
+
+
 
 global.ARGV = {argv:{}};
 process.argv.forEach((arg) => {
@@ -37,7 +41,10 @@ var sessionTimestamp = new Date().getTime();
 var clientSettings = new nedb({ filename: path.join(APPUSERDATA, 'settings.db'), autoload :true});
 
 
+//init slippiserver
 
+let slippi = new SlippiServer;
+slippi.startServer();
 
 // init server
 let server = new PiioServer();
@@ -86,6 +93,38 @@ electron.on("ready", async () => { // programm is ready
 });
 
 
+
+electron.ipcMain.on('slippiPort', (event, name) => slippi.setSlippiPort(name));
+electron.ipcMain.on('connectionType', (event, name) => slippi.setSlippiType(name == true ? "dolphin" : "console"));
+electron.ipcMain.on('slippiFolder', (event, name) => slippi.setSlippiFolder(name));
+electron.ipcMain.on('slippi', (event, name) => {
+	if(name == "start"){
+		slippi.startSlippi();
+		slippi.stream.connection.on("statusChange", (status) => {
+			if (status === slippi.connectionStatus.DISCONNECTED) {
+				console.log("Disconnected to the relay");
+				electron.send("slippi_status", 'disconnected');
+		  }
+		  if(status === slippi.connectionStatus.CONNECTED){
+			// notification("Slippi Stream Tool", "Connected to the relay", "Connected to the relay");
+			console.log("Connected to the relay");
+			electron.send("slippi_status", 'connected');
+		  }
+		  if(status === slippi.connectionStatus.CONNECTING){
+			// notification("Slippi Stream Tool", "Connected to the relay", "Connected to the relay");
+			console.log("Connecting to the relay");
+			electron.send("slippi_status", 'connecting');
+		  }
+		  if(status === slippi.connectionStatus.RECONNECT_WAIT){
+			// notification("Slippi Stream Tool", "Connected to the relay", "Connected to the relay");
+			console.log("RECONNECT_WAIT to the relay");
+			electron.send("slippi_status", 'reconnect');
+		  }
+		  });
+	}else{
+		slippi.stopSlippi();
+	}
+});
 
 electron.ipcMain.on('theme', (event, name) => applyTheme(name));
 

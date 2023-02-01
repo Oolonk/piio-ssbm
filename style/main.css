@@ -203,6 +203,20 @@ body:not(.fixedSidebar) #sidebar:not(:hover) > * {
 	background-repeat: no-repeat;
 }
 
+#sidebar-slippi button {display: block;
+    color: #999;
+    padding: 6px 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    background: none;
+    width: -webkit-fill-available;
+}
+#sidebar-slippi button:hover {
+	color:#000;
+	background:#eee;
+}
+
 #sidebar nav a {
 	display:block;
 	color:#999;

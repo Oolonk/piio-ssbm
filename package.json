@@ -8,6 +8,7 @@
     "debug": "electron . --debug=true --port=8000",
     "make-linux": "electron-builder build --linux",
     "make-windows": "electron-forge make --platform win32 --arch arm64 && electron-forge make --platform win32 --arch x64",
+    "make-windows-x86": "electron-forge make --platform win32 --arch x64",
     "make-windows-arm": "electron-forge make --platform win32 "
   },
   "keywords": [
@@ -74,8 +75,8 @@
     ]
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.61",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
+    "@electron-forge/cli": "^6.0.4",
+    "@electron-forge/maker-squirrel": "^6.0.4",
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
     "debug": "^4.1.1",
     "electron": "^8.5.5",
@@ -85,10 +86,15 @@
     "electron-winstaller": "^3.0.4"
   },
   "dependencies": {
+    "@slippi/slippi-js": "^6.6.0",
+    "@vinceau/slp-realtime": "^3.3.0",
     "express": "^4.16.4",
     "express-ws": "^4.0.0",
+    "fs": "^0.0.1-security",
     "fs-extra": "^7.0.1",
     "nedb": "^1.8.0",
+    "object-watcher": "^1.0.2",
+    "rxjs": "^7.8.0",
     "ws": "^6.1.0"
   }
 }
