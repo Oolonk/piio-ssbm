@@ -1,6 +1,6 @@
 {
   "name": "piio",
-  "version": "0.7.33-custom.1",
+  "version": "0.7.33-custom.2",
   "description": "Piio is a live production interface software",
   "main": "app/main.js",
   "scripts": {

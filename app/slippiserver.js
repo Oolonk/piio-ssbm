@@ -58,6 +58,7 @@ function SlippiServer(){
 	this.slippiType = "dolphin";
 	this.stream = new SlpLiveStream(this.slippiType);
 	this.app = this.expressWs.app;
+	this.status = null;
 
 	this.port = 42070;
 
@@ -83,6 +84,7 @@ function SlippiServer(){
 	  "lras": undefined,
 	  "combo": undefined
 	};
+	
 
 }
 
@@ -260,7 +262,7 @@ SlippiServer.prototype.startSlippi = function startSlippi(){
 
 }
 SlippiServer.prototype.stopSlippi = function stopSlippi(){
-	this.stream.destroy();
+	this.stream = null;
 }
 SlippiServer.prototype.getStats = function getStats(val){
 	var files = fs.readdirSync(this.slippiFolder, [])
