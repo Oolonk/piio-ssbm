@@ -55,7 +55,7 @@ function SlippiServer(){
 	this.slippiFolder = "";
 	this.connectionStatus = ConnectionStatus;
 	this.realtime = new SlpRealTime;
-	this.slippiType = "";
+	this.slippiType = "dolphin";
 	this.stream = new SlpLiveStream(this.slippiType);
 	this.app = this.expressWs.app;
 
@@ -159,12 +159,13 @@ SlippiServer.prototype.setSlippiType = function setSlippiType(val){
 	this.slippiType = val;
 }
 
-SlippiServer.prototype.sendUpdateOverlay = function sendUpdateOverlay(data) {
+SlippiServer.prototype.sendUpdateOverlay = function sendUpdateOverlay(type, data) {
 	var aWss = this.expressWs.getWss('/');
 	aWss.clients.forEach(function (client) {
 		client.send(
 		  JSON.stringify({
-			data
+			type: type,
+			data: data
 		  })
 		);
 	});
@@ -207,13 +208,13 @@ SlippiServer.prototype.startSlippi = function startSlippi(){
 		overlayData.latestFrameIndex = this.stream.parser.latestFrameIndex;
 		overlayData.gameEnd = null;
 		overlayData.lras = null;
-		overlayData.frame = this.stream.parser.frames[this.stream.parser.latestFrameIndex];
+		overlayData.frame = this.stream.parser.frames[this.stream.parser.lastFinalizedFrame];
 		overlayData.combo = this.realtime.combo.comboComputer.combos;
 		//fs.writeFileSync('json/overlay.json', util.inspect(stream.parser.frames[stream.parser.latestFrameIndex]));
 		for(var i = 0; i < 4; i++){
-		  if(this.stream.parser.frames[this.stream.parser.latestFrameIndex]){
-		  if(this.stream.parser.frames[this.stream.parser.latestFrameIndex].players[i]){
-		   this.playerbackup[i] = this.stream.parser.frames[this.stream.parser.latestFrameIndex].players[i];
+		  if(this.stream.parser.frames[this.stream.parser.lastFinalizedFrame]){
+		  if(this.stream.parser.frames[this.stream.parser.lastFinalizedFrame].players[i]){
+		   this.playerbackup[i] = this.stream.parser.frames[this.stream.parser.lastFinalizedFrame].players[i];
 		   //console.log("Normal wurde genommen");
 		  }else{
 		   overlayData.frame.players[i] = this.playerbackup[i];
@@ -221,7 +222,7 @@ SlippiServer.prototype.startSlippi = function startSlippi(){
 		}
 	   }
 	   this.cache = Object.assign({}, overlayData);
-	   this.sendUpdateOverlay(this.cache);
+	   this.sendUpdateOverlay("frame", this.cache);
 	   
 	  });
 	  this.realtime.game.end$.subscribe((payload) => {
@@ -242,7 +243,7 @@ SlippiServer.prototype.startSlippi = function startSlippi(){
 		  overlayData.settingsComplete = this.stream.parser.settingsComplete;
 		  overlayData.latestFrameIndex = this.stream.parser.latestFrameIndex;
 		  overlayData.options = this.stream.parser.options;
-		  overlayData.frame = this.stream.parser.frames[this.stream.parser.latestFrameIndex];
+		  overlayData.frame = this.stream.parser.frames[this.stream.parser.lastFinalizedFrame];
 		//   overlayData.combo = this.realtime.combo.comboComputer.combos;
 		  overlayData.gameEnd = payload.gameEndMethod;
 		  overlayData.lras = payload.winnerPlayerIndex;
@@ -250,7 +251,7 @@ SlippiServer.prototype.startSlippi = function startSlippi(){
 		  //fs.writeFileSync('json/game/overlay.json', util.inspect(overlayData));
 	 
 		  this.cache = Object.assign({}, overlayData);
-		  this.sendUpdateOverlay(this.cache);
+		  this.sendUpdateOverlay("frame", this.cache);
 		});
 		
 	// } catch (error) {

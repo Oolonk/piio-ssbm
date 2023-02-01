@@ -1416,7 +1416,7 @@ ipcRenderer.on("slippi_status", (event, name) => {
 			break;
 		case 'connecting':
 			document.getElementById("start-slippi-btn").disabled = true;
-            document.getElementById("start-slippi-btn").style.display = 'none';
-            document.getElementById("stop-slippi-btn").style.display = 'hidden';
+            document.getElementById("start-slippi-btn").style.display = 'inherit';
+            document.getElementById("stop-slippi-btn").style.display = 'none';
 	}
 });

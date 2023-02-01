@@ -15,7 +15,7 @@ class PiioConnector {
 		
 		this.cache = {scoreboard:{},team:{},character:{},country:{},game:{}};
 		
-		//this.on("theme", e => location.reload());
+		// this.on("theme", e => location.reload());
 		
 		this.init();
 		document.onreadystatechange = (e) => this.init();
