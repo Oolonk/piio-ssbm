@@ -20,19 +20,19 @@ async function getStats(games, slpLiveFolderPath) {
 		.filter(files => files.name.endsWith('.slp'))
 	files = files.sort(function (a, b) {
 		var fest;
-		var yuio;
-		const gamer = new SlippiGame(path.normalize(slpLiveFolderPath + "/" + a.name));
-		const gamet = new SlippiGame(path.normalize(slpLiveFolderPath + "/" + b.name));
-		if (gamer.getMetadata() == null)
+		var game2StartTime;
+		const game1 = new SlippiGame(path.normalize(slpLiveFolderPath + "/" + a.name));
+		const game2 = new SlippiGame(path.normalize(slpLiveFolderPath + "/" + b.name));
+		if (game1.getMetadata() == null)
 			fest = "1";
 		else
-			fest = gamer.getMetadata().startAt;
+			fest = game1.getMetadata().startAt;
 
-		if (gamet.getMetadata() == null)
-			yuio = "1";
+		if (game2.getMetadata() == null)
+			game2StartTime = "1";
 		else
-			yuio = gamet.getMetadata().startAt;
-		return yuio.replace(/\D/g, '') - fest.replace(/\D/g, '');
+			game2StartTime = game2.getMetadata().startAt;
+		return game2StartTime.replace(/\D/g, '') - fest.replace(/\D/g, '');
 	})
 		.map(function (v) { return path.normalize(slpLiveFolderPath + "/" + v.name); });
 	var stats = await { stats: [], settings: [], metadata: [] };
@@ -271,29 +271,29 @@ SlippiServer.prototype.getStats = function getStats(val) {
 		})
 		.filter(files => files.name.endsWith('.slp'))
 	files = files.sort(function (a, b) {
-		let fest;
-		let yuio;
-		const gamer = new SlippiGame(path.normalize(this.slippiFolder + "/" + a.name));
-		const gamet = new SlippiGame(path.normalize(this.slippiFolder + "/" + b.name));
-		if (gamer.getMetadata() == null)
-			fest = "1";
+		let game1StartTime;
+		let game2StartTime;
+		const game1 = new SlippiGame(path.normalize(this.slippiFolder + "/" + a.name));
+		const game2 = new SlippiGame(path.normalize(this.slippiFolder + "/" + b.name));
+		if (game1.getMetadata() == null)
+			game1StartTime = "1";
 		else
-			fest = gamer.getMetadata().startAt;
+			game1StartTime = game1.getMetadata().startAt;
 
-		if (gamet.getMetadata() == null)
-			yuio = "1";
+		if (game2.getMetadata() == null)
+			game2StartTime = "1";
 		else
-			yuio = gamet.getMetadata().startAt;
-		return yuio.replace(/\D/g, '') - fest.replace(/\D/g, '');
+			game2StartTime = game2.getMetadata().startAt;
+		return game2StartTime.replace(/\D/g, '') - game1StartTime.replace(/\D/g, '');
 	})
 		.map(function (v) { return path.normalize(this.slippiFolder + "/" + v.name); });
 	var stats = { stats: [], settings: [], metadata: [] };
 
 	for (var i = 0; i < parseInt(val, 10); i++) {
-		const gamez = new SlippiGame(files[i]);
-		stats.stats[parseInt(val, 10) - i - 1] = gamez.getStats()
-		stats.settings[parseInt(val, 10) - i - 1] = gamez.getSettings()
-		stats.metadata[parseInt(val, 10) - i - 1] = gamez.getMetadata()
+		const game = new SlippiGame(files[i]);
+		stats.stats[parseInt(val, 10) - i - 1] = game.getStats()
+		stats.settings[parseInt(val, 10) - i - 1] = game.getSettings()
+		stats.metadata[parseInt(val, 10) - i - 1] = game.getMetadata()
 	}
 	return stats;
 }
