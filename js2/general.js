@@ -1,25 +1,27 @@
-const {remote, ipcRenderer} = require('electron');
+const { remote, ipcRenderer } = require('electron');
 const db = remote.require("./main").database;
 
 window.addEventListener("load", () => {
 	var el = document.getElementById('titlebar');
-	if(!el){return};
+	if (!el) { return };
 
-	el.appendChild(createElement({"type":"div","className":"title","text":document.title}));
-	let controlsEl = createElement({"type":"div","className":"controls"});
-	controlsEl.appendChild(createElement({"type":"div","className":"minimize","onclick": () => remote.BrowserWindow.getFocusedWindow().minimize()}));
-	controlsEl.appendChild(createElement({"type":"div","className":"maximize","onclick": () => {
-		let w = remote.BrowserWindow.getFocusedWindow();
-		w.isMaximized() ? w.unmaximize() : w.maximize();
-	}}));
-	controlsEl.appendChild(createElement({"type":"div","className":"close","onclick": () => remote.BrowserWindow.getFocusedWindow().close()}));
+	el.appendChild(createElement({ "type": "div", "className": "title", "text": document.title }));
+	let controlsEl = createElement({ "type": "div", "className": "controls" });
+	controlsEl.appendChild(createElement({ "type": "div", "className": "minimize", "onclick": () => remote.BrowserWindow.getFocusedWindow().minimize() }));
+	controlsEl.appendChild(createElement({
+		"type": "div", "className": "maximize", "onclick": () => {
+			let w = remote.BrowserWindow.getFocusedWindow();
+			w.isMaximized() ? w.unmaximize() : w.maximize();
+		}
+	}));
+	controlsEl.appendChild(createElement({ "type": "div", "className": "close", "onclick": () => remote.BrowserWindow.getFocusedWindow().close() }));
 	el.appendChild(controlsEl);
 
 	document.body.classList.toggle("focused", remote.getCurrentWindow().isFocused());
 });
 
 
-function remoteOn(target, event, callback){
+function remoteOn(target, event, callback) {
 	target.addListener(event, callback);
 	window.addEventListener('beforeunload', () => {
 		target.removeListener(event, callback);
@@ -32,56 +34,56 @@ remoteOn(remote.getCurrentWindow(), "maximize", maximizeHandler);
 remoteOn(remote.getCurrentWindow(), "unmaximize", unmaximizeHandler);
 remoteOn(remote.getCurrentWindow(), "page-title-updated", pageTitleUpdatedHandler);
 
-function maximizeHandler(){
+function maximizeHandler() {
 	document.body.classList.add("maximized");
 }
 
-function windowFocusHandler(){
+function windowFocusHandler() {
 	document.body.classList.add("focused");
 }
 
-function windowBlurHandler(){
+function windowBlurHandler() {
 	document.body.classList.remove("focused")
 }
 
-function unmaximizeHandler(){
+function unmaximizeHandler() {
 	document.body.classList.remove("maximized")
 }
 
-function pageTitleUpdatedHandler(e, val){
+function pageTitleUpdatedHandler(e, val) {
 	var el = document.getElementById('titlebar');
-	if(!el){return;}
+	if (!el) { return; }
 	el.querySelector("#titlebar .title").innerText = val;
 }
 
 
-function createElement(params){
+function createElement(params) {
 	var defaults = {
-		"type":"div",
-		"className":"",
-		"text":"",
-		"append":null,
-		"prepend":null,
-		"id":"",
-		"onclick":null
+		"type": "div",
+		"className": "",
+		"text": "",
+		"append": null,
+		"prepend": null,
+		"id": "",
+		"onclick": null
 	};
 	params = Object.assign(defaults, params);
 	var el = document.createElement(params.type);
 	el.className = params.className;
 	el.id = params.id;
-	if(params.text)
+	if (params.text)
 		el.innerText = params.text;
-	if(params.append !== null)
-		el.appendChild(params.append);	
-	if(params.prepend !== null)
+	if (params.append !== null)
+		el.appendChild(params.append);
+	if (params.prepend !== null)
 		el.prepend(params.prepend);
-	if(params.onclick)
+	if (params.onclick)
 		el.onclick = params.onclick;
-	
+
 	return el;
 }
 
-HTMLInputElement.prototype.insertValue = function(val){
+HTMLInputElement.prototype.insertValue = function (val) {
 	let start = this.selectionStart;
 	let end = this.selectionEnd;
 	this.value = val || "";
@@ -89,26 +91,26 @@ HTMLInputElement.prototype.insertValue = function(val){
 	this.selectionEnd = end;
 }
 
-HTMLElement.prototype.truncate = function(){
-	while(this.firstChild)
+HTMLElement.prototype.truncate = function () {
+	while (this.firstChild)
 		this.removeChild(this.firstChild);
 	return this;
 };
-HTMLElement.prototype.getIndexIn = function(parentElm){
+HTMLElement.prototype.getIndexIn = function (parentElm) {
 	var childElm = this;
-	while(parentElm != childElm.parentNode)
+	while (parentElm != childElm.parentNode)
 		childElm = childElm.parentNode;
 	return Array.prototype.slice.call(parentElm.children).indexOf(childElm);
 };
-HTMLElement.prototype.getIndex = function(){
+HTMLElement.prototype.getIndex = function () {
 	return Array.prototype.slice.call(this.parentNode.children).indexOf(this);
 };
 
-async function openWindow(name, params, dialog){
-	return await ipcRenderer.invoke('openWindow', {name:name, params:params, dialog:dialog});
+async function openWindow(name, params, dialog) {
+	return await ipcRenderer.invoke('openWindow', { name: name, params: params, dialog: dialog });
 }
 
-function getInterfaces(){
+function getInterfaces() {
 	var os = require('os');
 	var ifaces = os.networkInterfaces();
 	var ips = [];
@@ -118,7 +120,7 @@ function getInterfaces(){
 				// skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
 				return;
 			}
-			if(ips.indexOf(iface.address) === -1){
+			if (ips.indexOf(iface.address) === -1) {
 				let range = getIpRangeFromAddressAndNetmask(iface.address, iface.netmask);
 				iface.base = range[0];
 				iface.broadcast = range[1];
@@ -131,15 +133,15 @@ function getInterfaces(){
 
 function getIpRangeFromAddressAndNetmask(ip, mask) {
 	var ipaddress = ip.split('.');
-	var netmaskblocks = mask.split('.').map(function(el) { return parseInt(el, 10) });
-	var invertedNetmaskblocks = netmaskblocks.map(function(el) { return el ^ 255; });
-	var baseAddress = ipaddress.map(function(block, idx) { return block & netmaskblocks[idx]; });
-	var broadcastaddress = ipaddress.map(function(block, idx) { return block | invertedNetmaskblocks[idx]; });
+	var netmaskblocks = mask.split('.').map(function (el) { return parseInt(el, 10) });
+	var invertedNetmaskblocks = netmaskblocks.map(function (el) { return el ^ 255; });
+	var baseAddress = ipaddress.map(function (block, idx) { return block & netmaskblocks[idx]; });
+	var broadcastaddress = ipaddress.map(function (block, idx) { return block | invertedNetmaskblocks[idx]; });
 	return [baseAddress.join('.'), broadcastaddress.join('.')];
 }
 
 
-function getCPUUsage(){
+function getCPUUsage() {
 	return new Promise((resolve, reject) => {
 		var start = getCPU();
 		setTimeout(() => {
@@ -151,7 +153,7 @@ function getCPUUsage(){
 	});
 }
 
-function getCPU(){
+function getCPU() {
 	var os = require('os');
 	var cores = os.cpus();
 	var total = 0;
@@ -164,16 +166,16 @@ function getCPU(){
 		total += core.times.idle;
 		idle += core.times.idle;
 	});
-	return {'total':total, 'idle':idle};
+	return { 'total': total, 'idle': idle };
 }
 
-function fileExists(file){
+function fileExists(file) {
 	return new Promise((resolve, reject) => fs.access(file, fs.constants.F_OK, err => resolve(err ? false : true)));
 }
 
-function deep_value(obj, path){
+function deep_value(obj, path) {
 	path = path.split('.');
-    for(let i = 0, len = path.length; i < len; i++)
-        obj = obj[path[i]];
-    return obj;
+	for (let i = 0, len = path.length; i < len; i++)
+		obj = obj[path[i]];
+	return obj;
 };

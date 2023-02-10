@@ -1,55 +1,57 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8" />
-		<title>Start.gg Settings</title>
-		<base href="../" />
-		
-		<script type="text/javascript" src="js/class/smashgg.class.js"></script>
-		<script type="text/javascript" src="js/general.js"></script>
-		<script type="text/javascript" src="js/smashgg-settings.js"></script>
 
-		<link rel="stylesheet" type="text/css" href="style/general.css" />
-		<link rel="stylesheet" type="text/css" href="style/smashgg-settings.css" />
-		<link rel="stylesheet" type="text/css" href="style/dark.css" />
-	</head>
+<head>
+	<meta charset="UTF-8" />
+	<title>Start.gg Settings</title>
+	<base href="../" />
 
-	<body>
-		<div id="titlebar"></div>
-		<div id="main">
-			<div id="search-tournament" >
-				<input type="text" id="smashgg-search-tbx" oninput="search()" placeholder="Search tournament: slug or name" /> 
-			</div>
-			<div id="results"></div>
-			
-			<div id="selected-tournament">
-				<div class="bg"></div>
-				<div id="info">
-					<div class="title"></div>
-					<div class="logo"></div>
-					<div class="info"></div>
-				</div>
-				<div id="channel-select"></div>
-			</div>			
-			<div id="options">
-				<button onclick="save()">Save</button>
-				<button onclick="cancel()">Cancel</button>
-				<button onclick="reset()">Reset</button>
-			</div>
+	<script type="text/javascript" src="js/class/smashgg.class.js"></script>
+	<script type="text/javascript" src="js/general.js"></script>
+	<script type="text/javascript" src="js/smashgg-settings.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="style/general.css" />
+	<link rel="stylesheet" type="text/css" href="style/smashgg-settings.css" />
+	<link rel="stylesheet" type="text/css" href="style/dark.css" />
+</head>
+
+<body>
+	<div id="titlebar"></div>
+	<div id="main">
+		<div id="search-tournament">
+			<input type="text" id="smashgg-search-tbx" oninput="search()"
+				placeholder="Search tournament: slug or name" />
 		</div>
-		<template id="channel-item">
-			<div class="item">
+		<div id="results"></div>
+
+		<div id="selected-tournament">
+			<div class="bg"></div>
+			<div id="info">
+				<div class="title"></div>
 				<div class="logo"></div>
-				<div class="name"></div>
+				<div class="info"></div>
 			</div>
-		</template>			
-		<template id="result-item">
-			<div class="item">
-				<div class="logo"></div>
-				<div class="name"></div>
-				<div class="date"></div>
-			</div>
-		</template>
-	</body>
+			<div id="channel-select"></div>
+		</div>
+		<div id="options">
+			<button onclick="save()">Save</button>
+			<button onclick="cancel()">Cancel</button>
+			<button onclick="reset()">Reset</button>
+		</div>
+	</div>
+	<template id="channel-item">
+		<div class="item">
+			<div class="logo"></div>
+			<div class="name"></div>
+		</div>
+	</template>
+	<template id="result-item">
+		<div class="item">
+			<div class="logo"></div>
+			<div class="name"></div>
+			<div class="date"></div>
+		</div>
+	</template>
+</body>
 
 </html>

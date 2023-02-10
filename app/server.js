@@ -5,23 +5,23 @@ const net = require('net');
 const EventEmitter = require('events');
 const ExpressWs = require('express-ws');
 const WebSocket = require('ws');
-function port(){
+function port() {
 	if (process.platform === "win32") {
-		return(80);
-	}else{
-		
-		return(8000);
+		return (80);
+	} else {
+
+		return (8000);
 	}
 }
 
-function Server(){
+function Server() {
 	this.server = express();
 	this.expressWs = ExpressWs(this.server);
 	this.port = port();
-	
+
 	this.pingInterval = 10; // seconds
 	this.socket = require('dgram').createSocket('udp4');
-	
+
 	this.event = new EventEmitter();
 
 	this.theme = "";
@@ -33,74 +33,74 @@ function Server(){
 	this.dynStatic;
 }
 
-Server.prototype.on = function on(...args){
+Server.prototype.on = function on(...args) {
 	this.event.on(...args);
 }
 
-Server.prototype.start = async function start(){
+Server.prototype.start = async function start() {
 	var self = this;
 
 	this.themeWatcher = fs.watch(path.join(APPRES, 'themes'));
-	this.themeWatcher.on("change", () => this.event.emit("themefolder-changed"));	
+	this.themeWatcher.on("change", () => this.event.emit("themefolder-changed"));
 
-	this.dynStatic = this.createDynStatic(path.join(this.webPath, 'themes/'+this.theme));
+	this.dynStatic = this.createDynStatic(path.join(this.webPath, 'themes/' + this.theme));
 	this.server.use('/assets', express.static(path.join(this.webPath, 'assets')));
 	this.server.use('/class', express.static(path.join(this.root, 'class')));
 	this.server.get('/:filename', (req, res, next) => {
 		try {
-			let cont = fs.readFileSync(path.join(this.webPath, 'themes/'+this.theme, req.params.filename+".html"), 'utf8');
+			let cont = fs.readFileSync(path.join(this.webPath, 'themes/' + this.theme, req.params.filename + ".html"), 'utf8');
 			res.write('<!DOCTYPE html>\r\n');
 			res.write('<html>\r\n');
 			res.write('<head>\r\n');
 			res.write('<meta charset="UTF-8" />\r\n');
-			res.write('<title>Piio | '+(this.themeManifest.name || this.theme)+' | '+req.params.filename+' '+(this.themeManifest.resolution ? '['+self.themeManifest.resolution.join(",")+']' : '')+'</title>\r\n');
-			if(this.themeManifest.styles){
-				for(let i = 0; i < this.themeManifest.styles.length; i++){
-					res.write('<link rel="stylesheet" href="'+this.themeManifest.styles[i]+'" type="text/css" />\r\n');
+			res.write('<title>Piio | ' + (this.themeManifest.name || this.theme) + ' | ' + req.params.filename + ' ' + (this.themeManifest.resolution ? '[' + self.themeManifest.resolution.join(",") + ']' : '') + '</title>\r\n');
+			if (this.themeManifest.styles) {
+				for (let i = 0; i < this.themeManifest.styles.length; i++) {
+					res.write('<link rel="stylesheet" href="' + this.themeManifest.styles[i] + '" type="text/css" />\r\n');
 				}
 			}
-			res.write('<link rel="stylesheet" href="'+req.params.filename+'.css" type="text/css" />\r\n');
-			
-			if(this.themeManifest.scripts){
-				for(let i = 0; i < this.themeManifest.scripts.length; i++){
-					res.write('<script type="text/javascript" src="'+this.themeManifest.scripts[i]+'"></script>\r\n');
+			res.write('<link rel="stylesheet" href="' + req.params.filename + '.css" type="text/css" />\r\n');
+
+			if (this.themeManifest.scripts) {
+				for (let i = 0; i < this.themeManifest.scripts.length; i++) {
+					res.write('<script type="text/javascript" src="' + this.themeManifest.scripts[i] + '"></script>\r\n');
 				}
 			}
-			
+
 			res.write('<script type="text/javascript" src="all.js"></script>\r\n');
-			res.write('<script type="text/javascript" src="'+req.params.filename+'.js"></script>\r\n');
-			res.write('<script type="text/javascript">var __FILENAME__ = "'+req.params.filename+'";</script>\r\n');
+			res.write('<script type="text/javascript" src="' + req.params.filename + '.js"></script>\r\n');
+			res.write('<script type="text/javascript">var __FILENAME__ = "' + req.params.filename + '";</script>\r\n');
 			res.write('</head>\r\n');
-			if(this.themeManifest.resolution){
-				res.write('<body style="width:'+(this.themeManifest.resolution[0] || "auto")+'px;height:'+(this.themeManifest.resolution[1] || "auto")+'px;">\r\n');
-			}else{
+			if (this.themeManifest.resolution) {
+				res.write('<body style="width:' + (this.themeManifest.resolution[0] || "auto") + 'px;height:' + (this.themeManifest.resolution[1] || "auto") + 'px;">\r\n');
+			} else {
 				res.write('<body>\r\n');
 			}
 			res.write(cont);
 			res.write('\r\n</body>\r\n');
 			res.write('</html>\r\n');
 			res.end();
-		}catch(err){
+		} catch (err) {
 			next();
 		}
 	});
-	
+
 	this.server.use(this.dynStatic);
-	
+
 	this.server.get('/all.js', (req, res) => {
-		res.writeHead(200, {'Content-Type': 'text/javascript'});
+		res.writeHead(200, { 'Content-Type': 'text/javascript' });
 		res.write("\r\n const process = '" + port() + "';\r\n");
 		fs.readdir(path.join(this.root, 'class'), (err, files) => {
-			if(err) throw err;
+			if (err) throw err;
 			files.forEach(file => {
-				if(file.endsWith(".class.js")){
-					let cont = fs.readFileSync(path.join(this.root, 'class/'+file), 'utf8');
+				if (file.endsWith(".class.js")) {
+					let cont = fs.readFileSync(path.join(this.root, 'class/' + file), 'utf8');
 					let firstLine = cont.substr(0, cont.indexOf("\r\n"));
-					if(!firstLine.includes("--exclude-from-all")){ 
+					if (!firstLine.includes("--exclude-from-all")) {
 						res.write("\r\n/* ------------- */\r\n");
-						res.write("/* "+file+" */\r\n");
+						res.write("/* " + file + " */\r\n");
 						res.write("/* ------------- */\r\n");
-						res.write("\r\n"+cont+"\r\n");
+						res.write("\r\n" + cont + "\r\n");
 					}
 				}
 			});
@@ -109,20 +109,20 @@ Server.prototype.start = async function start(){
 			res.write("\r\n/* ------------- */\r\n");
 			res.write("/* overlay-utils.js */\r\n");
 			res.write("/* ------------- */\r\n");
-			res.write("\r\n"+cont+"\r\n");
+			res.write("\r\n" + cont + "\r\n");
 			res.end();
 		});
 	});
 
 	this.server.get('/', (req, res) => {
-		res.writeHead(200, {'Content-Type': 'text/html'});
-		fs.readdir(path.join(this.webPath, 'themes/'+this.theme), (err, files) => {
-			if(err) throw err;
+		res.writeHead(200, { 'Content-Type': 'text/html' });
+		fs.readdir(path.join(this.webPath, 'themes/' + this.theme), (err, files) => {
+			if (err) throw err;
 			let manifest;
 			try {
-				manifest = JSON.parse(fs.readFileSync(path.join(this.webPath, 'themes/'+this.theme+'/manifest.json')));
-			}catch(err){}
-			res.write('<html><head><title>'+this.theme+' | piio overlays</title><meta charset="UTF-8" />');
+				manifest = JSON.parse(fs.readFileSync(path.join(this.webPath, 'themes/' + this.theme + '/manifest.json')));
+			} catch (err) { }
+			res.write('<html><head><title>' + this.theme + ' | piio overlays</title><meta charset="UTF-8" />');
 			res.write(`<style>
 			body {
 				font-family:segoe ui, arial; color:#000; margin:0;
@@ -154,21 +154,21 @@ Server.prototype.start = async function start(){
 			res.write('</div>');
 			res.write('<div id="overlay-list" style="display:flex;flex-wrap:wrap;">');
 			files.filter(x => x.endsWith(".html")).forEach((file) => {
-				let fileName = file.substr(0, file.length-5);
-				res.write('<a href="'+fileName+'">'+fileName+'</a>');
+				let fileName = file.substr(0, file.length - 5);
+				res.write('<a href="' + fileName + '">' + fileName + '</a>');
 			});
 			res.write('</div>');
 			res.write('<div id="info">');
-			if(manifest){
+			if (manifest) {
 				res.write(`<h3>Custom fields:</h3>`);
 
 				manifest.fields.forEach((field) => {
-					res.write('<li>'+field.label+'</li>');
+					res.write('<li>' + field.label + '</li>');
 				});
-			
-				res.write('<pre>'+JSON.stringify(manifest)+'</pre>');
 
-			}else{
+				res.write('<pre>' + JSON.stringify(manifest) + '</pre>');
+
+			} else {
 				res.write(`<b>manifest.json</b> not found in "themes/${this.theme}/manifest.json"`);
 			}
 
@@ -188,7 +188,7 @@ Server.prototype.start = async function start(){
 		ws.on('message', (msg) => {
 			try {
 				let data = JSON.parse(msg);
-				if(!Array.isArray(data)){
+				if (!Array.isArray(data)) {
 					data = [data];
 				}
 				data.forEach((d) => {
@@ -216,7 +216,7 @@ Server.prototype.start = async function start(){
 	});
 }
 
-Server.prototype.checkPort = function checkPort(port){
+Server.prototype.checkPort = function checkPort(port) {
 	return new Promise((resolve, reject) => {
 		var server = net.createServer();
 		server.once('error', reject);
@@ -228,62 +228,62 @@ Server.prototype.checkPort = function checkPort(port){
 	});
 }
 
-Server.prototype.handleMessage = function handleMessage(inData, ws){
-	this.event.emit("data-"+inData.type, inData.data);
-	switch(inData.type){
-		case "request":		return this.responseRequest(ws, inData.data); break;
-		case "subscribe":	return subscribe.call(ws, inData.data);	break;
-		case "register":	return this.registerOverlay(ws, inData.data); break;
-		case "api":	
+Server.prototype.handleMessage = function handleMessage(inData, ws) {
+	this.event.emit("data-" + inData.type, inData.data);
+	switch (inData.type) {
+		case "request": return this.responseRequest(ws, inData.data); break;
+		case "subscribe": return subscribe.call(ws, inData.data); break;
+		case "register": return this.registerOverlay(ws, inData.data); break;
+		case "api":
 			this.event.emit("api", inData.data, (outData) => {
 				console.log(inData);
 				outData.mid = inData.mid;
 				console.log(outData);
 				ws.send(JSON.stringify(outData));
 			});
-		break;
+			break;
 	}
 }
 
-Server.prototype.setTheme = function setTheme(val){
-	if(this.theme == val){return;}
+Server.prototype.setTheme = function setTheme(val) {
+	if (this.theme == val) { return; }
 	this.theme = val;
 	this.themeManifest = {};
-	fs.readFile(path.join(this.webPath, 'themes/'+this.theme, 'manifest.json'), 'utf8', (err, cont) => {
-		if(!err){
+	fs.readFile(path.join(this.webPath, 'themes/' + this.theme, 'manifest.json'), 'utf8', (err, cont) => {
+		if (!err) {
 			try {
 				this.themeManifest = JSON.parse(cont);
-			}catch(err){}
+			} catch (err) { }
 		}
-		if(this.dynStatic){
-			this.dynStatic.setPath(path.join(this.webPath, 'themes/'+this.theme));
+		if (this.dynStatic) {
+			this.dynStatic.setPath(path.join(this.webPath, 'themes/' + this.theme));
 		}
 	});
 }
 
-Server.prototype.responseRequest = function responseRequest(client, type){
-	if(this.msgCache.hasOwnProperty(type)){
+Server.prototype.responseRequest = function responseRequest(client, type) {
+	if (this.msgCache.hasOwnProperty(type)) {
 		client.send(this.msgCache[type]);
 	}
 }
 
-Server.prototype.registerOverlay = function registerOverlay(client, name){
+Server.prototype.registerOverlay = function registerOverlay(client, name) {
 	client._SELF = name;
 	this.broadcastRegisteredOverlays();
 }
 
-Server.prototype.broadcastRegisteredOverlays = function broadcastRegisteredOverlays(){
+Server.prototype.broadcastRegisteredOverlays = function broadcastRegisteredOverlays() {
 	var list = this.getOverlays();
 	this.broadcast(JSON.stringify({
-		"type":"registered-overlays",
-		"data":list
+		"type": "registered-overlays",
+		"data": list
 	}));
 }
 
 Server.prototype.getOverlays = function getOverlays(path, options) {
 	var list = [];
 	this.expressWs.getWss().clients.forEach(client => {
-		if(client._SELF){
+		if (client._SELF) {
 			list.push(client._SELF);
 		}
 	});
@@ -292,43 +292,43 @@ Server.prototype.getOverlays = function getOverlays(path, options) {
 
 Server.prototype.createDynStatic = function createDynStatic(path, options) {
 	var static = express.static(path, options);
-	var dyn = function(req, res, next){
+	var dyn = function (req, res, next) {
 		return static(req, res, next)
 	}
-	dyn.setPath = function(newPath) {
+	dyn.setPath = function (newPath) {
 		static = express.static(newPath, options)
 	}
 	return dyn;
 }
 
-Server.prototype.broadcast = function broadcast(data, sender){
+Server.prototype.broadcast = function broadcast(data, sender) {
 	var self = this;
 	var sendObj = (typeof data == "string" ? JSON.parse(data) : data);
 	var jsonStr = (typeof data == "string" ? data : JSON.stringify(data));
 	self.msgCache[sendObj.type] = jsonStr;
 	self.expressWs.getWss().clients.forEach((client) => {
 		// check if not the same && if client has subscribed to this type
-		if(client != sender && (client.subscriptions.includes(sendObj.type) || client.receiveAll) && client.readyState == WebSocket.OPEN){
+		if (client != sender && (client.subscriptions.includes(sendObj.type) || client.receiveAll) && client.readyState == WebSocket.OPEN) {
 			client.send(jsonStr);
 		}
 	});
 }
-Server.prototype.ping = function ping(){
+Server.prototype.ping = function ping() {
 	this.expressWs.getWss().clients.forEach((client) => {
-		if(client.isAlive === false){
+		if (client.isAlive === false) {
 			return client.terminate();
 		}
 		client.isAlive = false;
-		if(client.readyState === 1){
+		if (client.readyState === 1) {
 			client.ping();
 		}
 	});
 }
 
-function subscribe(name){
-	if(name == "*"){
+function subscribe(name) {
+	if (name == "*") {
 		this.receiveAll = true;
-	}else if(!this.subscriptions.includes(name)){
+	} else if (!this.subscriptions.includes(name)) {
 		this.subscriptions.push(name);
 	}
 }

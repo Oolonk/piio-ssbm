@@ -1,43 +1,42 @@
-
-
 #main {
-	position:absolute;
-	left:0;
-	right:0;
-	top:24px;
-	bottom:0;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 24px;
+	bottom: 0;
 }
 
 #form {
-	padding-bottom:100px;
+	padding-bottom: 100px;
 }
+
 #options {
-	position:fixed;
-	left:0px;
-	right:0px;
-	bottom:0px;
-	padding:10px;
-	background:rgba(0,0,0,0.9);
-	text-align:center;
+	position: fixed;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	padding: 10px;
+	background: rgba(0, 0, 0, 0.9);
+	text-align: center;
 }
 
 select[multiple] {
-	height:150px;
+	height: 150px;
 }
 
 .field-item {
-	max-width:400px;
-	margin:0 auto;
-	padding:10px;
+	max-width: 400px;
+	margin: 0 auto;
+	padding: 10px;
 }
+
 .field-item label {
-	display:block;
-	font-size:10px;
+	display: block;
+	font-size: 10px;
 }
+
 .field-item input,
 .field-item select {
-	width:100%;
-	box-sizing:border-box;
+	width: 100%;
+	box-sizing: border-box;
 }
-
-

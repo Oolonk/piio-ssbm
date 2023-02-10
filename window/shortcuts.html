@@ -1,46 +1,47 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8" />
-		<title>Shortcuts</title>
-		<base href="../" />
-	
-		<script type="text/javascript" src="js/class/db.class.js"></script>
-		
-		<script type="text/javascript" src="js/general.js"></script>
-		<script type="text/javascript" src="js/shortcuts.js"></script>
 
-		<link rel="stylesheet" type="text/css" href="style/general.css" />
-		<link rel="stylesheet" type="text/css" href="style/shortcuts.css" />
-		<link rel="stylesheet" type="text/css" href="style/dark.css" />
-	</head>
+<head>
+	<meta charset="UTF-8" />
+	<title>Shortcuts</title>
+	<base href="../" />
 
-	<body>
-		<div id="main">
-			<div id="cont">
-				<div id="list"></div>
-				<div id="details">
-					<input type="text" id="details-label" />
-					<div>Triggered by</div>
-					<div>To trigger</div>
-					<select id="details-action" onchange="detailsActionChanged(this.value)"></select>
-					
-					<div id="details-args"></div>
-					
-					<div class="options">
-						<button onclick="saveEntry()">Save</button>
-						<button onclick="addEntry()">Save as new</button>
-						<button onclick="removeEntry()">Remove</button>
-					
-					</div>
-					
+	<script type="text/javascript" src="js/class/db.class.js"></script>
+
+	<script type="text/javascript" src="js/general.js"></script>
+	<script type="text/javascript" src="js/shortcuts.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="style/general.css" />
+	<link rel="stylesheet" type="text/css" href="style/shortcuts.css" />
+	<link rel="stylesheet" type="text/css" href="style/dark.css" />
+</head>
+
+<body>
+	<div id="main">
+		<div id="cont">
+			<div id="list"></div>
+			<div id="details">
+				<input type="text" id="details-label" />
+				<div>Triggered by</div>
+				<div>To trigger</div>
+				<select id="details-action" onchange="detailsActionChanged(this.value)"></select>
+
+				<div id="details-args"></div>
+
+				<div class="options">
+					<button onclick="saveEntry()">Save</button>
+					<button onclick="addEntry()">Save as new</button>
+					<button onclick="removeEntry()">Remove</button>
+
 				</div>
-			</div>
-			<div id="options">
-				<button onclick="add()">Add</button>
-				<button onclick="remove()">Remove</button>
+
 			</div>
 		</div>
-	</body>
+		<div id="options">
+			<button onclick="add()">Add</button>
+			<button onclick="remove()">Remove</button>
+		</div>
+	</div>
+</body>
 
 </html>

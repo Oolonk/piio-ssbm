@@ -1,67 +1,75 @@
 body {
-	background:#111620;
-	color:#fff;
+	background: #111620;
+	color: #fff;
 }
+
 button,
 input[type="button"],
 input[type="submit"],
 input[type="reset"] {
-	color:rgba(255,255,255,0.9);
-	background:#103B5B;
-	background: radial-gradient(ellipse at 50% 100%, #1B629B 0%,#103B5B 100%);
-	
+	color: rgba(255, 255, 255, 0.9);
+	background: #103B5B;
+	background: radial-gradient(ellipse at 50% 100%, #1B629B 0%, #103B5B 100%);
+
 }
+
 button:hover,
 input[type="button"]:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover {
-	color:rgba(255,255,255,1);
-	background: radial-gradient(ellipse at 50% 100%, #007FA3 0%,#103B5B 100%);
+	color: rgba(255, 255, 255, 1);
+	background: radial-gradient(ellipse at 50% 100%, #007FA3 0%, #103B5B 100%);
 }
+
 button:active,
 input[type="button"]:active,
 input[type="submit"]:active,
 input[type="reset"]:active {
-	color:rgba(255,255,255,0.7);
-	background: radial-gradient(ellipse at 50% 150%, #1B629B 0%,#05263F 100%);
+	color: rgba(255, 255, 255, 0.7);
+	background: radial-gradient(ellipse at 50% 150%, #1B629B 0%, #05263F 100%);
 }
+
 input[type="text"],
 input[type="file"],
 textarea,
 select {
-	background:#fff;
-	color:#000;
+	background: #fff;
+	color: #000;
 }
 
 input[type="checkbox"]:before {
-	background: radial-gradient(ellipse at 50% 150%, #1B629B 0%,#05263F 100%);
+	background: radial-gradient(ellipse at 50% 150%, #1B629B 0%, #05263F 100%);
 }
 
 input[type="checkbox"]:checked:before {
-	background: radial-gradient(ellipse at 50% 100%, #1B629B 0%,#103B5B 100%);
+	background: radial-gradient(ellipse at 50% 100%, #1B629B 0%, #103B5B 100%);
 }
 
 a {
-	color:inherit;
+	color: inherit;
 }
 
 #topbar {
-	background:rgba(0,0,0,0.2);
-}
-#update-btn {
-	filter:grayscale(0.6);
-	background: radial-gradient(ellipse at 50% 150%, #74C600 0%,#0A6600 100%);
-}
-#update-btn.changed {
-	filter:grayscale(0);
-}
-#update-btn:hover {
-	background: radial-gradient(ellipse at 50% 150%, #A4D600 0%,#0A6600 100%);
-}
-#sidebar {
-	background:rgba(0,0,0,0.80);
-}
-#statusbar {
-	background:#070C14;
+	background: rgba(0, 0, 0, 0.2);
 }
 
+#update-btn {
+	filter: grayscale(0.6);
+	background: radial-gradient(ellipse at 50% 150%, #74C600 0%, #0A6600 100%);
+}
+
+#update-btn.changed {
+	filter: grayscale(0);
+}
+
+#update-btn:hover {
+	background: radial-gradient(ellipse at 50% 150%, #A4D600 0%, #0A6600 100%);
+}
+
+#sidebar {
+	background: rgba(0, 0, 0, 0.80);
+}
+
+#statusbar {
+	background: #070C14;
+}

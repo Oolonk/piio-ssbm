@@ -1,4 +1,4 @@
-const {clipboard} = require('electron');
+const { clipboard } = require('electron');
 const APPROOT = remote.getGlobal("APPROOT");
 const APPRES = remote.getGlobal("APPRES");
 
@@ -16,16 +16,16 @@ ipcRenderer.on("data", async (event, data) => {
 
 	dbName = data.db;
 	id = data.id;
-	if(data.entry){
+	if (data.entry) {
 		dataset = data.entry;
 		id = data.entry._id;
 	}
 
 
 	await buildForm();
-	if(id){
+	if (id) {
 		dataset = await db.getSingle(dbName, id);
-	}else{
+	} else {
 		dataset = await db.createStruct(dbName);
 		editMode = false;
 	}
@@ -33,12 +33,12 @@ ipcRenderer.on("data", async (event, data) => {
 });
 
 
-async function buildForm(){
+async function buildForm() {
 	console.log("buildForm");
 	var formEl = document.getElementById("form");
-	fields = await db.get("dbstruct", {"name": dbName}, {sort:{index:-1}});
-	
-	for(let i in fields){
+	fields = await db.get("dbstruct", { "name": dbName }, { sort: { index: -1 } });
+
+	for (let i in fields) {
 		let field = fields[i];
 		let childEl = document.createElement("div");
 		childEl.className = "field-item";
@@ -46,7 +46,7 @@ async function buildForm(){
 		labelEl.innerText = field.field;
 		childEl.appendChild(labelEl);
 		let inEl;
-		switch(field.type){
+		switch (field.type) {
 			case "text":
 				inEl = document.createElement("input");
 				inEl.type = "text";
@@ -59,33 +59,33 @@ async function buildForm(){
 				inEl = document.createElement("input");
 				inEl.type = "number";
 				break;
-				case "color":
-					inEl = document.createElement("input");
-					inEl.type = "color";
-					break;
+			case "color":
+				inEl = document.createElement("input");
+				inEl.type = "color";
+				break;
 			case "relation":
 				inEl = document.createElement("select");
 				break;
 		}
-		inEl.id = "field-"+field.field;
+		inEl.id = "field-" + field.field;
 		childEl.appendChild(inEl);
 		formEl.appendChild(childEl);
 	}
-	
+
 	// build
-	for(let i in fields){
+	for (let i in fields) {
 		let field = fields[i];
-		let inEl = document.getElementById("field-"+field.field);
-		if(inEl){
-			switch(field.type){
+		let inEl = document.getElementById("field-" + field.field);
+		if (inEl) {
+			switch (field.type) {
 				case "relation":
 					let optionVals = await db.get(field.relation);
-					optionVals.sort(function(a, b) {
-						if (a.name < b.name) {return -1;}
-						if (a.name > b.name) {return 1;}
+					optionVals.sort(function (a, b) {
+						if (a.name < b.name) { return -1; }
+						if (a.name > b.name) { return 1; }
 						return 0;
 					});
-					optionVals.unshift({_id:"", name:" - none - "});
+					optionVals.unshift({ _id: "", name: " - none - " });
 					optionVals.forEach(entry => {
 						let opt = document.createElement("option");
 						opt.innerText = entry.name;
@@ -98,51 +98,51 @@ async function buildForm(){
 			}
 		}
 	}
-	
+
 	return true;
 }
 
-async function insertValues(entry){
+async function insertValues(entry) {
 	console.log(entry);
-	for(let i in fields){
+	for (let i in fields) {
 		let field = fields[i];
 		let value = entry[field.field] || "";
-		let el = document.getElementById("field-"+field.field);
-		if(el){
-			if(field.type == "relation"){
-				for(let i = 0; i < el.options.length; i++) {
+		let el = document.getElementById("field-" + field.field);
+		if (el) {
+			if (field.type == "relation") {
+				for (let i = 0; i < el.options.length; i++) {
 					el.options[i].selected = value.indexOf(el.options[i].value) >= 0;
 				}
-			}else if(field.type == "text" && field.multi){
+			} else if (field.type == "text" && field.multi) {
 				el.value = value ? value.join(',') : "";
-			}else if(field.type == "color"){
+			} else if (field.type == "color") {
 				el.value = (value != null && value != '') ? value : "#000000";
-			}else{
+			} else {
 				el.value = value;
 			}
-		}else{
-			console.log("field-"+field.field, "is missing");
+		} else {
+			console.log("field-" + field.field, "is missing");
 		}
 	}
 }
 
 
-async function save(){
-	for(let i in fields){
+async function save() {
+	for (let i in fields) {
 		let field = fields[i];
 		let value = "";
-		let el = document.getElementById("field-"+field.field);
-		if(el){
-			if(field.type == "relation" && field.multi){
+		let el = document.getElementById("field-" + field.field);
+		if (el) {
+			if (field.type == "relation" && field.multi) {
 				value = [];
-				for(let i = 0; i < el.options.length; i++) {
-					if(el.options[i].selected){
+				for (let i = 0; i < el.options.length; i++) {
+					if (el.options[i].selected) {
 						value.push(el.options[i].value);
 					}
 				}
-			}else if(field.type == "text" && field.multi){
+			} else if (field.type == "text" && field.multi) {
 				value = el.value.split(",");
-			}else{
+			} else {
 				value = el.value;
 			}
 		}
@@ -153,26 +153,26 @@ async function save(){
 
 
 	let doc;
-	if(editMode){
+	if (editMode) {
 		doc = await db.update(dbName, dataset._id, dataset);
-	}else{
+	} else {
 		doc = await db.add(dbName, dataset);
 	}
 	ipcRenderer.send(_returnChannel, doc);
 	window.close();
 }
 
-function cancel(){
+function cancel() {
 	window.close();
 }
 
-function reset(){
+function reset() {
 	insertValues(dataset);
 }
 
-async function remove(){
+async function remove() {
 	var conf = confirm("Are you sure you want to delete this entry?");
-	if(!conf){return;}
+	if (!conf) { return; }
 	await db.remove(dbName, dataset._id);
 	window.close();
 }

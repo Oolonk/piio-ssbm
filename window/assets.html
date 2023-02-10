@@ -1,39 +1,40 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8" />
-		<title>Assets Manager</title>
-		<base href="../" />
-	
-		<script type="text/javascript" src="js/class/db.class.js"></script>
-		
-		<script type="text/javascript" src="js/general.js"></script>
-		<script type="text/javascript" src="js/assets.js"></script>
 
-		<link rel="stylesheet" type="text/css" href="style/general.css" />
-		<link rel="stylesheet" type="text/css" href="style/dark.css" />
-		<link rel="stylesheet" type="text/css" href="style/assets.css" />
-	</head>
+<head>
+	<meta charset="UTF-8" />
+	<title>Assets Manager</title>
+	<base href="../" />
 
-	<body>
-		<div id="titlebar"></div>
-		<nav id="assets-selection">
-			<a onclick="showAssetsList({path:'player', name:'Player'})"><span class="name">Player</span></a>
-			<a onclick="showAssetsList({path:'country', name:'Country'})"><span class="name">Country Flag</span></a>
-			<a onclick="showAssetsList({path:'character', name:'Character'})"><span class="name">Character</span></a>
-			<a onclick="showAssetsList({path:'game', name:'Game'})"><span class="name">Game</span></a>
-			<a onclick="showAssetsList({path:'team', name:'Team'})"><span class="name">Team</span></a>
-		</nav>
-		<div id="main">
-			<div id="filter">
-				<input type="text" id="search-txb" oninput="getList();" value="" placeholder="Search..." />
-			</div>
-			<div id="path"></div>
-			<div id="list">
-				<div id="list-grid"></div>
-			</div>
-			<div id="page-list"></div>
+	<script type="text/javascript" src="js/class/db.class.js"></script>
+
+	<script type="text/javascript" src="js/general.js"></script>
+	<script type="text/javascript" src="js/assets.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="style/general.css" />
+	<link rel="stylesheet" type="text/css" href="style/dark.css" />
+	<link rel="stylesheet" type="text/css" href="style/assets.css" />
+</head>
+
+<body>
+	<div id="titlebar"></div>
+	<nav id="assets-selection">
+		<a onclick="showAssetsList({path:'player', name:'Player'})"><span class="name">Player</span></a>
+		<a onclick="showAssetsList({path:'country', name:'Country'})"><span class="name">Country Flag</span></a>
+		<a onclick="showAssetsList({path:'character', name:'Character'})"><span class="name">Character</span></a>
+		<a onclick="showAssetsList({path:'game', name:'Game'})"><span class="name">Game</span></a>
+		<a onclick="showAssetsList({path:'team', name:'Team'})"><span class="name">Team</span></a>
+	</nav>
+	<div id="main">
+		<div id="filter">
+			<input type="text" id="search-txb" oninput="getList();" value="" placeholder="Search..." />
 		</div>
-	</body>
+		<div id="path"></div>
+		<div id="list">
+			<div id="list-grid"></div>
+		</div>
+		<div id="page-list"></div>
+	</div>
+</body>
 
 </html>

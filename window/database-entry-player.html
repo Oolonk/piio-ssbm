@@ -1,175 +1,177 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8" />
-		<title>Entry</title>
-		<base href="../" />
-	
-		<script type="text/javascript" src="js/class/db.class.js"></script>
-		<script type="text/javascript" src="js/class/player.class.js"></script>
-		<script type="text/javascript" src="js/class/character.class.js"></script>
-		<script type="text/javascript" src="js/class/smashgg.class.js"></script>
-		
-		<script type="text/javascript" src="js/general.js"></script>
-		<script type="text/javascript" src="js/database-entry-player.js"></script>
 
-		<link rel="stylesheet" type="text/css" href="style/general.css" />
-		<link rel="stylesheet" type="text/css" href="style/database-entry-player.css" />
-		<link rel="stylesheet" type="text/css" href="style/dark.css" />
-	</head>
-	<body>
-		<div id="titlebar"></div>
-		<div id="main">
-			<div id="side">
-				<div id="photo" onclick="downloadPhotoFromSmashgg()"></div>
-				<div id="info">
-					<div class="name"></div>
-					<div class="id"></div>
-				</div>
-				<div id="smashgg">
-					<div class="label">Start.gg</div>
-					<input type="text" id="field-smashgg" />
-					<button class="red" onclick="assignSmashgg()">Assign Account</button>
-				</div>
-			</div>
-			<div id="form">
-				<div class="field-item" id="field-name">
-					<label>Name</label>
-					<div class="input">
-						<input type="text" class="value" value="" />
-					</div>
-					<div class="smashgg-diff">
-						<div class="value"></div>
-						<button class="merge" onclick="merge('name')"></button>
-						<button class="ignore" onclick="ignore('name')"></button>
-					</div>
-				</div>
-				<div class="field-item" id="field-country">
-					<label>Country</label>
-					<div class="input">
-						<select class="value"></select>
-					</div>
-					<div class="smashgg-diff">
-						<div class="value"></div>
-						<button class="merge" onclick="merge('country')"></button>
-						<button class="ignore" onclick="ignore('country')"></button>
-					</div>
-				</div>
-				<div class="field-item" id="field-city">
-					<label>City</label>
-					<div class="input">
-						<input type="text" class="value" value="" />
-					</div>
-					<div class="smashgg-diff">
-						<div class="value"></div>
-						<button class="merge" onclick="merge('city')"></button>
-						<button class="ignore" onclick="ignore('city')"></button>
-					</div>
-				</div>
-				<div class="field-item grid">
-					<div id="field-firstname">
-						<label>Firstname</label>
-						<div class="input">
-							<input type="text" class="value" value="" />
-						</div>
-						<div class="smashgg-diff">
-							<div class="value"></div>
-							<button class="merge" onclick="merge('firstname')"></button>
-							<button class="ignore" onclick="ignore('firstname')"></button>
-						</div>
-					</div>
-					<div id="field-lastname">
-						<label>Lastname</label>
-						<div class="input">
-							<input type="text" class="value" value="" />
-						</div>
-						<div class="smashgg-diff">
-							<div class="value"></div>
-							<button class="merge" onclick="merge('lastname')"></button>
-							<button class="ignore" onclick="ignore('lastname')"></button>
-						</div>
-					</div>
-				</div>
-				<div class="field-item" id="field-birthday">
-					<label>Birthday</label>
-					<div class="input">
-						<input type="date" value="" class="value" onchange="calcInsertAge()" />
-						<div id="birthday-age"></div>
-					</div>
-					<div class="smashgg-diff">
-						<div class="value"></div>
-						<button class="merge" onclick="merge('birthday');calcInsertAge()"></button>
-						<button class="ignore" onclick="ignore('birthday');calcInsertAge()"></button>
-					</div>
-				</div>
-				<div class="field-item" id="field-pronoun">
-					<label>Pronoun</label>
-					<div class="input">
-						<input type="text" value="" class="value" />
-					</div>
-					<div class="smashgg-diff">
-						<div class="value"></div>
-						<button class="merge" onclick="merge('pronoun')"></button>
-						<button class="ignore" onclick="ignore('pronoun')"></button>
-					</div>
-				</div>
-				<div class="field-item" id="field-twitter">
-					<label>Twitter</label>
-					<div class="input">
-						<input type="text" class="value" value="" />
-					</div>
-					<div class="smashgg-diff">
-						<div class="value"></div>
-						<button class="merge" onclick="merge('twitter')"></button>
-						<button class="ignore" onclick="ignore('twitter')"></button>
-					</div>
-				</div>
-				<div class="field-item" id="field-twitch">
-					<label>Twitch</label>
-					<div class="input">
-						<input type="text" class="value" value="" />
-					</div>
-					<div class="smashgg-diff">
-						<div class="value"></div>
-						<button class="merge" onclick="merge('twitch')"></button>
-						<button class="ignore" onclick="ignore('twitch')"></button>
-					</div>
-				</div>
-				<div class="field-item" id="field-steam">
-					<label>Steam</label>
-					<div class="input">
-						<input type="text" class="value" value="" />
-					</div>
-					<div class="smashgg-diff">
-						<div class="value"></div>
-						<button class="merge" onclick="merge('steam')"></button>
-						<button class="ignore" onclick="ignore('steam')"></button>
-					</div>
-				</div>
-				<div class="field-item" id="field-slippicode">
-					<label>Slippi-Code</label>
-					<div class="input">
-						<input type="text" class="value" value="" />
-					</div>
-					<div class="smashgg-diff">
-						<div class="value"></div>
-						<button class="merge" onclick="merge('slippicode')"></button>
-						<button class="ignore" onclick="ignore('slippicode')"></button>
-					</div>
-				</div>
-				<div class="field-item">
-					<label>Team / Sponsor<div class="right">0 selected</div></label>
-					<div id="team-select"></div>
-				</div>
+<head>
+	<meta charset="UTF-8" />
+	<title>Entry</title>
+	<base href="../" />
 
+	<script type="text/javascript" src="js/class/db.class.js"></script>
+	<script type="text/javascript" src="js/class/player.class.js"></script>
+	<script type="text/javascript" src="js/class/character.class.js"></script>
+	<script type="text/javascript" src="js/class/smashgg.class.js"></script>
+
+	<script type="text/javascript" src="js/general.js"></script>
+	<script type="text/javascript" src="js/database-entry-player.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="style/general.css" />
+	<link rel="stylesheet" type="text/css" href="style/database-entry-player.css" />
+	<link rel="stylesheet" type="text/css" href="style/dark.css" />
+</head>
+
+<body>
+	<div id="titlebar"></div>
+	<div id="main">
+		<div id="side">
+			<div id="photo" onclick="downloadPhotoFromSmashgg()"></div>
+			<div id="info">
+				<div class="name"></div>
+				<div class="id"></div>
 			</div>
-			<div id="options">
-				<button onclick="save()">Save</button>
-				<button onclick="cancel()">Cancel</button>
-				<button onclick="reset()">Reset</button>
-				<button class="red" onclick="remove()">Delete</button>
+			<div id="smashgg">
+				<div class="label">Start.gg</div>
+				<input type="text" id="field-smashgg" />
+				<button class="red" onclick="assignSmashgg()">Assign Account</button>
 			</div>
 		</div>
-	</body>
+		<div id="form">
+			<div class="field-item" id="field-name">
+				<label>Name</label>
+				<div class="input">
+					<input type="text" class="value" value="" />
+				</div>
+				<div class="smashgg-diff">
+					<div class="value"></div>
+					<button class="merge" onclick="merge('name')"></button>
+					<button class="ignore" onclick="ignore('name')"></button>
+				</div>
+			</div>
+			<div class="field-item" id="field-country">
+				<label>Country</label>
+				<div class="input">
+					<select class="value"></select>
+				</div>
+				<div class="smashgg-diff">
+					<div class="value"></div>
+					<button class="merge" onclick="merge('country')"></button>
+					<button class="ignore" onclick="ignore('country')"></button>
+				</div>
+			</div>
+			<div class="field-item" id="field-city">
+				<label>City</label>
+				<div class="input">
+					<input type="text" class="value" value="" />
+				</div>
+				<div class="smashgg-diff">
+					<div class="value"></div>
+					<button class="merge" onclick="merge('city')"></button>
+					<button class="ignore" onclick="ignore('city')"></button>
+				</div>
+			</div>
+			<div class="field-item grid">
+				<div id="field-firstname">
+					<label>Firstname</label>
+					<div class="input">
+						<input type="text" class="value" value="" />
+					</div>
+					<div class="smashgg-diff">
+						<div class="value"></div>
+						<button class="merge" onclick="merge('firstname')"></button>
+						<button class="ignore" onclick="ignore('firstname')"></button>
+					</div>
+				</div>
+				<div id="field-lastname">
+					<label>Lastname</label>
+					<div class="input">
+						<input type="text" class="value" value="" />
+					</div>
+					<div class="smashgg-diff">
+						<div class="value"></div>
+						<button class="merge" onclick="merge('lastname')"></button>
+						<button class="ignore" onclick="ignore('lastname')"></button>
+					</div>
+				</div>
+			</div>
+			<div class="field-item" id="field-birthday">
+				<label>Birthday</label>
+				<div class="input">
+					<input type="date" value="" class="value" onchange="calcInsertAge()" />
+					<div id="birthday-age"></div>
+				</div>
+				<div class="smashgg-diff">
+					<div class="value"></div>
+					<button class="merge" onclick="merge('birthday');calcInsertAge()"></button>
+					<button class="ignore" onclick="ignore('birthday');calcInsertAge()"></button>
+				</div>
+			</div>
+			<div class="field-item" id="field-pronoun">
+				<label>Pronoun</label>
+				<div class="input">
+					<input type="text" value="" class="value" />
+				</div>
+				<div class="smashgg-diff">
+					<div class="value"></div>
+					<button class="merge" onclick="merge('pronoun')"></button>
+					<button class="ignore" onclick="ignore('pronoun')"></button>
+				</div>
+			</div>
+			<div class="field-item" id="field-twitter">
+				<label>Twitter</label>
+				<div class="input">
+					<input type="text" class="value" value="" />
+				</div>
+				<div class="smashgg-diff">
+					<div class="value"></div>
+					<button class="merge" onclick="merge('twitter')"></button>
+					<button class="ignore" onclick="ignore('twitter')"></button>
+				</div>
+			</div>
+			<div class="field-item" id="field-twitch">
+				<label>Twitch</label>
+				<div class="input">
+					<input type="text" class="value" value="" />
+				</div>
+				<div class="smashgg-diff">
+					<div class="value"></div>
+					<button class="merge" onclick="merge('twitch')"></button>
+					<button class="ignore" onclick="ignore('twitch')"></button>
+				</div>
+			</div>
+			<div class="field-item" id="field-steam">
+				<label>Steam</label>
+				<div class="input">
+					<input type="text" class="value" value="" />
+				</div>
+				<div class="smashgg-diff">
+					<div class="value"></div>
+					<button class="merge" onclick="merge('steam')"></button>
+					<button class="ignore" onclick="ignore('steam')"></button>
+				</div>
+			</div>
+			<div class="field-item" id="field-slippicode">
+				<label>Slippi-Code</label>
+				<div class="input">
+					<input type="text" class="value" value="" />
+				</div>
+				<div class="smashgg-diff">
+					<div class="value"></div>
+					<button class="merge" onclick="merge('slippicode')"></button>
+					<button class="ignore" onclick="ignore('slippicode')"></button>
+				</div>
+			</div>
+			<div class="field-item">
+				<label>Team / Sponsor<div class="right">0 selected</div></label>
+				<div id="team-select"></div>
+			</div>
+
+		</div>
+		<div id="options">
+			<button onclick="save()">Save</button>
+			<button onclick="cancel()">Cancel</button>
+			<button onclick="reset()">Reset</button>
+			<button class="red" onclick="remove()">Delete</button>
+		</div>
+	</div>
+</body>
 
 </html>

@@ -1,107 +1,108 @@
-
 #main {
-	position:absolute;
-	left:0;
-	right:0;
-	top:24px;
-	bottom:0;
-	display:grid;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 24px;
+	bottom: 0;
+	display: grid;
 	grid-template-columns: 200px 1fr;
 	grid-template-rows: 1fr 50px;
 }
 
 #side {
-	background:rgba(0,0,0,0.2);
-	overflow-y:auto;
-	z-index:100;
+	background: rgba(0, 0, 0, 0.2);
+	overflow-y: auto;
+	z-index: 100;
 }
 
 #photo {
-	width:160px;
-	height:160px;
-	margin:20px;
-	background:rgba(0,0,0,1);
-	border-radius:3px;
-	background-size:cover;
-	background-position:50% 10%;
+	width: 160px;
+	height: 160px;
+	margin: 20px;
+	background: rgba(0, 0, 0, 1);
+	border-radius: 3px;
+	background-size: cover;
+	background-position: 50% 10%;
 }
 
 #info {
-	font-size:12px;
-	margin:20px;
-	text-align:center;
+	font-size: 12px;
+	margin: 20px;
+	text-align: center;
 }
 
-#info > div {
-	margin-bottom:10px;
-	padding:2px 5px;
-	background:#000;
+#info>div {
+	margin-bottom: 10px;
+	padding: 2px 5px;
+	background: #000;
 	cursor: pointer;
-	border-bottom:1px solid rgba(255,255,255,0.3);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-#info > div:hover {
-	background:#fff;
-	color:#000;
-	border-radius:1px;
+#info>div:hover {
+	background: #fff;
+	color: #000;
+	border-radius: 1px;
 }
 
-#info > div:active {
-	background:#fa0;
-	color:#000;
+#info>div:active {
+	background: #fa0;
+	color: #000;
 }
 
 #info .name {
-	font-weight:bold;
-	font-size:16px;
+	font-weight: bold;
+	font-size: 16px;
 }
 
 #smashgg {
-	margin:20px;
-	background:#fff;
-	color:#000;
-	text-align:center;
-	border-radius:3px;
-	padding:5px;
+	margin: 20px;
+	background: #fff;
+	color: #000;
+	text-align: center;
+	border-radius: 3px;
+	padding: 5px;
 }
+
 #smashgg .label {
-	font-weight:bold;
-	color:#f00;
-	font-size:14px;
-	text-transform:uppercase;
-	border-bottom:2px solid #f00;
+	font-weight: bold;
+	color: #f00;
+	font-size: 14px;
+	text-transform: uppercase;
+	border-bottom: 2px solid #f00;
 }
+
 #smashgg input {
-	background:#000;
-	color:#fff;
-	width:50px;
-	border-radius:3px;
-	text-align:center;
+	background: #000;
+	color: #fff;
+	width: 50px;
+	border-radius: 3px;
+	text-align: center;
 }
 
 #form {
-	overflow-y:scroll;
+	overflow-y: scroll;
 }
 
 #options {
-	padding:10px;
-	background:rgba(0,0,0,0.9);
-	text-align:center;
+	padding: 10px;
+	background: rgba(0, 0, 0, 0.9);
+	text-align: center;
 	grid-column-end: span 2;
 }
 
 select[multiple] {
-	height:150px;
+	height: 150px;
 }
 
 .field-item {
-	max-width:400px;
-	margin:0 auto;
-	padding:10px;
+	max-width: 400px;
+	margin: 0 auto;
+	padding: 10px;
 }
 
 .field-item.grid {
-	display:grid;
+	display: grid;
 	grid-template-columns: 1fr 1fr;
 	/* grid-auto-rows: 1fr; */
 	grid-auto-flow: column;
@@ -113,150 +114,154 @@ select[multiple] {
 
 
 .field-item label {
-	display:block;
-	font-size:10px;
+	display: block;
+	font-size: 10px;
 }
+
 .field-item label .right {
-	float:right;
+	float: right;
 }
+
 .field-item input,
 .field-item select {
-	width:100%;
-	box-sizing:border-box;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 #field-birthday .input {
-	display:grid;
+	display: grid;
 	grid-template-columns: 1fr 36px;
 	grid-gap: 0px;
 	align-items: stretch;
 }
 
 #field-birthday .input .value {
-	border-radius:2px 0px 0px 2px;
+	border-radius: 2px 0px 0px 2px;
 }
+
 #birthday-age {
-	font-weight:bold;
-	text-align:center;
-	background:#fff;
-	color:#444;
-	background:linear-gradient(to right, #999, #ddd 10%);
+	font-weight: bold;
+	text-align: center;
+	background: #fff;
+	color: #444;
+	background: linear-gradient(to right, #999, #ddd 10%);
 	vertical-align: middle;
-	line-height:26px;
-	height:26px;
-	margin:1px;
-	padding-left:2px;
-	border-radius:0px 2px 2px 0px;
+	line-height: 26px;
+	height: 26px;
+	margin: 1px;
+	padding-left: 2px;
+	border-radius: 0px 2px 2px 0px;
 	-webkit-user-select: none;
-    user-select: none;
+	user-select: none;
 }
 
 #field-country option[value=""] {
-	color:#111;
-	font-style:italic;
+	color: #111;
+	font-style: italic;
 }
 
 #team-select {
-	max-height:200px;
-	overflow-y:scroll;
-	background:#fff;
-	font-size:12px;
-	color:#000;
-	border-radius:2px;
+	max-height: 200px;
+	overflow-y: scroll;
+	background: #fff;
+	font-size: 12px;
+	color: #000;
+	border-radius: 2px;
 }
 
-#team-select > div {
-	display:grid;
+#team-select>div {
+	display: grid;
 	grid-template-columns: 24px auto;
-	grid-template-rows: 18px ;
-	grid-gap:5px;
+	grid-template-rows: 18px;
+	grid-gap: 5px;
 	justify-items: stretch;
 	align-items: center;
-	padding:1px 5px;
+	padding: 1px 5px;
 	user-select: none;
-	cursor:default;
-	border-bottom:1px solid rgba(0,0,0,0.1);
+	cursor: default;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-#team-select > div .logo {
+#team-select>div .logo {
 	align-self: stretch;
-	background-size:contain;
-	background-position:50%;
+	background-size: contain;
+	background-position: 50%;
 	background-repeat: no-repeat;
 }
 
-#team-select > div .name {
+#team-select>div .name {
 	text-overflow: ellipsis;
-	overflow:hidden;
+	overflow: hidden;
 	white-space: nowrap;
 }
 
 
 
-#team-select > div:hover {
-	background:#cef;
+#team-select>div:hover {
+	background: #cef;
 }
 
-#team-select > div.selected {
-	color:#fff;
-	background:#07a;
+#team-select>div.selected {
+	color: #fff;
+	background: #07a;
 }
 
 
 .smashgg-diff {
-	display:none;
-	font-size:10px;
-	margin-top:5px;
-	padding:1px;
-	border-radius:2px;
-	background:#440;
+	display: none;
+	font-size: 10px;
+	margin-top: 5px;
+	padding: 1px;
+	border-radius: 2px;
+	background: #440;
 	grid-template-columns: 1fr 22px 22px;
 	grid-template-rows: 22px;
-	grid-gap:2px;
+	grid-gap: 2px;
 	justify-items: stretch;
 	align-items: stretch;
 }
+
 .smashgg-diff.visible {
-	display:grid;
+	display: grid;
 }
 
 .smashgg-diff.ignored {
-	background:#222;
-	color:#aaa;
+	background: #222;
+	color: #aaa;
 }
+
 .smashgg-diff.no-db {
-	background:#500;
-	color:#faa;
+	background: #500;
+	color: #faa;
 }
 
 .smashgg-diff .value {
-	padding:0px 10px;
+	padding: 0px 10px;
 	justify-self: left;
 	align-self: center;
 }
 
 .smashgg-diff .value.empty:after {
-	content:'empty';
-	font-style:italic;
-	opacity:0.6;
+	content: 'empty';
+	font-style: italic;
+	opacity: 0.6;
 }
 
 .smashgg-diff.no-db .value:after {
-	content:' No database equivalent';
-	font-style:italic;
-	opacity:0.6;
+	content: ' No database equivalent';
+	font-style: italic;
+	opacity: 0.6;
 }
 
 .smashgg-diff button {
-	padding:0;
-	border-radius:2px;
+	padding: 0;
+	border-radius: 2px;
 }
 
 .smashgg-diff button.merge {
-	background:#33aa00;
+	background: #33aa00;
 }
 
 .smashgg-diff button.ignore {
-	background:#aa0000;
+	background: #aa0000;
 }
-

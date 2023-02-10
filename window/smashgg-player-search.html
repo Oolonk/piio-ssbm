@@ -1,39 +1,40 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8" />
-		<title>Start.gg Player lookup</title>
-		<base href="../" />
 
-		<script type="text/javascript" src="js/class/smashgg.class.js"></script>
-		
-		<script type="text/javascript" src="js/general.js"></script>
-		<script type="text/javascript" src="js/smashgg-player-search.js"></script>
+<head>
+	<meta charset="UTF-8" />
+	<title>Start.gg Player lookup</title>
+	<base href="../" />
 
-		<link rel="stylesheet" type="text/css" href="style/general.css" />
-		<link rel="stylesheet" type="text/css" href="style/smashgg-player-search.css" />
-		<link rel="stylesheet" type="text/css" href="style/dark.css" />
-	</head>
+	<script type="text/javascript" src="js/class/smashgg.class.js"></script>
 
-	<body>
-		<div id="titlebar"></div>
-		<div id="main">
-			<div id="search">
-				<input type="text" id="smashgg-search-tbx" oninput="search()" /> 
-			</div>
-			<div id="results" onscroll="checkForLoad()"></div>
-			<template id="result-item">
-				<div class="item">
-					<div class="avatar"></div>
-					<div class="name">
-						<div class="gamertag"></div>
-						<div class="realname"></div>
-						<div class="gamertagdate"></div>
-					</div>
-					<div class="authorizations"></div>
-				</div>
-			</template>
+	<script type="text/javascript" src="js/general.js"></script>
+	<script type="text/javascript" src="js/smashgg-player-search.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="style/general.css" />
+	<link rel="stylesheet" type="text/css" href="style/smashgg-player-search.css" />
+	<link rel="stylesheet" type="text/css" href="style/dark.css" />
+</head>
+
+<body>
+	<div id="titlebar"></div>
+	<div id="main">
+		<div id="search">
+			<input type="text" id="smashgg-search-tbx" oninput="search()" />
 		</div>
-	</body>
+		<div id="results" onscroll="checkForLoad()"></div>
+		<template id="result-item">
+			<div class="item">
+				<div class="avatar"></div>
+				<div class="name">
+					<div class="gamertag"></div>
+					<div class="realname"></div>
+					<div class="gamertagdate"></div>
+				</div>
+				<div class="authorizations"></div>
+			</div>
+		</template>
+	</div>
+</body>
 
 </html>

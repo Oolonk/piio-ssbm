@@ -1,16 +1,55 @@
 {
-	"name":"Default",
-	"resolution":[1920,1080],
-	"author":"Philipp Bürkner",
-	"caster":3,
-	"fields":[
-		{"name":"round","label":"Round","type":"text","span":2,"checkbox":true},
-		{"name":"event","label":"Event","type":"text","span":2,"checkbox":false},
-		{"name":"lowerthird_top","label":"Lowerthird Top","type":"text","checkbox":true},
-		{"name":"lowerthird_bottom","label":"Lowerthird Bottom","type":"text","checkbox":true},
-		{"name":"intermission_top","label":"Intermission Top","type":"text","checkbox":false},
-		{"name":"intermission_bottom","label":"Intermission Bottom","type":"text","checkbox":false},
-		{"name":"countdown","label":"Countdown","type":"time","checkbox":true}
+	"name": "Default",
+	"resolution": [
+		1920,
+		1080
+	],
+	"author": "Philipp Bürkner",
+	"caster": 3,
+	"fields": [
+		{
+			"name": "round",
+			"label": "Round",
+			"type": "text",
+			"span": 2,
+			"checkbox": true
+		},
+		{
+			"name": "event",
+			"label": "Event",
+			"type": "text",
+			"span": 2,
+			"checkbox": false
+		},
+		{
+			"name": "lowerthird_top",
+			"label": "Lowerthird Top",
+			"type": "text",
+			"checkbox": true
+		},
+		{
+			"name": "lowerthird_bottom",
+			"label": "Lowerthird Bottom",
+			"type": "text",
+			"checkbox": true
+		},
+		{
+			"name": "intermission_top",
+			"label": "Intermission Top",
+			"type": "text",
+			"checkbox": false
+		},
+		{
+			"name": "intermission_bottom",
+			"label": "Intermission Bottom",
+			"type": "text",
+			"checkbox": false
+		},
+		{
+			"name": "countdown",
+			"label": "Countdown",
+			"type": "time",
+			"checkbox": true
+		}
 	]
-
 }

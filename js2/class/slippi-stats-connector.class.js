@@ -1,26 +1,26 @@
 class SlippiStatsConnector {
-	constructor(){
-		this.address = location.hostname;
-		this.port = 42070;
-		this.cache = null;
-		
-	}
-	
-	async getStats(value){
+    constructor() {
+        this.address = location.hostname;
+        this.port = 42070;
+        this.cache = null;
+
+    }
+
+    async getStats(value) {
         var output = stats.fetchStats(value);
         this.cache = await output;
         return output;
-	}
-    async fetchStats(value){
+    }
+    async fetchStats(value) {
         var output;
-        output = await fetch('http://'+ this.address + ':' + this.port + '/stats/' + value);
+        output = await fetch('http://' + this.address + ':' + this.port + '/stats/' + value);
         output = output.json();
         return output;
 
     }
 
-    moveId(move){
-        switch(move){
+    moveId(move) {
+        switch (move) {
             case 1:
                 return "Item Throw";
             case 2:

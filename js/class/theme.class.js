@@ -1,30 +1,30 @@
 /* --exclude-from-all */
 
 class ThemeWrapper {
-	constructor(){
+	constructor() {
 		this.dir = "";
 		this.name = "";
-		this.resolution = [0,0];
+		this.resolution = [0, 0];
 		this.fields = [];
 		this.caster = 2;
-		
+
 	}
-	
-	get Name(){
+
+	get Name() {
 		return (this.name ? this.name : this.dir);
 	}
-	
-	get Path(){
+
+	get Path() {
 		return `themes/${this.dir}/`;
 	}
-	
+
 	static getThemesList() {
 		return new Promise((resolve, reject) => {
 			const fs = require("fs");
 			const path = require("path");
 			var themePath = path.join(remote.getGlobal("APPRES"), 'themes');
-			fs.readdir(themePath, {withFileTypes: true}, (err, dirs) => {
-				if(err){return reject(err);}
+			fs.readdir(themePath, { withFileTypes: true }, (err, dirs) => {
+				if (err) { return reject(err); }
 				dirs = dirs.filter(x => x.isDirectory());
 				var promises = [];
 				dirs.forEach((dir) => {
@@ -32,7 +32,7 @@ class ThemeWrapper {
 						let theme = new ThemeWrapper();
 						theme.dir = dir.name;
 						fs.readFile(path.join(themePath, dir.name, 'manifest.json'), 'utf8', (err, data) => {
-							if(!err){
+							if (!err) {
 								var data = JSON.parse(data);
 								theme = Object.assign(theme, data);
 							}
@@ -41,19 +41,19 @@ class ThemeWrapper {
 					}));
 				});
 				Promise.all(promises).then((list) => {
-					list.sort((a,b) => a.name - b.name);
+					list.sort((a, b) => a.name - b.name);
 					resolve(list);
 				});
 			});
 		});
 	}
-	
-	static async getTheme(val){
+
+	static async getTheme(val) {
 		var themes = await ThemeWrapper.getThemesList();
-		switch(typeof val){
-			case 'string': return themes.find(x => x.dir == val); 
+		switch (typeof val) {
+			case 'string': return themes.find(x => x.dir == val);
 			case 'number': return themes[val];
-			default: return themes[0]; 
+			default: return themes[0];
 		}
 	}
 }

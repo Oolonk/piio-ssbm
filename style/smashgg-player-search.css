@@ -1,105 +1,112 @@
-
-
 #main {
-	position:absolute;
-	left:0;
-	right:0;
-	top:24px;
-	bottom:0;
-	padding:10px;
-	display:grid;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 24px;
+	bottom: 0;
+	padding: 10px;
+	display: grid;
 	grid-template-rows: auto 1fr;
 
 	grid-gap: 10px;
 }
 
 #search {
-	padding:10px;
-	background:rgba(0,0,0,0.4);
-	border:1px solid rgba(255,255,255,0.1);
+	padding: 10px;
+	background: rgba(0, 0, 0, 0.4);
+	border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 #results {
-	padding:10px;
-	background:rgba(0,0,0,0.4);
-	border:1px solid rgba(255,255,255,0.1);
-	overflow-y:scroll;
-}
-#results .item {
-	
-	padding:5px;
-	margin:5px;
-	border:1px solid transparent;
-	cursor:pointer;
-	display:grid;
-	grid-template-columns:60px 1fr 1fr;
-	grid-template-rows:25px 25px;
-	grid-gap:5px;
-}
-#results .item:hover {
-	border-color:rgba(255,255,255,0.7);
+	padding: 10px;
+	background: rgba(0, 0, 0, 0.4);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	overflow-y: scroll;
 }
 
-#results .item:nth-child(odd){
-	background:rgba(0,0,0,0.2);
+#results .item {
+
+	padding: 5px;
+	margin: 5px;
+	border: 1px solid transparent;
+	cursor: pointer;
+	display: grid;
+	grid-template-columns: 60px 1fr 1fr;
+	grid-template-rows: 25px 25px;
+	grid-gap: 5px;
 }
+
+#results .item:hover {
+	border-color: rgba(255, 255, 255, 0.7);
+}
+
+#results .item:nth-child(odd) {
+	background: rgba(0, 0, 0, 0.2);
+}
+
 #results .item.selected {
-	background:rgba(30,0,0,0.6);
+	background: rgba(30, 0, 0, 0.6);
 }
+
 #results .item .avatar {
 	grid-column: 1 / 2;
 	grid-row: 1 / span 2;
-	
-	background:#000;
-	background-size:cover;
-	background-position:50%;
-	background-repeat:no-repeat;
+
+	background: #000;
+	background-size: cover;
+	background-position: 50%;
+	background-repeat: no-repeat;
 }
+
 #results .item .name {
 	grid-row: 1 / span 2;
 }
+
 #results .item .name .gamertag {
-	font-weight:bold;
-	font-size:16px;
+	font-weight: bold;
+	font-size: 16px;
 }
+
 #results .item .name .gamertag .prefix {
-	margin-right:6px;
-	color:#f11;
+	margin-right: 6px;
+	color: #f11;
 }
+
 #results .item .name .gamertagdate {
-	font-size:10px;
-	opacity:0.6;
+	font-size: 10px;
+	opacity: 0.6;
 }
+
 #results .item .name .realname {
-	font-style:italic;
-	font-size:12px;
-	opacity:0.8;
+	font-style: italic;
+	font-size: 12px;
+	opacity: 0.8;
 }
 
 #results .item .authorizations {
-	font-size:10px;
-	opacity:0.8;
+	font-size: 10px;
+	opacity: 0.8;
 }
 
-#results .item .authorizations > div {
-	padding-left:20px;
-	background-size:auto 90%;
-	background-position:0% 50%;
+#results .item .authorizations>div {
+	padding-left: 20px;
+	background-size: auto 90%;
+	background-position: 0% 50%;
 	background-repeat: no-repeat;
 }
 
 #results .item .authorizations .acc-TWITCH {
-	background-image:url('../img/twitch-icon.svg');
+	background-image: url('../img/twitch-icon.svg');
 }
 
 #results .item .authorizations .acc-STEAM {
-	background-image:url('../img/steam-icon.svg');
+	background-image: url('../img/steam-icon.svg');
 }
 
 #results .item .authorizations .acc-TWITTER {
-	background-image:url('../img/twitter-icon.svg');
+	background-image: url('../img/twitter-icon.svg');
 }
 
 #results .item .authorizations .acc-DISCORD {
-	background-image:url('../img/discord-icon.svg');
+	background-image: url('../img/discord-icon.svg');
 }

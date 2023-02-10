@@ -1,11 +1,11 @@
-const { app, BrowserWindow, ipcMain} = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require("path");
 const nedb = require("nedb");
 const fs = require("fs");
 const EventEmitter = require('events');
 var event = new EventEmitter();
 
-var windowConf = new nedb({ filename: path.join(app.getPath("userData"), 'windowConf.db'), autoload:true });
+var windowConf = new nedb({ filename: path.join(app.getPath("userData"), 'windowConf.db'), autoload: true });
 
 app.setAppUserModelId(process.execPath);
 
@@ -17,8 +17,8 @@ let wins = [];
 
 app.on('ready', async () => {
 	splashWin = new BrowserWindow({
-		width: 500, 
-		height: 450, 
+		width: 500,
+		height: 450,
 		alwaysOnTop: true,
 		show: false,
 		resizable: false,
@@ -27,7 +27,7 @@ app.on('ready', async () => {
 		transparent: true,
 		icon: path.join(__dirname, 'logo.png'),
 		frame: false,
-		webPreferences:{nodeIntegration: true}
+		webPreferences: { nodeIntegration: true }
 	});
 	splashWin.loadFile('window/splash.html');
 	splashWin.webContents.on('did-finish-load', () => {
@@ -39,7 +39,7 @@ app.on('ready', async () => {
 });
 app.on('window-all-closed', saveAndQuit);
 app.on('activate', () => {
-	if(mainWin === null)
+	if (mainWin === null)
 		createMainWindow();
 });
 
@@ -50,26 +50,26 @@ ipcMain.handle('openWindow', async (event, arg) => {
 });
 ipcMain.on('databaseChanged', (e, arg) => {
 	// inform windows about database change
-	if(e.sender != mainWin.webContents){
+	if (e.sender != mainWin.webContents) {
 		mainWin.webContents.send('databaseChanged', arg);
 	}
-	wins.forEach((w,i) => {
-		if(e.sender == w.webContents){return;}
+	wins.forEach((w, i) => {
+		if (e.sender == w.webContents) { return; }
 		w.webContents.send('databaseChanged', arg);
 	});
 });
 ipcMain.on('databaseaction', (e, arg) => {
 	// inform windows about database action to execute
-	if(e.sender != mainWin.webContents)
+	if (e.sender != mainWin.webContents)
 		mainWin.webContents.send('databaseaction', arg);
-	wins.forEach((w,i) => {
+	wins.forEach((w, i) => {
 		w.webContents.send('databaseaction', arg);
 	});
 });
 
 ipcMain.handle('databaseaction', async (e, arg) => {
 
-	
+
 });
 
 
@@ -79,29 +79,29 @@ ipcMain.on('settings', (e, arg) => event.emit('settings', arg));
 async function createMainWindow() {
 	mainConf = await getWindowConf("main");
 	mainWin = new BrowserWindow({
-		width: mainConf.width || 1700, 
+		width: mainConf.width || 1700,
 		height: mainConf.height || 800,
-		minWidth:780,
-		minHeight:350,
+		minWidth: 780,
+		minHeight: 350,
 		frame: false,
 		maximizable: true,
 		show: false,
 		icon: path.join(__dirname, 'logo.png'),
-		autoHideMenuBar:true,
-		webPreferences:{devTools: _debug, experimentalFeatures :true, nodeIntegration: true, contextIsolation: false, enableRemoteModule: true}
+		autoHideMenuBar: true,
+		webPreferences: { devTools: _debug, experimentalFeatures: true, nodeIntegration: true, contextIsolation: false, enableRemoteModule: true }
 	});
-		mainWin.webContents.openDevTools();
+	mainWin.webContents.openDevTools();
 	mainWin.once('ready-to-show', () => setTimeout(() => {
 		mainWin.show();
-		if(mainConf.maxi)
+		if (mainConf.maxi)
 			mainWin.maximize();
-		if(_debug)
+		if (_debug)
 			mainWin.webContents.openDevTools();
 		setTimeout(() => splashWin.close(), 1000);
 	}, 500));
 	mainWin.loadFile('window/main.html');
 	mainWin.on('resize', e => {
-		if(!mainWin.isMaximized()){
+		if (!mainWin.isMaximized()) {
 			let size = mainWin.getSize();
 			mainConf.width = size[0];
 			mainConf.height = size[1];
@@ -110,15 +110,15 @@ async function createMainWindow() {
 
 	mainWin.on('close', async () => mainConf.maxi = mainWin.isMaximized());
 	mainWin.on('closed', saveAndQuit);
-	
+
 }
 
-function createWindow(event, arg){
-	return new Promise( async (resolve, reject) => {
+function createWindow(event, arg) {
+	return new Promise(async (resolve, reject) => {
 
 		var currentScreen = screen.getDisplayNearestPoint(screen.getCursorScreenPoint());
 		var conf = await getWindowConf(arg.name);
-		var returnchannel = "windowReturnChannel"+Math.ceil(Math.random()*1000000);
+		var returnchannel = "windowReturnChannel" + Math.ceil(Math.random() * 1000000);
 		var returnValue;
 
 		let winWidth = conf.width || 1000;
@@ -130,7 +130,7 @@ function createWindow(event, arg){
 			show: false,
 			x: winPosX,
 			y: winPosY,
-			width: winWidth, 
+			width: winWidth,
 			height: winHeight,
 			minWidth: 200,
 			minHeight: 100,
@@ -140,26 +140,26 @@ function createWindow(event, arg){
 			modal: arg.dialog || false,
 			autoHideMenuBar: true,
 			parent: arg.dialog ? BrowserWindow.fromWebContents(event.sender) : null,
-			webPreferences: {devTools: _debug, experimentalFeatures : true, nodeIntegration: true}
+			webPreferences: { devTools: _debug, experimentalFeatures: true, nodeIntegration: true }
 		});
-		
+
 		let windowFile = `window/${arg.name}.html`;
-		if(arg.name == "database-entry"){
+		if (arg.name == "database-entry") {
 			try {
 				fs.accessSync(`${app.getAppPath()}/window/${arg.name}-${arg.params.db}.html`);
 				windowFile = `window/${arg.name}-${arg.params.db}.html`;
-			} catch (err) {}
+			} catch (err) { }
 		}
 		win.loadFile(windowFile);
 		win.once('ready-to-show', () => win.show());
 		win.webContents.on('did-finish-load', () => {
 			win.webContents.send('returnchannel', returnchannel);
-			if(arg.params){
+			if (arg.params) {
 				win.webContents.send('data', arg.params);
 			}
 		});
 		win.on('resize', e => {
-			if(!win.isMaximized()){
+			if (!win.isMaximized()) {
 				let size = win.getSize();
 				conf.width = size[0];
 				conf.height = size[1];
@@ -171,7 +171,7 @@ function createWindow(event, arg){
 			resolve(returnValue);
 		});
 		win.on('closed', () => cleanupWindows());
-		if(_debug) {
+		if (_debug) {
 			win.webContents.openDevTools();
 		}
 
@@ -180,45 +180,45 @@ function createWindow(event, arg){
 	});
 }
 
-function cleanupWindows(){
+function cleanupWindows() {
 	var i = wins.length;
-	while(i--){
-		if(wins[i].isDestroyed()){
+	while (i--) {
+		if (wins[i].isDestroyed()) {
 			wins.splice(i, 1);
 		}
 	}
 }
 
-function getWindowConf(name){
+function getWindowConf(name) {
 	return new Promise((resolve, reject) => {
-		windowConf.findOne({"name":name}, (err, doc) => {
+		windowConf.findOne({ "name": name }, (err, doc) => {
 			resolve(doc || {});
 		});
 	});
 }
-function setWindowConf(name, doc){
+function setWindowConf(name, doc) {
 	doc.name = name;
 	return new Promise((resolve, reject) => {
-		windowConf.update({"name":name}, doc, {upsert:true}, () => resolve());
+		windowConf.update({ "name": name }, doc, { upsert: true }, () => resolve());
 	});
 }
 
-function saveAndQuit(){
+function saveAndQuit() {
 	setWindowConf("main", mainConf).then(() => app.quit());
 }
-function sendToWindows(type, data){
+function sendToWindows(type, data) {
 	let w = wins.concat(mainWin);
 	w.forEach(win => win.webContents.send(type, data));
 }
 
 module.exports = {
-	APP:app,
-	setWindowConf:setWindowConf,
-	
-	createMainWindow:createMainWindow,
-	
-	ipcMain:ipcMain,
-	
-	send:sendToWindows,
-	on: (n,f) => event.on(n,f)
+	APP: app,
+	setWindowConf: setWindowConf,
+
+	createMainWindow: createMainWindow,
+
+	ipcMain: ipcMain,
+
+	send: sendToWindows,
+	on: (n, f) => event.on(n, f)
 };

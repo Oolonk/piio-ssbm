@@ -1,11 +1,9 @@
-
-
 #main {
-	position:absolute;
-	left:0;
-	right:0;
-	top:24px;
-	bottom:0;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 24px;
+	bottom: 0;
 }
 
 body.locked {
@@ -13,79 +11,88 @@ body.locked {
 }
 
 #search-tournament {
-	position:relative;
-	padding:10px;
-	margin:10px;
-	border:1px solid rgba(255,255,255,0.1);
-	background:rgba(0,0,0,0.4);
-	
+	position: relative;
+	padding: 10px;
+	margin: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	background: rgba(0, 0, 0, 0.4);
+
 }
+
 #smashgg-search-tbx {
-	width:70%;
+	width: 70%;
 }
 
 
 #results {
-	display:none;
-	position:relative;
-	padding:10px;
-	margin:10px;
-	background:rgba(0,0,0,0.4);
-	border:1px solid rgba(255,255,255,0.1);
-	max-height:300px;
-	min-height:100px;
-	overflow-y:scroll;
+	display: none;
+	position: relative;
+	padding: 10px;
+	margin: 10px;
+	background: rgba(0, 0, 0, 0.4);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	max-height: 300px;
+	min-height: 100px;
+	overflow-y: scroll;
 }
+
 #results.visible {
-	display:block;
+	display: block;
 }
+
 #results.noresults:not(.fetching):after {
-	content:'No tournaments found';
-	position:absolute;
-	left:0;
-	right:0;
-	font-size:16px;
-	font-weight:bold;
-	line-height:100px;
-	vertical-align:middle;
-	color:#555;
-	text-align:Center;
-	
+	content: 'No tournaments found';
+	position: absolute;
+	left: 0;
+	right: 0;
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 100px;
+	vertical-align: middle;
+	color: #555;
+	text-align: Center;
+
 }
+
 #results.fetching {
-	opacity:0.5;
-	background-image:url('../img/smashgg-loading.svg');
-	background-size:100px;
-	background-position:50%;
-	background-repeat:no-repeat;
+	opacity: 0.5;
+	background-image: url('../img/smashgg-loading.svg');
+	background-size: 100px;
+	background-position: 50%;
+	background-repeat: no-repeat;
 }
+
 #results .item {
-	cursor:pointer;
-	padding:5px;
-	display:grid;
+	cursor: pointer;
+	padding: 5px;
+	display: grid;
 	align-items: center;
 	justify-items: start;
-	grid-template-columns:40px auto;
-	grid-template-rows:auto auto;
-	grid-gap:5px;
+	grid-template-columns: 40px auto;
+	grid-template-rows: auto auto;
+	grid-gap: 5px;
 }
+
 #results .item:hover {
-	background:#100;
+	background: #100;
 }
+
 #results .matchedSlug {
-	background:#330;
+	background: #330;
 }
 
 #results .name {
 	grid-column-start: 2;
 	grid-row-start: 1;
-	font-size:14px;
+	font-size: 14px;
 }
+
 #results .date {
 	grid-column-start: 2;
 	grid-row-start: 2;
-	font-size:12px;
+	font-size: 12px;
 }
+
 #results .logo {
 	grid-column-start: 1;
 	grid-row-start: 1;
@@ -93,72 +100,73 @@ body.locked {
 	grid-row-end: 3;
 	justify-self: stretch;
 	align-self: stretch;
-	background:rgba(0,0,0,0.6);
-	background-position:50%;
-	background-size:contain;
-	background-repeat:no-repeat;
+	background: rgba(0, 0, 0, 0.6);
+	background-position: 50%;
+	background-size: contain;
+	background-repeat: no-repeat;
 }
 
 
 #selected-tournament {
-	position:relative;
-	margin:10px;
-	padding:10px;
-	overflow:hidden;
-	background:rgba(0,0,0,0.5);
-	border:1px solid rgba(0,0,0,0.1);
-	border-radius:3px;
+	position: relative;
+	margin: 10px;
+	padding: 10px;
+	overflow: hidden;
+	background: rgba(0, 0, 0, 0.5);
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 3px;
 }
+
 #selected-tournament .bg {
-	position:absolute;
-	left:-10px;
-	right:-10px;
-	top:-10px;
-	bottom:-10px;
+	position: absolute;
+	left: -10px;
+	right: -10px;
+	top: -10px;
+	bottom: -10px;
 	/* height:250px; */
-	-webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,.7)), to(rgba(0,0,0,0.2)));
-	mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,.7)), to(rgba(0,0,0,0.2)));
-	background-size:cover;
+	-webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .7)), to(rgba(0, 0, 0, 0.2)));
+	mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .7)), to(rgba(0, 0, 0, 0.2)));
+	background-size: cover;
 	background-repeat: no-repeat;
-	background-position:50%;
-	filter:blur(2px);
+	background-position: 50%;
+	filter: blur(2px);
 }
 
 
 
 #info {
-	position:relative;
-	display:grid;
+	position: relative;
+	display: grid;
 
-	grid-gap:10px;
+	grid-gap: 10px;
 	grid-column-gap: 20px;
 	grid-template-columns: 150px auto;
 	grid-template-rows: auto;
 
-	height:150px;
+	height: 150px;
 
-	grid-template-areas: 
-    "logo title"
-    "logo info";
+	grid-template-areas:
+		"logo title"
+		"logo info";
 
 }
 
 #info .logo {
 	grid-area: logo;
 
-	border-radius:1px;
-	background-position:50%;
-	background-size:cover;
-	background-repeat:no-repeat;
-	box-shadow:2px 2px 5px rgba(0,0,0,0.3);
+	border-radius: 1px;
+	background-position: 50%;
+	background-size: cover;
+	background-repeat: no-repeat;
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 #info .title {
 	grid-area: title;
 
-	font-size:30px;
-	font-weight:bold;
-	text-shadow:2px 2px 10px #000; 
+	font-size: 30px;
+	font-weight: bold;
+	text-shadow: 2px 2px 10px #000;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -171,62 +179,64 @@ body.locked {
 }
 
 #channel-select {
-	position:relative;
-	display:flex;
-	padding-top:10px;
+	position: relative;
+	display: flex;
+	padding-top: 10px;
 	flex-wrap: wrap;
 }
+
 #channel-select .item {
-	display:grid;
-	
+	display: grid;
+
 	align-items: center;
 	justify-items: start;
-	grid-template-columns:20px auto;
-	grid-template-rows:30px;
-	grid-gap:5px;
-	align-items:center;
+	grid-template-columns: 20px auto;
+	grid-template-rows: 30px;
+	grid-gap: 5px;
+	align-items: center;
 	justify-items: center;
-	font-size:14px;
-	
-	padding:0px 15px;
-	margin:10px;
-	border-radius:3px;
-	background:rgba(0,0,0,0.8);
-	cursor:pointer;
+	font-size: 14px;
+
+	padding: 0px 15px;
+	margin: 10px;
+	border-radius: 3px;
+	background: rgba(0, 0, 0, 0.8);
+	cursor: pointer;
 }
+
 #channel-select .item:hover {
-	background:#222;
+	background: #222;
 }
 
 #channel-select .item.selected {
-	background:#f00;
+	background: #f00;
 }
 
 #channel-select .item .logo {
 	justify-self: stretch;
-	height:18px;
-	background-position:50%;
-	background-size:contain;
-	background-repeat:no-repeat;
+	height: 18px;
+	background-position: 50%;
+	background-size: contain;
+	background-repeat: no-repeat;
 }
 
 
 #channel-select .item .name {
-	vertical-align:middle;
-	line-height:18px;
-	white-space:nowrap;
+	vertical-align: middle;
+	line-height: 18px;
+	white-space: nowrap;
 }
 
 #channel-select .item .name:before {
-	content:'/ ';
+	content: '/ ';
 }
 
 #options {
-	position:fixed;
-	left:0px;
-	right:0px;
-	bottom:0px;
-	padding:10px;
-	background:rgba(0,0,0,0.9);
-	text-align:center;
+	position: fixed;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	padding: 10px;
+	background: rgba(0, 0, 0, 0.9);
+	text-align: center;
 }

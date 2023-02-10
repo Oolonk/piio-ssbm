@@ -15,40 +15,40 @@ let defaultSettings = {
 };
 
 let dbStruct = [
-    {"name":"player","field":"name","type":"text","index":-1},
-    {"name":"player","field":"country","type":"relation","relation":"country","index":-4},
-    {"name":"player","field":"city","type":"text"},
-    {"name":"player","field":"firstname","type":"text","index":-2},
-    {"name":"player","field":"lastname","type":"text","index":-3},
-    {"name":"player","field":"birthday","type":"date","listhide":true},
-    {"name":"player","field":"pronoun","type":"text","listhide":true},
-    {"name":"player","field":"smashgg","type":"number"},
-    {"name":"player","field":"twitter","type":"text"},
-    {"name":"player","field":"twitch","type":"text","index":-4},
-    {"name":"player","field":"steam","type":"text","listhide":true},
-    {"name":"player","field":"slippicode","type":"text"},
-    {"name":"player","field":"team","type":"relation","relation":"team","multi":true},
-    {"name":"team","field":"name","index":-1,"type":"text"},
-    {"name":"team","field":"shorten","index":-2,"type":"text"},
-    {"name":"team","field":"prefix","index":-3,"type":"text"},
-    {"name":"team","field":"website","index":-4,"type":"text"},
-    {"name":"team","field":"delimiter","type":"text","default":" | ","index":-4},
-    {"name":"team","field":"regex","type":"text","index":-4},
-    {"name":"team","field":"backgroundcolor","type":"color","index":-4},
-    {"name":"team","field":"textcolor","type":"color","index":-4},
-    {"name":"country","field":"name","index":-1,"type":"text"},
-    {"name":"country","field":"continent","index":-2,"type":"text"},
-    {"name":"country","field":"nation","type":"relation","relation":"country","multi":null,"index":-2},
-    {"name":"game","field":"name","type":"text","index":-1},
-    {"name":"game","field":"shorten","type":"text","index":-2},
-    {"name":"character","field":"name","type":"text","relation":null,"multi":null},
-    {"name":"character","field":"shorten","type":"text","relation":null,"multi":null},
-    {"name":"character","field":"skins","type":"text","multi":true},
-    {"name":"character","field":"game","type":"relation","relation":"game","multi":null}
+    { "name": "player", "field": "name", "type": "text", "index": -1 },
+    { "name": "player", "field": "country", "type": "relation", "relation": "country", "index": -4 },
+    { "name": "player", "field": "city", "type": "text" },
+    { "name": "player", "field": "firstname", "type": "text", "index": -2 },
+    { "name": "player", "field": "lastname", "type": "text", "index": -3 },
+    { "name": "player", "field": "birthday", "type": "date", "listhide": true },
+    { "name": "player", "field": "pronoun", "type": "text", "listhide": true },
+    { "name": "player", "field": "smashgg", "type": "number" },
+    { "name": "player", "field": "twitter", "type": "text" },
+    { "name": "player", "field": "twitch", "type": "text", "index": -4 },
+    { "name": "player", "field": "steam", "type": "text", "listhide": true },
+    { "name": "player", "field": "slippicode", "type": "text" },
+    { "name": "player", "field": "team", "type": "relation", "relation": "team", "multi": true },
+    { "name": "team", "field": "name", "index": -1, "type": "text" },
+    { "name": "team", "field": "shorten", "index": -2, "type": "text" },
+    { "name": "team", "field": "prefix", "index": -3, "type": "text" },
+    { "name": "team", "field": "website", "index": -4, "type": "text" },
+    { "name": "team", "field": "delimiter", "type": "text", "default": " | ", "index": -4 },
+    { "name": "team", "field": "regex", "type": "text", "index": -4 },
+    { "name": "team", "field": "backgroundcolor", "type": "color", "index": -4 },
+    { "name": "team", "field": "textcolor", "type": "color", "index": -4 },
+    { "name": "country", "field": "name", "index": -1, "type": "text" },
+    { "name": "country", "field": "continent", "index": -2, "type": "text" },
+    { "name": "country", "field": "nation", "type": "relation", "relation": "country", "multi": null, "index": -2 },
+    { "name": "game", "field": "name", "type": "text", "index": -1 },
+    { "name": "game", "field": "shorten", "type": "text", "index": -2 },
+    { "name": "character", "field": "name", "type": "text", "relation": null, "multi": null },
+    { "name": "character", "field": "shorten", "type": "text", "relation": null, "multi": null },
+    { "name": "character", "field": "skins", "type": "text", "multi": true },
+    { "name": "character", "field": "game", "type": "relation", "relation": "game", "multi": null }
 ];
 
 
-async function ensure(res, root, userData){
+async function ensure(res, root, userData) {
     resFolder = res;
     appFolder = root;
     userDataFolder = userData;
@@ -61,10 +61,10 @@ async function ensure(res, root, userData){
     await theme();
 }
 
-async function theme(){
+async function theme() {
     return new Promise((resolve, reject) => {
         fs.access(path.join(resFolder, 'themes', 'default', 'manifest.json'), fs.constants.F_OK, (err) => {
-            if(!err){
+            if (!err) {
                 console.log("default theme exists");
                 return resolve();
             }
@@ -75,14 +75,14 @@ async function theme(){
     });
 }
 
-async function database(){
-    var dbstructDB = new nedb({ filename: path.join(resFolder, 'db', 'dbstruct'), autoload:true});
+async function database() {
+    var dbstructDB = new nedb({ filename: path.join(resFolder, 'db', 'dbstruct'), autoload: true });
 
     // check for row count in db struct - if not equal, redo that db
 
     await new Promise((resolve, reject) => {
         dbstructDB.count({}, (err, rowCount) => {
-            if(!err && rowCount == dbStruct.length){
+            if (!err && rowCount == dbStruct.length) {
                 return resolve();
             }
             dbstructDB.remove({}, { multi: true }, () => {
@@ -92,26 +92,26 @@ async function database(){
     });
 }
 
-async function settings(){
-    settingsDb = new nedb({ filename: path.join(userDataFolder, 'settings.db'), autoload:true});
-    for(let key in defaultSettings){
+async function settings() {
+    settingsDb = new nedb({ filename: path.join(userDataFolder, 'settings.db'), autoload: true });
+    for (let key in defaultSettings) {
         await settingsEntry(key, defaultSettings[key]);
     }
 }
 
-function settingsEntry(name, value){
+function settingsEntry(name, value) {
     return new Promise((resolve, reject) => {
-        settingsDb.findOne({"name": name}, (err, doc) => {
-            if(doc == null){
-                settingsDb.insert({"name": name, "value":value}, resolve);
-            }else{
+        settingsDb.findOne({ "name": name }, (err, doc) => {
+            if (doc == null) {
+                settingsDb.insert({ "name": name, "value": value }, resolve);
+            } else {
                 resolve(err, doc);
             }
         });
     });
 }
 
-async function folder(){
+async function folder() {
     fse.ensureDirSync(resFolder);
     fse.ensureDirSync(path.join(resFolder, 'db'));
     fse.ensureDirSync(path.join(resFolder, 'logs'));

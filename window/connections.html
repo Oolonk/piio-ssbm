@@ -1,104 +1,106 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8" />
-		<title>Connections</title>
-		<base href="../" />
-	
-		<script type="text/javascript" src="js/class/db.class.js"></script>
-		<script type="text/javascript" src="js/class/smashgg.class.js"></script>
-		
-		<script type="text/javascript" src="js/general.js"></script>
-		<script type="text/javascript" src="js/connections.js"></script>
 
-		<link rel="stylesheet" type="text/css" href="style/general.css" />
-		<link rel="stylesheet" type="text/css" href="style/connections.css" />
-		<link rel="stylesheet" type="text/css" href="style/dark.css" />
-	</head>
+<head>
+	<meta charset="UTF-8" />
+	<title>Connections</title>
+	<base href="../" />
 
-	<body>
-		<div id="titlebar"></div>
-		<div id="main">
-			<div id="cont">
-				<div id="cont-xr18" class="item visible">
-					<div class="head" onclick="this.parentElement.classList.toggle('visible');">Behringer - XR18</div>
-					<div class="chunk">
-						<input type="text" id="xr18-ip" placeholder="IP address" />
-						<input type="number" id="xr18-port" style="width:56px;" placeholder="port" value="10024" />
-					</div>
-					<div class="chunk">
-						<select id="xr18-scanned-select">
-							<option value="">No device found</option>
-						</select>
-						<button onclick="document.getElementById('xr18-ip').value = document.getElementById('xr18-scanned-select').value;">Apply</button>
-						<button onclick="xr18ScanNetwork()">Scan network</button>
-					</div>
+	<script type="text/javascript" src="js/class/db.class.js"></script>
+	<script type="text/javascript" src="js/class/smashgg.class.js"></script>
+
+	<script type="text/javascript" src="js/general.js"></script>
+	<script type="text/javascript" src="js/connections.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="style/general.css" />
+	<link rel="stylesheet" type="text/css" href="style/connections.css" />
+	<link rel="stylesheet" type="text/css" href="style/dark.css" />
+</head>
+
+<body>
+	<div id="titlebar"></div>
+	<div id="main">
+		<div id="cont">
+			<div id="cont-xr18" class="item visible">
+				<div class="head" onclick="this.parentElement.classList.toggle('visible');">Behringer - XR18</div>
+				<div class="chunk">
+					<input type="text" id="xr18-ip" placeholder="IP address" />
+					<input type="number" id="xr18-port" style="width:56px;" placeholder="port" value="10024" />
 				</div>
-				<div id="cont-twitch" class="item visible">
-					<div class="head" onclick="this.parentElement.classList.toggle('visible');">Twitch</div>
-					<div class="chunk">
-						<button onclick="twitchAuthenticate('twitch');">Authenticate</button>
-						<input type="text" id="twitch-channel" placeholder="Channel name" readonly />
-						<input type="text" id="twitch-id" placeholder="Channel ID" readonly />
-						<input type="hidden" id="twitch-token" placeholder="token" readonly />
-					</div>
-					<div class="chunk">
-						<input type="checkbox" value="1" id="twitch-autogameset" />
-						<label for="twitch-autogameset">Set Twitch Game automatically</label>
-					</div>
-				</div>
-				<div id="cont-twitchbot" class="item visible">
-					<div class="head" onclick="this.parentElement.classList.toggle('visible');">Twitch Chat Bot</div>
-					<div class="chunk">
-						<button onclick="twitchAuthenticate('twitchbot');">Authenticate</button>
-						<input type="text" id="twitchbot-channel" placeholder="Channel name" readonly />
-						<input type="text" id="twitchbot-id" placeholder="Channel ID" readonly />
-						<input type="hidden" id="twitchbot-token" placeholder="token" readonly />
-					</div>
-					<div class="chunk">
-						<input type="text" id="twitchbot-channelchat" placeholder="Channel name the bot connects to" />
-					</div>
-					<div class="chunk">
-						<input type="checkbox" value="1" id="twitchbot-cmdbracket" />
-						<label for="twitchbot-cmdbracket">!bracket command</label>
-					</div>
-					<div class="chunk">
-						<input type="checkbox" value="1" id="twitchbot-cmdcommentary" />
-						<label for="twitchbot-cmdcommentary">!commentary command</label>
-					</div>
-					<div class="chunk">
-						<input type="checkbox" value="1" id="twitchbot-cmdgame" />
-						<label for="twitchbot-cmdgame">!game command</label>
-					</div>
-					<div class="chunk">
-						<input type="checkbox" value="1" id="twitchbot-cmduptime" />
-						<label for="twitchbot-cmduptime">!uptime command</label>
-					</div>
-				</div>
-				<div id="cont-youtube" class="item visible">
-					<div class="head" onclick="this.parentElement.classList.toggle('visible');">Youtube</div>
-				
-				</div>
-				<div id="cont-slippi" class="item">
-					<div class="head" onclick="this.parentElement.classList.toggle('visible');">Project Slippi</div>
-					<div class="chunk">
-						<input type="text" id="slippi-ip" placeholder="IP address" />
-						<input type="number" id="slippi-port" style="width:56px;" placeholder="port" value="666" />
-					</div>
-				</div>
-				<div id="cont-twitter" class="item">
-					<div class="head" onclick="this.parentElement.classList.toggle('visible');">Twitter</div>
-				</div>
-				<div id="cont-midi" class="item">
-					<div class="head" onclick="this.parentElement.classList.toggle('visible');">MIDI Controller</div>
+				<div class="chunk">
+					<select id="xr18-scanned-select">
+						<option value="">No device found</option>
+					</select>
+					<button
+						onclick="document.getElementById('xr18-ip').value = document.getElementById('xr18-scanned-select').value;">Apply</button>
+					<button onclick="xr18ScanNetwork()">Scan network</button>
 				</div>
 			</div>
-			<div id="options">
-				<button onclick="save()">Save</button>
-				<button onclick="close()">Cancel</button>
-				<button onclick="reset()">Reset</button>
+			<div id="cont-twitch" class="item visible">
+				<div class="head" onclick="this.parentElement.classList.toggle('visible');">Twitch</div>
+				<div class="chunk">
+					<button onclick="twitchAuthenticate('twitch');">Authenticate</button>
+					<input type="text" id="twitch-channel" placeholder="Channel name" readonly />
+					<input type="text" id="twitch-id" placeholder="Channel ID" readonly />
+					<input type="hidden" id="twitch-token" placeholder="token" readonly />
+				</div>
+				<div class="chunk">
+					<input type="checkbox" value="1" id="twitch-autogameset" />
+					<label for="twitch-autogameset">Set Twitch Game automatically</label>
+				</div>
+			</div>
+			<div id="cont-twitchbot" class="item visible">
+				<div class="head" onclick="this.parentElement.classList.toggle('visible');">Twitch Chat Bot</div>
+				<div class="chunk">
+					<button onclick="twitchAuthenticate('twitchbot');">Authenticate</button>
+					<input type="text" id="twitchbot-channel" placeholder="Channel name" readonly />
+					<input type="text" id="twitchbot-id" placeholder="Channel ID" readonly />
+					<input type="hidden" id="twitchbot-token" placeholder="token" readonly />
+				</div>
+				<div class="chunk">
+					<input type="text" id="twitchbot-channelchat" placeholder="Channel name the bot connects to" />
+				</div>
+				<div class="chunk">
+					<input type="checkbox" value="1" id="twitchbot-cmdbracket" />
+					<label for="twitchbot-cmdbracket">!bracket command</label>
+				</div>
+				<div class="chunk">
+					<input type="checkbox" value="1" id="twitchbot-cmdcommentary" />
+					<label for="twitchbot-cmdcommentary">!commentary command</label>
+				</div>
+				<div class="chunk">
+					<input type="checkbox" value="1" id="twitchbot-cmdgame" />
+					<label for="twitchbot-cmdgame">!game command</label>
+				</div>
+				<div class="chunk">
+					<input type="checkbox" value="1" id="twitchbot-cmduptime" />
+					<label for="twitchbot-cmduptime">!uptime command</label>
+				</div>
+			</div>
+			<div id="cont-youtube" class="item visible">
+				<div class="head" onclick="this.parentElement.classList.toggle('visible');">Youtube</div>
+
+			</div>
+			<div id="cont-slippi" class="item">
+				<div class="head" onclick="this.parentElement.classList.toggle('visible');">Project Slippi</div>
+				<div class="chunk">
+					<input type="text" id="slippi-ip" placeholder="IP address" />
+					<input type="number" id="slippi-port" style="width:56px;" placeholder="port" value="666" />
+				</div>
+			</div>
+			<div id="cont-twitter" class="item">
+				<div class="head" onclick="this.parentElement.classList.toggle('visible');">Twitter</div>
+			</div>
+			<div id="cont-midi" class="item">
+				<div class="head" onclick="this.parentElement.classList.toggle('visible');">MIDI Controller</div>
 			</div>
 		</div>
-	</body>
+		<div id="options">
+			<button onclick="save()">Save</button>
+			<button onclick="close()">Cancel</button>
+			<button onclick="reset()">Reset</button>
+		</div>
+	</div>
+</body>
 
 </html>

@@ -1,25 +1,25 @@
 /* saved value */
 
 class SavedValue {
-	constructor(){
+	constructor() {
 		this.values = {};
 	}
-	isSet(name, value, overwrite){
+	isSet(name, value, overwrite) {
 		overwrite = overwrite || true;
 		var isIdentical = this.get(name) === value;
-		if(!isIdentical && overwrite)
+		if (!isIdentical && overwrite)
 			this.set(name, value);
-		return isIdentical;	
+		return isIdentical;
 	}
-	set(name, value){
+	set(name, value) {
 		this.values[name] = value;
 	}
-	get(name){
-		if(!this.values.hasOwnProperty(name))
+	get(name) {
+		if (!this.values.hasOwnProperty(name))
 			this.values[name] = "";
 		return this.values[name];
 	}
-	clear(){
+	clear() {
 		this.values = {};
 	}
 }
