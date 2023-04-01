@@ -900,10 +900,25 @@ body.modal #modal {
 	background: rgba(0, 0, 255, 1);
 }
 
+#caster-wrap {
+	display: flex;
+}
+
 #caster {
 	display: flex;
 	justify-content: space-evenly;
 	margin: 10px 0px;
+	width: calc(100% - 40px);
+	margin-right: 0px;
+	display: inline-flex;
+
+}
+
+#caster-action {
+	display: grid;
+	width: fit-content;
+	margin: 0;
+
 }
 
 #caster>.item {

@@ -148,7 +148,14 @@
 			<div id="seatorder"></div>
 			<div id="seatorder-glue-option" onclick="toggleSeatorderGlue()"></div>
 		</div>
-		<div id="caster"></div>
+		<div id="caster-wrap">
+			<div id="caster"></div>
+			<div id="caster-action">
+				<button class="caster-add-btn" onclick="casterAdd()"><img src="img/add.svg" height="12" /></button>
+				<button class="caster-add-btn" onclick="casterDelete()"><img src="img/window-minimize.svg"
+						height="12" /></button>
+			</div>
+		</div>
 		<template id="caster-item-tpl">
 			<div class="search">
 				<input type="text" value="" />

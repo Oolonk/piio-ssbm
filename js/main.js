@@ -78,7 +78,6 @@ once("themechanged", buildThemeSelection);
 ipcRenderer.on("themefolder-changed", buildThemeSelection);
 
 
-
 async function init() {
 	hold("scoreboardchanged");
 	bgWork.start("init");
@@ -363,6 +362,9 @@ function buildCasterList() {
 			}
 		}
 		el.appendChild(item);
+		insertCasterUI();
+
+		// casterEl.querySelector(".info .twitter").innerText = co.twitter;
 	}
 
 	// decrease casters to casterCount
@@ -1420,3 +1422,17 @@ ipcRenderer.on("slippi_status", (event, name) => {
 			document.getElementById("stop-slippi-btn").style.display = 'none';
 	}
 });
+
+function casterAdd() {
+	_theme.caster++;
+	buildCasterList();
+
+}
+
+function casterDelete() {
+	if (_theme.caster > 1) {
+		_theme.caster--;
+		buildCasterList();
+	}
+
+}
