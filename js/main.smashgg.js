@@ -1,4 +1,5 @@
 const smashgg = new SmashggWrapper();
+var streamvar = {}
 smashgg.on("streamschanged", (stream) => {
 	document.querySelector("#smashgg-queue .list .title .channel").innerText = (stream == null ? "No stream selected" : stream.streamName);
 });
@@ -62,8 +63,9 @@ async function applySmashggSet(setId) {
 	}
 	set.eventName = set.event.name;
 	set.slug = set.event.tournament.shortSlug;
+	set.hashtag = set.event.tournament.hashtag;
 	set.tournamentName = set.event.tournament.name;
-	console.log(set);
+	set.all = set;
 	_theme.fields.forEach((field) => {
 		if (field.hasOwnProperty("smashgg") && field.type == "text" && set.hasOwnProperty(field.smashgg)) {
 			document.getElementById('field-' + field.name).value = set[field.smashgg];
@@ -138,6 +140,11 @@ async function displaySmashggStreamQueue(sets) {
 		item.querySelector(".round").innerText = set.fullRoundText;
 		item.querySelector(".names").innerText = (entrants[0] || "N/A") + " Vs. " + (entrants[1] || "N/A");
 	});
+	if (streamvar != sets) {
+		scoreboard.streamlist = sets;
+		streamvar = sets;
+		fire("scoreboardchanged");
+	}
 
 	// remove sets
 

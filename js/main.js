@@ -41,6 +41,7 @@ var scoreboard = {
 	game: null,
 	smashgg: null,
 	smashggtoken: null,
+	streamlist: [],
 	type: null,
 	_D: null
 };
