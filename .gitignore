@@ -109,3 +109,4 @@ dist
 out/
 scoreboard.json
 *.lock
+yarn.lock
