@@ -39,7 +39,12 @@ var scoreboard = {
 	ports: [],
 	fields: {},
 	game: null,
-	smashgg: null,
+	startgg: {
+		set: null,
+		event: null,
+		phaseGroup: null,
+		phase: null
+	},
 	smashggtoken: null,
 	streamlist: [],
 	type: null,
@@ -638,7 +643,12 @@ function clearBoard() {
 		team.state = 0;
 	}
 	scoreboard.ports = [null, null, null, null];
-	scoreboard.smashgg = null;
+	scoreboard.startgg = {
+		set: null,
+		event: null,
+		phaseGroup: null,
+		phase: null
+	};
 
 	fire("scoreboardsmashggchanged");
 	fire("scoreboardteamschanged");

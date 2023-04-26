@@ -23,7 +23,12 @@ async function applySmashggSet(setId) {
 	clearBoard();
 	let teamSize = 1;
 	var set = await smashgg.getSet(setId, 0);
-	scoreboard.smashgg = set.id;
+	console.log(set)
+	scoreboard.startgg.set = set.id;
+	scoreboard.startgg.event = set.event.id;
+	scoreboard.startgg.phaseGroup = set.phaseGroup.id;
+	scoreboard.startgg.phase = set.phaseGroup.phase.id;
+
 
 	for (let slot of set.slots) {
 		scoreboard.teams[(slot.slotIndex + 1)].name = (slot.entrant ? slot.entrant.name : "");
@@ -81,13 +86,13 @@ async function applySmashggSet(setId) {
 }
 
 function smashggApplyNextSet() {
-	let currentIndex = smashgg.streamQueueSetIdList.indexOf(scoreboard.smashgg);
+	let currentIndex = smashgg.streamQueueSetIdList.indexOf(scoreboard.startgg.set);
 	if (smashgg.streamQueueSetIdList.length <= currentIndex + 1) { return; }
 	applySmashggSet(smashgg.streamQueueSetIdList[currentIndex + 1]);
 }
 
 async function displaySmashggCurrent() {
-	let set = await smashgg.getSet(scoreboard.smashgg);
+	let set = await smashgg.getSet(scoreboard.startgg.set);
 	document.querySelector("#smashgg-queue .current").innerText = (set ? set.slots.map(x => x.entrant ? x.entrant.name : "N/A").join(" vs ") : 'No set selected');
 	for (let itemEl of document.querySelectorAll("#smashgg-queue .list .sets > div")) {
 		itemEl.classList.toggle("selected", set && itemEl.dataset.setId == set.id);

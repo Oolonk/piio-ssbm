@@ -1359,6 +1359,7 @@ body.modal #modal {
 
 .fixedSmashggQueue #statusbar {
 	right: 200px;
+	left: 150px;
 }
 
 #system-status {
@@ -1537,4 +1538,8 @@ body:not(.fixedSmashggQueue) #smashgg-queue:hover .list {
 	right: 5px;
 	top: 5px;
 	opacity: 0.6;
+}
+
+#caster-action button {
+	background: rgba(0, 0, 0, 0.5);
 }
