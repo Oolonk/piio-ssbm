@@ -89,7 +89,7 @@ async function createMainWindow() {
 		show: false,
 		icon: path.join(__dirname, 'logo.png'),
 		autoHideMenuBar: true,
-		webPreferences: { devTools: _debug, experimentalFeatures: true, nodeIntegration: true, contextIsolation: false, enableRemoteModule: true }
+		webPreferences: { devTools: _debug, nodeIntegration: true, contextIsolation: false, enableRemoteModule: true }
 	});
 	require("@electron/remote/main").enable(mainWin.webContents);
 	mainWin.webContents.openDevTools();
@@ -142,7 +142,7 @@ function createWindow(event, arg) {
 			modal: arg.dialog || false,
 			autoHideMenuBar: true,
 			parent: arg.dialog ? BrowserWindow.fromWebContents(event.sender) : null,
-			webPreferences: { devTools: _debug, experimentalFeatures: true, nodeIntegration: true, contextIsolation: false, enableRemoteModule: true }
+			webPreferences: { devTools: _debug, nodeIntegration: true, contextIsolation: false, enableRemoteModule: true }
 		});
 		require("@electron/remote/main").enable(win.webContents);
 		let windowFile = `window/${arg.name}.html`;

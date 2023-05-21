@@ -14,7 +14,7 @@ var smashggIgnore = {};
 
 ipcRenderer.on("returnchannel", (event, data) => _returnChannel = data);
 
-ipcRenderer.on("data", (event, data) => {
+ipcRenderer.on("data", async (event, data) => {
 	dbName = data.db;
 	id = data.id;
 	if (data.entry) {
@@ -24,13 +24,14 @@ ipcRenderer.on("data", (event, data) => {
 	if (id == null) {
 		dataset = db.createStruct(dbName);
 	}
+	await startFunction();
 });
 
 smashgg.on("fetch-error", (e) => {
 	console.error(e);
 });
 
-window.addEventListener("load", async () => {
+async function startFunction() {
 	await ipcRenderer.invoke("get", "smashgg-token").then(token => smashgg.Token = token);
 	await ipcRenderer.invoke("get", "smashgg").then(data => smashgg.SelectedTournament = data.tournament);
 
@@ -47,7 +48,7 @@ window.addEventListener("load", async () => {
 	for (let infoEl of document.querySelectorAll("#info > div")) {
 		infoEl.onclick = () => clipboard.writeText(infoEl.innerText, 'selection');
 	}
-});
+};
 
 async function downloadPhotoFromSmashgg() {
 	let smashggId = parseInt(document.getElementById('field-smashgg').value);
