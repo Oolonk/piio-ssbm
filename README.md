@@ -7,6 +7,7 @@ This is a fork from [piio](https://github.com/MYI-Liva/piio) made by Liva
 - New Fields: 
     - For Player: City, Slippi-Code
     - For Teams: Primary Color, Secondary Color
+    - For Game: videogameID (ID of StartGG)
 - Ability to use SVG Files in the Assets Tab
 - New Autofill Fields:
     - tournamentName: Tournament Name
@@ -16,6 +17,7 @@ This is a fork from [piio](https://github.com/MYI-Liva/piio) made by Liva
     - StartGG Data: SetId, EventId, PhaseGroupId, PhaseId
     - Stream Set List  
 - Ability to add/remove Casters on the fly
+- Update Dependencies
 
 ## Information:
 This Project is not maintained by Liva or the piio Team. If you have question DM me!
