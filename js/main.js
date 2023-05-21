@@ -161,9 +161,9 @@ async function applyClientSettings(settings) {
 				client.fixedSmashggQueue = row.value;
 				document.body.classList.toggle("fixedSmashggQueue", row.value);
 				break;
-			case "connection-type":
-				ipcRenderer.send("connectionType", row.value);
-				break;
+			// case "connection-type":
+			// 	ipcRenderer.send("connectionType", row.value);
+			// 	break;
 			case "relay-port":
 				ipcRenderer.send("slippiPort", row.value);
 				break;

@@ -50,12 +50,12 @@ async function getStats(games, slpLiveFolderPath) {
 function SlippiServer() {
 	this.server = express();
 	this.expressWs = ExpressWs(this.server);
-	this.slippiIP = 'localhost';
+	this.slippiIP = '127.0.0.1';
 	this.slippiPort = 0;
 	this.slippiFolder = "";
 	this.connectionStatus = ConnectionStatus;
 	this.realtime = new SlpRealTime;
-	this.slippiType = "dolphin";
+	this.slippiType = "console";
 	this.stream = new SlpLiveStream(this.slippiType);
 	this.app = this.expressWs.app;
 	this.status = null;
@@ -185,10 +185,10 @@ SlippiServer.prototype.sendUpdateOverlay = function sendUpdateOverlay(type, data
 };
 SlippiServer.prototype.startSlippi = function startSlippi() {
 	this.stream = new SlpLiveStream(this.slippiType);
-	this.realtime.setStream(this.stream);
-	// try {
 	this.stream.start(this.slippiIP, (this.slippiType == "dolphin") ? Ports.DEFAULT : this.slippiPort)
 		.catch(console.error());
+	this.realtime.setStream(this.stream);
+	// try {
 	watch(this.stream.parser, 'lastFinalizedFrame', () => {
 		//fs.writeFileSync('json/realtime.combo.json', util.inspect(realtime.combo.comboComputer, {depth: Infinity}));
 		var overlayData = {
