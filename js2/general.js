@@ -1,4 +1,6 @@
-const { remote, ipcRenderer } = require('electron');
+const { ipcRenderer } = require('electron');
+const remote = require('@electron/remote');
+const { BrowserWindow } = require('@electron/remote');
 const db = remote.require("./main").database;
 
 window.addEventListener("load", () => {

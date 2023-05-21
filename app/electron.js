@@ -1,4 +1,5 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, ipcMain, BrowserWindow } = require('electron');
+require('@electron/remote/main').initialize();
 const path = require("path");
 const nedb = require("nedb");
 const fs = require("fs");
@@ -90,6 +91,7 @@ async function createMainWindow() {
 		autoHideMenuBar: true,
 		webPreferences: { devTools: _debug, experimentalFeatures: true, nodeIntegration: true, contextIsolation: false, enableRemoteModule: true }
 	});
+	require("@electron/remote/main").enable(mainWin.webContents);
 	mainWin.webContents.openDevTools();
 	mainWin.once('ready-to-show', () => setTimeout(() => {
 		mainWin.show();
@@ -140,9 +142,9 @@ function createWindow(event, arg) {
 			modal: arg.dialog || false,
 			autoHideMenuBar: true,
 			parent: arg.dialog ? BrowserWindow.fromWebContents(event.sender) : null,
-			webPreferences: { devTools: _debug, experimentalFeatures: true, nodeIntegration: true }
+			webPreferences: { devTools: _debug, experimentalFeatures: true, nodeIntegration: true, contextIsolation: false, enableRemoteModule: true }
 		});
-
+		require("@electron/remote/main").enable(win.webContents);
 		let windowFile = `window/${arg.name}.html`;
 		if (arg.name == "database-entry") {
 			try {
