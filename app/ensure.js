@@ -39,6 +39,7 @@ let dbStruct = [
     { "name": "country", "field": "name", "index": -1, "type": "text" },
     { "name": "country", "field": "continent", "index": -2, "type": "text" },
     { "name": "country", "field": "nation", "type": "relation", "relation": "country", "multi": null, "index": -2 },
+    { "name": "game", "field": "videogameId", "type": "number", "index": -3 },
     { "name": "game", "field": "name", "type": "text", "index": -1 },
     { "name": "game", "field": "shorten", "type": "text", "index": -2 },
     { "name": "character", "field": "name", "type": "text", "relation": null, "multi": null },
