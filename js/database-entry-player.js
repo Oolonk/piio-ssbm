@@ -166,7 +166,14 @@ async function buildForm() {
 		let teamEl = createElement({ "type": "div", "className": "team-item" });
 		let teamLogoEl = createElement({ "type": "div", "className": "logo" });
 		let teamNameEl = createElement({ "type": "div", "className": "name" });
-		let teamLogoPath = path.join(APPRES, "assets", "team", team._id + ".png").replace(/\\/g, "/");
+		let teamLogoPath = null;
+		if (fs.existsSync(path.join(APPRES, "assets", "team", team._id + ".png").replace(/\\/g, "/"))) {
+			teamLogoPath = path.join(APPRES, "assets", "team", team._id + ".png").replace(/\\/g, "/");
+		} else if (fs.existsSync(path.join(APPRES, "assets", "team", team._id + ".jpg").replace(/\\/g, "/"))) {
+			teamLogoPath = path.join(APPRES, "assets", "team", team._id + ".jpg").replace(/\\/g, "/");
+		} else {
+			teamLogoPath = path.join(APPRES, "assets", "team", team._id + ".svg").replace(/\\/g, "/");
+		}
 
 		teamEl.dataset._id = team._id;
 		teamEl.onclick = (e) => e.currentTarget.classList.toggle("selected");
