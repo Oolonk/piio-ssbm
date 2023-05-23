@@ -19,6 +19,9 @@ This is a fork from [piio](https://github.com/MYI-Liva/piio) made by Liva
 - Ability to add/remove Casters on the fly
 - Update Dependencies
 
+## Example
+To fetch Data at the overlay page site via Javascript see [this example](themes/default/test.html)
+
 ## Information:
 This Project is not maintained by Liva or the piio Team. If you have question DM me!
 
