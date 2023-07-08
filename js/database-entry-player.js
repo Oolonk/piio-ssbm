@@ -43,7 +43,6 @@ async function startFunction() {
 	}
 	dataset = await db.resolveRelations("player", dataset);
 	dataset = new Player(dataset);
-	console.log(dataset);
 	insertValues(dataset);
 	for (let infoEl of document.querySelectorAll("#info > div")) {
 		infoEl.onclick = () => clipboard.writeText(infoEl.innerText, 'selection');
@@ -156,7 +155,16 @@ async function buildForm() {
 	let teamSelect = document.getElementById('team-select').truncate();
 	let teams = await db.get('team');
 
+	let prideSelect = document.getElementById('pride-select').truncate();
+	let prides = await db.get('pride');
+
 	teams.sort(function (a, b) {
+		if (a.name < b.name) { return -1; }
+		if (a.name > b.name) { return 1; }
+		return 0;
+	});
+
+	prides.sort(function (a, b) {
 		if (a.name < b.name) { return -1; }
 		if (a.name > b.name) { return 1; }
 		return 0;
@@ -190,6 +198,34 @@ async function buildForm() {
 		teamSelect.appendChild(teamEl);
 	});
 
+	prides.forEach((pride) => {
+		let prideEl = createElement({ "type": "div", "className": "pride-item" });
+		let prideLogoEl = createElement({ "type": "div", "className": "logo" });
+		let prideNameEl = createElement({ "type": "div", "className": "name" });
+		let prideLogoPath = null;
+		if (fs.existsSync(path.join(APPRES, "assets", "pride", pride._id + ".png").replace(/\\/g, "/"))) {
+			prideLogoPath = path.join(APPRES, "assets", "pride", pride._id + ".png").replace(/\\/g, "/");
+		} else if (fs.existsSync(path.join(APPRES, "assets", "pride", pride._id + ".jpg").replace(/\\/g, "/"))) {
+			prideLogoPath = path.join(APPRES, "assets", "pride", pride._id + ".jpg").replace(/\\/g, "/");
+		} else {
+			prideLogoPath = path.join(APPRES, "assets", "pride", pride._id + ".svg").replace(/\\/g, "/");
+		}
+
+		prideEl.dataset._id = pride._id;
+		prideEl.onclick = (e) => e.currentTarget.classList.toggle("selected");
+
+		prideNameEl.innerText = pride.name;
+
+		fs.access(prideLogoPath, (err) => {
+			if (err) { return; }
+			prideLogoEl.style.backgroundImage = `url('${prideLogoPath}')`;
+		});
+
+		prideEl.appendChild(prideLogoEl);
+		prideEl.appendChild(prideNameEl);
+		prideSelect.appendChild(prideEl);
+	});
+
 	return true;
 }
 
@@ -208,6 +244,10 @@ async function insertValues(entry) {
 		if (field.field == "team") {
 			for (let teamEl of document.getElementById('team-select').children) {
 				teamEl.classList.toggle("selected", value.map(x => x._id).includes(teamEl.dataset._id));
+			}
+		} else if (field.field == "pride") {
+			for (let prideEl of document.getElementById('pride-select').children) {
+				prideEl.classList.toggle("selected", value.map(x => x._id).includes(prideEl.dataset._id));
 			}
 		} else {
 			let el = document.getElementById("field-" + field.field);
@@ -299,6 +339,12 @@ async function save() {
 				if (!teamEl.classList.contains("selected")) { continue; }
 				value.push(teamEl.dataset._id);
 			}
+		} else if (field.field == "pride") {
+			value = [];
+			for (let prideEl of document.getElementById('pride-select').children) {
+				if (!prideEl.classList.contains("selected")) { continue; }
+				value.push(prideEl.dataset._id);
+			}
 		} else if (field.field == "smashgg") {
 			value = document.getElementById('field-smashgg').value;
 		} else {
@@ -327,6 +373,7 @@ async function save() {
 	} else {
 		doc = await db.add("player", dataset);
 	}
+
 	ipcRenderer.send(_returnChannel, doc);
 	window.close();
 }

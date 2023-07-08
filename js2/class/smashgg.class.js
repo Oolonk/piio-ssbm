@@ -147,6 +147,7 @@ class SmashggWrapper {
 						}
 						tournament{
 							shortSlug
+							hashtag
 							name
 						}
 					}

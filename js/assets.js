@@ -16,7 +16,8 @@ var _relation = {
 	player: [null, "player"],
 	country: ["country"],
 	game: ["game"],
-	team: ["team"]
+	team: ["team"],
+	pride: ["pride"]
 };
 var _folderTemplate = {
 	character: ["{game:id}/{character:id}/stock", "{game:id}/{character:id}/portrait"],

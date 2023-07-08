@@ -148,7 +148,7 @@ Server.prototype.start = async function start() {
 			res.write((manifest && manifest.name) ? manifest.name : this.theme);
 			res.write(`<div class="meta">
 			<div>${manifest.author}</div>
-			<div>${manifest.resolution[0]} x ${manifest.resolution[1]}</div>
+			<div>${manifest.resolution != null ? `${manifest.resolution[0]} x ${manifest.resolution[1]}` : `dynamic resolution`}</div>
 			<div>${manifest.caster} caster</div>
 			</div>`);
 			res.write('</div>');

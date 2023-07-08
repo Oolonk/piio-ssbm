@@ -28,6 +28,7 @@ let dbStruct = [
     { "name": "player", "field": "steam", "type": "text", "listhide": true },
     { "name": "player", "field": "slippicode", "type": "text" },
     { "name": "player", "field": "team", "type": "relation", "relation": "team", "multi": true },
+    { "name": "player", "field": "pride", "type": "relation", "relation": "pride", "multi": true },
     { "name": "team", "field": "name", "index": -1, "type": "text" },
     { "name": "team", "field": "shorten", "index": -2, "type": "text" },
     { "name": "team", "field": "prefix", "index": -3, "type": "text" },
@@ -45,7 +46,9 @@ let dbStruct = [
     { "name": "character", "field": "name", "type": "text", "relation": null, "multi": null },
     { "name": "character", "field": "shorten", "type": "text", "relation": null, "multi": null },
     { "name": "character", "field": "skins", "type": "text", "multi": true },
-    { "name": "character", "field": "game", "type": "relation", "relation": "game", "multi": null }
+    { "name": "character", "field": "game", "type": "relation", "relation": "game", "multi": null },
+    { "name": "pride", "field": "name", "index": -1, "type": "text" },
+    { "name": "pride", "field": "color", "type": "color", "index": -4 }
 ];
 
 
@@ -120,6 +123,7 @@ async function folder() {
     fse.ensureDirSync(path.join(resFolder, 'assets'));
     fse.ensureDirSync(path.join(resFolder, 'assets', 'character'));
     fse.ensureDirSync(path.join(resFolder, 'assets', 'country'));
+    fse.ensureDirSync(path.join(resFolder, 'assets', 'pride'));
     fse.ensureDirSync(path.join(resFolder, 'assets', 'game'));
     fse.ensureDirSync(path.join(resFolder, 'assets', 'team'));
     fse.ensureDirSync(path.join(resFolder, 'assets', 'player'));

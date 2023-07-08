@@ -1204,10 +1204,11 @@ async function update() {
 }
 
 async function collectDatabaseEntries(sb) {
-	var dbData = { country: [], character: [], team: [], game: [] };
+	var dbData = { country: [], character: [], team: [], game: [], pride: [] };
 	for (let teamNum in sb.teams) {
 		sb.teams[teamNum].players.forEach((player) => {
 			dbData.country.push(player.country);
+			dbData.pride.push(player.pride);
 			dbData.team = dbData.team.concat(player.team);
 		});
 		// filter if character exists, then map first child and concat to dbData
@@ -1216,6 +1217,7 @@ async function collectDatabaseEntries(sb) {
 
 	sb.caster.forEach((caster) => { // insert DB fetch IDs for caster
 		dbData.country.push(caster.country);
+		dbData.pride.push(caster.pride);
 		dbData.team = dbData.team.concat(caster.team);
 	});
 

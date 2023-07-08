@@ -11,7 +11,7 @@ const ensure = require('./ensure.js');
 const fs = require('fs-extra');
 const path = require('path');
 const nedb = require("nedb");
-const { dialog } = require('electron');
+const { Notification, dialog } = require('electron');
 const SlippiServer = require('./slippiserver.js');
 const { ipcMain } = require('./electron.js');
 
@@ -84,7 +84,7 @@ electron.on("ready", async () => { // programm is ready
 	await ensure(APPRES, APPROOT, APPUSERDATA);
 
 	database.setPath(APPRES);
-	database.newDb(['dbstruct', 'player', 'country', 'game', 'character', 'team', 'match']);
+	database.newDb(['dbstruct', 'player', 'country', 'game', 'character', 'team', 'match', 'pride']);
 	await database.load();
 
 	server.webPath = APPRES;
@@ -104,11 +104,13 @@ electron.ipcMain.on('slippi', (event, name) => {
 			if (status === slippi.connectionStatus.DISCONNECTED) {
 				console.log("Disconnected to the relay");
 				electron.send("slippi_status", 'disconnected');
+				showNotification("Slippi Status", "Disconnected from the relay");
 			}
 			if (status === slippi.connectionStatus.CONNECTED) {
 				// notification("Slippi Stream Tool", "Connected to the relay", "Connected to the relay");
 				console.log("Connected to the relay");
 				electron.send("slippi_status", 'connected');
+				showNotification("Slippi Status", "Connected to the relay");
 			}
 			if (status === slippi.connectionStatus.CONNECTING) {
 				// notification("Slippi Stream Tool", "Connected to the relay", "Connected to the relay");
@@ -119,6 +121,7 @@ electron.ipcMain.on('slippi', (event, name) => {
 				// notification("Slippi Stream Tool", "Connected to the relay", "Connected to the relay");
 				console.log("RECONNECT_WAIT to the relay");
 				electron.send("slippi_status", 'reconnect');
+				showNotification("Slippi Status", "Reconnecting to the relay");
 			}
 		});
 	} else {
@@ -183,3 +186,19 @@ function getClientSetting(name) {
 
 
 exports.database = database;
+
+
+process.on("uncaughtException", (err) => {
+	const messageBoxOptions = {
+		type: "error",
+		title: "Error in Main process",
+		message: "Something failed"
+	};
+	console.log(err)
+});
+
+function showNotification(title, body, silent = true) {
+	new Notification({
+		title: title, body: body, silent: silent, icon: path.join(__dirname, '..', 'img', 'PIIO.png')
+	}).show()
+}
