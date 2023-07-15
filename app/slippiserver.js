@@ -262,6 +262,8 @@ SlippiServer.prototype.startSlippi = function startSlippi() {
 
 }
 SlippiServer.prototype.stopSlippi = function stopSlippi() {
+	this.stream.end();
+	this.stream.destroy();
 	this.stream = null;
 }
 SlippiServer.prototype.getStats = function getStats(val) {

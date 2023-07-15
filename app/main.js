@@ -194,11 +194,11 @@ process.on("uncaughtException", (err) => {
 		title: "Error in Main process",
 		message: "Something failed"
 	};
-	console.log(err)
 });
 
 function showNotification(title, body, silent = true) {
-	new Notification({
-		title: title, body: body, silent: silent, icon: path.join(__dirname, '..', 'img', 'PIIO.png')
+	let notification = new Notification({
+		title: electron.APP.getName(), body: body, silent: silent, icon: path.join(__dirname, 'logo.png')
 	}).show()
+	notification.close();
 }
