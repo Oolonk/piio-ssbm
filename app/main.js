@@ -61,7 +61,7 @@ server.root = folder();
 server.on("listening", electron.createMainWindow);
 server.on("themefolder-changed", () => electron.send("themefolder-changed"));
 server.on("port-in-use", () => {
-	dialog.showMessageBox({ message: "Port " + server.port + " is already in use on this machine. \nClosing program." });
+	dialog.showMessageBox({ message: `Port ${server.port} is already in use on this machine. \nClosing program.` });
 	process.exit(1);
 });
 
@@ -200,5 +200,6 @@ function showNotification(title, body, silent = true) {
 	let notification = new Notification({
 		title: electron.APP.getName(), body: body, silent: silent, icon: path.join(__dirname, 'logo.png')
 	}).show()
-	notification.close();
+	// notification.close();
 }
+console.log(electron);

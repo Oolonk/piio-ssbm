@@ -251,7 +251,6 @@ SlippiServer.prototype.startSlippi = function startSlippi() {
 		overlayData.lras = payload.winnerPlayerIndex;
 		//fs.writeFileSync('realtime.json', util.inspect(stream.parser));
 		//fs.writeFileSync('json/game/overlay.json', util.inspect(overlayData));
-
 		this.cache = Object.assign({}, overlayData);
 		this.sendUpdateOverlay("frame", this.cache);
 	});
