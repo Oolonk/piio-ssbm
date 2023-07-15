@@ -198,8 +198,7 @@ process.on("uncaughtException", (err) => {
 
 function showNotification(title, body, silent = true) {
 	let notification = new Notification({
-		title: electron.APP.getName(), body: body, silent: silent, icon: path.join(__dirname, 'logo.png')
+		title: title == null ? electron.APP.getName() : title, body: body, silent: silent, icon: path.join(__dirname, 'logo.png')
 	}).show()
 	// notification.close();
 }
-console.log(electron);
