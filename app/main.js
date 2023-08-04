@@ -200,5 +200,5 @@ function showNotification(title, body, silent = true) {
 	let notification = new Notification({
 		title: title == null ? electron.APP.getName() : title, body: body, silent: silent, icon: path.join(__dirname, 'logo.png')
 	}).show()
-	// notification.close();
+	return notification.close();
 }
