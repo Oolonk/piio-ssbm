@@ -1420,18 +1420,28 @@ ipcRenderer.on("slippi_status", (event, name) => {
 	switch (name) {
 		case "disconnected":
 			document.getElementById("start-slippi-btn").disabled = false;
+			document.getElementById("start-slippi-btn").innerHTML = 'START SLIPPI'
 			document.getElementById("start-slippi-btn").style.display = 'inherit';
 			document.getElementById('stop-slippi-btn').style.display = 'none';
 			break;
 		case "connected":
 			document.getElementById("start-slippi-btn").disabled = true;
+			document.getElementById("start-slippi-btn").innerHTML = 'START SLIPPI'
 			document.getElementById("start-slippi-btn").style.display = 'none';
 			document.getElementById("stop-slippi-btn").style.display = 'inherit';
 			break;
 		case 'connecting':
 			document.getElementById("start-slippi-btn").disabled = true;
+			document.getElementById("start-slippi-btn").innerHTML = 'CONNECTING'
 			document.getElementById("start-slippi-btn").style.display = 'inherit';
 			document.getElementById("stop-slippi-btn").style.display = 'none';
+			break;
+		case reconnect:
+			document.getElementById("start-slippi-btn").disabled = true;
+			document.getElementById("start-slippi-btn").innerHTML = 'RECONNECTING'
+			document.getElementById("start-slippi-btn").style.display = 'inherit';
+			document.getElementById("stop-slippi-btn").style.display = 'none';
+			break;
 	}
 });
 

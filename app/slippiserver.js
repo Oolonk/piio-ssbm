@@ -59,7 +59,7 @@ function SlippiServer() {
 	this.stream = new SlpLiveStream(this.slippiType);
 	this.app = this.expressWs.app;
 	this.status = null;
-
+	this.autoconnect = false;
 	this.port = 42070;
 
 	this.pingInterval = 10; // seconds
@@ -148,6 +148,13 @@ SlippiServer.prototype.checkPort = function checkPort(port) {
 	});
 }
 
+SlippiServer.prototype.setAutoConnect = function setAutoConnect(val) {
+	this.autoconnect = val;
+}
+
+SlippiServer.prototype.getAutoConnect = function getAutoConnect() {
+	return this.autoconnect;
+}
 SlippiServer.prototype.setSlippiIP = function setSlippiIP(val) {
 	this.slippiIP = val;
 }
@@ -188,6 +195,9 @@ SlippiServer.prototype.startSlippi = function startSlippi() {
 	this.stream.start(this.slippiIP, (this.slippiType == "dolphin") ? Ports.DEFAULT : this.slippiPort)
 		.catch(console.error());
 	this.realtime.setStream(this.stream);
+	if (this.slippiType == "dolphin") {
+		this.autoconnect = true;
+	}
 	// try {
 	watch(this.stream.parser, 'lastFinalizedFrame', () => {
 		//fs.writeFileSync('json/realtime.combo.json', util.inspect(realtime.combo.comboComputer, {depth: Infinity}));
@@ -227,7 +237,11 @@ SlippiServer.prototype.startSlippi = function startSlippi() {
 		this.sendUpdateOverlay("frame", this.cache);
 
 	});
+	this.realtime.game.start$.subscribe((payload) => {
+		this.sendUpdateOverlay("slippiStart", payload);
+	});
 	this.realtime.game.end$.subscribe((payload) => {
+		console.log(payload);
 		var overlayData = {
 			"settings": undefined,
 			"options": undefined,
@@ -253,6 +267,7 @@ SlippiServer.prototype.startSlippi = function startSlippi() {
 		//fs.writeFileSync('json/game/overlay.json', util.inspect(overlayData));
 		this.cache = Object.assign({}, overlayData);
 		this.sendUpdateOverlay("frame", this.cache);
+		this.sendUpdateOverlay("slippiEnd", payload);
 	});
 
 	// } catch (error) {
@@ -261,9 +276,14 @@ SlippiServer.prototype.startSlippi = function startSlippi() {
 
 }
 SlippiServer.prototype.stopSlippi = function stopSlippi() {
+	this.autoconnect = false;
 	this.stream.end();
 	this.stream.destroy();
 	this.stream = null;
+}
+SlippiServer.prototype.restartSlippi = async function restartSlippi() {
+	this.stream = null;
+	this.startSlippi()
 }
 SlippiServer.prototype.getStats = function getStats(val) {
 	var files = fs.readdirSync(this.slippiFolder, [])
