@@ -34,7 +34,7 @@ function folder() {
 	if (process.platform === "win32") {
 		return (path.join(APPROOT, 'js'));
 	} else {
-		return (path.join(process.resourcesPath, 'js2'));
+		return (path.join(APPROOT, 'js'));
 	}
 }
 var sessionTimestamp = new Date().getTime();
@@ -200,5 +200,5 @@ function showNotification(title, body, silent = true) {
 	let notification = new Notification({
 		title: title == null ? electron.APP.getName() : title, body: body, silent: silent, icon: path.join(__dirname, 'logo.png')
 	}).show()
-	return notification.close();
+	// return notification.close();
 }

@@ -13,7 +13,7 @@ class PiioConnector {
 		this.requests = requests || ["scoreboard"];
 		this.subscriptions = this.requests || [];
 
-		this.cache = { scoreboard: {}, team: {}, character: {}, country: {}, game: {} };
+		this.cache = { scoreboard: {}, team: {}, character: {}, country: {}, game: {}, pride: {} };
 
 		// this.on("theme", e => location.reload());
 
@@ -207,6 +207,16 @@ class PiioConnector {
 		var po = this.getPlayer(teamNum, playerNum);
 		if (po && this.cache.country.hasOwnProperty(po.country))
 			return this.cache.country[po.country];
+		return null;
+	}
+
+	getCountry(teamNum, playerNum) {
+		if (playerNum == null) {
+			playerNum = this.getSelectedPlayer(teamNum);
+		}
+		var po = this.getPlayer(teamNum, playerNum);
+		if (po && this.cache.pride.hasOwnProperty(po.pride))
+			return this.cache.pride[po.pride];
 		return null;
 	}
 

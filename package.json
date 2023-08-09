@@ -68,11 +68,7 @@
     },
     "appId": "de.piio",
     "productName": "piio",
-    "icon": "app/logo.png",
-    "extraResources": [
-      "**js2/class/*",
-      "**js2/*"
-    ]
+    "icon": "app/logo.png"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.4",

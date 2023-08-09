@@ -1208,7 +1208,7 @@ async function collectDatabaseEntries(sb) {
 	for (let teamNum in sb.teams) {
 		sb.teams[teamNum].players.forEach((player) => {
 			dbData.country.push(player.country);
-			dbData.pride.push(player.pride);
+			dbData.pride = dbData.pride.concat(player.pride);
 			dbData.team = dbData.team.concat(player.team);
 		});
 		// filter if character exists, then map first child and concat to dbData
@@ -1217,10 +1217,9 @@ async function collectDatabaseEntries(sb) {
 
 	sb.caster.forEach((caster) => { // insert DB fetch IDs for caster
 		dbData.country.push(caster.country);
-		dbData.pride.push(caster.pride);
+		dbData.pride = dbData.pride.concat(caster.pride);
 		dbData.team = dbData.team.concat(caster.team);
 	});
-
 	dbData.game.push(sb.game);
 
 	for (let dbName in dbData) {

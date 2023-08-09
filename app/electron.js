@@ -9,7 +9,9 @@ var event = new EventEmitter();
 var windowConf = new nedb({ filename: path.join(app.getPath("userData"), 'windowConf.db'), autoload: true });
 
 app.setAppUserModelId(process.execPath);
-
+app.commandLine.appendSwitch('ignore-gpu-blacklist');
+app.commandLine.appendSwitch('disable-gpu');
+app.commandLine.appendSwitch('disable-gpu-compositing');
 let screen;
 let splashWin;
 let mainWin;
