@@ -1423,24 +1423,28 @@ ipcRenderer.on("slippi_status", (event, name) => {
 			document.getElementById("start-slippi-btn").innerHTML = 'START SLIPPI'
 			document.getElementById("start-slippi-btn").style.display = 'inherit';
 			document.getElementById('stop-slippi-btn').style.display = 'none';
+			document.getElementById("system-status").innerHTML = 'Disconnected to Slippi';
 			break;
 		case "connected":
 			document.getElementById("start-slippi-btn").disabled = true;
 			document.getElementById("start-slippi-btn").innerHTML = 'START SLIPPI'
 			document.getElementById("start-slippi-btn").style.display = 'none';
 			document.getElementById("stop-slippi-btn").style.display = 'inherit';
+			document.getElementById("system-status").innerHTML = 'Connected to Slippi';
 			break;
 		case 'connecting':
 			document.getElementById("start-slippi-btn").disabled = true;
-			document.getElementById("start-slippi-btn").innerHTML = 'CONNECTING'
-			document.getElementById("start-slippi-btn").style.display = 'inherit';
-			document.getElementById("stop-slippi-btn").style.display = 'none';
+			document.getElementById("start-slippi-btn").innerHTML = 'START SLIPPI'
+			document.getElementById("start-slippi-btn").style.display = 'none';
+			document.getElementById("stop-slippi-btn").style.display = 'inherit';
+			document.getElementById("system-status").innerHTML = 'Connecting to Slippi';
 			break;
-		case reconnect:
+		case 'reconnecting':
 			document.getElementById("start-slippi-btn").disabled = true;
-			document.getElementById("start-slippi-btn").innerHTML = 'RECONNECTING'
-			document.getElementById("start-slippi-btn").style.display = 'inherit';
-			document.getElementById("stop-slippi-btn").style.display = 'none';
+			document.getElementById("start-slippi-btn").innerHTML = 'START SLIPPI'
+			document.getElementById("start-slippi-btn").style.display = 'none';
+			document.getElementById("stop-slippi-btn").style.display = 'inherit';
+			document.getElementById("system-status").innerHTML = 'Reconnecting to Slippi';
 			break;
 	}
 });

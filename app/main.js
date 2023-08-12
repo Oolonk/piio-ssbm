@@ -115,7 +115,7 @@ function slippiViewer() {
 		if (status === slippi.connectionStatus.DISCONNECTED) {
 			console.log("DISCONNECTED to the relay");
 			if (slippi.autoconnect) {
-				electron.send("slippi_status", 'reconnect');
+				electron.send("slippi_status", 'reconnecting');
 				showNotification("Slippi Status", "Reconnecting to the relay");
 				setTimeout(function () {
 					slippi.restartSlippi();
@@ -143,7 +143,7 @@ function slippiViewer() {
 			console.log(slippi.autoconnect);
 			if (slippi.autoconnect) {
 				console.log("test to the relay");
-				electron.send("slippi_status", 'reconnect');
+				electron.send("slippi_status", 'reconnecting');
 				showNotification("Slippi Status", "Reconnecting to the relay");
 			} else {
 				slippi.stopSlippi();
