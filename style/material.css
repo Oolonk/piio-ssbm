@@ -1,6 +1,33 @@
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background: #121721;
+		--text: #fff;
+		--backgroundRGB: 0, 0, 0;
+		--textRGB: 255, 255, 255
+	}
+
+	#statusbar {
+		background: #070c14;
+	}
+
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		--background: #dee3ed;
+		--text: #000;
+		--backgroundRGB: 255, 255, 255;
+		--textRGB: 0, 0, 0
+	}
+
+	#statusbar {
+		background: #ecf1f8;
+	}
+}
+
 body {
-	background: #111620;
-	color: #fff;
+	background: var(--background);
+	color: var(--text);
 }
 
 button,
@@ -9,7 +36,6 @@ input[type="submit"],
 input[type="reset"] {
 	color: rgba(255, 255, 255, 0.9);
 	background: #103B5B;
-	background: radial-gradient(ellipse at 50% 100%, #1B629B 0%, #103B5B 100%);
 
 }
 
@@ -18,7 +44,7 @@ input[type="button"]:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover {
 	color: rgba(255, 255, 255, 1);
-	background: radial-gradient(ellipse at 50% 100%, #007FA3 0%, #103B5B 100%);
+	background: #103B5B;
 }
 
 button:active,
@@ -26,7 +52,7 @@ input[type="button"]:active,
 input[type="submit"]:active,
 input[type="reset"]:active {
 	color: rgba(255, 255, 255, 0.7);
-	background: radial-gradient(ellipse at 50% 150%, #1B629B 0%, #05263F 100%);
+	background: #103B5B;
 }
 
 input[type="text"],
@@ -38,11 +64,11 @@ select {
 }
 
 input[type="checkbox"]:before {
-	background: radial-gradient(ellipse at 50% 150%, #1B629B 0%, #05263F 100%);
+	background: #1B629B;
 }
 
 input[type="checkbox"]:checked:before {
-	background: radial-gradient(ellipse at 50% 100%, #1B629B 0%, #103B5B 100%);
+	background: #103B5B;
 }
 
 a {
@@ -50,12 +76,12 @@ a {
 }
 
 #topbar {
-	background: rgba(0, 0, 0, 0.2);
+	background: rgba(var(--backgroundRGB), 0.2);
 }
 
 #update-btn {
 	filter: grayscale(0.6);
-	background: #74C600;
+	background: #0A6600;
 }
 
 #update-btn.changed {
@@ -63,14 +89,10 @@ a {
 }
 
 #update-btn:hover {
-	background: #74C600;
+	background: #0A6600;
 }
 
 #sidebar {
-	background: rgba(0, 0, 0, 0.80);
+	background: rgba(var(--backgroundRGB), 0.80);
 	overflow-y: scroll;
-}
-
-#statusbar {
-	background: #070C14;
 }

@@ -3328,6 +3328,6 @@
         "defaultTimezone": null,
         "countryCode": "GB-EN",
         "continent": "EU",
-        "isEU": true
+        "isEU": false
     }
 ]

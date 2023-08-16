@@ -1,6 +1,32 @@
+@import url(./material.css);
+
 @font-face {
 	font-family: "Square Sans Serif 7";
 	src: url('../fonts/square_sans_serif_7.ttf');
+}
+
+@font-face {
+	font-family: "Roboto";
+	src: url('../fonts/Roboto-Medium.ttf');
+}
+
+@font-face {
+	font-family: "Roboto";
+	src: url("../fonts/Roboto-Bold.ttf");
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: "Roboto";
+	src: url("../fonts/Roboto-BoldItalic.ttf");
+	font-weight: bold;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: "Roboto";
+	src: url("../fonts/Roboto-MediumItalic.ttf");
+	font-style: italic;
 }
 
 ::-webkit-scrollbar {
@@ -9,19 +35,19 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-	background: rgba(0, 0, 0, 0.2);
+	background: rgba(var(--backgroundRGB), 0.2);
 	border-radius: 5px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: rgba(0, 0, 0, 0.8);
+	background: hsla(200, 100%, 14%, 0.8);
 	border-radius: 5px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-	background: rgba(0, 0, 0, 1);
+	background: rgba(var(--backgroundRGB), 1);
 }
 
 * {
@@ -30,7 +56,7 @@
 
 body {
 	margin: 0;
-	font-family: segoe ui, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	font-family: Roboto;
 }
 
 body.noPointer {
@@ -75,7 +101,7 @@ input[type="button"].red,
 input[type="submit"].red,
 input[type="reset"].red {
 	background: #5b1010;
-	background: radial-gradient(ellipse at 50% 100%, #9b1b1b 0%, #5b1010 100%);
+	background: #9b1b1b;
 }
 
 button:disabled {
@@ -156,7 +182,7 @@ input[type="checkbox"]:not(.vanilla):after {
 	width: 10px;
 	height: 10px;
 	border-radius: 50%;
-	background: #fff;
+	background: rgb(var(--backgroundRGB));
 	opacity: 0.2;
 }
 
@@ -203,18 +229,17 @@ div.dragable.dragging {
 }
 
 .focused #titlebar {
-	background: linear-gradient(to right, #002436, #003149, #002436);
-	color: rgba(255, 255, 255, 1);
+	background: rgb(0 49 73 / 50%);
+	color: rgba(var(--textRGB), 1);
 }
 
 #titlebar .title {
 	position: relative;
-	font-size: 10px;
+	font-size: 12px;
 	height: 14px;
 	opacity: 0.9;
 	padding: 0px 10px;
 	align-self: center;
-	text-shadow: 0px 0px 4px #000, 0px 0px 5px #000;
 }
 
 #titlebar .title:after {

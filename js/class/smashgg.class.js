@@ -553,7 +553,15 @@ class SmashggWrapper {
 	static convertCountryName(countryName, countryId) {
 		switch (countryId) {
 			case 318: return "United States of America";
-			default: return countryName;
+			default:
+				switch (countryName) {
+					case 'US':
+						return "United States of America";
+					case 'CA':
+						return "Canada";
+					default:
+						return countryName;
+				}
 		}
 	}
 

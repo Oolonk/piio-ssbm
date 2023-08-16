@@ -1,3 +1,9 @@
+@media (prefers-color-scheme: light) {
+	#list-grid .item.add .file {
+		filter: invert(100%)
+	}
+}
+
 #assets-selection {
 	position: fixed;
 	left: 0px;
@@ -10,7 +16,7 @@
 	align-items: stretch;
 	justify-content: flex-start;
 
-	background: rgba(0, 0, 0, 1);
+	background: rgba(var(--backgroundRGB), 1);
 
 }
 
@@ -23,18 +29,11 @@
 	opacity: 0.8;
 	margin: 1px;
 	padding: 10px;
-	background-image: linear-gradient(55deg,
-			rgba(0, 0, 0, 0) 60%,
-			rgba(100, 200, 255, 0.1) 61%,
-			rgba(100, 120, 255, 0) 95%);
 }
 
 #assets-selection a.selected {
 	opacity: 1;
-	background-image: linear-gradient(55deg,
-			rgba(0, 150, 255, 0.3) 1%,
-			rgba(0, 0, 0, 0) 80%,
-			rgba(100, 120, 255, 0) 95%);
+	background-image: rgba(var(--backgroundRGB), 0) 80%,
 }
 
 #assets-selection a:hover {
@@ -75,7 +74,7 @@
 
 #path>div {
 	position: relative;
-	background: #000;
+	background: rgb(var(--backgroundRGB));
 	padding: 2px 15px 2px 30px;
 	text-transform: uppercase;
 	font-size: 12px;
@@ -86,8 +85,8 @@
 }
 
 #path>div:hover {
-	background: #fff;
-	color: #000;
+	background: rgb(var(--textRGB));
+	color: rgb(var(--backgroundRGB));
 }
 
 #path>div:before,
@@ -105,12 +104,12 @@
 
 #path>div:after {
 	right: -22px;
-	border-left-color: #000;
+	border-left-color: rgb(var(--backgroundRGB));
 	z-index: 9;
 }
 
 #path>div:hover:after {
-	border-left-color: #fff;
+	border-left-color: rgb(var(--textRGB));
 }
 
 #path>div:first-child {
@@ -126,8 +125,8 @@
 	overflow-y: scroll;
 	margin: 10px;
 	padding: 10px;
-	background: rgba(0, 0, 0, 0.4);
-	border: 2px solid #000;
+	background: rgba(var(--backgroundRGB), 0.4);
+	border: 2px solid rgb(var(--backgroundRGB));
 }
 
 #list-grid {
@@ -141,7 +140,7 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	background: rgba(0, 0, 0, 0.6);
+	background: rgba(var(--backgroundRGB), 0.6);
 	border-radius: 5px;
 	cursor: pointer;
 	margin: 5px;
@@ -149,7 +148,7 @@
 }
 
 #list-grid .item:hover {
-	background: rgba(0, 0, 0, 0.8);
+	background: rgba(var(--backgroundRGB), 0.8);
 }
 
 #list-grid .item.file {
@@ -174,7 +173,7 @@
 }
 
 #list-grid .item.dropfile {
-	background: rgba(0, 0, 0, 0.9);
+	background: rgba(var(--backgroundRGB), 0.9);
 	transform: scale(1.1);
 	transition: transform 100ms;
 }

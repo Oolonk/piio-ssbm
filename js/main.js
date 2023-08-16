@@ -542,7 +542,7 @@ async function setCaster(index, co) {
 	var casterEl = document.querySelectorAll("#caster > div")[index];
 	if (casterEl) {
 		casterEl.querySelector(".info .name").innerText = co.name;
-		casterEl.querySelector(".info .twitter").innerText = co.twitter;
+		casterEl.querySelector(".info .twitter").innerText = co.twitter != (null || '') ? `@${co.twitter}` : '';
 		if (co.HasSmashgg && co.InDB) {
 			let id = co.ID;
 			getSmashggDifferences(co).then((res) => {

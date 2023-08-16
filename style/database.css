@@ -10,7 +10,7 @@
 	align-items: stretch;
 	justify-content: flex-start;
 
-	background: rgba(0, 0, 0, 1);
+	background: rgba(var(--backgroundRGB), 1);
 
 }
 
@@ -29,10 +29,7 @@
 #db-selection a:hover,
 #db-selection a.selected {
 	opacity: 1;
-	background-image: linear-gradient(55deg,
-			rgba(0, 150, 255, 0.3) 1%,
-			rgba(0, 0, 0, 0) 80%,
-			rgba(100, 120, 255, 0) 95%);
+	background-image: rgba(var(--backgroundRGB), 0) 80%,
 }
 
 #db-selection a span.count {
@@ -64,8 +61,8 @@
 	overflow-y: scroll;
 	margin: 10px;
 	padding: 10px;
-	background: rgba(0, 0, 0, 0.4);
-	border: 2px solid #000;
+	background: rgba(var(--backgroundRGB), 0.4);
+	border: 2px solid rgb(var(--backgroundRGB));
 }
 
 #list-grid {
@@ -117,11 +114,11 @@
 	text-align: center;
 	cursor: pointer;
 	border-radius: 3px;
-	background: rgba(0, 0, 0, 0.4);
+	background: rgba(var(--backgroundRGB), 0.4);
 }
 
 #page-list>div:hover {
-	background: #000;
+	background: rgb(var(--backgroundRGB));
 }
 
 #page-list>div.selected {

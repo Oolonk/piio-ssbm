@@ -166,7 +166,7 @@ Server.prototype.start = async function start() {
 					res.write('<li>' + field.label + '</li>');
 				});
 
-				res.write('<pre>' + JSON.stringify(manifest) + '</pre>');
+				// res.write('<pre>' + JSON.stringify(manifest) + '</pre>');
 
 			} else {
 				res.write(`<b>manifest.json</b> not found in "themes/${this.theme}/manifest.json"`);
