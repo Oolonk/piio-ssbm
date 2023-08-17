@@ -1,3 +1,18 @@
+@media (prefers-color-scheme: light) {
+	#smashgg-queue .icon {
+		filter: invert(100%);
+	}
+
+	.caster-add-btn {
+		filter: invert(100%);
+	}
+
+	#logo {
+		filter: invert(100%);
+	}
+}
+
+
 body {
 	overflow: hidden;
 }
@@ -26,10 +41,6 @@ body.fixedSmashggQueue #main {
 	right: 205px;
 }
 
-
-#titlebar .title {
-	opacity: 0;
-}
 
 
 #topbar {
@@ -191,20 +202,19 @@ body.fixedSidebar #topbar {
 }
 
 #clock {
-	background: #000;
 	text-align: center;
 
 	-webkit-user-select: none;
 }
 
 #clock>div:first-child {
-	font-family: arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	font-family: Roboto;
 	font-size: 28px;
 	line-height: 26px;
 }
 
 #clock>div:last-child {
-	font-family: arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	font-family: Roboto;
 	font-size: 10px;
 	opacity: 0.8;
 }
@@ -213,9 +223,9 @@ body.fixedSidebar #topbar {
 	position: fixed;
 	left: 0px;
 	width: 150px;
-	top: 0;
+	top: 24px;
 	bottom: 0px;
-	z-index: 5;
+	z-index: -1;
 
 	display: grid;
 
@@ -319,7 +329,6 @@ body:not(.fixedSidebar) #sidebar:not(:hover)>* {
 #footer {
 	font-size: 10px;
 	opacity: 0.3;
-	color: #adf;
 	text-align: center;
 	align-self: center;
 }
@@ -332,7 +341,7 @@ body:not(.fixedSidebar) #sidebar:not(:hover)>* {
 	right: 0;
 	top: 0;
 	bottom: 0;
-	background: rgba(0, 0, 0, 0.5);
+	background: rgba(var(--backgroundRGB), 0.5);
 	opacity: 0;
 	z-index: -100;
 	grid-template-rows: repeat(3, calc(1vh + 1vw)) 10fr repeat(3, calc(1vh + 1vw));
@@ -369,7 +378,7 @@ body.modal #modal {
 	backdrop-filter: blur(5px);
 	border: 1px solid #333;
 	padding: 30px;
-	background: rgba(0, 0, 0, 0.6);
+	background: rgba(var(--backgroundRGB), 0.6);
 }
 
 #sb {
@@ -464,7 +473,7 @@ body.modal #modal {
 	margin: 4px 0px;
 	border-radius: 3px;
 	border: 1px solid rgba(255, 255, 255, 0.1);
-	background: rgba(0, 0, 0, 0.2);
+	background: rgba(var(--backgroundRGB), 0.2);
 }
 
 #sb .sb-team-name input {
@@ -485,13 +494,13 @@ body.modal #modal {
 	margin: 4px 0px;
 	border-radius: 3px;
 	border: 1px solid rgba(255, 255, 255, 0.1);
-	background: rgba(0, 0, 0, 0.4);
+	background: rgba(var(--backgroundRGB), 0.4);
 	grid-gap: 3px;
 	grid-template-rows: 32px 18px;
 }
 
 #sb>div .player-item:nth-child(even) {
-	background: rgba(0, 0, 0, 0.2);
+	background: rgba(var(--backgroundRGB), 0.2);
 }
 
 #sb-team-1 .player-item {
@@ -596,18 +605,17 @@ body.modal #modal {
 }
 
 #sb>div .player-options .player-ports {
-	background: #fff;
 	display: flex;
 	margin: 0px 4px;
 	height: 18px;
 	border-radius: 2px;
-	background: radial-gradient(ellipse at 50% 100%, #1B629B 0%, #103B5B 100%);
+	background: #1B629B;
 }
 
 #sb>div .player-options .player-ports .port {
 	width: 22px;
 	height: 18px;
-	background: rgba(0, 0, 0, 0.3);
+	background: rgba(var(--backgroundRGB), 0.3);
 	font-size: 12px;
 	font-weight: bold;
 	margin-right: 1px;
@@ -616,7 +624,7 @@ body.modal #modal {
 }
 
 #sb>div .player-options .player-ports .port:hover {
-	background: rgba(0, 0, 0, 0.7);
+	background: rgba(var(--backgroundRGB), 0.7);
 }
 
 #sb>div .player-options .player-ports .port:first-child {
@@ -645,7 +653,7 @@ body.modal #modal {
 #sb .player-out {
 	display: none;
 	height: 18px;
-	background: radial-gradient(ellipse at 50% 100%, #359b1b 0%, #215c10 100%);
+	background: #359b1b;
 }
 
 #sb.teamtype-crews .player-out {
@@ -653,7 +661,7 @@ body.modal #modal {
 }
 
 #sb .player-out.out {
-	background: radial-gradient(ellipse at 50% 100%, #9b261b 0%, #5c1510 100%);
+	background: #9b261b;
 }
 
 
@@ -798,15 +806,15 @@ body.modal #modal {
 }
 
 #sb .state .none {
-	background: radial-gradient(ellipse at 50% 100%, #777 0%, #333 100%);
+	background: #777;
 }
 
 #sb .state .winners {
-	background: radial-gradient(ellipse at 50% 100%, #359b1b 0%, #215c10 100%);
+	background: #359b1b;
 }
 
 #sb .state .losers {
-	background: radial-gradient(ellipse at 50% 100%, #9b261b 0%, #5c1510 100%);
+	background: #9b261b;
 }
 
 #sb-middle {
@@ -836,7 +844,7 @@ body.modal #modal {
 }
 
 #seatorder-glue-option {
-	background: rgba(0, 0, 0, 0.6);
+	background: rgba(var(--backgroundRGB), 0.6);
 	border: 1px dashed #333;
 	border-radius: 0px 6px 6px 0px;
 	cursor: pointer;
@@ -851,7 +859,7 @@ body.modal #modal {
 	justify-content: space-evenly;
 	border: 1px dashed #333;
 	border-radius: 6px 0px 0px 6px;
-	background: rgba(0, 0, 0, 0.3);
+	background: rgba(var(--backgroundRGB), 0.3);
 
 
 
@@ -864,7 +872,7 @@ body.modal #modal {
 #seatorder>div {
 	position: Relative;
 	background: #777;
-	background: linear-gradient(to bottom, #aaa 0%, #888 10%, #666 90%, #777 100%);
+	background: #888;
 	flex-grow: 1;
 	max-width: 150px;
 	text-align: center;
@@ -939,7 +947,7 @@ body.modal #modal {
 	padding: 3px;
 	z-index: 20;
 	background: #000;
-	box-shadow: 2px 2px 11px rgba(0, 0, 0, 0.5);
+	box-shadow: 2px 2px 11px rgba(var(--backgroundRGB), 0.5);
 }
 
 #caster>.item .search:after {
@@ -977,7 +985,7 @@ body.modal #modal {
 }
 
 #caster>.item .selection>.item:nth-child(even) {
-	background: rgba(0, 0, 0, 0.2);
+	background: rgba(var(--backgroundRGB), 0.2);
 }
 
 #caster>.item .selection>.item:hover {
@@ -1066,7 +1074,7 @@ body.modal #modal {
 	bottom: 0;
 	padding: 10px;
 	border-radius: 3px;
-	background: rgba(0, 0, 0, 0.5);
+	background: rgba(var(--backgroundRGB), 0.5);
 }
 
 #caster>.item .info .bg:hover {
@@ -1113,9 +1121,9 @@ body.modal #modal {
 #fields .item {
 	position: relative;
 	padding: 10px;
-	background: #0f1217;
+	background: rgba(var(--backgroundRGB), 0.4);
 	border-radius: 3px;
-	border: 1px solid rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(var(--backgroundRGB), 0.5);
 }
 
 #fields .label {
@@ -1123,10 +1131,10 @@ body.modal #modal {
 	top: -8px;
 	left: 10px;
 	font-size: 10px;
-	background: #0a0d12;
+	background: rgb(var(--backgroundRGB));
 	padding: 0px 10px;
 	border-radius: 4px;
-	border: 1px solid rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(var(--backgroundRGB), 0.5);
 }
 
 #fields .item.hascheckbox {
@@ -1229,7 +1237,7 @@ body.modal #modal {
 	position: relative;
 	width: 50px;
 	height: 50px;
-	background: radial-gradient(ellipse at 50% 100%, #1B629B 0%, #103B5B 100%);
+	background: #1B629B;
 	border-radius: 1px;
 	margin: 5px;
 	font-size: 10px;
@@ -1239,11 +1247,11 @@ body.modal #modal {
 	text-align: center;
 	line-height: 50px;
 	box-sizing: border-box;
-	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+	box-shadow: 1px 1px 3px rgba(var(--backgroundRGB), 0.5);
 }
 
 #character-select-modal .character-row .item.selected {
-	background: radial-gradient(ellipse at 50% 100%, #dd0 0%, #440 100%);
+	background: #dd0;
 }
 
 #character-select-modal .character-row .item.filtered {
@@ -1253,7 +1261,7 @@ body.modal #modal {
 }
 
 #character-select-modal .character-row .item:hover {
-	background: radial-gradient(ellipse at 50% 100%, #ab4 0%, #103B5B 100%);
+	background: #ab4;
 }
 
 #character-select-modal .character-row .item:after {
@@ -1263,7 +1271,7 @@ body.modal #modal {
 	right: 0px;
 	top: 0px;
 	bottom: 0px;
-	background: linear-gradient(135deg, rgba(200, 255, 255, 0.4) 0%, rgba(200, 255, 255, 0.1) 29%, rgba(200, 255, 255, 0) 50%);
+	background: lrgba(200, 255, 255, 0.1);
 	border-radius: 0px;
 }
 
@@ -1406,7 +1414,7 @@ body.modal #modal {
 	bottom: 0px;
 	right: 30px;
 	padding-left: 30px;
-	background: #444;
+	background: rgba(var(--backgroundRGB), 0.5);
 }
 
 #smashgg-queue .icon {
@@ -1424,7 +1432,7 @@ body.modal #modal {
 }
 
 #smashgg-queue .icon:hover {
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: rgba(var(--backgroundRGB), 0.5);
 	opacity: 1;
 }
 
@@ -1463,7 +1471,7 @@ body:not(.fixedSmashggQueue) #smashgg-queue:hover .list {
 .fixedSmashggQueue #smashgg-queue .list {
 	bottom: 0px;
 	height: auto;
-	background: rgba(5, 5, 5, 0.3);
+	background: rgba(var(--backgroundRGB), 0.3);
 }
 
 #smashgg-queue .list .title {
@@ -1473,7 +1481,7 @@ body:not(.fixedSmashggQueue) #smashgg-queue:hover .list {
 	right: 0;
 	padding: 3px 10px;
 	font-weight: bold;
-	background: #222;
+	background: rgba(var(--backgroundRGB), 0.5);
 }
 
 #smashgg-queue .list .title .setcount {
@@ -1486,7 +1494,7 @@ body:not(.fixedSmashggQueue) #smashgg-queue:hover .list {
 	background: #f00;
 	text-align: Center;
 	font-weight: bold;
-	background: linear-gradient(to bottom, #000, #222);
+	background: rgb(var(--backgroundRGB));
 }
 
 #smashgg-queue .list .sets {
@@ -1516,7 +1524,7 @@ body:not(.fixedSmashggQueue) #smashgg-queue:hover .list {
 	right: 0;
 	bottom: 0;
 	height: 1px;
-	background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+	background: gba(var(--backgroundRGB), 0.2);
 }
 
 
@@ -1541,5 +1549,5 @@ body:not(.fixedSmashggQueue) #smashgg-queue:hover .list {
 }
 
 #caster-action button {
-	background: rgba(0, 0, 0, 0.5);
+	background: rgba(var(--backgroundRGB), 0.5);
 }

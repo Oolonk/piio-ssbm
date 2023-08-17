@@ -218,7 +218,7 @@ div.dragable.dragging {
 	right: 0;
 	top: 0;
 	height: 24px;
-	background: linear-gradient(to right, #001c2a, rgb(0, 51, 77), #001c2a);
+	background: rgb(0, 51, 77);
 	background: #03161f;
 	color: rgba(255, 255, 255, 0.8);
 	display: grid;

@@ -15,7 +15,7 @@ body.locked {
 	padding: 10px;
 	margin: 10px;
 	border: 1px solid rgba(255, 255, 255, 0.1);
-	background: rgba(0, 0, 0, 0.4);
+	background: rgba(var(--backgroundRGB), 0.4);
 
 }
 
@@ -29,7 +29,7 @@ body.locked {
 	position: relative;
 	padding: 10px;
 	margin: 10px;
-	background: rgba(0, 0, 0, 0.4);
+	background: rgba(var(--backgroundRGB), 0.4);
 	border: 1px solid rgba(255, 255, 255, 0.1);
 	max-height: 300px;
 	min-height: 100px;
@@ -74,11 +74,11 @@ body.locked {
 }
 
 #results .item:hover {
-	background: #100;
+	background: rgba(var(--backgroundRGB), 0.7);
 }
 
 #results .matchedSlug {
-	background: #330;
+	background: rgba(var(--backgroundRGB), 0.5);
 }
 
 #results .name {
@@ -100,7 +100,7 @@ body.locked {
 	grid-row-end: 3;
 	justify-self: stretch;
 	align-self: stretch;
-	background: rgba(0, 0, 0, 0.6);
+	background: rgba(var(--backgroundRGB), 0.6);
 	background-position: 50%;
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -112,8 +112,8 @@ body.locked {
 	margin: 10px;
 	padding: 10px;
 	overflow: hidden;
-	background: rgba(0, 0, 0, 0.5);
-	border: 1px solid rgba(0, 0, 0, 0.1);
+	background: rgba(var(--backgroundRGB), 0.5);
+	border: 1px solid rgba(var(--backgroundRGB), 0.1);
 	border-radius: 3px;
 }
 
@@ -124,8 +124,8 @@ body.locked {
 	top: -10px;
 	bottom: -10px;
 	/* height:250px; */
-	-webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .7)), to(rgba(0, 0, 0, 0.2)));
-	mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .7)), to(rgba(0, 0, 0, 0.2)));
+	-webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(var(--backgroundRGB), .7)), to(rgba(var(--backgroundRGB), .7)));
+	mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(var(--backgroundRGB), .7)), to(rgba(var(--backgroundRGB), .7)));
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: 50%;
@@ -158,7 +158,7 @@ body.locked {
 	background-position: 50%;
 	background-size: cover;
 	background-repeat: no-repeat;
-	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+	box-shadow: 2px 2px 5px rgba(var(--backgroundRGB), 0.3);
 }
 
 #info .title {
@@ -200,12 +200,12 @@ body.locked {
 	padding: 0px 15px;
 	margin: 10px;
 	border-radius: 3px;
-	background: rgba(0, 0, 0, 0.8);
+	background: rgba(var(--backgroundRGB), 0.8);
 	cursor: pointer;
 }
 
 #channel-select .item:hover {
-	background: #222;
+	background: rgba(var(--backgroundRGB), 0.9);
 }
 
 #channel-select .item.selected {
@@ -237,6 +237,6 @@ body.locked {
 	right: 0px;
 	bottom: 0px;
 	padding: 10px;
-	background: rgba(0, 0, 0, 0.9);
+	background: rgba(var(--backgroundRGB), 0.9);
 	text-align: center;
 }
