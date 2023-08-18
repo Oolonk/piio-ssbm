@@ -30,8 +30,9 @@ app.on('ready', async () => {
 		transparent: true,
 		icon: path.join(__dirname, 'logo.png'),
 		frame: false,
-		webPreferences: { nodeIntegration: true }
+		webPreferences: { nodeIntegration: true, contextIsolation: false, enableRemoteModule: true }
 	});
+	require("@electron/remote/main").enable(splashWin.webContents);
 	splashWin.loadFile('window/splash.html');
 	splashWin.webContents.on('did-finish-load', () => {
 		splashWin.show();
@@ -94,7 +95,6 @@ async function createMainWindow() {
 		webPreferences: { devTools: _debug, nodeIntegration: true, contextIsolation: false, enableRemoteModule: true }
 	});
 	require("@electron/remote/main").enable(mainWin.webContents);
-	mainWin.webContents.openDevTools();
 	mainWin.once('ready-to-show', () => setTimeout(() => {
 		mainWin.show();
 		if (mainConf.maxi)

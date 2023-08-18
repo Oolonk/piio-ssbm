@@ -399,8 +399,6 @@ body.modal #modal {
 		"sbinfo1 sbinfo1 sbmiddle sbinfo2 sbinfo2";
 }
 
-#sb>div {}
-
 #sb-team-name-1 {
 	grid-area: sbteamname1;
 }

@@ -178,16 +178,6 @@ SlippiServer.prototype.sendUpdateOverlay = function sendUpdateOverlay(type, data
 			})
 		);
 	});
-	// this.expressWs.clients.forEach((client) => {
-	// 	console.log("this client")
-	//   if (client !== wss && client.readyState === WebSocket.OPEN) {
-	// 	client.send(
-	// 	  JSON.stringify({
-	// 		data
-	// 	  })
-	// 	);
-	//   }
-	// });
 
 };
 SlippiServer.prototype.startSlippi = function startSlippi() {

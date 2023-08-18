@@ -1,9 +1,8 @@
 <html>
 
 <head>
-    <script type="text/javascript">
-        require('electron').ipcRenderer.on('ping', (e, msg) => document.getElementById('ver').innerText = 'ver ' + msg);
-    </script>
+    <base href="../" />
+    <script type="text/javascript" src="js/general.js"></script>
     <style type="text/css">
         * {
             -webkit-user-select: none;
@@ -20,6 +19,7 @@
             animation-name: logo;
             animation-duration: 400ms;
             animation-fill-mode: forwards;
+            background: #123;
         }
 
         body>* {
@@ -39,7 +39,7 @@
             right: 20px;
             top: 20px;
             bottom: 20px;
-            background-image: url('../img/logo.svg');
+            background-image: url('img/logo.svg');
             background-size: auto 70%;
             background-position: 50%;
             background-repeat: no-repeat;
@@ -83,9 +83,14 @@
 <body>
     <div id="bg"></div>
     <div id="logo"></div>
-    <div id="name">Production Interface IO</div>
-    <div id="copy">&copy; 2015 - 2020</div>
+    <div id="name">Production Interface IO (custom version by Oolonk)</div>
+    <div id="copy"></div>
     <div id="ver">ver. 0.1.0</div>
 </body>
+
+<script type="text/javascript">
+    document.getElementById('ver').innerHTML = `ver. ${remote.app.getVersion()}`;
+    document.getElementById('copy').innerHTML = `&copy; 2015 - ${new Date().getFullYear()}`
+</script>
 
 </html>
