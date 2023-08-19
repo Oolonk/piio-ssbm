@@ -36,8 +36,8 @@ function showAssetsList(arg) {
 }
 
 function getList(dir) {
-	var pathEl = document.getElementById('path').truncate();
-	var listEl = document.getElementById("list-grid").truncate();
+	let pathEl = document.getElementById('path').truncate();
+	let listEl = document.getElementById("list-grid").truncate();
 	_directory = dir || _directory;
 
 	_directory.forEach((folder, index) => {
@@ -57,9 +57,9 @@ function getList(dir) {
 		pathEl.appendChild(childEl);
 	});
 
-	var dirPath = path.join.apply(null, _directory.map(x => x.path));
-	var rel = _directory.length >= 2 && _rel ? _rel[_directory.length - 2] : null;
-	var relDb = null;
+	let dirPath = path.join.apply(null, _directory.map(x => x.path));
+	let rel = _directory.length >= 2 && _rel ? _rel[_directory.length - 2] : null;
+	let relDb = null;
 
 	if (_rel) {
 		for (let i = _directory.length - 3; i >= 0; i--) {
@@ -72,10 +72,10 @@ function getList(dir) {
 
 
 	fs.readdir(dirPath, (err, files) => {
-		var query = {};
+		let query = {};
 		if (rel) {
-			var isFileList = (_rel.indexOf(rel) + 1 == _rel.length);
-			var relPath = rel.split(".");
+			let isFileList = (_rel.indexOf(rel) + 1 == _rel.length);
+			let relPath = rel.split(".");
 			if (relPath.length >= 2) {
 				// get multiple entries of one dataset
 				rel = relPath.shift();
@@ -119,8 +119,8 @@ function getList(dir) {
 			if (folderTpl) {
 				files = [];
 				folderTpl.forEach(folder => {
-					var folderParts = folder.split("/");
-					var name = folderParts[_directory.length - 2];
+					let folderParts = folder.split("/");
+					let name = folderParts[_directory.length - 2];
 					files.push(name);
 				});
 			}
@@ -148,7 +148,7 @@ function getList(dir) {
 }
 
 function createFolders(dir) {
-	var pathParts = dir.split("\\")
+	let pathParts = dir.split("\\")
 	for (let i = 2; i <= pathParts.length; i++) {
 		let path = pathParts.slice(0, i).join("\\");
 		try {
@@ -238,9 +238,9 @@ function buildFileItem(name, dirPath, id, rel) {
 function editAsset(name, filePath, uploadFile) {
 	return new Promise((resolve, reject) => {
 
-		var file;
+		let file;
 		filePath = path.normalize(filePath);
-		var dir = path.dirname(filePath);
+		let dir = path.dirname(filePath);
 		if (uploadFile) {
 			file = [uploadFile];
 		} else {

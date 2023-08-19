@@ -28,13 +28,13 @@ async function init() {
 
 function search() {
 	currentPage = 1;
-	var el = document.getElementById('results').truncate();
+	let el = document.getElementById('results').truncate();
 	el.onscroll = checkForLoad;
 	fetchResults();
 }
 
 function checkForLoad(e) {
-	var scrollLeft = e.target.scrollHeight - e.target.scrollTop - e.target.clientHeight;
+	let scrollLeft = e.target.scrollHeight - e.target.scrollTop - e.target.clientHeight;
 	if (scrollLeft < 10 && !infiniteScrollLoading) {
 		infiniteScrollLoading = true;
 		fetchResults();
@@ -42,12 +42,12 @@ function checkForLoad(e) {
 }
 
 async function fetchResults() {
-	var term = document.getElementById('smashgg-search-tbx').value;
-	var players = await smashgg.findParticipants(term, currentPage, 50);
+	let term = document.getElementById('smashgg-search-tbx').value;
+	let players = await smashgg.findParticipants(term, currentPage, 50);
 	if (term != document.getElementById('smashgg-search-tbx').value)
 		return;
-	var el = document.getElementById('results');
-	var tpl = document.getElementById('result-item');
+	let el = document.getElementById('results');
+	let tpl = document.getElementById('result-item');
 	players.forEach((player) => {
 		let playerElm = tpl.content.cloneNode(true);
 

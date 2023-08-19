@@ -28,11 +28,11 @@ class Player {
 			return this.displayname;
 		}
 		teams = teams.filter(x => x != null && x.prefix != null)
-		var name = this.name;
-		var prefix = teams.map(x => x.prefix).join(" ");
+		let name = this.name;
+		let prefix = teams.map(x => x.prefix).join(" ");
 		if (teams.length == 1 && teams[0].regex != "") {
 			//teams[0].regex = "^[A]";
-			var re = new RegExp(teams[0].regex);
+			let re = new RegExp(teams[0].regex);
 			if (this.name.match(teams[0].prefix)) {
 				return this.name.replace(re, teams[0].prefix);
 			}
@@ -48,7 +48,7 @@ class Player {
 	}
 
 	async comparePlayerData(smashgg, includeSmashggIgnore) {
-		var spo, ignored;
+		let spo, ignored;
 		try {
 			spo = await smashgg.getPlayer(this.smashgg);
 		} catch (er) {
@@ -62,17 +62,17 @@ class Player {
 
 
 
-		var differences = [];
-		var country = this.country ? await db.getSingle("country", this.country) : { name: "" };
+		let differences = [];
+		let country = this.country ? await db.getSingle("country", this.country) : { name: "" };
 		while (country && country.name != spo.country && country.nation) {
 			country = await db.getSingle("country", country.nation);
 			if (!country || !country.nation)
 				break;
 		}
 
-		var team = await db.get("team", { $or: [].concat(this.team).map(x => { return { "_id": x } }) });
-		var pride = await db.get("pride", { $or: [].concat(this.pride).map(x => { return { "_id": x } }) });
-		var prefix = team.map(x => x.prefix).join(" ");
+		let team = await db.get("team", { $or: [].concat(this.team).map(x => { return { "_id": x } }) });
+		let pride = await db.get("pride", { $or: [].concat(this.pride).map(x => { return { "_id": x } }) });
+		let prefix = team.map(x => x.prefix).join(" ");
 
 		ignored = this.isSmashggFieldIgnored("country", spo.country);
 		if (country.name != spo.country && (includeSmashggIgnore || !ignored))

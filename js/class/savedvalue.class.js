@@ -6,7 +6,7 @@ class SavedValue {
 	}
 	isSet(name, value, overwrite) {
 		overwrite = overwrite || true;
-		var isIdentical = this.get(name) === value;
+		let isIdentical = this.get(name) === value;
 		if (!isIdentical && overwrite)
 			this.set(name, value);
 		return isIdentical;

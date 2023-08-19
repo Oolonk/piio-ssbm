@@ -12,7 +12,7 @@ class Trigger {
 
 	bind(instance) {
 		console.log(instance);
-		var instanceName = instance.__proto__.constructor.NAME;
+		let instanceName = instance.__proto__.constructor.NAME;
 		this.instances.push({ "name": instanceName, "instance": instance });
 		instance.on((name, data) => this.triggerHandlers(instanceName, name, data));
 	}
@@ -22,8 +22,8 @@ class Trigger {
 			if (handler.enabled && handler.instance == instance && handler.event == event) {
 				console.log(handler.eventData, data);
 
-				var matchList = handler.eventData.split(",");
-				var matchSucceed = true;
+				let matchList = handler.eventData.split(",");
+				let matchSucceed = true;
 				matchList.forEach(match => {
 					["==", "!=", "<", ">", "<=", ">="].forEach(op => {
 						if (match.indexOf(op) !== -1) {

@@ -18,7 +18,7 @@ _ws.onopen = () => {
 	]));
 };
 _ws.onmessage = (msg) => {
-	var data = JSON.parse(msg.data);
+	let data = JSON.parse(msg.data);
 	switch (data.type) {
 		case "registered-overlays": displayOverlayList(data.data); break;
 		case "overlay-trigger": overlayTrigger(data.data); break;
@@ -37,7 +37,7 @@ function init() {
 function displayOverlayList(list) {
 	console.log("displayOverlayList");
 	console.log(list);
-	var el = document.getElementById("list").truncate();
+	let el = document.getElementById("list").truncate();
 	list.forEach((overlay) => {
 		let item = document.createElement("div");
 		item.id = "overlay-" + overlay.id;
@@ -60,7 +60,7 @@ function displayOverlayList(list) {
 
 function overlayTrigger(overlay) {
 
-	var elms = document.getElementById("list").childNodes;
+	let elms = document.getElementById("list").childNodes;
 
 	//console.log(elms);
 

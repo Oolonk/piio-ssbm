@@ -50,14 +50,14 @@ class TwitchWrapper {
 	}
 
 	authenticate(force) {
-		var state = Math.round(Math.random() * 10000000);
-		var url = "https://id.twitch.tv/oauth2/authorize?client_id=" + this.clientID + "&redirect_uri=" + this.redirect + "&response_type=token&scope=" + this.scopes.join("+") + "&state=" + state;
+		let state = Math.round(Math.random() * 10000000);
+		let url = "https://id.twitch.tv/oauth2/authorize?client_id=" + this.clientID + "&redirect_uri=" + this.redirect + "&response_type=token&scope=" + this.scopes.join("+") + "&state=" + state;
 		if (force)
 			url += "&force_verify=true";
-		var authWindow = window.open(url);
+		let authWindow = window.open(url);
 		window.addEventListener('message', async e => {
-			var hash = e.data.hash.substr(1);
-			var params = JSON.parse('{"' + decodeURI(hash).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
+			let hash = e.data.hash.substr(1);
+			let params = JSON.parse('{"' + decodeURI(hash).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
 			if (state == params.state) {
 				this.Token = params.access_token;
 				authWindow.close();
@@ -75,7 +75,7 @@ class TwitchWrapper {
 
 	get(path) {
 		return new Promise((resolve, reject) => {
-			var options = {
+			let options = {
 				hostname: TwitchWrapper.APIHOST,
 				path: TwitchWrapper.APIPATH + '/' + path,
 				port: 443,
@@ -86,7 +86,7 @@ class TwitchWrapper {
 					'Accept': 'application/vnd.twitchtv.v5+json'
 				}
 			};
-			var req = this.https.request(options, (res) => {
+			let req = this.https.request(options, (res) => {
 				if (res.statusCode == 200) {
 					let data = "";
 					res.setEncoding('utf8');
@@ -107,7 +107,7 @@ class TwitchWrapper {
 
 	post(path, post_data, method) {
 		return new Promise((resolve, reject) => {
-			var options = {
+			let options = {
 				hostname: TwitchWrapper.APIHOST,
 				path: TwitchWrapper.APIPATH + '/' + path,
 				port: 443,
@@ -121,7 +121,7 @@ class TwitchWrapper {
 				}
 			};
 			console.log(options);
-			var req = this.https.request(options, (res) => {
+			let req = this.https.request(options, (res) => {
 				console.log(res.statusCode);
 				if (res.statusCode == 200) {
 					let data = "";
@@ -145,7 +145,7 @@ class TwitchWrapper {
 	isAuthenticated() {
 		return new Promise(async (resolve, reject) => {
 			if (this.token && this.token.length > 0) {
-				var res = await this.get("/");
+				let res = await this.get("/");
 				this.userID = res.token.valid ? res.token.user_id : "";
 				this.userName = res.token.valid ? res.token.user_name : "";
 				resolve(res.token.valid || false);

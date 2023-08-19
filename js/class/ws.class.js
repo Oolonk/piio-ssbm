@@ -1,10 +1,10 @@
-var process2;
+let process2;
 if (navigator.appVersion.indexOf("Win") != -1) {
 	process2 = 80;
 } else {
 	process2 = 8000;
 }
-var declared = true;
+let declared = true;
 try {
 	theVariable;
 }
@@ -35,8 +35,8 @@ class WSWrapper {
 	}
 
 	connect() {
-		var pattern = /^((ws|wss):\/\/)/;
-		var url = (pattern.test(this.url) ? '' : 'ws://') + this.url;
+		let pattern = /^((ws|wss):\/\/)/;
+		let url = (pattern.test(this.url) ? '' : 'ws://') + this.url;
 		try {
 			this.ws = new WebSocket(url + ":" + this.port);
 		} catch (err) {
@@ -73,7 +73,7 @@ class WSWrapper {
 	_wsMessage(e) {
 		this.emit("message", e.data);
 		try {
-			var data = JSON.parse(e.data);
+			let data = JSON.parse(e.data);
 			this.emit("data", data);
 			if (data.hasOwnProperty("type") && data.hasOwnProperty("data")) {
 				this.emit("data-" + data.type, data.data);
@@ -122,7 +122,7 @@ class WSWrapper {
 	}
 
 	send(arg1, arg2) {
-		var data = arg2 ? { type: arg1, data: arg2 } : arg1;
+		let data = arg2 ? { type: arg1, data: arg2 } : arg1;
 		if (!this.Open) {
 			console.error("Socket not connected", this.url, this.port);
 			console.log("attempted to send:", data);

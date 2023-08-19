@@ -42,7 +42,7 @@ class SlippiRealtimeConnector {
 	}
 
 	command(module, args, cb) {
-		var mid = this.messageIdCounter++;
+		let mid = this.messageIdCounter++;
 		if (cb && typeof cb == "function") {
 			this.awaitingCommandReturns[module + "-cmd-return-" + mid] = cb;
 		}
@@ -91,7 +91,7 @@ class SlippiRealtimeConnector {
 		if (typeof arg == "string") {
 			arg = { "source": arg };
 		}
-		var params = {
+		let params = {
 			"source": arg.source || "",
 			"element": arg.element || document.body,
 			"visibleClass": arg.visibleClass || "visible",

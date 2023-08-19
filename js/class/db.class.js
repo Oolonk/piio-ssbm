@@ -11,7 +11,7 @@ class DBWrapper {
 	}
 
 	async load() {
-		var promises = [];
+		let promises = [];
 		for (let i in this.db) {
 			promises.push(new Promise((resolve, reject) => {
 
@@ -24,7 +24,7 @@ class DBWrapper {
 
 
 						try {
-							var treatedData = this.db[i].persistence.treatRawData(data);
+							let treatedData = this.db[i].persistence.treatRawData(data);
 						} catch (e) {
 							return reject(e);
 						}
@@ -71,7 +71,7 @@ class DBWrapper {
 
 
 						try {
-							var treatedData = this.db[dbName].persistence.treatRawData(data);
+							let treatedData = this.db[dbName].persistence.treatRawData(data);
 						} catch (e) {
 							return reject(e);
 						}
@@ -127,7 +127,7 @@ class DBWrapper {
 			if (!this.db.hasOwnProperty(dbName))
 				return reject("Database not found");
 
-			var promise;
+			let promise;
 			if (typeof doc != "object") {
 				promise = this.get(dbName, { _id: doc });
 			} else {
@@ -184,7 +184,7 @@ class DBWrapper {
 			if (typeof query == "string") {
 				query = { "_id": query };
 			}
-			var c = this.db[dbName].find(query || {});
+			let c = this.db[dbName].find(query || {});
 			if (params && params.sort)
 				c.sort(params.sort);
 			if (params && params.page && params.limit)
@@ -248,7 +248,7 @@ class DBWrapper {
 				return reject("Database 'dbstruct' not loaded");
 			}
 			this.get("dbstruct", { "name": dbName }, null, { sort: { "index": -1 } }).then(docs => {
-				var entry = { _id: null };
+				let entry = { _id: null };
 				docs.forEach((field) => {
 					entry[field.field] = field.default || (field.multi ? [] : "");
 				});

@@ -5,8 +5,8 @@ class Countdown {
 		this._margin = 7200000; // 2 hours in ms 
 	}
 	get String() {
-		var arr = [];
-		var c = this.Components;
+		let arr = [];
+		let c = this.Components;
 		if (c.h != "00")
 			arr.push(c.h);
 		if (c.m != "00" || c.h != "00")
@@ -15,8 +15,8 @@ class Countdown {
 		return arr.join(":");
 	}
 	get LongString() {
-		var arr = [];
-		var c = this.Components;
+		let arr = [];
+		let c = this.Components;
 		if (c.h != "00")
 			arr.push(c.h);
 		arr.push(c.m);
@@ -24,13 +24,13 @@ class Countdown {
 		return arr.join(":");
 	}
 	get FullString() {
-		var c = this.Components;
+		let c = this.Components;
 		return c.h + ":" + c.m + ":" + c.s;
 	}
 	get Components() {
-		var s = Math.ceil(this.Value / 1000);
-		var m = Math.floor(s / 60);
-		var h = Math.floor(m / 60);
+		let s = Math.ceil(this.Value / 1000);
+		let m = Math.floor(s / 60);
+		let h = Math.floor(m / 60);
 		s = s % 60;
 		m = m % 60;
 		h = (h < 10 ? '0' + h : h).toString();
@@ -50,9 +50,9 @@ class Countdown {
 		this._visible = state;
 	}
 	set Due(value) {
-		var now = new Date();
+		let now = new Date();
 		if (typeof value == "string") { // local date/time string
-			var timeArr = value.split(":");
+			let timeArr = value.split(":");
 			value = (timeArr[0] || "00") + ":" + (timeArr[1] || "00") + ":" + (timeArr[2] || "00");
 			value = new Date(now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + value);
 			if (now > value)

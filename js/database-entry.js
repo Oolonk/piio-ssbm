@@ -35,7 +35,7 @@ ipcRenderer.on("data", async (event, data) => {
 
 async function buildForm() {
 	console.log("buildForm");
-	var formEl = document.getElementById("form");
+	let formEl = document.getElementById("form");
 	fields = await db.get("dbstruct", { "name": dbName }, { sort: { index: -1 } });
 
 	for (let i in fields) {
@@ -171,7 +171,7 @@ function reset() {
 }
 
 async function remove() {
-	var conf = confirm("Are you sure you want to delete this entry?");
+	let conf = confirm("Are you sure you want to delete this entry?");
 	if (!conf) { return; }
 	await db.remove(dbName, dataset._id);
 	window.close();

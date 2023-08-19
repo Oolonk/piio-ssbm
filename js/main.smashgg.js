@@ -101,7 +101,7 @@ async function displaySmashggCurrent() {
 on("scoreboardsmashggchanged", displaySmashggCurrent);
 
 async function openSmashggOptions() {
-	var smashggSettings = await openWindow("smashgg-settings", {
+	let smashggSettings = await openWindow("smashgg-settings", {
 		"tournamentSlug": smashgg.selectedTournament,
 		"streamId": smashgg.selectedStream,
 		"cache": smashgg.cache,
@@ -120,9 +120,9 @@ function applySmashggSettings(tournamentSlug, streamId) {
 }
 
 async function displaySmashggStreamQueue(sets) {
-	var setIds = sets.map(x => x.id);
-	var el = document.getElementById("smashgg-queue");
-	var listEl = el.querySelector(".list .sets");
+	let setIds = sets.map(x => x.id);
+	let el = document.getElementById("smashgg-queue");
+	let listEl = el.querySelector(".list .sets");
 
 	el.classList.toggle("empty", sets.length == 0);
 	el.querySelector(".list .title .setcount").innerText = sets.length;
@@ -181,7 +181,7 @@ async function comparePlayerData(po, includeSmashggIgnore) {
 	return [];
 
 
-	var spo, ignored;
+	let spo, ignored;
 	if (!po) return [];
 	try {
 		spo = await smashgg.getPlayer(po.smashgg);
@@ -197,8 +197,8 @@ async function comparePlayerData(po, includeSmashggIgnore) {
 		po = await db.getSingle("player", po._id, Player);
 	}
 
-	var differences = [];
-	var country = po.country ? await db.getSingle("country", po.country) : { "name": "" };
+	let differences = [];
+	let country = po.country ? await db.getSingle("country", po.country) : { "name": "" };
 	while (country && country.name != spo.country && country.nation) {
 		country = await db.getSingle("country", country.nation);
 		if (!country || !country.nation)
@@ -208,8 +208,8 @@ async function comparePlayerData(po, includeSmashggIgnore) {
 	spo.twitterHandle = spo.twitterHandle || "";
 	spo.prefix = spo.prefix || "";
 
-	var team = await db.get("team", { $or: [].concat(po.team).map(x => ({ "_id": x })) });
-	var prefix = team.map(x => x.prefix).join(" ");
+	let team = await db.get("team", { $or: [].concat(po.team).map(x => ({ "_id": x })) });
+	let prefix = team.map(x => x.prefix).join(" ");
 
 
 

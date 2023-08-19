@@ -97,7 +97,7 @@ async function checkSmashggCompare() {
 }
 
 async function buildForm() {
-	var formEl = document.getElementById("form");
+	let formEl = document.getElementById("form");
 
 	fields = await db.get("dbstruct", { "name": dbName }, { sort: { index: -1 } });
 
@@ -387,7 +387,7 @@ function reset() {
 }
 
 async function remove() {
-	var conf = confirm("Are you sure you want to delete this entry?");
+	let conf = confirm("Are you sure you want to delete this entry?");
 	if (!conf) { return }
 	await db.remove("player", dataset._id);
 	window.close();

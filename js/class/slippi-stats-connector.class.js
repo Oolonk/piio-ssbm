@@ -7,7 +7,7 @@ class SlippiStatsConnector {
     }
 
     async getStats(value) {
-        var output = stats.fetchStats(value);
+        let output = stats.fetchStats(value);
         this.cache = await output;
         return output;
     }
@@ -94,7 +94,7 @@ class SlippiStatsConnector {
         return output;
     }
     async fetchStats(value) {
-        var output;
+        let output;
         output = await fetch(`http://${this.address}:${this.port}/stats/${value}`);
         output = output.json();
         return output;

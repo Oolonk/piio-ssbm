@@ -118,7 +118,7 @@ async function init() {
 	_ws.on("data-cmd", handleWsCommand);
 
 	// Update Button animation script
-	var updateBtn = document.getElementById('update-btn');
+	let updateBtn = document.getElementById('update-btn');
 	on("update", () => {
 		updateBtn.classList.remove("changed", "anim");
 		void updateBtn.offsetWidth;
@@ -186,7 +186,7 @@ function buildTeamPlayerList() {
 	scoreboard.ports = [];
 	scoreboard.seatorder = [];
 	document.getElementById('sb').classList.toggle("multi", teamSize > 1);
-	var tpl = document.getElementById("sb-player-tpl");
+	let tpl = document.getElementById("sb-player-tpl");
 	for (let teamNum = 1; teamNum <= 2; teamNum++) {
 		// Player fields
 		let teamPlayerField = document.getElementById('sb-players-' + teamNum).truncate();
@@ -251,8 +251,8 @@ function buildTeamPlayerList() {
 }
 
 function buildCasterList() {
-	var tpl = document.getElementById('caster-item-tpl');
-	var el = document.getElementById('caster').truncate();
+	let tpl = document.getElementById('caster-item-tpl');
+	let el = document.getElementById('caster').truncate();
 	for (let casterNum = 0; casterNum < (_theme.caster || 2); casterNum++) {
 		let item = createElement({ "type": "div", "className": "item", "append": tpl.content.cloneNode(true) });
 		let nameTbx = item.querySelector("input");
@@ -268,8 +268,8 @@ function buildCasterList() {
 
 		// open caster selection by focusing the input element
 		item.querySelector(".info").onclick = function (e) {
-			var el = e.currentTarget.parentNode;
-			var tbx = el.querySelector("input");
+			let el = e.currentTarget.parentNode;
+			let tbx = el.querySelector("input");
 			el.querySelector(".search").classList.add("visible");
 			tbx.value = scoreboard.caster[e.currentTarget.parentNode.getIndex()].name;
 			tbx.focus();
@@ -284,7 +284,7 @@ function buildCasterList() {
 
 		// search through player DB
 		nameTxbInput = e => {
-			var value = e.target.value.trim().toLowerCase();
+			let value = e.target.value.trim().toLowerCase();
 			let selectionElm = e.target.parentNode.querySelector(".selection");
 			db.get("player", { "name": { $regex: new RegExp(`${value}`, 'i') } }, { limit: 20 }).then((list) => {
 				list = list.map(x => new Player(x));
@@ -436,7 +436,7 @@ function sortable(elm, exclude, callback) {
 
 function buildFieldList() {
 	// fix fields in scoreboard.fields
-	var el = document.getElementById('fields').truncate();
+	let el = document.getElementById('fields').truncate();
 	_theme.fields.forEach(field => {
 		let item = createElement({ "type": "div", "className": "item", "append": createField(field) });
 		if (field.checkbox) {
@@ -454,7 +454,7 @@ function buildFieldList() {
 }
 
 function swap(team, player) {
-	var tmp;
+	let tmp;
 	if (team == null) {
 		// swap teams
 		tmp = scoreboard.teams[1];
@@ -539,7 +539,7 @@ async function setCaster(index, co) {
 	bgWork.start("setCaster");
 	scoreboard.caster[index] = co;
 
-	var casterEl = document.querySelectorAll("#caster > div")[index];
+	let casterEl = document.querySelectorAll("#caster > div")[index];
 	if (casterEl) {
 		casterEl.querySelector(".info .name").innerText = co.name;
 		casterEl.querySelector(".info .twitter").innerText = co.twitter != (null || '') ? `@${co.twitter}` : '';
@@ -601,7 +601,7 @@ function setTeamSize(size) {
 }
 
 function setTeamType(num) {
-	var teamTypes = ["teams", "crews", "ironman"];
+	let teamTypes = ["teams", "crews", "ironman"];
 	for (let i = 0; i < teamTypes.length; i++) {
 		document.getElementById("sb").classList.toggle('teamtype-' + teamTypes[i], i == num);
 	}
@@ -615,7 +615,7 @@ function resetScore() {
 }
 
 function modifyScore(team, inc, absolute) {
-	var value = parseInt(inc);
+	let value = parseInt(inc);
 	if (!absolute)
 		value += parseInt(scoreboard.teams[team].score);
 	if (value < 0 || isNaN(value))
@@ -656,9 +656,9 @@ function clearBoard() {
 }
 
 function assignPlayerPort(port, teamNum, playerNum) {
-	var current = 0;
-	var toSwap = 0;
-	var obj = [teamNum, playerNum];
+	let current = 0;
+	let toSwap = 0;
+	let obj = [teamNum, playerNum];
 
 	// find current port for this player
 	for (let i = 1; i <= portAmount; i++) {
@@ -701,8 +701,8 @@ function assignPlayerPort(port, teamNum, playerNum) {
 }
 
 function setPlayerActive(teamNum, playerNum) {
-	var el = document.getElementById('sb-players-' + teamNum);
-	var boxes = el.getElementsByClassName('player-select');
+	let el = document.getElementById('sb-players-' + teamNum);
+	let boxes = el.getElementsByClassName('player-select');
 	for (let i in boxes) {
 		boxes[i].checked = playerNum == i;
 	}
@@ -711,9 +711,9 @@ function setPlayerActive(teamNum, playerNum) {
 }
 
 function setPlayerOut(teamNum, playerNum) {
-	var el = document.getElementById('sb-players-' + teamNum);
-	var btn = el.querySelector('#playeritem-' + teamNum + '-' + playerNum + ' .player-out');
-	var btns = el.querySelectorAll('.player-out');
+	let el = document.getElementById('sb-players-' + teamNum);
+	let btn = el.querySelector('#playeritem-' + teamNum + '-' + playerNum + ' .player-out');
+	let btns = el.querySelectorAll('.player-out');
 
 	btn.classList.toggle("out");
 	scoreboard.teams[teamNum].out = [].map.call(btns, x => x.classList.contains("out"));
@@ -724,14 +724,14 @@ async function openCharacterSelect(teamNum, playerNum) {
 	bgWork.start("openCharacterSelect");
 	showModal("character-select");
 	window.addEventListener("keydown", listenCharacterSelectKeyboard, true);
-	var rosterEl = document.getElementById('character-select-roster').truncate();
+	let rosterEl = document.getElementById('character-select-roster').truncate();
 	document.getElementById('character-select-personal').truncate(); // TODO: finally implement
-	var skinsEl = document.getElementById('character-select-skins').truncate();
-	var selection = scoreboard.teams[teamNum].characters[playerNum];
-	var characters = await db.get("character", { game: scoreboard.game });
+	let skinsEl = document.getElementById('character-select-skins').truncate();
+	let selection = scoreboard.teams[teamNum].characters[playerNum];
+	let characters = await db.get("character", { game: scoreboard.game });
 	characters = characters.map(x => new Character(x));
 
-	var path = APPRES + "/assets/character/" + scoreboard.game;
+	let path = APPRES + "/assets/character/" + scoreboard.game;
 
 	characters.push(new Character());
 
@@ -785,7 +785,7 @@ async function openCharacterSelect(teamNum, playerNum) {
 
 
 function listenCharacterSelectKeyboard(e) {
-	var selectRoster = document.getElementById('character-select-roster');
+	let selectRoster = document.getElementById('character-select-roster');
 	if (!selectRoster.hasOwnProperty('filterTerm')) {
 		selectRoster.filterTerm = "";
 	}
@@ -841,7 +841,7 @@ async function setCharacterIcon(teamNum, playerNum, game, id, skin, label) {
 }
 
 function showModal(name) {
-	var el = document.querySelector("#modal .panel").truncate();
+	let el = document.querySelector("#modal .panel").truncate();
 	el.currentModalName = name;
 	el.appendChild(document.getElementById(name + "-modal-tpl").content.cloneNode(true));
 	el.id = name + "-modal";
@@ -850,7 +850,7 @@ function showModal(name) {
 }
 
 function hideModal() {
-	var el = document.querySelector("#modal .panel");
+	let el = document.querySelector("#modal .panel");
 	window.removeEventListener("keydown", modalHotkeys, true);
 	if (el.currentModalName == "character-select") {
 		// do something here ...
@@ -874,7 +874,7 @@ async function insertTeamUI(teamNum) {
 
 	scoreboard.teams[teamNum].players.forEach((po, playerNum) => insertPlayerUI(teamNum, playerNum));
 
-	var teamNameTbx = document.getElementById('sb-team-name-val-' + teamNum);
+	let teamNameTbx = document.getElementById('sb-team-name-val-' + teamNum);
 	teamNameTbx.placeholder = scoreboard.teams[teamNum].players.map(x => x.name).filter(x => x.length > 0).join(" / ");
 	teamNameTbx.value = scoreboard.teams[teamNum].name;
 	document.getElementById('sb-score-val-' + teamNum).value = scoreboard.teams[teamNum].score;
@@ -949,9 +949,9 @@ function playerChangedHandler(docs) {
 		}
 	}
 
-	var oldIds = scoreboard.caster.map(x => x._id);
-	var newIds = docs.map(x => x._id);
-	var affected = oldIds.filter(value => newIds.includes(value));
+	let oldIds = scoreboard.caster.map(x => x._id);
+	let newIds = docs.map(x => x._id);
+	let affected = oldIds.filter(value => newIds.includes(value));
 	if (affected.length >= 0) {
 		affected.forEach((pId) => scoreboard.caster[oldIds.indexOf(pId)] = new Player(docs[newIds.indexOf(pId)]));
 		fire("scoreboardcasterchanged");
@@ -1023,9 +1023,9 @@ function toggleSeatorderGlue() {
 }
 
 function buildSeatOrder(affectedSeat) {
-	var el = document.getElementById('seatorder').truncate();
+	let el = document.getElementById('seatorder').truncate();
 	el.classList.toggle("visible", scoreboard.seatorder.length > 0);
-	var glueTeams = document.getElementById('seatorder-glue-option').classList.contains("enabled");
+	let glueTeams = document.getElementById('seatorder-glue-option').classList.contains("enabled");
 	if (glueTeams) {
 		let first = scoreboard.seatorder[0][0];
 		if (affectedSeat != undefined) {
@@ -1086,9 +1086,9 @@ async function editPlayer(arg) {
 
 async function buildPlayerAutoCompleteList() {
 	bgWork.start("buildPlayerAutoCompleteList");
-	var players = await db.get("player");
-	var frag = document.createDocumentFragment();
-	var namesAdded = [];
+	let players = await db.get("player");
+	let frag = document.createDocumentFragment();
+	let namesAdded = [];
 	players.forEach((p) => {
 		if (!namesAdded.includes(p.name)) {
 			let opt = document.createElement("option"); // do NOT optimize with "createElement()", performance important here
@@ -1103,8 +1103,8 @@ async function buildPlayerAutoCompleteList() {
 
 
 async function buildGameSelection() {
-	var el = document.getElementById('game-select').truncate();
-	var games = await db.get("game");
+	let el = document.getElementById('game-select').truncate();
+	let games = await db.get("game");
 	games.forEach((game) => {
 		let opt = document.createElement("option");
 		opt.value = game._id;
@@ -1115,8 +1115,8 @@ async function buildGameSelection() {
 }
 
 async function buildThemeSelection() {
-	var el = document.getElementById('theme-select').truncate();
-	var themes = await ThemeWrapper.getThemesList();
+	let el = document.getElementById('theme-select').truncate();
+	let themes = await ThemeWrapper.getThemesList();
 	themes.forEach((theme) => {
 		let opt = document.createElement("option");
 		opt.value = theme.dir;
@@ -1127,14 +1127,14 @@ async function buildThemeSelection() {
 }
 
 function createField(field) {
-	var tpl = document.getElementById("fields-" + field.type + "-tpl") || document.getElementById("fields-text-tpl");
-	var el = createElement({ "type": "div", "className": "field-" + field.type });
-	var label = createElement({ "type": "div", "className": "label" });
+	let tpl = document.getElementById("fields-" + field.type + "-tpl") || document.getElementById("fields-text-tpl");
+	let el = createElement({ "type": "div", "className": "field-" + field.type });
+	let label = createElement({ "type": "div", "className": "label" });
 	label.innerText = field.label;
 
 	el.appendChild(label);
 	el.appendChild(tpl.content.cloneNode(true));
-	var inputElm = el.getElementsByClassName("ref")[0];
+	let inputElm = el.getElementsByClassName("ref")[0];
 
 	switch (field.type) {
 		case "time":
@@ -1187,7 +1187,7 @@ function autoUpdate(noThreshold) {
 }
 
 async function update() {
-	var now = new Date();
+	let now = new Date();
 	scoreboard._D = now;
 
 	// apply last stream activity for each player on stream
@@ -1195,7 +1195,7 @@ async function update() {
 		db.update("player", { $or: scoreboard.teams[teamNum].players.map((x) => ({ "_id": x._id })) }, { "lastActivity": now }, true);
 	}
 
-	var dbEntries = await collectDatabaseEntries(scoreboard);
+	let dbEntries = await collectDatabaseEntries(scoreboard);
 	if (scoreboard._D != now) { return; } // prevent multiple updates due to delay
 	_ws.send("scoreboard", { scoreboard, dbEntries });
 	insertMatchList(scoreboard);
@@ -1204,7 +1204,7 @@ async function update() {
 }
 
 async function collectDatabaseEntries(sb) {
-	var dbData = { country: [], character: [], team: [], game: [], pride: [] };
+	let dbData = { country: [], character: [], team: [], game: [], pride: [] };
 	for (let teamNum in sb.teams) {
 		sb.teams[teamNum].players.forEach((player) => {
 			dbData.country.push(player.country);
@@ -1239,10 +1239,10 @@ async function insertMatchList(sb) {
 	if (sb.id == null) {
 		await newMatch(true);
 	}
-	var data = await db.getSingle('match', { "_id": sb.id });
+	let data = await db.getSingle('match', { "_id": sb.id });
 	if (data == null) { return; } // fail safe
 
-	var entry = Object.assign(data, {
+	let entry = Object.assign(data, {
 		teams: {},
 		game: sb.game,
 		type: sb.type,
@@ -1314,18 +1314,18 @@ async function applyLastMatchId() {
 }
 
 async function getLastMatchId() {
-	var matches = await db.get("match", null, null, { sort: { "_D": -1 }, limit: 1 });
+	let matches = await db.get("match", null, null, { sort: { "_D": -1 }, limit: 1 });
 	if (matches.length == 0) { return; }
 	return matches[0]._id;
 }
 
 function clockUpdate() {
-	var d = new Date();
-	var h = d.getHours();
-	var i = d.getMinutes();
+	let d = new Date();
+	let h = d.getHours();
+	let i = d.getMinutes();
 	i = (i < 10 ? '0' : '') + i;
 	h = (h < 10 ? '0' : '') + h;
-	var offset = -d.getTimezoneOffset();
+	let offset = -d.getTimezoneOffset();
 	document.getElementById('clock').firstElementChild.innerText = h + ':' + i;
 	document.getElementById('clock').lastElementChild.innerText = "UTC " + (offset >= 0 ? "+" : "-") + parseInt(offset / 60) + (offset % 60 == 0 ? "" : ":" + offset % 60);
 	setTimeout(clockUpdate, (60 - d.getSeconds()) * 1000);
@@ -1381,7 +1381,7 @@ function hold(name) {
 		_callbacks.hold.push(name);
 }
 function release(name) {
-	var index = _callbacks.hold.indexOf(name);
+	let index = _callbacks.hold.indexOf(name);
 	if (index > -1)
 		_callbacks.hold.splice(index, 1);
 }
@@ -1394,7 +1394,7 @@ var bgWork = {
 		this.check();
 	},
 	finish: function (name) {
-		var index = this.workers.indexOf(name);
+		let index = this.workers.indexOf(name);
 		if (index > -1)
 			this.workers.splice(index, 1);
 		this.check();

@@ -22,11 +22,11 @@ class ThemeWrapper {
 		return new Promise((resolve, reject) => {
 			const fs = require("fs");
 			const path = require("path");
-			var themePath = path.join(remote.getGlobal("APPRES"), 'themes');
+			let themePath = path.join(remote.getGlobal("APPRES"), 'themes');
 			fs.readdir(themePath, { withFileTypes: true }, (err, dirs) => {
 				if (err) { return reject(err); }
 				dirs = dirs.filter(x => x.isDirectory());
-				var promises = [];
+				let promises = [];
 				dirs.forEach((dir) => {
 					promises.push(new Promise((resolve, reject) => {
 						let theme = new ThemeWrapper();
@@ -49,7 +49,7 @@ class ThemeWrapper {
 	}
 
 	static async getTheme(val) {
-		var themes = await ThemeWrapper.getThemesList();
+		let themes = await ThemeWrapper.getThemesList();
 		switch (typeof val) {
 			case 'string': return themes.find(x => x.dir == val);
 			case 'number': return themes[val];

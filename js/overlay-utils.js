@@ -1,13 +1,13 @@
 
 
 HTMLElement.prototype.insertValueResize = function (customParams) {
-	var self = this;
+	let self = this;
 	this.animationTimeout = this.animationTimeout || 0;
 	this.watchTimeout = this.watchTimeout || 0;
 	this.watchValue = this.clientWidth;
 	this.savedValue = this.savedValue || "";
 	// define default params
-	var params = {
+	let params = {
 		value: "",
 		child: null,
 		fadeOut: null,
@@ -24,7 +24,7 @@ HTMLElement.prototype.insertValueResize = function (customParams) {
 	if (typeof (customParams) != "object") {
 		params.value = String(customParams);
 	} else {
-		for (var index in customParams) {
+		for (let index in customParams) {
 			params[index] = customParams[index];
 		}
 	}
@@ -49,12 +49,12 @@ HTMLElement.prototype.insertValueResize = function (customParams) {
 		if (self.savedValue == params.value && !boxResize)
 			return;
 		self.savedValue = params.value;
-		var inner = self.querySelector("* > " + params.child);
+		let inner = self.querySelector("* > " + params.child);
 		if (!inner) {
 			inner = self.firstElementChild;
 		}
 
-		var mirror = params.classMirror ? document.querySelector(params.classMirror) : null;
+		let mirror = params.classMirror ? document.querySelector(params.classMirror) : null;
 
 		if (!params.child && !inner) {
 			self.appendChild(document.createElement("span"));
@@ -88,12 +88,12 @@ HTMLElement.prototype.insertValueResize = function (customParams) {
 		self.animationTimeout = setTimeout(() => {
 			if (typeof (params.callback) == "function") params.callback(2); // status callback
 			inner.innerHTML = params.value;
-			var style = window.getComputedStyle(self, null).getPropertyValue('font-size');
-			var fontSize = parseFloat(style);
+			let style = window.getComputedStyle(self, null).getPropertyValue('font-size');
+			let fontSize = parseFloat(style);
 			inner.style.fontSize = fontSize + "px";
 			self.animationTimeout = setTimeout(() => {
 				if (typeof (params.callback) == "function") params.callback(3); // status callback
-				var crashPreventionCounter = 0;
+				let crashPreventionCounter = 0;
 				while (inner.clientWidth > self.clientWidth) {
 					inner.style.fontSize = fontSize-- + "px";
 					crashPreventionCounter++;
@@ -121,7 +121,7 @@ HTMLElement.prototype.insertValueResize = function (customParams) {
 	}
 
 	function getFadeDuration() {
-		var val = window.getComputedStyle(self).transitionDuration;
+		let val = window.getComputedStyle(self).transitionDuration;
 		if (val == "0s")
 			val = window.getComputedStyle(self.firstElementChild).transitionDuration;
 		val = val.substr(0, val.length - 1);

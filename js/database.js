@@ -71,8 +71,8 @@ function editEntry(id) {
 }
 
 async function getList() {
-	var term = document.getElementById('search-txb').value.toLowerCase();
-	var params = { "limit": _maxPerPage, "page": _currentPage };
+	let term = document.getElementById('search-txb').value.toLowerCase();
+	let params = { "limit": _maxPerPage, "page": _currentPage };
 
 	if (_keys[0]) {
 		params.sort = {};
@@ -98,7 +98,7 @@ async function getList() {
 }
 
 function displayList(list) {
-	var el = document.getElementById('list-grid');
+	let el = document.getElementById('list-grid');
 	el.innerHTML = "";
 	el.style.gridTemplateColumns = "repeat(" + _keys.length + ", 1fr)";
 	_keys.forEach((key) => {
@@ -152,7 +152,7 @@ function displayList(list) {
 }
 
 async function buildPageList() {
-	var term = document.getElementById('search-txb').value.toLowerCase();
+	let term = document.getElementById('search-txb').value.toLowerCase();
 	let filter = [];
 	for (field of _keys.filter(x => x.type == "relation")) {
 		let res = await db.get(field.relation, { "name": { $regex: new RegExp(`${term}`, 'i') } });
@@ -160,10 +160,10 @@ async function buildPageList() {
 	}
 	filter = filter.concat(_keys.filter(x => x.type == "text").map(x => ({ [x.field]: { $regex: new RegExp(`${term}`, 'i') } })));
 
-	var count = await db.count(_currentDB, { $or: filter });
+	let count = await db.count(_currentDB, { $or: filter });
 
-	var pageCount = Math.ceil(count / _maxPerPage);
-	var el = document.getElementById('page-list');
+	let pageCount = Math.ceil(count / _maxPerPage);
+	let el = document.getElementById('page-list');
 	el.innerHTML = "";
 
 	for (let i = 1; i <= pageCount; i++) {

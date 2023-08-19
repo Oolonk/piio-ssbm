@@ -20,7 +20,7 @@ ipcRenderer.on("returnchannel", (event, data) => _returnChannel = data);
 async function fillTournamentInfo() {
 	let tournament = await smashgg.getTournament();
 	document.querySelector("#info .title").innerText = (tournament ? tournament.name : "");
-	var img = SmashggWrapper.getImage(tournament, "profile", 150);
+	let img = SmashggWrapper.getImage(tournament, "profile", 150);
 	document.querySelector("#info .logo").style.backgroundImage = "url('" + img + "')";
 	document.querySelector("#selected-tournament .bg").style.backgroundImage = "url('" + SmashggWrapper.getImage(tournament, "banner") + "')";
 
@@ -42,8 +42,8 @@ async function fillTournamentInfo() {
 }
 
 function displayChannels(channels) {
-	var el = document.getElementById('channel-select').truncate();
-	var tpl = document.getElementById('channel-item');
+	let el = document.getElementById('channel-select').truncate();
+	let tpl = document.getElementById('channel-item');
 	channels.forEach((stream) => {
 		let channelItem = tpl.content.cloneNode(true);
 		let itemEl = channelItem.querySelector('.item');
@@ -67,7 +67,7 @@ function search() {
 	_fetchResultTimeout = setTimeout(() => {
 		currentPage = 1;
 		slugMatchTournament = null;
-		var el = document.getElementById('results').truncate();
+		let el = document.getElementById('results').truncate();
 		el.onscroll = checkForLoad;
 		fetchResults();
 	}, 200);
@@ -75,7 +75,7 @@ function search() {
 
 
 function checkForLoad(e) {
-	var scrollLeft = e.target.scrollHeight - e.target.scrollTop - e.target.clientHeight;
+	let scrollLeft = e.target.scrollHeight - e.target.scrollTop - e.target.clientHeight;
 	if (scrollLeft < 10 && !infiniteScrollLoading) {
 		infiniteScrollLoading = true;
 		fetchResults();
@@ -122,13 +122,13 @@ async function fetchResults() {
 }
 
 function buildItem(tournament) {
-	var tpl = document.getElementById('result-item');
+	let tpl = document.getElementById('result-item');
 	let tEl = tpl.content.cloneNode(true);
 
 	tEl.querySelector(".item").classList.toggle("selected", smashgg.selectedTournament == tournament.id);
 	tEl.querySelector(".item").classList.toggle("matchedSlug", tournament.matchedSlug == true);
 
-	var img = SmashggWrapper.getImage(tournament, "profile", 50);
+	let img = SmashggWrapper.getImage(tournament, "profile", 50);
 	if (img) {
 		tEl.querySelector(".logo").style.backgroundImage = "url('" + img + "')";
 	}
@@ -161,20 +161,20 @@ function cancel() {
 }
 
 function getDateString(start, end, timezone) {
-	var startDate = new Date(start * 1000);
-	var endDate = new Date(end * 1000);
+	let startDate = new Date(start * 1000);
+	let endDate = new Date(end * 1000);
 	if (timezone) {
-		var diff = 0;
+		let diff = 0;
 		try {
-			var invdate = new Date(startDate.toLocaleString('en-US', { timeZone: timezone }));
+			let invdate = new Date(startDate.toLocaleString('en-US', { timeZone: timezone }));
 			diff = startDate.getTime() - invdate.getTime();
 		} catch (e) { }
 		startDate = new Date(startDate.getTime() + diff);
 		endDate = new Date(endDate.getTime() + diff);
 	}
-	var startString = startDate.getDate() + "-" + startDate.getMonth() + '-' + startDate.getYear();
-	var endString = endDate.getDate() + "-" + endDate.getMonth() + '-' + endDate.getYear();
-	var out = startDate.toLocaleDateString();
+	let startString = startDate.getDate() + "-" + startDate.getMonth() + '-' + startDate.getYear();
+	let endString = endDate.getDate() + "-" + endDate.getMonth() + '-' + endDate.getYear();
+	let out = startDate.toLocaleDateString();
 	if (startString != endString) {
 		out += " - " + endDate.toLocaleDateString();
 	}

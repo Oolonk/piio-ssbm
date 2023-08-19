@@ -61,7 +61,7 @@ class PiioConnector {
 	}
 
 	command(module, args, cb) {
-		var mid = this.messageIdCounter++;
+		let mid = this.messageIdCounter++;
 		if (cb && typeof cb == "function") {
 			this.awaitingCommandReturns[module + "-cmd-return-" + mid] = cb;
 		}
@@ -114,7 +114,7 @@ class PiioConnector {
 		if (playerNum == null) {
 			playerNum = this.getSelectedPlayer(teamNum);
 		}
-		var seats = this.cache.scoreboard.seatorder;
+		let seats = this.cache.scoreboard.seatorder;
 		for (let i in seats) {
 			let seat = seats[i];
 			if (seat[0] == teamNum && seat[1] == playerNum) {
@@ -124,8 +124,8 @@ class PiioConnector {
 	}
 
 	getPlayersByPosition() {
-		var list = [];
-		var seats = this.cache.scoreboard.seatorder;
+		let list = [];
+		let seats = this.cache.scoreboard.seatorder;
 		for (let i in seats) {
 			list.push(this.getPlayer(seats[i][0], seats[i][1]));
 		}
@@ -141,11 +141,11 @@ class PiioConnector {
 
 	getTeamName(teamNum, options) {
 		options = options || {};
-		var before = options.before || "";
-		var after = options.after || "";
-		var delimiter = options.delimiter || " / ";
+		let before = options.before || "";
+		let after = options.after || "";
+		let delimiter = options.delimiter || " / ";
 
-		var value = "";
+		let value = "";
 		if (!this.cache.hasOwnProperty("scoreboard") || !this.cache.scoreboard.hasOwnProperty("teams") || !this.cache.scoreboard.teams.hasOwnProperty(teamNum)) {
 			return ""; // team not here - something broken
 		}
@@ -162,7 +162,7 @@ class PiioConnector {
 		if (this.cache.scoreboard.type != "crews" || !this.cache.scoreboard.teams.hasOwnProperty(teamNum)) {
 			return null;
 		}
-		var list = [];
+		let list = [];
 
 		this.cache.scoreboard.teams[teamNum].out.forEach((isOut, index) => {
 			list.push({
@@ -182,7 +182,7 @@ class PiioConnector {
 		if (!this.cache.scoreboard.teams.hasOwnProperty(teamNum)) {
 			return [];
 		}
-		var list = this.cache.scoreboard.teams[teamNum].players;
+		let list = this.cache.scoreboard.teams[teamNum].players;
 
 		list = list.filter(player => player.name != "");
 
@@ -204,7 +204,7 @@ class PiioConnector {
 		if (playerNum == null) {
 			playerNum = this.getSelectedPlayer(teamNum);
 		}
-		var po = this.getPlayer(teamNum, playerNum);
+		let po = this.getPlayer(teamNum, playerNum);
 		if (po && this.cache.country.hasOwnProperty(po.country))
 			return this.cache.country[po.country];
 		return null;
@@ -214,7 +214,7 @@ class PiioConnector {
 		if (playerNum == null) {
 			playerNum = this.getSelectedPlayer(teamNum);
 		}
-		var po = this.getPlayer(teamNum, playerNum);
+		let po = this.getPlayer(teamNum, playerNum);
 		if (po && this.cache.pride.hasOwnProperty(po.pride))
 			return this.cache.pride[po.pride];
 		return null;
@@ -238,9 +238,9 @@ class PiioConnector {
 		}
 		if (!this.cache.scoreboard.teams.hasOwnProperty(teamNum) || !this.cache.scoreboard.teams[teamNum].characters.hasOwnProperty(playerNum) || this.TeamSize <= playerNum)
 			return null;
-		var co = this.cache.scoreboard.teams[teamNum].characters[playerNum];
+		let co = this.cache.scoreboard.teams[teamNum].characters[playerNum];
 		if (co && this.cache.character.hasOwnProperty(co[0])) {
-			var c = new Character(this.cache.character[co[0]]);
+			let c = new Character(this.cache.character[co[0]]);
 			c.defaultSkin = co[1];
 			return c;
 		}
@@ -251,7 +251,7 @@ class PiioConnector {
 		if (playerNum == null) {
 			playerNum = this.getSelectedPlayer(teamNum);
 		}
-		var po, teams = [];
+		let po, teams = [];
 		if (teamNum instanceof Player) {
 			po = teamNum;
 		} else {
@@ -293,7 +293,7 @@ class PiioConnector {
 	}
 
 	getFieldValue(name) {
-		var field = this.getField(name);
+		let field = this.getField(name);
 		return field.value;
 	}
 
@@ -326,7 +326,7 @@ class PiioConnector {
 		if (typeof arg == "string") {
 			arg = { "source": arg };
 		}
-		var params = {
+		let params = {
 			"source": arg.source || "",
 			"element": arg.element || document.body,
 			"visibleClass": arg.visibleClass || "visible",

@@ -11,8 +11,8 @@ ipcRenderer.on("shortcut-settings", (event, data) => {
 	_shortcuts = data.shortcuts;
 	console.log(data);
 	_commandsList = [];
-	var generalOptions = [{ "label": "Nothing", "value": -1 }, { "label": "Custom", "value": 0 }];
-	var el = document.getElementById('details-action').truncate();
+	let generalOptions = [{ "label": "Nothing", "value": -1 }, { "label": "Custom", "value": 0 }];
+	let el = document.getElementById('details-action').truncate();
 
 	generalOptions.forEach((command) => {
 		let opt = document.createElement('option');
@@ -57,7 +57,7 @@ function init() {
 }
 
 function displayList(list) {
-	var el = document.getElementById('list').truncate();
+	let el = document.getElementById('list').truncate();
 
 	for (let i in list) {
 		let entry = list[i];
@@ -90,7 +90,7 @@ function displayList(list) {
 }
 
 function showDetails(entry) {
-	var commandIndex = getCommandIndex(entry.payload);
+	let commandIndex = getCommandIndex(entry.payload);
 	detailsActionChanged(commandIndex);
 	document.getElementById('details-label').value = entry.label;
 	document.getElementById('details-action').value = commandIndex;
@@ -113,7 +113,7 @@ function getCommandIndex(payload) {
 }
 
 function detailsActionChanged(value) {
-	var el = document.getElementById('details-args').truncate();
+	let el = document.getElementById('details-args').truncate();
 	if (_commandsList[value]) {
 		if (_commandsList[value].args) {
 			_commandsList[value].args.forEach((arg) => {
@@ -133,9 +133,9 @@ function detailsActionChanged(value) {
 
 function saveEntry() {
 	// {"label":"Scene Mute auto trigger","enabled":true,"payload":{"type":"obs-cmd","data":{"name":"transition","duration":300}}},
-	var actionIndex = document.getElementById('details-action').value;
-	var command = _commandsList[actionIndex];
-	var entry = {
+	let actionIndex = document.getElementById('details-action').value;
+	let command = _commandsList[actionIndex];
+	let entry = {
 		"label": document.getElementById('details-label').value,
 		"enabled": true,
 		"payload": {
@@ -177,7 +177,7 @@ function removeEntry() {
 
 
 function remove() {
-	var conf = confirm("Are you sure you want to delete this entry?");
+	let conf = confirm("Are you sure you want to delete this entry?");
 
 	window.close();
 }

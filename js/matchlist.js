@@ -38,7 +38,7 @@ function dbRefresh() {
 }
 
 async function updateEntryCount() {
-	var val = await db.count('match');
+	let val = await db.count('match');
 	document.querySelector("#db-select-" + dbName + " .count").innerText = val + " entr" + (val == 1 ? 'y' : 'ies');
 }
 
@@ -53,11 +53,11 @@ async function getList() {
 }
 
 async function displayList(entries) {
-	var el = document.getElementById('match-list');
+	let el = document.getElementById('match-list');
 	el.innerHTML = "";
 
 	// collect IDs to fetch all DB entries
-	var dbIdCollection = {
+	let dbIdCollection = {
 		player: {},
 		team: {},
 		game: {},
@@ -105,12 +105,12 @@ async function displayList(entries) {
 	entries.forEach((entry, index) => {
 		console.log(entry);
 
-		var teamNames = [];
+		let teamNames = [];
 		for (let teamNum in entry.teams) {
 			if (entry.teams[teamNum].name.length > 0) {
 				teamNames.push(entry.teams[teamNum].name);
 			} else {
-				var playerNames = [];
+				let playerNames = [];
 				for (let playerNum in entry.teams[teamNum].players) {
 					let player = entry.teams[teamNum].players[playerNum];
 					let playerName = player.name;
@@ -122,7 +122,7 @@ async function displayList(entries) {
 							playerName = player.name;
 						}
 						if (includeCharacters && entry.characters[player._id]) {
-							var charList = ' (' + entry.characters[player._id].map(x => dbIdCollection.character[x].Shorten).join(characterSeperator) + ')';
+							let charList = ' (' + entry.characters[player._id].map(x => dbIdCollection.character[x].Shorten).join(characterSeperator) + ')';
 							playerName += charList;
 						}
 					}
@@ -133,10 +133,10 @@ async function displayList(entries) {
 		}
 
 		/*
-		var includeCharacters = true;
-		var includeTeamPrefix = true;
+		let includeCharacters = true;
+		let includeTeamPrefix = true;
 		*/
-		var patternReplacements = [];
+		let patternReplacements = [];
 		patternReplacements.push(["TOURNAMENT", tournamentName]);
 		patternReplacements.push(["TEAM1", teamNames[0]]);
 		patternReplacements.push(["TEAM2", teamNames[1]]);
@@ -144,22 +144,22 @@ async function displayList(entries) {
 			patternReplacements.push(["FIELD:" + field.toUpperCase(), entry.fields[field]]);
 		}
 
-		var title = titlePattern;
+		let title = titlePattern;
 		patternReplacements.forEach((replace) => {
 			title = title.replace(new RegExp("{" + replace[0] + "}", 'g'), replace[1]);
 		});
 
 
-		var item = document.createElement('div');
+		let item = document.createElement('div');
 		item.classList.add('item');
 
-		var overviewEl = document.createElement('div');
+		let overviewEl = document.createElement('div');
 
-		var overviewTitleEl = document.createElement('div');
+		let overviewTitleEl = document.createElement('div');
 		overviewTitleEl.innerText = title;
 		overviewEl.appendChild(overviewTitleEl);
 
-		var overviewCopyBtn = document.createElement('button');
+		let overviewCopyBtn = document.createElement('button');
 		overviewCopyBtn.innerText = "Copy";
 		overviewCopyBtn.onclick = (e) => {
 			clipboard.writeText(title, 'selection');
@@ -171,11 +171,11 @@ async function displayList(entries) {
 
 		item.appendChild(overviewEl);
 
-		var matchListEl = document.createElement('div');
+		let matchListEl = document.createElement('div');
 
 
 		matchListEl.className = "game-item";
-		var playersEl = document.createElement('div');
+		let playersEl = document.createElement('div');
 		playersEl.className = "player";
 
 
@@ -184,17 +184,17 @@ async function displayList(entries) {
 		playersEl.innerHTML = teamNames.join(" Vs. ");
 		matchListEl.appendChild(playersEl);
 
-		var castersEl = document.createElement('div');
+		let castersEl = document.createElement('div');
 		castersEl.className = "caster";
 		castersEl.innerHTML = entry.caster.filter(x => x.name.length > 0 || x.id.length > 0).map(x => (x.id && x.id.length > 0) ? dbIdCollection.player[x.id].name : '<i>' + x.name + '</i>').join(" / ");
 		matchListEl.appendChild(castersEl);
 
-		var gameEl = document.createElement('div');
+		let gameEl = document.createElement('div');
 		gameEl.className = "game";
 		gameEl.innerHTML = dbIdCollection.game[entry.game].name;
 		matchListEl.appendChild(gameEl);
 
-		var fieldsEl = document.createElement('div');
+		let fieldsEl = document.createElement('div');
 		fieldsEl.className = "fields";
 		for (let i in entry.fields) {
 			fieldsEl.innerHTML += '<div class="field-item">' + i + ': ' + entry.fields[i] + '</div>';
@@ -202,18 +202,18 @@ async function displayList(entries) {
 		matchListEl.appendChild(fieldsEl);
 
 		item.appendChild(matchListEl);
-		var titleTextboxesEl = document.createElement('div');
+		let titleTextboxesEl = document.createElement('div');
 		titleTextboxesEl.classList.add("title-textboxes");
 
-		var titleFull = document.createElement('input');
+		let titleFull = document.createElement('input');
 		titleFull.value = "";
 		titleTextboxesEl.appendChild(titleFull);
 
-		var titleTrimmed = document.createElement('input');
+		let titleTrimmed = document.createElement('input');
 		titleTrimmed.value = "";
 		titleTextboxesEl.appendChild(titleTrimmed);
 
-		var titleShort = document.createElement('input');
+		let titleShort = document.createElement('input');
 		titleShort.value = "";
 		titleTextboxesEl.appendChild(titleShort);
 
@@ -235,8 +235,8 @@ function buildPageList() {
 
 	db.db['match'].count({}, (err, rows) => {
 		if (err) console.log(err);
-		var pageCount = Math.ceil(rows / _maxPerPage);
-		var el = document.getElementById('page-list');
+		let pageCount = Math.ceil(rows / _maxPerPage);
+		let el = document.getElementById('page-list');
 		el.innerHTML = "";
 		for (let num = 1; num <= pageCount; num++) {
 			let pi = document.createElement('div');

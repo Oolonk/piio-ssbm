@@ -38,7 +38,7 @@ class MidiWrapper {
 	}
 
 	_portChanged(e) {
-		var type = "";
+		let type = "";
 		switch (e.port.constructor.name) {
 			case "MIDIInput": type = "input"; break;
 			case "MIDIOutput": type = "output"; break;
@@ -47,7 +47,7 @@ class MidiWrapper {
 	}
 
 	_message(data) {
-		var input = this._convertInput(data.data);
+		let input = this._convertInput(data.data);
 		this.emit("data", input);
 		if (input.type == "button") {
 			this.emit("button", input);
@@ -58,12 +58,12 @@ class MidiWrapper {
 	}
 
 	send(data) {
-		var output = this._convertOutput(data);
+		let output = this._convertOutput(data);
 		this.output.send(output);
 	}
 
 	get Devices() {
-		var list = [];
+		let list = [];
 		this.deviceList.forEach(device => {
 			if (list.indexOf(device.name) === -1)
 				list.push(device.name);
@@ -138,7 +138,7 @@ class MidiWrapper {
 
 
 	_convertInput(data) {
-		var res = {
+		let res = {
 			type: "generic",
 			cat: "unknown",
 			value: data[0],
@@ -202,7 +202,7 @@ class MidiWrapper {
 	}
 
 	_convertOutput(data) {
-		var res = {
+		let res = {
 			value: data[0],
 			note: data[1],
 			velo: data[2],

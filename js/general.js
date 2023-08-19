@@ -4,7 +4,7 @@ const { BrowserWindow } = require('@electron/remote');
 const db = remote.require("./main").database;
 
 window.addEventListener("load", () => {
-	var el = document.getElementById('titlebar');
+	let el = document.getElementById('titlebar');
 	if (!el) { return };
 	el.appendChild(createElement({ "type": "div", "className": "titlebarLogo" }));
 	el.appendChild(createElement({ "type": "div", "className": "title", "text": document.title }));
@@ -53,14 +53,14 @@ function unmaximizeHandler() {
 }
 
 function pageTitleUpdatedHandler(e, val) {
-	var el = document.getElementById('titlebar');
+	let el = document.getElementById('titlebar');
 	if (!el) { return; }
 	el.querySelector("#titlebar .title").innerText = val;
 }
 
 
 function createElement(params) {
-	var defaults = {
+	let defaults = {
 		"type": "div",
 		"className": "",
 		"text": "",
@@ -70,7 +70,7 @@ function createElement(params) {
 		"onclick": null
 	};
 	params = Object.assign(defaults, params);
-	var el = document.createElement(params.type);
+	let el = document.createElement(params.type);
 	el.className = params.className;
 	el.id = params.id;
 	if (params.text)
@@ -99,7 +99,7 @@ HTMLElement.prototype.truncate = function () {
 	return this;
 };
 HTMLElement.prototype.getIndexIn = function (parentElm) {
-	var childElm = this;
+	let childElm = this;
 	while (parentElm != childElm.parentNode)
 		childElm = childElm.parentNode;
 	return Array.prototype.slice.call(parentElm.children).indexOf(childElm);
@@ -113,9 +113,9 @@ async function openWindow(name, params, dialog) {
 }
 
 function getInterfaces() {
-	var os = require('os');
-	var ifaces = os.networkInterfaces();
-	var ips = [];
+	let os = require('os');
+	let ifaces = os.networkInterfaces();
+	let ips = [];
 	Object.keys(ifaces).forEach((ifname) => {
 		ifaces[ifname].forEach(function (iface) {
 			if ('IPv4' !== iface.family || iface.internal !== false) {
@@ -134,32 +134,32 @@ function getInterfaces() {
 }
 
 function getIpRangeFromAddressAndNetmask(ip, mask) {
-	var ipaddress = ip.split('.');
-	var netmaskblocks = mask.split('.').map(function (el) { return parseInt(el, 10) });
-	var invertedNetmaskblocks = netmaskblocks.map(function (el) { return el ^ 255; });
-	var baseAddress = ipaddress.map(function (block, idx) { return block & netmaskblocks[idx]; });
-	var broadcastaddress = ipaddress.map(function (block, idx) { return block | invertedNetmaskblocks[idx]; });
+	let ipaddress = ip.split('.');
+	let netmaskblocks = mask.split('.').map(function (el) { return parseInt(el, 10) });
+	let invertedNetmaskblocks = netmaskblocks.map(function (el) { return el ^ 255; });
+	let baseAddress = ipaddress.map(function (block, idx) { return block & netmaskblocks[idx]; });
+	let broadcastaddress = ipaddress.map(function (block, idx) { return block | invertedNetmaskblocks[idx]; });
 	return [baseAddress.join('.'), broadcastaddress.join('.')];
 }
 
 
 function getCPUUsage() {
 	return new Promise((resolve, reject) => {
-		var start = getCPU();
+		let start = getCPU();
 		setTimeout(() => {
-			var end = getCPU();
-			var total = end.total - start.total;
-			var idle = end.idle - start.idle;
+			let end = getCPU();
+			let total = end.total - start.total;
+			let idle = end.idle - start.idle;
 			resolve(1 - idle / total);
 		}, 1000);
 	});
 }
 
 function getCPU() {
-	var os = require('os');
-	var cores = os.cpus();
-	var total = 0;
-	var idle = 0;
+	let os = require('os');
+	let cores = os.cpus();
+	let total = 0;
+	let idle = 0;
 	cores.forEach(core => {
 		total += core.times.user;
 		total += core.times.nice;

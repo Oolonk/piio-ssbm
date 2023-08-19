@@ -6,7 +6,7 @@ var _returnChannel;
 ipcRenderer.on("returnchannel", (event, data) => _returnChannel = data);
 
 addEventListener("load", async () => {
-	var settings = await ipcRenderer.invoke("get", "settings");
+	let settings = await ipcRenderer.invoke("get", "settings");
 	settings.forEach((entry) => {
 		let el = document.getElementById(entry.name + '-value');
 		if (!el) { return; }

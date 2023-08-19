@@ -43,7 +43,7 @@ class SmashggWrapper {
 		if (tournamentSlug == null) { return; }
 		let tournament = this.getCache("tournament", tournamentSlug, cacheMaxAge);
 		if (tournament == null) {
-			var res = await this.query(`query ($slug: String!) {
+			let res = await this.query(`query ($slug: String!) {
 				tournament(slug: $slug){
 					id name city countryCode createdAt rules hashtag numAttendees primaryContact primaryContactType shortSlug slug startAt endAt timezone tournamentType
 					streams {
@@ -113,7 +113,7 @@ class SmashggWrapper {
 		if (setId == null) { return null; }
 		let set = this.getCache("set", setId, cacheMaxAge);
 		if (set == null) {
-			var res = await this.query(`query ($id: ID!) {
+			let res = await this.query(`query ($id: ID!) {
 				set(id: $id){
 					id completedAt startedAt fullRoundText  hasPlaceholder identifier round state winnerId
 					slots {
@@ -225,7 +225,7 @@ class SmashggWrapper {
 		if (playerId == null) { return null; }
 		let player = this.getCache("player", playerId, cacheMaxAge);
 		if (player == null) {
-			var res = await this.query(`query ($id: ID!) {
+			let res = await this.query(`query ($id: ID!) {
 				player(id: $id){ id gamerTag 
 					user {
 						name genderPronoun birthday 
@@ -272,7 +272,7 @@ class SmashggWrapper {
 			this.stopStreamQueuePolling();
 		}
 
-		var res = await this.query(`query ($tourneySlug: String!){
+		let res = await this.query(`query ($tourneySlug: String!){
 			tournament(slug:$tourneySlug){
 				streams {
 					id
@@ -537,7 +537,7 @@ class SmashggWrapper {
 		return fixed;
 	}
 	static formatDate(date) {
-		var d = new Date(date),
+		let d = new Date(date),
 			month = '' + (d.getMonth() + 1),
 			day = '' + d.getDate(),
 			year = d.getFullYear();
@@ -571,7 +571,7 @@ class SmashggWrapper {
 			return null;
 		}
 
-		var current;
+		let current;
 		entity.images.forEach((img) => {
 			if (img.type == type) {
 				if (!current) {
