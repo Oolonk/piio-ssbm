@@ -110,5 +110,4 @@ out/
 scoreboard.json
 *.lock
 yarn.lock
-yarn.lock
-scoreboard.json
+*.json

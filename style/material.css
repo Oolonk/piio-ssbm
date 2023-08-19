@@ -23,6 +23,10 @@
 	#statusbar {
 		background: #ecf1f8;
 	}
+
+	.titlebarLogo {
+		filter: invert(100%);
+	}
 }
 
 body {

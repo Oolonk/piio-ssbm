@@ -3,7 +3,7 @@
 		filter: invert(100%);
 	}
 
-	.caster-add-btn {
+	.caster-add-btn img {
 		filter: invert(100%);
 	}
 
@@ -281,6 +281,7 @@ body:not(.fixedSidebar) #sidebar:not(:hover)>* {
 	font-size: 12px;
 	font-weight: bold;
 	text-decoration: none;
+	border-radius: 3px;
 }
 
 #sidebar nav a:hover {
@@ -322,7 +323,6 @@ body:not(.fixedSidebar) #sidebar:not(:hover)>* {
 #sidebar-options select,
 #sidebar-options input {
 	font-size: 10px;
-	border-radius: 1px;
 	padding: 2px;
 }
 

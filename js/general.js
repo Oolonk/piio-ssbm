@@ -6,7 +6,7 @@ const db = remote.require("./main").database;
 window.addEventListener("load", () => {
 	var el = document.getElementById('titlebar');
 	if (!el) { return };
-
+	el.appendChild(createElement({ "type": "div", "className": "titlebarLogo" }));
 	el.appendChild(createElement({ "type": "div", "className": "title", "text": document.title }));
 	let controlsEl = createElement({ "type": "div", "className": "controls" });
 	controlsEl.appendChild(createElement({ "type": "div", "className": "minimize", "onclick": () => remote.BrowserWindow.getFocusedWindow().minimize() }));

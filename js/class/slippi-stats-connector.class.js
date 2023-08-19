@@ -11,9 +11,91 @@ class SlippiStatsConnector {
         this.cache = await output;
         return output;
     }
+
+    async getPlayerStats(id) {
+        let query = `fragment profileFields on NetplayProfile {
+            id
+            ratingOrdinal
+            ratingUpdateCount
+            wins
+            losses
+            dailyGlobalPlacement
+            dailyRegionalPlacement
+            continent
+            characters {
+              id
+              character
+              gameCount
+              __typename
+            }
+            __typename
+          }
+          
+          fragment userProfilePage on User {
+            fbUid
+            displayName
+            connectCode {
+              code
+              __typename
+            }
+            status
+            activeSubscription {
+              level
+              hasGiftSub
+              __typename
+            }
+            rankedNetplayProfile {
+              ...profileFields
+              __typename
+            }
+            netplayProfiles {
+              ...profileFields
+              season {
+                id
+                startedAt
+                endedAt
+                name
+                status
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          
+          query AccountManagementPageQuery($cc: String!, $uid: String!) {
+            getUser(fbUid: $uid) {
+              ...userProfilePage
+              __typename
+            }
+            getConnectCode(code: $cc) {
+              user {
+                ...userProfilePage
+                __typename
+              }
+              __typename
+            }
+          }
+          `
+        let output = await fetch('https://gql-gateway-dot-slippi.uc.r.appspot.com/graphql',
+            {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    operationName: "AccountManagementPageQuery",
+                    query: query,
+                    variables: {
+                        cc: id,
+                        uid: id
+                    }
+                }),
+            });
+        output = output.json();
+        return output;
+    }
     async fetchStats(value) {
         var output;
-        output = await fetch('http://' + this.address + ':' + this.port + '/stats/' + value);
+        output = await fetch(`http://${this.address}:${this.port}/stats/${value}`);
         output = output.json();
         return output;
 
@@ -150,7 +232,7 @@ class SlippiStatsConnector {
             case 46:
                 return "Kirby Copy";
             default:
-                return "Unknown MoveID: " + move;
+                return `Unknown MoveID: ${move}`;
         }
     }
 }
