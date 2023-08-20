@@ -1513,9 +1513,6 @@ ipcRenderer.on('slippiFrame', (event, name) => {
 	slippi = name;
 	slippiUpdate('Frame', slippi);
 });
-ipcRenderer.on('sendSlippiStats', (event, name) => {
-	slippiUpdate('Stats', name);
-});
 
 function casterAdd() {
 	_theme.caster++;

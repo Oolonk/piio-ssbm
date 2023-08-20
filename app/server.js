@@ -181,7 +181,7 @@ Server.prototype.start = async function start() {
 	// handle WebSocket connections
 	this.server.ws('/', (ws, req) => {
 		ws.isAlive = true;
-		ws.subscriptions = ['getslippiStats'];
+		ws.subscriptions = [];
 		ws._SELF = null;
 		ws.receiveAll = false;
 		ws.on('pong', () => ws.isAlive = true);
@@ -242,9 +242,6 @@ Server.prototype.handleMessage = function handleMessage(inData, ws) {
 				ws.send(JSON.stringify(outData));
 			});
 			break;
-		case "getslippiStats":
-			this.event.emit("getSlippiStats", inData.data);
-			break;
 	}
 }
 
@@ -304,15 +301,31 @@ Server.prototype.createDynStatic = function createDynStatic(path, options) {
 	return dyn;
 }
 
-Server.prototype.broadcast = function broadcast(data, sender) {
+Server.prototype.broadcast = function broadcast(data, sender = null) {
 	var self = this;
 	var sendObj = (typeof data == "string" ? JSON.parse(data) : data);
 	var jsonStr = (typeof data == "string" ? data : JSON.stringify(data));
 	self.msgCache[sendObj.type] = jsonStr;
 	self.expressWs.getWss().clients.forEach((client) => {
 		// check if not the same && if client has subscribed to this type
-		if (client != sender && (client.subscriptions.includes(sendObj.type) || client.receiveAll) && client.readyState == WebSocket.OPEN) {
+		if ((sender == null || client != sender) && (client.subscriptions.includes(sendObj.type) || client.receiveAll) && client.readyState == WebSocket.OPEN) {
 			client.send(jsonStr);
+		}
+	});
+}
+
+Server.prototype.sendToID = function sendToID(data, id) {
+	var self = this;
+	var sendObj = (typeof data == "string" ? JSON.parse(data) : data);
+	var jsonStr = (typeof data == "string" ? data : JSON.stringify(data));
+	self.msgCache[sendObj.type] = jsonStr;
+	self.expressWs.getWss().clients.forEach((client) => {
+		if (client._SELF != null && client._SELF.id == id) {
+			console.log(client._SELF.id);
+			// check if not the same && if client has subscribed to this type
+			if (client.readyState == WebSocket.OPEN) {
+				client.send(jsonStr);
+			}
 		}
 	});
 }

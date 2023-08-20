@@ -12,9 +12,8 @@ const fs = require('fs-extra');
 const path = require('path');
 const nedb = require("nedb");
 const { Notification, dialog } = require('electron');
-const SlippiServer = require('./slippiserver.js');
 const { ipcMain } = require('./electron.js');
-const SlippiIntegration = require('./serverPlugins/slippi.js');
+const SlippiIntegration = require('./plugins/slippi.js');
 
 //init Slippi Integration
 var slippi = new SlippiIntegration;
@@ -89,16 +88,14 @@ electron.on("ready", async () => { // programm is ready
 	server.start();
 });
 
-server.on('getSlippiStats', async (data, cb) => {
-	console.log(data);
-	let stats = slippi.getStats(await data);
-	console.log(await stats);
-	electron.send('sendSlippiStats', await stats);
+server.on('data-getSlippiStats', async (data, cb) => {
+	let stats = slippi.getStats(await data.length);
+	server.sendToID({ type: 'slippiStats', data: await stats }, data.id);
 
 });
 
 slippi.on('frame', () => {
-	electron.send('slippiFrame', slippi.cache);
+	server.broadcast({ type: 'slippiFrame', data: slippi.cache })
 })
 var startedOnce = false;
 
