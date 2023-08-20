@@ -50,6 +50,66 @@ var scoreboard = {
 	type: null,
 	_D: null
 };
+var slippi = {
+	settings: {
+		slpVersion: "1",
+		timerType: 0,
+		inGameMode: 0,
+		friendlyFireEnabled: false,
+		isTeams: false,
+		itemSpawnBehavior: 0,
+		stageId: 0,
+		startingTimerSeconds: 0,
+		enabledItems: 0,
+		players: [],
+		scene: 0,
+		gameMode: 0,
+		language: 0,
+		gameInfoBlock: {
+			gameBitfield1: 0,
+			gameBitfield2: 0,
+			gameBitfield3: 0,
+			gameBitfield4: 0,
+			bombRainEnabled: false,
+			itemSpawnBehavior: 0,
+			selfDestructScoreValue: 0,
+			itemSpawnBitfield1: 0,
+			itemSpawnBitfield2: 0,
+			itemSpawnBitfield3: 0,
+			itemSpawnBitfield4: 0,
+			itemSpawnBitfield5: 0,
+			damageRatio: 0
+		},
+		randomSeed: 0,
+		isPAL: false,
+		isFrozenPS: false,
+		matchInfo: {
+			matchId: "",
+			gameNumber: 0,
+			tiebreakerNumber: 0
+		}
+	},
+	options: {
+		strict: true
+	},
+	lastFinalizedFrame: 0,
+	latestFrameIndex: 0,
+	frame: {
+		start: {
+			frame: 0,
+			seed: 0,
+			sceneFrameCounter: 0
+		},
+		players: [],
+		frame: 0,
+		isTransferComplete: false
+	},
+	gameEnd: null,
+	lras: null,
+	combo: [],
+	settingsComplete: true
+};
+
 
 var client = {
 	autoupdate: false,
@@ -1202,7 +1262,9 @@ async function update() {
 	fs.writeFileSync('scoreboard.json', JSON.stringify(scoreboard)); // legacy - reads startup data
 	fire("update");
 }
-
+function slippiUpdate(name, stats) {
+	_ws.send('slippi' + name, { stats });
+}
 async function collectDatabaseEntries(sb) {
 	let dbData = { country: [], character: [], team: [], game: [], pride: [] };
 	for (let teamNum in sb.teams) {
@@ -1415,7 +1477,6 @@ function stopSlippi() {
 	ipcRenderer.send("slippi", "stop");
 }
 
-
 ipcRenderer.on("slippi_status", (event, name) => {
 	switch (name) {
 		case "disconnected":
@@ -1447,6 +1508,13 @@ ipcRenderer.on("slippi_status", (event, name) => {
 			document.getElementById("system-status").innerHTML = 'Reconnecting to Slippi';
 			break;
 	}
+});
+ipcRenderer.on('slippiFrame', (event, name) => {
+	slippi = name;
+	slippiUpdate('Frame', slippi);
+});
+ipcRenderer.on('sendSlippiStats', (event, name) => {
+	slippiUpdate('Stats', name);
 });
 
 function casterAdd() {

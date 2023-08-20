@@ -14,8 +14,10 @@ const nedb = require("nedb");
 const { Notification, dialog } = require('electron');
 const SlippiServer = require('./slippiserver.js');
 const { ipcMain } = require('./electron.js');
+const SlippiIntegration = require('./serverPlugins/slippi.js');
 
-
+//init Slippi Integration
+var slippi = new SlippiIntegration;
 
 global.ARGV = { argv: {} };
 process.argv.forEach((arg) => {
@@ -41,10 +43,6 @@ var sessionTimestamp = new Date().getTime();
 var clientSettings = new nedb({ filename: path.join(APPUSERDATA, 'settings.db'), autoload: true });
 
 
-//init slippiserver
-
-let slippi = new SlippiServer;
-slippi.startServer();
 
 // init server
 let server = new PiioServer();
@@ -64,7 +62,6 @@ server.on("port-in-use", () => {
 	dialog.showMessageBox({ message: `Port ${server.port} is already in use on this machine. \nClosing program.` });
 	process.exit(1);
 });
-
 server.on("api", async (data, cb) => {
 	console.log(data);
 	if (data.name == "version") {
@@ -92,6 +89,17 @@ electron.on("ready", async () => { // programm is ready
 	server.start();
 });
 
+server.on('getSlippiStats', async (data, cb) => {
+	console.log(data);
+	let stats = slippi.getStats(await data);
+	console.log(await stats);
+	electron.send('sendSlippiStats', await stats);
+
+});
+
+slippi.on('frame', () => {
+	electron.send('slippiFrame', slippi.cache);
+})
 var startedOnce = false;
 
 electron.ipcMain.on('slippiPort', (event, name) => slippi.setSlippiPort(name));

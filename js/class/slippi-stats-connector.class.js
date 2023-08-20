@@ -6,11 +6,11 @@ class SlippiStatsConnector {
 
     }
 
-    async getStats(value) {
-        let output = stats.fetchStats(value);
-        this.cache = await output;
-        return output;
-    }
+    // async getStats(value) {
+    //     let output = stats.fetchStats(value);
+    //     this.cache = await output;
+    //     return output;
+    // }
 
     async getPlayerStats(id) {
         let query = `fragment profileFields on NetplayProfile {
@@ -93,13 +93,13 @@ class SlippiStatsConnector {
         output = output.json();
         return output;
     }
-    async fetchStats(value) {
-        let output;
-        output = await fetch(`http://${this.address}:${this.port}/stats/${value}`);
-        output = output.json();
-        return output;
+    // async fetchStats(value) {
+    //     let output;
+    //     output = await fetch(`http://${this.address}:${this.port}/stats/${value}`);
+    //     output = output.json();
+    //     return output;
 
-    }
+    // }
 
     moveId(move) {
         switch (move) {

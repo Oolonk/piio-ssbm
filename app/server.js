@@ -181,7 +181,7 @@ Server.prototype.start = async function start() {
 	// handle WebSocket connections
 	this.server.ws('/', (ws, req) => {
 		ws.isAlive = true;
-		ws.subscriptions = [];
+		ws.subscriptions = ['getslippiStats'];
 		ws._SELF = null;
 		ws.receiveAll = false;
 		ws.on('pong', () => ws.isAlive = true);
@@ -241,6 +241,9 @@ Server.prototype.handleMessage = function handleMessage(inData, ws) {
 				console.log(outData);
 				ws.send(JSON.stringify(outData));
 			});
+			break;
+		case "getslippiStats":
+			this.event.emit("getSlippiStats", inData.data);
 			break;
 	}
 }

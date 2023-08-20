@@ -69,21 +69,30 @@ class PiioConnector {
 	}
 
 	processdata(data) {
-		if (data.type == "scoreboard") {
-			console.log(data);
-			let sb = data.data.scoreboard;
-			let db = data.data.dbEntries;
-			this.cache.scoreboard = sb;
-			for (let teamNum in sb.teams) {
-				sb.teams[teamNum].players = this.assignPrototype(sb.teams[teamNum].players, Player);
-			}
-			sb.caster = this.assignPrototype(sb.caster, Player);
-			for (let dbIndex in db) {
-				for (let entryIndex in db[dbIndex]) {
-					this.cache[dbIndex][db[dbIndex][entryIndex]._id] = db[dbIndex][entryIndex];
+		console.log(data);
+		switch (data.type) {
+			case 'scoreboard':
+				console.log(data);
+				let sb = data.data.scoreboard;
+				let db = data.data.dbEntries;
+				this.cache.scoreboard = sb;
+				for (let teamNum in sb.teams) {
+					sb.teams[teamNum].players = this.assignPrototype(sb.teams[teamNum].players, Player);
 				}
-			}
-			data.data = sb;
+				sb.caster = this.assignPrototype(sb.caster, Player);
+				for (let dbIndex in db) {
+					for (let entryIndex in db[dbIndex]) {
+						this.cache[dbIndex][db[dbIndex][entryIndex]._id] = db[dbIndex][entryIndex];
+					}
+				}
+				data.data = sb;
+				break;
+			case 'slippiUpdate':
+				console.log(data);
+				break;
+			case 'slippiStats':
+				console.log(data);
+				break;
 		}
 
 
@@ -295,6 +304,12 @@ class PiioConnector {
 	getFieldValue(name) {
 		let field = this.getField(name);
 		return field.value;
+	}
+
+	async getSlippiStats(amount = 1) {
+		if (this.ws && this.ws.Open) {
+			this.ws.send({ "type": "getslippiStats", "data": amount });
+		}
 	}
 
 	get TeamSize() {
