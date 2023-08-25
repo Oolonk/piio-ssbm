@@ -69,21 +69,27 @@ class PiioConnector {
 	}
 
 	processdata(data) {
-		if (data.type == "scoreboard") {
-			console.log(data);
-			let sb = data.data.scoreboard;
-			let db = data.data.dbEntries;
-			this.cache.scoreboard = sb;
-			for (let teamNum in sb.teams) {
-				sb.teams[teamNum].players = this.assignPrototype(sb.teams[teamNum].players, Player);
-			}
-			sb.caster = this.assignPrototype(sb.caster, Player);
-			for (let dbIndex in db) {
-				for (let entryIndex in db[dbIndex]) {
-					this.cache[dbIndex][db[dbIndex][entryIndex]._id] = db[dbIndex][entryIndex];
+		console.log(data);
+		switch (data.type) {
+			case 'scoreboard':
+				let sb = data.data.scoreboard;
+				let db = data.data.dbEntries;
+				this.cache.scoreboard = sb;
+				for (let teamNum in sb.teams) {
+					sb.teams[teamNum].players = this.assignPrototype(sb.teams[teamNum].players, Player);
 				}
-			}
-			data.data = sb;
+				sb.caster = this.assignPrototype(sb.caster, Player);
+				for (let dbIndex in db) {
+					for (let entryIndex in db[dbIndex]) {
+						this.cache[dbIndex][db[dbIndex][entryIndex]._id] = db[dbIndex][entryIndex];
+					}
+				}
+				data.data = sb;
+				break;
+			case 'slippiFrame':
+				break;
+			case 'slippiStats':
+				break;
 		}
 
 
@@ -369,6 +375,147 @@ class PiioConnector {
 		if (this._callbacks.once.hasOwnProperty(name)) {
 			this._callbacks.once[name].forEach(cb => cb(data));
 			this._callbacks.once[name] = [];
+		}
+	}
+	slippi = {
+		moveId(move) {
+			switch (move) {
+				case 1:
+					return "Item Throw";
+				case 2:
+					return "Jab";
+				case 3:
+					return "Jab";
+				case 4:
+					return "Jab";
+				case 5:
+					return "Jab";
+				case 6:
+					return "Dash Attack";
+				case 7:
+					return "Forward Tilt";
+				case 8:
+					return "Up Tilt";
+				case 9:
+					return "Down Tilt";
+				case 10:
+					return "Side Smash";
+				case 11:
+					return "Up Smash";
+				case 12:
+					return "Down Smash";
+				case 13:
+					return "Neutral Air";
+				case 14:
+					return "Forward Air";
+				case 15:
+					return "Back Air";
+				case 16:
+					return "Up Air";
+				case 17:
+					return "Down Air";
+				case 18:
+					return "Neutral Special";
+				case 19:
+					return "Side Special";
+				case 20:
+					return "Up Special";
+				case 21:
+					return "Down Special";
+				case 50:
+					return "Get Up Attack";
+				case 51:
+					return "Get Up Attack";
+				case 52:
+					return "Pummel";
+				case 53:
+					return "Forward Throw";
+				case 54:
+					return "Back Throw";
+				case 55:
+					return "Up Throw";
+				case 56:
+					return "Down Throw";
+				case 57:
+					return "Cargo Forward Throw";
+				case 58:
+					return "Cargo Back Throw";
+				case 59:
+					return "Cargo Up Throw";
+				case 60:
+					return "Cargo Down Throw";
+				case 61:
+					return "Ledge Attack";
+				case 62:
+					return "Ledge Attack";
+				case 63:
+					return "Beam Sword Jab";
+				case 64:
+					return "Beam Sword Tilt Swing";
+				case 65:
+					return "Beam Sword Smash Swing";
+				case 66:
+					return "Beam Sword Dash Swing";
+				case 87:
+					return "Peach Parasol";
+				case 22:
+					return "Kirby Copy";
+				case 23:
+					return "Kirby Copy";
+				case 24:
+					return "Kirby Copy";
+				case 25:
+					return "Kirby Copy";
+				case 26:
+					return "Kirby Copy";
+				case 27:
+					return "Kirby Copy";
+				case 28:
+					return "Kirby Copy";
+				case 29:
+					return "Kirby Copy";
+				case 30:
+					return "Kirby Copy";
+				case 31:
+					return "Kirby Copy";
+				case 32:
+					return "Kirby Copy";
+				case 33:
+					return "Kirby Copy";
+				case 34:
+					return "Kirby Copy";
+				case 35:
+					return "Kirby Copy";
+				case 36:
+					return "Kirby Copy";
+				case 37:
+					return "Kirby Copy";
+				case 38:
+					return "Kirby Copy";
+				case 39:
+					return "Kirby Copy";
+				case 40:
+					return "Kirby Copy";
+				case 41:
+					return "Kirby Copy";
+				case 42:
+					return "Kirby Copy";
+				case 43:
+					return "Kirby Copy";
+				case 44:
+					return "Kirby Copy";
+				case 45:
+					return "Kirby Copy";
+				case 46:
+					return "Kirby Copy";
+				default:
+					return `Unknown MoveID: ${move}`;
+			}
+		},
+		getGamesStats: (amount = 1) => {
+			if (this.ws && this.ws.Open) {
+				this.ws.send({ "type": "getSlippiStats", "data": { length: amount, 'id': this.id } });
+			}
 		}
 	}
 }
