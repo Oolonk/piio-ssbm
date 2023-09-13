@@ -10,20 +10,16 @@
 
 <body>
     <script>
-        var realtime;
-        var piio = new PiioConnector("ui");
-        piio.on("ready", () => {
-            realtime = new SlippiRealtimeConnector("ui");
-            realtime.on("frame", (data) => {
-                console.log(data);
-            })
+        var piio = new PiioConnector("test", ["scoreboard", 'slippiFrame']);
+        piio.on("ready", (data) => {
+            console.log('init piio', data)
         })
         piio.on("scoreboard", (data) => {
-            console.log(data);
+            console.log('scoreboard changed', data);
         })
-        var stats = new SlippiStatsConnector();
-        stats.getStats(3)
-            .then(response => { console.log(response) });
+        piio.on("slippiFrame", (data) => {
+            console.log('new slippi data', data);
+        });
     </script>
 </body>
 
