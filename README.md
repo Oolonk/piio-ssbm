@@ -5,7 +5,7 @@ This is a fork from [piio](https://github.com/MYI-Liva/piio) made by Liva
 ## Added changes to this fork:
 - Added Slippi Support
 - New Fields: 
-    - For Player: City, Slippi-Code
+    - For Player: City, Slippi-Code, Pride-Flags
     - For Teams: Primary Color, Secondary Color
     - For Game: videogameID (ID of StartGG)
 - Ability to use SVG Files in the Assets Tab
@@ -18,6 +18,8 @@ This is a fork from [piio](https://github.com/MYI-Liva/piio) made by Liva
     - Stream Set List  
 - Ability to add/remove Casters on the fly
 - Update Dependencies
+- Auto Light and Dark Mode depends on Settings off the computer
+- update dependencies
 
 ## Example
 To fetch Data at the overlay page site via Javascript see [this example](themes/default/test.html)
