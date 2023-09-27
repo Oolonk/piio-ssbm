@@ -216,7 +216,7 @@ class PiioConnector {
 		return null;
 	}
 
-	getCountry(teamNum, playerNum) {
+	getPride(teamNum, playerNum) {
 		if (playerNum == null) {
 			playerNum = this.getSelectedPlayer(teamNum);
 		}
