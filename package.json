@@ -60,6 +60,13 @@
     }
   },
   "build": {
+    "files": [
+      "!.gitignore",
+      "!regions.json",
+      "!changelog.txt",
+      "!README.md",
+      "!scoreboard.json"
+    ],
     "linux": {
       "target": [
         {
