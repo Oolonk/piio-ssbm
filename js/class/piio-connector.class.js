@@ -221,9 +221,14 @@ class PiioConnector {
 			playerNum = this.getSelectedPlayer(teamNum);
 		}
 		let po = this.getPlayer(teamNum, playerNum);
-		if (po && this.cache.pride.hasOwnProperty(po.pride))
-			return this.cache.pride[po.pride];
-		return null;
+		let po2 = this.cache.pride;
+		po2 = Object.keys(po2)
+			.filter(key => po.pride.includes(key))
+			.reduce((obj, key) => {
+				obj[key] = po2[key];
+				return obj;
+			}, {});
+		return Object.values(po2);
 	}
 
 	getPort(teamNum, playerNum) {
@@ -279,6 +284,26 @@ class PiioConnector {
 			return this.cache.scoreboard.caster[casterNum - 1];
 		return null;
 	}
+
+	getCasterCountry(casterNum) {
+		let po = this.getCaster(casterNum);
+		if (po && this.cache.country.hasOwnProperty(po.country))
+			return this.cache.country[po.country];
+		return null;
+	}
+
+	getCasterPride(casterNum) {
+		let po = this.getCaster(casterNum);
+		let po2 = this.cache.pride;
+		po2 = Object.keys(po2)
+			.filter(key => po.pride.includes(key))
+			.reduce((obj, key) => {
+				obj[key] = po2[key];
+				return obj;
+			}, {});
+		return Object.values(po2);
+	}
+
 
 	getGame() {
 		if (!this.cache.scoreboard.hasOwnProperty("game")) {

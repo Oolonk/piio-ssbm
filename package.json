@@ -36,6 +36,13 @@
         ]
       },
       "packagerConfig": {
+        "ignore": [
+          ".gitignore",
+          "regions.json",
+          "changelog.txt",
+          "README.md",
+          "scoreboard.json"
+        ],
         "executableName": "piio",
         "icon": "./app/logo.ico"
       },
