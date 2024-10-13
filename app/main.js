@@ -14,9 +14,11 @@ const nedb = require("nedb");
 const { Notification, dialog } = require('electron');
 const { ipcMain } = require('./electron.js');
 const SlippiIntegration = require('./plugins/slippi.js');
+const ObsIntegration = require('./plugins/obs.js');
 
 //init Slippi Integration
 var slippi = new SlippiIntegration;
+var obs = new ObsIntegration;
 
 global.ARGV = { argv: {} };
 process.argv.forEach((arg) => {
