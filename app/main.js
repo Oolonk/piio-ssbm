@@ -118,7 +118,6 @@ function slippiChanger(event, name) {
 }
 function slippiViewer() {
 	slippi.stream.connection.on("statusChange", (status) => {
-		console.log(slippi.getAutoConnect());
 		if (status === slippi.connectionStatus.DISCONNECTED) {
 			console.log("DISCONNECTED to the relay");
 			if (slippi.autoconnect) {
@@ -160,6 +159,25 @@ function slippiViewer() {
 		}
 	});
 }
+
+electron.ipcMain.on('obsIp', (event, name) => {obs.setIp(name)});
+electron.ipcMain.on('obsPort', (event, name) => {obs.setPort(name)});
+electron.ipcMain.on('obsPassword', (event, name) => {obs.setPassword(name)});
+electron.ipcMain.on('obs', (event, name) => {obsChanger(event, name)});
+async function obsChanger(event, name) {
+	if(name == "start"){
+		let returnVal = await obs.startObs();
+		if(returnVal == true){
+			electron.send("obs_status", 'connected');
+		}
+	}
+	else{
+		obs.stopObs();
+		electron.send("obs_status", 'disconnected');
+	}
+}
+
+
 electron.ipcMain.on('theme', (event, name) => applyTheme(name));
 
 electron.ipcMain.handle('get', async (event, name) => {

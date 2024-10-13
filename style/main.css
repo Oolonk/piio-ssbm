@@ -258,7 +258,7 @@ body:not(.fixedSidebar) #sidebar:not(:hover)>* {
 	background-repeat: no-repeat;
 }
 
-#sidebar-slippi button {
+#sidebar button{
 	display: block;
 	color: #999;
 	padding: 6px 20px;
@@ -269,7 +269,7 @@ body:not(.fixedSidebar) #sidebar:not(:hover)>* {
 	width: -webkit-fill-available;
 }
 
-#sidebar-slippi button:hover {
+#sidebar button:hover{
 	color: #000;
 	background: #eee;
 }
