@@ -2,226 +2,231 @@
 <html>
 
 <head>
-	<meta charset="UTF-8" />
-	<title>Production Interface IO</title>
-	<base href="../" />
+    <meta charset="UTF-8"/>
+    <title>Production Interface IO</title>
+    <base href="../"/>
 
-	<script type="text/javascript" src="js/class/theme.class.js"></script>
-	<script type="text/javascript" src="js/class/db.class.js"></script>
-	<script type="text/javascript" src="js/class/player.class.js"></script>
-	<script type="text/javascript" src="js/class/character.class.js"></script>
-	<script type="text/javascript" src="js/class/ws.class.js"></script>
-	<script type="text/javascript" src="js/class/trigger.class.js"></script>
-	<script type="text/javascript" src="js/class/midi.class.js"></script>
-	<script type="text/javascript" src="js/class/smashgg.class.js"></script>
+    <script type="text/javascript" src="js/class/theme.class.js"></script>
+    <script type="text/javascript" src="js/class/db.class.js"></script>
+    <script type="text/javascript" src="js/class/player.class.js"></script>
+    <script type="text/javascript" src="js/class/character.class.js"></script>
+    <script type="text/javascript" src="js/class/ws.class.js"></script>
+    <script type="text/javascript" src="js/class/trigger.class.js"></script>
+    <script type="text/javascript" src="js/class/midi.class.js"></script>
+    <script type="text/javascript" src="js/class/smashgg.class.js"></script>
 
-	<script type="text/javascript" src="js/general.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
-	<script type="text/javascript" src="js/main.smashgg.js"></script>
+    <script type="text/javascript" src="js/general.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/main.smashgg.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="style/general.css" />
-	<link rel="stylesheet" type="text/css" href="style/main.css" />
+    <link rel="stylesheet" type="text/css" href="style/general.css"/>
+    <link rel="stylesheet" type="text/css" href="style/main.css"/>
 </head>
 
 <body>
-	<div id="titlebar"></div>
-	<div id="topbar">
-		<div class="update">
-			<button id="update-btn" onclick="update();"><img src="img/right-arrow.svg" height="24" /><img
-					src="img/right-arrow.svg" height="24" /></button>
-			<input type="checkbox" class="red" value="1" id="autoupdate-cbx" onclick="toggleAutoUpdate()" />
-			<label for="autoupdate-cbx">Autoupdate</label>
-		</div>
-		<div id="working" onclick="alert(bgWork.workers.join(', '))"></div>
-		<div id="clock">
-			<div>00:00</div>
-			<div>N/A</div>
-		</div>
-	</div>
-	<div id="sidebar">
-		<div id="logo"></div>
-		<nav>
-			<a href="javascript:openWindow('database');">Database</a>
-			<a href="javascript:openWindow('assets');">Assets Manager</a>
-			<!-- <a href="javascript:openWindow('matchlist');">Matchlist</a> -->
-			<!-- <a href="javascript:openWindow('shortcuts');">Shortcuts</a> -->
-			<!-- <a href="javascript:openWindow('overlays');">Overlays</a> -->
-			<a href="javascript:openSettingsWindow();">Settings</a>
-			<a href="javascript:shell.openExternal(APPRES+'/');">File Explorer*</a>
-			<a
-				href="javascript:shell.openExternal('http://127.0.0.1:'+ (remote.getGlobal('ARGV').port ? remote.getGlobal('ARGV').port  :(process.platform === 'win32' ? '80': '8000')))">Website</a>
-		</nav>
-		<!-- <div id="sidebar-matchlist"> -->
-		<!-- <button id="new-match-btn" onclick="newMatch();">NEW MATCH</button> -->
-		<!-- </div> -->
-		<div id="sidebar-buttons">
-			<button id="start-slippi-btn" onclick="startSlippi();">START SLIPPI</button>
-			<button id="stop-slippi-btn" onclick="stopSlippi();" style="display: none;">STOP SLIPPI</button>
-			<button id="start-obs-btn" onclick="startObs();">START OBS</button>
-			<button id="stop-obs-btn" onclick="stopObs();" style="display: none;">STOP OBS</button>
-		</div>
-		<div id="sidebar-options">
-			<select id="theme-select" onchange="setTheme(this.value)"></select>
-			<select id="game-select" onchange="setGame(this.value)"></select>
-			<select id="team-type-select" onchange="setTeamType(this.value)">
-				<option value="0">Normal</option>
-				<option value="1">Crews (1 v 1)</option>
-				<option value="2" disabled>Ironman (1 v 1 - multi entry)</option>
-			</select>
-			<div>
-				<label for="teamsize-select">Team Size:</label>
-				<input id="teamsize-select" type="number" min="1" max="999" onchange="setTeamSize(this.value)"
-					oninput="setTeamSize(this.value)" />
-			</div>
-		</div>
-		<div id="footer">
-			<div>Production Interface IO</div>
-			<div id="version">ver 0.0.0</div>
-		</div>
-	</div>
-	<div id="main">
-		<div id="sb">
-			<div id="sb-team-1">
-				<div id="sb-team-name-1" class="sb-team-name">
-					<input type="text" id="sb-team-name-val-1" oninput="teamNameInput(1, event);" />
-				</div>
-				<div id="sb-players-1"></div>
-			</div>
-			<div id="sb-team-2">
-				<div id="sb-team-name-2" class="sb-team-name">
-					<input type="text" id="sb-team-name-val-2" oninput="teamNameInput(2, event);" />
-				</div>
-				<div id="sb-players-2"></div>
-			</div>
-			<div id="sb-info-1">
-				<div id="sb-score-1">
-					<button class="score" id="sb-score-dec-1" onclick="modifyScore(1, -1);">-</button>
-					<input class="score" id="sb-score-val-1" type="number" value="0" min="0"
-						oninput="modifyScore(1, this.value, true)" />
-					<button class="score" id="sb-score-inc-1" onclick="modifyScore(1, 1);">+</button>
-				</div>
-				<div id="sb-state-1" class="state">
-					<button class="none" onclick="setTeamState(1, 1);">None</button>
-					<button class="winners" onclick="setTeamState(1, 2);">Winners</button>
-					<button class="losers" onclick="setTeamState(1, 0);">Losers</button>
-				</div>
-			</div>
-			<div id="sb-info-2">
-				<div id="sb-score-2">
-					<button class="score" id="sb-score-dec-2" onclick="modifyScore(2, -1);">-</button>
-					<input class="score" id="sb-score-val-2" type="number" value="0" min="0"
-						oninput="modifyScore(2, this.value, true)" />
-					<button class="score" id="sb-score-inc-2" onclick="modifyScore(2, 1);">+</button>
-				</div>
-				<div id="sb-state-2" class="state">
-					<button class="none" onclick="setTeamState(2, 1);">None</button>
-					<button class="winners" onclick="setTeamState(2, 2);">Winners</button>
-					<button class="losers" onclick="setTeamState(2, 0);">Losers</button>
-				</div>
-			</div>
-			<div id="sb-players-swap-1">1</div>
-			<div id="sb-players-swap-2">1</div>
-			<div id="sb-middle">
-				<button onclick="swap();"><img src="img/swap.svg" height="20" /></button>
-				<button onclick="clearBoard();">Clear</button>
-				<button onclick="resetScore();">0 - 0</button>
-			</div>
-			<template id="sb-player-tpl">
-				<button class="character-select-btn">
-					<div class="icon"></div>
-				</button>
-				<div class="playername">
-					<div class="team"></div>
-					<input type="text" value="" list="playernames" class="playername" placeholder="" />
-				</div>
-				<div class="player-options">
-					<button class="player-edit-btn" disabled><img src="img/profile.svg" height="12" /></button>
-					<button class="player-multi-btn" disabled><img src="img/users.svg" height="12" /></button>
-					<button class="player-create-btn" disabled><img src="img/add.svg" height="12" /></button>
-					<div class="player-ports"></div>
-					<input type="checkbox" class="player-select" value="1" />
-					<button class="player-out" />IN</button>
-				</div>
-			</template>
-			<datalist id="playernames"></datalist>
-		</div>
-		<div id="seatorder-wrap">
-			<div id="seatorder"></div>
-			<div id="seatorder-glue-option" onclick="toggleSeatorderGlue()"></div>
-		</div>
-		<div id="caster-wrap">
-			<div id="caster"></div>
-			<div id="caster-action">
-				<button class="caster-add-btn" onclick="casterAdd()"><img src="img/add.svg" height="12" /></button>
-				<button class="caster-add-btn" onclick="casterDelete()"><img src="img/window-minimize.svg"
-						height="12" /></button>
-			</div>
-		</div>
-		<template id="caster-item-tpl">
-			<div class="search">
-				<input type="text" value="" />
-				<div class="selection"></div>
-			</div>
-			<div class="info">
-				<div class="bg">
-					<div class="name"></div>
-					<div class="twitter"></div>
-				</div>
-				<div class="player-options">
-					<button class="player-edit-btn" disabled><img src="img/profile.svg" height="12" /></button>
-				</div>
-			</div>
-		</template>
-		<div id="fields"></div>
-		<template id="fields-text-tpl">
-			<input type="text" class="ref" value="" />
-		</template>
-		<template id="fields-dropdown-tpl">
-			<select class="ref"></select>
-		</template>
-		<template id="fields-time-tpl">
-			<input type="time" class="ref" value="" />
-			<div class="field-time-offset">
-				<span>H:</span>
-				<input type="text" value="0" onblur="this.value = Math.abs(parseInt(this.value) || 0)" />
-				<span>M:</span>
-				<input type="text" value="0" onblur="this.value = Math.abs(parseInt(this.value) || 0)" />
-				<button>&#10003;</button>
-			</div>
-		</template>
-		<template id="fields-color-tpl">
-			<input type="text" class="ref" oninput="this.parentNode.childNodes[4].value = this.value;" value="" />
-			<input type="color"
-				onchange="this.parentNode.childNodes[2].value = this.value;this.parentNode.childNodes[2].dispatchEvent(new Event('input'));"
-				value="" />
-		</template>
-	</div>
-	<div id="statusbar">
-		<div id="system-status"></div>
-	</div>
+<div id="titlebar"></div>
+<div id="topbar">
+    <div class="update">
+        <button id="update-btn" onclick="update();"><img src="img/right-arrow.svg" height="24"/><img
+                src="img/right-arrow.svg" height="24"/></button>
+        <input type="checkbox" class="red" value="1" id="autoupdate-cbx" onclick="toggleAutoUpdate()"/>
+        <label for="autoupdate-cbx">Autoupdate</label>
+    </div>
+    <div id="working" onclick="alert(bgWork.workers.join(', '))"></div>
+    <div id="clock">
+        <div>00:00</div>
+        <div>N/A</div>
+    </div>
+</div>
+<div id="sidebar">
+    <div id="logo"></div>
+    <nav>
+        <a href="javascript:openWindow('database');">Database</a>
+        <a href="javascript:openWindow('assets');">Assets Manager</a>
+        <!-- <a href="javascript:openWindow('matchlist');">Matchlist</a> -->
+        <!-- <a href="javascript:openWindow('shortcuts');">Shortcuts</a> -->
+        <!-- <a href="javascript:openWindow('overlays');">Overlays</a> -->
+        <a href="javascript:openSettingsWindow();">Settings</a>
+        <a href="javascript:shell.openExternal(APPRES+'/');">File Explorer*</a>
+        <a
+                href="javascript:shell.openExternal('http://127.0.0.1:'+ (remote.getGlobal('ARGV').port ? remote.getGlobal('ARGV').port  :(process.platform === 'win32' ? '80': '8000')))">Website</a>
+    </nav>
+    <!-- <div id="sidebar-matchlist"> -->
+    <!-- <button id="new-match-btn" onclick="newMatch();">NEW MATCH</button> -->
+    <!-- </div> -->
+    <div id="sidebar-buttons">
+        <div class="slippibtn-div">
+            <button id="start-slippi-btn" onclick="startSlippi();">START SLIPPI</button>
+            <button id="stop-slippi-btn" onclick="stopSlippi();" style="display: none;">STOP SLIPPI</button>
+        </div>
+        <div class="obsbtn-div">
+            <button id="start-obs-btn" onclick="startObs();">START OBS</button>
+            <button id="stop-obs-btn" onclick="stopObs();" style="display: none;">STOP OBS</button>
+        </div>
+    </div>
+    <div id="sidebar-options">
+        <select id="theme-select" onchange="setTheme(this.value)"></select>
+        <select id="game-select" onchange="setGame(this.value)"></select>
+        <select id="team-type-select" onchange="setTeamType(this.value)">
+            <option value="0">Normal</option>
+            <option value="1">Crews (1 v 1)</option>
+            <option value="2" disabled>Ironman (1 v 1 - multi entry)</option>
+        </select>
+        <div>
+            <label for="teamsize-select">Team Size:</label>
+            <input id="teamsize-select" type="number" min="1" max="999" onchange="setTeamSize(this.value)"
+                   oninput="setTeamSize(this.value)"/>
+        </div>
+    </div>
+    <div id="footer">
+        <div>Production Interface IO</div>
+        <div id="version">ver 0.0.0</div>
+    </div>
+</div>
+<div id="main">
+    <div id="sb">
+        <div id="sb-team-1">
+            <div id="sb-team-name-1" class="sb-team-name">
+                <input type="text" id="sb-team-name-val-1" oninput="teamNameInput(1, event);"/>
+            </div>
+            <div id="sb-players-1"></div>
+        </div>
+        <div id="sb-team-2">
+            <div id="sb-team-name-2" class="sb-team-name">
+                <input type="text" id="sb-team-name-val-2" oninput="teamNameInput(2, event);"/>
+            </div>
+            <div id="sb-players-2"></div>
+        </div>
+        <div id="sb-info-1">
+            <div id="sb-score-1">
+                <button class="score" id="sb-score-dec-1" onclick="modifyScore(1, -1);">-</button>
+                <input class="score" id="sb-score-val-1" type="number" value="0" min="0"
+                       oninput="modifyScore(1, this.value, true)"/>
+                <button class="score" id="sb-score-inc-1" onclick="modifyScore(1, 1);">+</button>
+            </div>
+            <div id="sb-state-1" class="state">
+                <button class="none" onclick="setTeamState(1, 1);">None</button>
+                <button class="winners" onclick="setTeamState(1, 2);">Winners</button>
+                <button class="losers" onclick="setTeamState(1, 0);">Losers</button>
+            </div>
+        </div>
+        <div id="sb-info-2">
+            <div id="sb-score-2">
+                <button class="score" id="sb-score-dec-2" onclick="modifyScore(2, -1);">-</button>
+                <input class="score" id="sb-score-val-2" type="number" value="0" min="0"
+                       oninput="modifyScore(2, this.value, true)"/>
+                <button class="score" id="sb-score-inc-2" onclick="modifyScore(2, 1);">+</button>
+            </div>
+            <div id="sb-state-2" class="state">
+                <button class="none" onclick="setTeamState(2, 1);">None</button>
+                <button class="winners" onclick="setTeamState(2, 2);">Winners</button>
+                <button class="losers" onclick="setTeamState(2, 0);">Losers</button>
+            </div>
+        </div>
+        <div id="sb-players-swap-1">1</div>
+        <div id="sb-players-swap-2">1</div>
+        <div id="sb-middle">
+            <button onclick="swap();"><img src="img/swap.svg" height="20"/></button>
+            <button onclick="clearBoard();">Clear</button>
+            <button onclick="resetScore();">0 - 0</button>
+        </div>
+        <template id="sb-player-tpl">
+            <button class="character-select-btn">
+                <div class="icon"></div>
+            </button>
+            <div class="playername">
+                <div class="team"></div>
+                <input type="text" value="" list="playernames" class="playername" placeholder=""/>
+            </div>
+            <div class="player-options">
+                <button class="player-edit-btn" disabled><img src="img/profile.svg" height="12"/></button>
+                <button class="player-multi-btn" disabled><img src="img/users.svg" height="12"/></button>
+                <button class="player-create-btn" disabled><img src="img/add.svg" height="12"/></button>
+                <div class="player-ports"></div>
+                <input type="checkbox" class="player-select" value="1"/>
+                <button class="player-out"/>
+                IN</button>
+            </div>
+        </template>
+        <datalist id="playernames"></datalist>
+    </div>
+    <div id="seatorder-wrap">
+        <div id="seatorder"></div>
+        <div id="seatorder-glue-option" onclick="toggleSeatorderGlue()"></div>
+    </div>
+    <div id="caster-wrap">
+        <div id="caster"></div>
+        <div id="caster-action">
+            <button class="caster-add-btn" onclick="casterAdd()"><img src="img/add.svg" height="12"/></button>
+            <button class="caster-add-btn" onclick="casterDelete()"><img src="img/window-minimize.svg"
+                                                                         height="12"/></button>
+        </div>
+    </div>
+    <template id="caster-item-tpl">
+        <div class="search">
+            <input type="text" value=""/>
+            <div class="selection"></div>
+        </div>
+        <div class="info">
+            <div class="bg">
+                <div class="name"></div>
+                <div class="twitter"></div>
+            </div>
+            <div class="player-options">
+                <button class="player-edit-btn" disabled><img src="img/profile.svg" height="12"/></button>
+            </div>
+        </div>
+    </template>
+    <div id="fields"></div>
+    <template id="fields-text-tpl">
+        <input type="text" class="ref" value=""/>
+    </template>
+    <template id="fields-dropdown-tpl">
+        <select class="ref"></select>
+    </template>
+    <template id="fields-time-tpl">
+        <input type="time" class="ref" value=""/>
+        <div class="field-time-offset">
+            <span>H:</span>
+            <input type="text" value="0" onblur="this.value = Math.abs(parseInt(this.value) || 0)"/>
+            <span>M:</span>
+            <input type="text" value="0" onblur="this.value = Math.abs(parseInt(this.value) || 0)"/>
+            <button>&#10003;</button>
+        </div>
+    </template>
+    <template id="fields-color-tpl">
+        <input type="text" class="ref" oninput="this.parentNode.childNodes[4].value = this.value;" value=""/>
+        <input type="color"
+               onchange="this.parentNode.childNodes[2].value = this.value;this.parentNode.childNodes[2].dispatchEvent(new Event('input'));"
+               value=""/>
+    </template>
+</div>
+<div id="statusbar">
+    <div id="system-status"><span id="slippi-status"></span></div>
+</div>
 
-	<div id="smashgg-queue" class="empty">
-		<div class="list">
-			<div class="title">
-				<div class="channel">No stream selected</div>
-				<div class="setcount">0</div>
-			</div>
-			<div class="sets"></div>
-		</div>
-		<div class="current" onclick="this.parentNode.classList.toggle('visible')">No set selected</div>
-		<div class="icon" onclick="openSmashggOptions()"></div>
-		<div class="next" onclick="smashggApplyNextSet()"></div>
-	</div>
+<div id="smashgg-queue" class="empty">
+    <div class="list">
+        <div class="title">
+            <div class="channel">No stream selected</div>
+            <div class="setcount">0</div>
+        </div>
+        <div class="sets"></div>
+    </div>
+    <div class="current" onclick="this.parentNode.classList.toggle('visible')">No set selected</div>
+    <div class="icon" onclick="openSmashggOptions()"></div>
+    <div class="next" onclick="smashggApplyNextSet()"></div>
+</div>
 
-	<div id="modal" onclick="hideModal();">
-		<div class="close" onclick="hideModal()"></div>
-		<div class="panel" onclick="event.stopPropagation();"></div>
-	</div>
-	<template id="character-select-modal-tpl">
-		<div class="character-row" id="character-select-personal"></div>
-		<div class="character-row" id="character-select-skins"></div>
-		<div class="character-row" id="character-select-roster"></div>
-	</template>
+<div id="modal" onclick="hideModal();">
+    <div class="close" onclick="hideModal()"></div>
+    <div class="panel" onclick="event.stopPropagation();"></div>
+</div>
+<template id="character-select-modal-tpl">
+    <div class="character-row" id="character-select-personal"></div>
+    <div class="character-row" id="character-select-skins"></div>
+    <div class="character-row" id="character-select-roster"></div>
+</template>
 </body>
 
 </html>

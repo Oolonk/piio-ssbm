@@ -249,6 +249,14 @@ async function applyClientSettings(settings) {
             case "obs-password":
                 ipcRenderer.send("obsPassword", row.value);
                 break;
+            case "enable-slippi":
+                ipcRenderer.send("enableSlippi", row.value);
+                showSlippi(row.value);
+                break;
+            case "enable-obs":
+                ipcRenderer.send("enableObs", row.value);
+                showObs(row.value);
+                break;
         }
     }
 }
@@ -1543,6 +1551,21 @@ function startSlippi() {
 function stopSlippi() {
     ipcRenderer.send("slippi", "stop");
 }
+function showSlippi(value){
+    if(value){
+        document.querySelectorAll('.slippibtn-div').forEach(e => e.classList.remove('hide'));
+    }else{
+        document.querySelectorAll('.slippibtn-div').forEach(e => e.classList.add('hide'));
+    }
+}
+function showObs(value){
+    if(value){
+        document.querySelectorAll('.obsbtn-div').forEach(e => e.classList.remove('hide'));
+    }else{
+        document.querySelectorAll('.obsbtn-div').forEach(e => e.classList.add('hide'));
+    }
+}
+
 
 ipcRenderer.on("slippi_status", (event, name) => {
     switch (name) {
@@ -1551,28 +1574,28 @@ ipcRenderer.on("slippi_status", (event, name) => {
             document.getElementById("start-slippi-btn").innerHTML = 'START SLIPPI'
             document.getElementById("start-slippi-btn").style.display = 'inherit';
             document.getElementById('stop-slippi-btn').style.display = 'none';
-            document.getElementById("system-status").innerHTML = 'Disconnected to Slippi';
+            document.getElementById("slippi-status").innerHTML = 'Disconnected to Slippi';
             break;
         case "connected":
             document.getElementById("start-slippi-btn").disabled = true;
             document.getElementById("start-slippi-btn").innerHTML = 'START SLIPPI'
             document.getElementById("start-slippi-btn").style.display = 'none';
             document.getElementById("stop-slippi-btn").style.display = 'inherit';
-            document.getElementById("system-status").innerHTML = 'Connected to Slippi';
+            document.getElementById("slippi-status").innerHTML = 'Connected to Slippi';
             break;
         case 'connecting':
             document.getElementById("start-slippi-btn").disabled = true;
             document.getElementById("start-slippi-btn").innerHTML = 'START SLIPPI'
             document.getElementById("start-slippi-btn").style.display = 'none';
             document.getElementById("stop-slippi-btn").style.display = 'inherit';
-            document.getElementById("system-status").innerHTML = 'Connecting to Slippi';
+            document.getElementById("slippi-status").innerHTML = 'Connecting to Slippi';
             break;
         case 'reconnecting':
             document.getElementById("start-slippi-btn").disabled = true;
             document.getElementById("start-slippi-btn").innerHTML = 'START SLIPPI'
             document.getElementById("start-slippi-btn").style.display = 'none';
             document.getElementById("stop-slippi-btn").style.display = 'inherit';
-            document.getElementById("system-status").innerHTML = 'Reconnecting to Slippi';
+            document.getElementById("slippi-status").innerHTML = 'Reconnecting to Slippi';
             break;
     }
 });
@@ -1596,25 +1619,25 @@ ipcRenderer.on("obs_status", (event, name) => {
             document.getElementById("start-obs-btn").disabled = false;
             document.getElementById("start-obs-btn").style.display = 'inherit';
             document.getElementById('stop-obs-btn').style.display = 'none';
-            document.getElementById("system-status").innerHTML = 'Disconnected to Slippi';
+            document.getElementById("obs-status").innerHTML = 'Disconnected to OBS';
             break;
         case "connected":
             document.getElementById("start-obs-btn").disabled = true;
             document.getElementById("start-obs-btn").style.display = 'none';
             document.getElementById("stop-obs-btn").style.display = 'inherit';
-            document.getElementById("system-status").innerHTML = 'Connected to Slippi';
+            document.getElementById("obs-status").innerHTML = 'Connected to OBS';
             break;
         case 'connecting':
             document.getElementById("start-obs-btn").disabled = true;
             document.getElementById("start-obs-btn").style.display = 'none';
             document.getElementById("stop-obs-btn").style.display = 'inherit';
-            document.getElementById("system-status").innerHTML = 'Connecting to Slippi';
+            document.getElementById("obs-status").innerHTML = 'Connecting to OBS';
             break;
         case 'reconnecting':
             document.getElementById("start-obs-btn").disabled = true;
             document.getElementById("start-obs-btn").style.display = 'none';
             document.getElementById("stop-obs-btn").style.display = 'inherit';
-            document.getElementById("system-status").innerHTML = 'Reconnecting to Slippi';
+            document.getElementById("obs-status").innerHTML = 'Reconnecting to OBS';
             break;
     }
 });

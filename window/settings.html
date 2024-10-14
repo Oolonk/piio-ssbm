@@ -2,132 +2,151 @@
 <html>
 
 <head>
-	<meta charset="UTF-8" />
-	<title>Settings</title>
-	<base href="../" />
+    <meta charset="UTF-8"/>
+    <title>Settings</title>
+    <base href="../"/>
 
-	<script type="text/javascript" src="js/class/db.class.js"></script>
+    <script type="text/javascript" src="js/class/db.class.js"></script>
 
-	<script type="text/javascript" src="js/general.js"></script>
-	<script type="text/javascript" src="js/settings.js"></script>
+    <script type="text/javascript" src="js/general.js"></script>
+    <script type="text/javascript" src="js/settings.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="style/general.css" />
-	<link rel="stylesheet" type="text/css" href="style/settings.css" />
+    <link rel="stylesheet" type="text/css" href="style/general.css"/>
+    <link rel="stylesheet" type="text/css" href="style/settings.css"/>
 </head>
 
 <body>
-	<div id="titlebar"></div>
-	<div id="main">
-		<div id="cont">
-			<div class="item">
-				<div class="label">Autoupdate Threshold</div>
-				<div class="saved" id="autoupdateThreshold-saved"></div>
-				<div>
-					<input type="number" id="autoupdateThreshold-value" oninput="set('autoupdateThreshold', this.value)"
-						value="500" style="text-align:right;width:50px;" />ms
-				</div>
-				<div class="description">
-					The amount of of time to wait after typing before automatic updating the overlays
-				</div>
-			</div>
-			<div class="item">
-				<div class="label">Dynamic Sidebar</div>
-				<div class="saved" id="fixedSidebar-saved"></div>
-				<select id="fixedSidebar-value" onchange="set('fixedSidebar', this.value == 1)">
-					<option value="0">Show sidebar on Mouse hover</option>
-					<option value="1">Always show sidebar</option>
-				</select>
-				<div class="description">
-					Toggle if the sidebar should hide itself or stay visible.
-				</div>
-			</div>
-			<div class="item">
-				<div class="label">Start.gg queue</div>
-				<div class="saved" id="fixedSmashggQueue-saved"></div>
-				<select id="fixedSmashggQueue-value" onchange="set('fixedSmashggQueue', this.value == 1)">
-					<option value="0">Dropdown list on bottom right</option>
-					<option value="1">Stick to right side</option>
-				</select>
-				<div class="description">
-					Toggle if the Start.gg queue list should hide itself or stay visible.
-				</div>
-			</div>
-			<div class="item">
-				<div class="label">Start.gg Token</div>
-				<div class="saved" id="smashgg-token-saved"></div>
-				<input type="text" id="smashgg-token-value" oninput="set('smashgg-token', this.value)" value=""
-					placeholder="Your developer token" />
-				<div class="description">
-					In order to access Start.gg’s API, you must enter an authentication token.
-					These tokens can be created from the Developer Settings page in your Start.gg account settings.
-					<a href="javascript:shell.openExternal('https://developer.start.gg/docs/authentication');">How to
-						generate your Token</a>
-				</div>
-			</div>
-			<details>
-				<summary>Slippi Settings</summary>
-				<div class="item">
-					<div class="label">Slippi Type</div>
-					<div class="saved" id="connection-type-saved"></div>
-					<select id="connection-type-value" onchange="set('connection-type', this.value == 1)">
-						<option value="0">Console</option>
-						<option value="1">Dolphin</option>
-					</select>
-					<div class="description">
-						The Slippi Connection Type
-					</div>
-				</div>
-				<div class="item">
-					<div class="label">Slippi Relay</div>
-					<div class="saved" id="relay-port-saved"></div>
-					<input type="number" id="relay-port-value" oninput="set('relay-port', this.value)" value=""
-						placeholder="Your Slippi Relay Port" />
-					<div class="description">
-						Add your Slippi Relay Code here
-					</div>
-				</div>
-				<div class="item">
-					<div class="label">Slippi Replay Folder</div>
-					<div class="saved" id="slippi-folder-saved"></div>
-					<input type="text" id="slippi-folder-value" oninput="set('slippi-folder', this.value)" value=""
-						placeholder="Your Slippi Replay Folder" />
-					<div class="description">
-						The Folder where you store your Slippi Files
-					</div>
-				</div>
-			</details>
-			<details>
-				<summary>OBS Websocket Settings</summary>
-				<div class="item">
-					<div class="label">Websocket IP</div>
-					<div class="saved" id="obs-ip-saved"></div>
-					<input type="text" id="obs-ip-value" oninput="set('obs-ip', this.value)" value=""
-						   placeholder="The OBS Websocket IP" />
-					<div class="description">
-						Add your OBS Websocket IP here
-					</div>
-				</div>
-				<div class="item">
-					<div class="label">Websocket Port</div>
-					<div class="saved" id="obs-port-saved"></div>
-					<input type="number" id="obs-port-value" oninput="set('obs-port', this.value)" value=""
-						   placeholder="The OBS Websocket Port" />
-					<div class="description">
-						Add your OBS Websocket Port here
-					</div>
-				</div>
-				<div class="item">
-					<div class="label">Websocket IP</div>
-					<div class="saved" id="obs-password-saved"></div>
-					<input type="text" id="obs-password-value" oninput="set('obs-password', this.value)" value=""
-						   placeholder="The OBS Websocket Password" />
-					<div class="description">
-						Add your OBS Websocket Password here
-					</div>
-				</div>
-			</details>
-		</div>
-	</div>
+<div id="titlebar"></div>
+<div id="main">
+    <div id="cont">
+        <div class="item">
+            <div class="label">Autoupdate Threshold</div>
+            <div class="saved" id="autoupdateThreshold-saved"></div>
+            <div>
+                <input type="number" id="autoupdateThreshold-value" oninput="set('autoupdateThreshold', this.value)"
+                       value="500" style="text-align:right;width:50px;"/>ms
+            </div>
+            <div class="description">
+                The amount of of time to wait after typing before automatic updating the overlays
+            </div>
+        </div>
+        <div class="item">
+            <div class="label">Dynamic Sidebar</div>
+            <div class="saved" id="fixedSidebar-saved"></div>
+            <select id="fixedSidebar-value" onchange="set('fixedSidebar', this.value == 1)">
+                <option value="0">Show sidebar on Mouse hover</option>
+                <option value="1">Always show sidebar</option>
+            </select>
+            <div class="description">
+                Toggle if the sidebar should hide itself or stay visible.
+            </div>
+        </div>
+        <div class="item">
+            <div class="label">Start.gg queue</div>
+            <div class="saved" id="fixedSmashggQueue-saved"></div>
+            <select id="fixedSmashggQueue-value" onchange="set('fixedSmashggQueue', this.value == 1)">
+                <option value="0">Dropdown list on bottom right</option>
+                <option value="1">Stick to right side</option>
+            </select>
+            <div class="description">
+                Toggle if the Start.gg queue list should hide itself or stay visible.
+            </div>
+        </div>
+        <div class="item">
+            <div class="label">Start.gg Token</div>
+            <div class="saved" id="smashgg-token-saved"></div>
+            <input type="text" id="smashgg-token-value" oninput="set('smashgg-token', this.value)" value=""
+                   placeholder="Your developer token"/>
+            <div class="description">
+                In order to access Start.gg’s API, you must enter an authentication token.
+                These tokens can be created from the Developer Settings page in your Start.gg account settings.
+                <a href="javascript:shell.openExternal('https://developer.start.gg/docs/authentication');">How to
+                    generate your Token</a>
+            </div>
+        </div>
+        <div class="item item-short">
+            <input class="toggle-color" type="checkbox" id="enable-slippi-value" oninput="setSlippiEnable(this.checked)"
+                   value=""
+            />
+            <div class="label">Enable Slippi Plugin</div>
+            <div class="saved" id="enable-slippi-saved"></div>
+        </div>
+        <div class="item item-short">
+            <input class="toggle-color" type="checkbox" id="enable-obs-value" oninput="setObsEnable(this.checked)"
+                   value=""
+            />
+            <div class="label">Enable OBS Websocket Plugin</div>
+            <div class="saved" id="enable-obs-saved"></div>
+        </div>
+        <details class="slippi-settings">
+            <summary>Slippi Settings</summary>
+            <div class="item">
+                <div class="label">Slippi Type</div>
+                <div class="saved" id="connection-type-saved"></div>
+                <select id="connection-type-value" onchange="set('connection-type', this.value == 1)">
+                    <option value="0">Console</option>
+                    <option value="1">Dolphin</option>
+                </select>
+                <div class="description">
+                    The Slippi Connection Type
+                </div>
+            </div>
+            <div class="item">
+                <div class="label">Slippi Relay</div>
+                <div class="saved" id="relay-port-saved"></div>
+                <input type="number" id="relay-port-value" oninput="set('relay-port', this.value)" value=""
+                       placeholder="Your Slippi Relay Port"/>
+                <div class="description">
+                    Add your Slippi Relay Code here
+                </div>
+            </div>
+            <div class="item">
+                <div class="label">Slippi Replay Folder</div>
+                <div class="saved" id="slippi-folder-saved"></div>
+                <input type="text" id="slippi-folder-value" oninput="set('slippi-folder', this.value)" value=""
+                       placeholder="Your Slippi Replay Folder"/>
+                <div class="description">
+                    The Folder where you store your Slippi Files
+                </div>
+            </div>
+        </details>
+        <details class="obs-settings">
+            <summary>OBS Websocket Settings</summary>
+            <div class="item">
+                <div class="label">Websocket IP</div>
+                <div class="saved" id="obs-ip-saved"></div>
+                <input type="text" id="obs-ip-value" oninput="set('obs-ip', this.value)" value=""
+                       placeholder="The OBS Websocket IP"/>
+                <div class="description">
+                    Add your OBS Websocket IP here
+                </div>
+            </div>
+            <div class="item">
+                <div class="label">Websocket Port</div>
+                <div class="saved" id="obs-port-saved"></div>
+                <input type="number" id="obs-port-value" oninput="set('obs-port', this.value)" value=""
+                       placeholder="The OBS Websocket Port"/>
+                <div class="description">
+                    Add your OBS Websocket Port here
+                </div>
+            </div>
+            <div class="item">
+                <div class="label">Websocket IP</div>
+                <div class="saved" id="obs-password-saved"></div>
+                <input type="text" id="obs-password-value" oninput="set('obs-password', this.value)" value=""
+                       placeholder="The OBS Websocket Password"/>
+                <div class="description">
+                    Add your OBS Websocket Password here
+                </div>
+            </div>
+        </details>
+        <div class="obs-settings">
+            <details class="slippi-settings">
+                <summary>OBS x Slippi Settings</summary>
+            </details>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>

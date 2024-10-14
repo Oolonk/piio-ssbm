@@ -303,3 +303,40 @@ body.maximized #titlebar .title:after {
 #titlebar .controls .close:hover {
 	background-color: rgba(255, 0, 0, 0.9);
 }
+
+
+item>input[type="checkbox"].toggle-color {
+	position: absolute;
+	top: 11px;
+	right: 10px;
+}
+
+.item>input[type="checkbox"].toggle-color:not(:checked):after {
+	background: transparent;
+}
+
+.item>input[type="checkbox"].toggle-color:after {
+	background: #0f0;
+}
+
+.item>input[type="checkbox"].toggle-color:before {
+	background: #f00;
+}
+
+.item>input[type="checkbox"].toggle-color:checked {
+	transform: scale(1.2);
+}
+
+.item>input[type="checkbox"].toggle-color:checked:before {
+	background: #0c0;
+}
+.hide{
+	display: none;
+}
+.item.item-short{
+	display: flex;
+}
+details{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}

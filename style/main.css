@@ -1165,6 +1165,32 @@ body.modal #modal {
 	background: #0c0;
 }
 
+item>input[type="checkbox"].toggle-color {
+	position: absolute;
+	top: 11px;
+	right: 10px;
+}
+
+.item>input[type="checkbox"].toggle-color:not(:checked):after {
+	background: transparent;
+}
+
+.item>input[type="checkbox"].toggle-color:after {
+	background: #0f0;
+}
+
+.item>input[type="checkbox"].toggle-color:before {
+	background: #f00;
+}
+
+.item>input[type="checkbox"].toggle-color:checked {
+	transform: scale(1.2);
+}
+
+.item>input[type="checkbox"].toggle-color:checked:before {
+	background: #0c0;
+}
+
 .field-text input {
 	width: 100%;
 	box-sizing: border-box;
