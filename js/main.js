@@ -277,6 +277,12 @@ async function applyClientSettings(settings) {
                 ipcRenderer.send("enableObs", row.value);
                 showObs(row.value);
                 break;
+            case "obsCurrentScene":
+                console.log("obsCurrentScene", row.value);
+                break;
+            case "obsSceneList":
+                console.log("obsSceneList", row.value);
+                break;
         }
     }
 }
@@ -1340,9 +1346,9 @@ function obsUpdate(name, stats) {
     _ws.send('obs' + name, {stats});
 }
 function streamqueuechanged(value){
-    console.log(scoreboard.streamlist);
-    console.log('streamqueue changed')
-    console.log(streamQueue);
+    // console.log(scoreboard.streamlist);
+    // console.log('streamqueue changed')
+    // console.log(streamQueue);
     _ws.send('streamQueue', streamQueue);
 }
 
@@ -1675,7 +1681,17 @@ ipcRenderer.on("obs_status", (event, name) => {
     }
 });
 
+ipcRenderer.on('obsCurrentSceneChanged', (event, name) => {
+    console.log('obsCurrentSceneChanged');
+    ipcRenderer.invoke("set", "obsCurrentScene", name);
+    applyClientSettings([{name: 'obsCurrentScene', value: name}]);
+});
 
+ipcRenderer.on('obsSceneListChanged', (event, list) => {
+    console.log('obsSceneListChanged');
+    ipcRenderer.invoke("set", "obsSceneList", list);
+    applyClientSettings([{name: 'obsSceneList', value: list}]);
+});
 function casterAdd() {
     _theme.caster++;
     buildCasterList();

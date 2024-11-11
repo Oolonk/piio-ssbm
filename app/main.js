@@ -102,11 +102,13 @@ slippi.on('frame', () => {
 
 obs.on('CurrentSceneChanged', (data) =>{
 	// console.log('obs scene changed to:', data);
+	electron.send("obsCurrentSceneChanged", data);
 	server.broadcast({ type: 'obsSceneChanged', data: data })
 })
 
 obs.on('SceneListChanged', (data) =>{
 	// console.log('obs scene changed to:', data);
+	electron.send("obsSceneListChanged", data);
 	server.broadcast({ type: 'obsSceneList', data: data })
 })
 var startedOnce = false;
