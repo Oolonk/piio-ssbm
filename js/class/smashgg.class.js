@@ -286,9 +286,22 @@ class SmashggWrapper {
 						slots {
 							entrant {
 								name
+								team {
+									name
+								}
+								participants {
+									gamerTag
+									prefix
+								}
 							}
 						}
 						fullRoundText identifier round
+						phaseGroup {
+							displayIdentifier
+							phase {
+								name
+							}
+						}
 					}
 				}
 			}

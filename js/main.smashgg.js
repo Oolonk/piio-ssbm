@@ -36,10 +36,10 @@ async function applySmashggSet(setId) {
 		for (let participantIdx in slot.entrant.participants) {
 			let participant = slot.entrant.participants[participantIdx];
 			// get all players which have same smashgg ID or same name
-			let res = await db.get("player", { $or: [{ "smashgg": participant.player.id }, { "name": participant.player.gamerTag }] }, Player);
+			let res = await db.get("player", {  "smashgg": participant.player.id.toString()  }, Player);
 
 			// filter only with matching smashgg ID
-			let exactRes = res.filter(x => x.smashgg == participant.player.id).slice(0, 1);
+			let exactRes = res.filter(x => x.smashgg == participant.player.id.toString()).slice(0, 1);
 			let insertPlayer;
 			if (exactRes.length == 1) {
 				// has matching ID - just insert
@@ -50,7 +50,7 @@ async function applySmashggSet(setId) {
 				insertPlayer.smashggMergeable = participant.player.id;
 			} else {
 				// no matching player found - create temp and insert
-				insertPlayer = { "name": participant.player.gamerTag, "smashgg": participant.player.id };
+				insertPlayer = { "name": participant.player.gamerTag, "id": participant.player.id.toString() };
 			}
 			scoreboard.teams[(slot.slotIndex + 1)].players[participantIdx] = new Player(insertPlayer);
 		}
