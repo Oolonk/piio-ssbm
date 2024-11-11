@@ -10,6 +10,7 @@ class Player {
 		this.birthday = params.birthday || null;
 		this.pronoun = params.pronoun || "";
 		this.twitter = params.twitter || "";
+		this.bluesky = params.bluesky || "";
 		this.twitch = params.twitch || "";
 		this.steam = params.steam || "";
 		this.slippicode = params.slippicode || "";
@@ -99,10 +100,10 @@ class Player {
 
 		}
 
-		ignored = this.isSmashggFieldIgnored("city", spo.twitterHandle);
-		if (this.twitter != spo.twitterHandle && (includeSmashggIgnore || !ignored)) {
+		ignored = this.isSmashggFieldIgnored("city", spo.city);
+		if (this.city != spo.city && (includeSmashggIgnore || !ignored)) {
 			differences.push({ "name": "city", "local": this.city, "smashgg": spo.city, "ignored": ignored });
-			console.log("push twitter. is ignored:", ignored);
+			console.log("push city. is ignored:", ignored);
 
 		}
 

@@ -9,6 +9,7 @@ addEventListener("load", async () => {
 	let settings = await ipcRenderer.invoke("get", "settings");
 	settings.forEach((entry) => {
 		let el = document.getElementById(entry.name + '-value');
+		console.log(entry.name, el);
 		if (!el) { return; }
 
 		switch (entry.name) {
@@ -16,6 +17,9 @@ addEventListener("load", async () => {
 			case "connection-type":
 			case "fixedSidebar":
 				el.value = entry.value ? 1 : 0;
+				break;
+			case "showSmashggToken":
+				el.checked = entry.value ? 1 : 0;
 				break;
 			case "enable-slippi":
 				el.checked = entry.value ? 1 : 0;

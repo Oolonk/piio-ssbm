@@ -59,7 +59,7 @@ Server.prototype.start = async function start() {
 					res.write('<link rel="stylesheet" href="' + this.themeManifest.styles[i] + '" type="text/css" />\r\n');
 				}
 			}
-			res.write('<link rel="stylesheet" href="' + req.params.filename + '.css" type="text/css" />\r\n');
+			res.write('<link rel="stylesheet" href="' + ((this.themeManifest.folders && this.themeManifest.folders.css)? this.themeManifest.folders.css + "/" : "" ) + req.params.filename + '.css" type="text/css" />\r\n');
 
 			if (this.themeManifest.scripts) {
 				for (let i = 0; i < this.themeManifest.scripts.length; i++) {
@@ -68,7 +68,7 @@ Server.prototype.start = async function start() {
 			}
 
 			res.write('<script type="text/javascript" src="all.js"></script>\r\n');
-			res.write('<script type="text/javascript" src="' + req.params.filename + '.js"></script>\r\n');
+			res.write('<script type="text/javascript" src="' + ((this.themeManifest.folders && this.themeManifest.folders.js)? this.themeManifest.folders.js + "/" : "" ) + req.params.filename + '.js"></script>\r\n');
 			res.write('<script type="text/javascript">var __FILENAME__ = "' + req.params.filename + '";</script>\r\n');
 			res.write('</head>\r\n');
 			if (this.themeManifest.resolution) {
@@ -125,10 +125,20 @@ Server.prototype.start = async function start() {
 			res.write('<html><head><title>' + this.theme + ' | piio overlays</title><meta charset="UTF-8" />');
 			res.write(`<style>
 			body {
-				font-family:segoe ui, arial; color:#000; margin:0;
+				font-family:segoe ui, arial; color: black; margin:0; background: #dee3ed;
+			}
+			@media (prefers-color-scheme: dark) {
+				body{
+					color:white;
+					background: #121721;
+				}
+				#top{
+				background:#092334 !important;
+				color: white !important;
+				}
 			}
 			#top {
-				position:relative; background:#135; font-weight:bold; font-size:40px; color:#fff; padding:4px 15px;
+				position:relative; background:#6f899a; font-weight:bold; font-size:40px; color:black; padding:4px 15px;
 			}
 			.meta {
 				position:absolute; right:10px; top:6px; font-size:12px; opacity:0.9; font-weight:normal; text-align:right;

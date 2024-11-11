@@ -9,6 +9,8 @@ function Obs() {
     this.ip = '127.0.0.1';
     this.port = 4455;
     this.password = '';
+    this.event = new EventEmitter();
+    this.sceneList = [];
 }
 
 Obs.prototype.on = function on(...args) {
@@ -19,7 +21,7 @@ Obs.prototype.setIp = function setIp(ip) {
         ip = '127.0.0.1';
     }
     this.ip = ip;
-    console.log(ip);
+    // console.log(ip);
 }
 Obs.prototype.setPort = function setPort(port) {
     if (port == null) {
@@ -32,10 +34,48 @@ Obs.prototype.setPassword = function setPassword(password) {
 }
 Obs.prototype.startObs = async function startObs() {
     try {
+        let thisObs = this;
         await this.obs.connect(`ws://${this.ip}:${this.port}`, this.password);
-        this.obs
+        // this.obs
         console.log(`Connected to OBS Websocket`);
+        this.obs.on('CurrentProgramSceneChanged', function(event){
+            thisObs.event.emit('CurrentSceneChanged', event.sceneName);
+        });
+        this.obs.on('SceneListChanged', function(value){
+            thisObs.sceneList = [];
+            value.scenes.forEach(function(scene){
+                // console.log(scene);
+                thisObs.sceneList.push(scene.sceneName);
+            })
+            console.log(thisObs.sceneList);
+            thisObs.event.emit('SceneListChanged', thisObs.sceneList);
+        });
+        this.obs.call('GetSceneList').then((value)=>{
+            // console.log(value)
+            thisObs.sceneList = [];
+            value.scenes.forEach(function(scene){
+                // console.log(scene);
+                thisObs.sceneList.push(scene.sceneName);
+            })
+            // console.log(this.sceneList);
+            thisObs.event.emit('SceneListChanged', this.sceneList);
+        });
+        this.obs.call('GetCurrentProgramScene').then((value)=>{
+            // console.log('test', value.sceneName);
+            thisObs.event.emit('CurrentSceneChanged', value.sceneName);
+        });
+        this.obs.call('GetSceneList').then((value)=>{
+            // console.log(value)
+            thisObs.sceneList = [];
+            value.scenes.forEach(function(scene){
+                // console.log(scene);
+                thisObs.sceneList.push(scene.sceneName);
+            })
+            // console.log(this.sceneList);
+            thisObs.event.emit('SceneListChanged', this.sceneList);
+        });
         return true;
+
     } catch (error) {
         console.log(`Couldn't connect to OBS Websocket`);
         console.error(error);
@@ -46,6 +86,15 @@ Obs.prototype.stopObs = async function stopObs() {
     try {
         await this.obs.disconnect();
         console.log('Disconnected from OBS Websocket')
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}
+Obs.prototype.setCurrentScene = async function setCurrentScene(currentSceneName) {
+    try {
+        await this.obs.call('SetCurrentProgramScene', currentSceneName);
         return true;
     } catch (error) {
         console.error(error);

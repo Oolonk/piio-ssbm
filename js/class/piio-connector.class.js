@@ -13,7 +13,7 @@ class PiioConnector {
 		this.requests = requests || ["scoreboard"];
 		this.subscriptions = this.requests || [];
 
-		this.cache = { scoreboard: {}, team: {}, character: {}, country: {}, game: {}, pride: {} };
+		this.cache = { scoreboard: {}, team: {}, character: {}, country: {}, game: {}, pride: {}, obs: {}, streamQueue: [] };
 
 		// this.on("theme", e => location.reload());
 
@@ -89,6 +89,15 @@ class PiioConnector {
 			case 'slippiFrame':
 				break;
 			case 'slippiStats':
+				break;
+			case 'obsSceneChanged':
+				this.cache.obs.activeScene = data.data;
+				break;
+			case 'obsSceneList':
+				this.cache.obs.sceneList = data.data;
+				break;
+			case 'streamQueue':
+				this.cache.streamQueue = data.data;
 				break;
 		}
 

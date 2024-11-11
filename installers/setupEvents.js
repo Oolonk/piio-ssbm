@@ -71,6 +71,7 @@ module.exports = {
 						{ "name": "player", "field": "twitch", "type": "text", "index": -4 },
 						{ "name": "player", "field": "steam", "type": "text", "listhide": true },
 						{ "name": "player", "field": "twitter", "type": "text" },
+						{ "name": "player", "field": "bluesky", "type": "text" },
 						{ "name": "player", "field": "smashgg", "type": "number" },
 						{ "name": "player", "field": "city", "type": "text" },
 						{ "name": "character", "field": "skins", "type": "text", "multi": true },

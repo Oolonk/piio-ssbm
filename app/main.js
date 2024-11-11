@@ -99,6 +99,16 @@ server.on('data-getSlippiStats', async (data, cb) => {
 slippi.on('frame', () => {
 	server.broadcast({ type: 'slippiFrame', data: slippi.cache })
 })
+
+obs.on('CurrentSceneChanged', (data) =>{
+	// console.log('obs scene changed to:', data);
+	server.broadcast({ type: 'obsSceneChanged', data: data })
+})
+
+obs.on('SceneListChanged', (data) =>{
+	// console.log('obs scene changed to:', data);
+	server.broadcast({ type: 'obsSceneList', data: data })
+})
 var startedOnce = false;
 
 electron.ipcMain.on('slippiPort', (event, name) => slippi.setSlippiPort(name));

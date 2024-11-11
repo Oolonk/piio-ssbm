@@ -4,7 +4,11 @@
 		1920,
 		1080
 	],
-	"author": "Philipp Bürkner",
+	"folders": {
+		"css": "style",
+		"js": "style"
+	},
+	"author": "Jonas Hartmer",
 	"caster": 3,
 	"fields": [
 		{

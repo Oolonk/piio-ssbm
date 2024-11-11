@@ -146,9 +146,11 @@ async function displaySmashggStreamQueue(sets) {
 		item.querySelector(".names").innerText = (entrants[0] || "N/A") + " Vs. " + (entrants[1] || "N/A");
 	});
 	if (streamvar != sets) {
-		scoreboard.streamlist = sets;
-		streamvar = sets;
-		fire("scoreboardchanged");
+		// scoreboard.streamlist = sets;
+		// streamvar = sets;
+		streamQueue = sets;
+		// fire("scoreboardchanged");
+		fire("streamqueuechanged");
 	}
 
 	// remove sets
@@ -206,6 +208,7 @@ async function comparePlayerData(po, includeSmashggIgnore) {
 	}
 	spo.twitchStream = spo.twitchStream || "";
 	spo.twitterHandle = spo.twitterHandle || "";
+	spo.city = spo.city || "";
 	spo.prefix = spo.prefix || "";
 
 	let team = await db.get("team", { $or: [].concat(po.team).map(x => ({ "_id": x })) });
@@ -234,6 +237,11 @@ async function comparePlayerData(po, includeSmashggIgnore) {
 	ignored = po.isSmashggFieldIgnored("twitter", spo.twitterHandle);
 	if (po.twitter != spo.twitterHandle && (includeSmashggIgnore || !ignored))
 		differences.push({ "name": "twitter", "local": po.twitter, "smashgg": spo.twitterHandle, "ignored": ignored });
+
+
+	ignored = po.isSmashggFieldIgnored("city", spo.city);
+	if (po.city != spo.city && (includeSmashggIgnore || !ignored))
+		differences.push({ "name": "twitter", "local": po.twitter, "smashgg": spo.city, "ignored": ignored });
 
 
 	return differences;

@@ -46,10 +46,10 @@ var scoreboard = {
         phase: null
     },
     smashggtoken: null,
-    streamlist: [],
     type: null,
     _D: null
 };
+var streamQueue = [];
 var slippi = {
     settings: {
         slpVersion: "1",
@@ -109,6 +109,9 @@ var slippi = {
     combo: [],
     settingsComplete: true
 };
+var obs = {
+    currentScene: ""
+}
 
 
 var client = {
@@ -140,6 +143,7 @@ on("themechanged", buildFieldList);
 on("themechanged", insertScoreboardData);
 
 once("themechanged", buildThemeSelection);
+on("streamqueuechanged", streamqueuechanged);
 
 ipcRenderer.on("themefolder-changed", buildThemeSelection);
 
@@ -207,6 +211,9 @@ window.addEventListener("keydown", (e) => {
     }
 }, true);
 
+let smashggToken = "";
+let showsmashggToken = false;
+
 async function applyClientSettings(settings) {
     for (let row of settings) {
         switch (row.name) {
@@ -214,8 +221,21 @@ async function applyClientSettings(settings) {
                 await setTheme(row.value);
                 break;
             case "smashgg-token":
+                smashggToken = row.value;
                 smashgg.Token = row.value;
-                scoreboard.smashggtoken = row.value;
+                if(showsmashggToken) {
+                    scoreboard.smashggtoken = row.value;
+                }else{
+                    scoreboard.smashggtoken = "";
+                }
+                break;
+            case "showSmashggToken":
+                showsmashggToken = row.value;
+                if(row.value) {
+                    scoreboard.smashggtoken = smashggToken;
+                }else{
+                    scoreboard.smashggtoken = "";
+                }
                 break;
             case "autoupdate":
                 toggleAutoUpdate(row.value);
@@ -1316,6 +1336,15 @@ async function update() {
 function slippiUpdate(name, stats) {
     _ws.send('slippi' + name, {stats});
 }
+function obsUpdate(name, stats) {
+    _ws.send('obs' + name, {stats});
+}
+function streamqueuechanged(value){
+    console.log(scoreboard.streamlist);
+    console.log('streamqueue changed')
+    console.log(streamQueue);
+    _ws.send('streamQueue', streamQueue);
+}
 
 async function collectDatabaseEntries(sb) {
     let dbData = {country: [], character: [], team: [], game: [], pride: []};
@@ -1602,6 +1631,10 @@ ipcRenderer.on("slippi_status", (event, name) => {
 ipcRenderer.on('slippiFrame', (event, name) => {
     slippi = name;
     slippiUpdate('Frame', slippi);
+});
+ipcRenderer.on('obsSceneChanged', (event, name) => {
+    obs.currentScene = name;
+    obsUpdate('SceneChanged', obs);
 });
 
 
