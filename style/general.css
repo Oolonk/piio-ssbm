@@ -188,6 +188,7 @@ input[type="checkbox"]:not(.vanilla):after {
 
 input[type="checkbox"]:not(.vanilla):checked:after {
 	opacity: 1;
+	background: #359b1b;
 }
 
 input[type="checkbox"]:not(.vanilla).red:checked:after {

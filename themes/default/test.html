@@ -10,7 +10,7 @@
 
 <body>
     <script>
-        var piio = new PiioConnector("test", ["scoreboard", 'slippiFrame', "obsSceneChanged", "obsSceneList", 'streamQueue']);
+        var piio = new PiioConnector("test", ["scoreboard", 'slippiFrame', 'slippiGameStarted', 'slippiGameEnded', "obsSceneChanged", "obsSceneList", 'streamQueue']);
         piio.on("ready", (data) => {
             console.log('init piio', data)
         })
@@ -19,6 +19,12 @@
         })
         piio.on("slippiFrame", (data) => {
             console.log('new slippi data', data);
+        });
+        piio.on("slippiGameStarted", (data) => {
+            console.log('new slippi game started data', data);
+        });
+        piio.on("slippiGameStarted", (data) => {
+            console.log('lippi game ended data', data);
         });
         piio.on("obsSceneChanged", (data) => {
             console.log('OBS Scene Changed', data);

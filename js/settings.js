@@ -35,6 +35,12 @@ addEventListener("load", async () => {
 					document.querySelectorAll('.obs-settings').forEach(e => e.classList.add('hide'));
 				}
 				break;
+			case "slippiStartByType":
+				el.checked = entry.value ? 1 : 0;
+				break;
+			case "slippiStopByWinner":
+				el.checked = entry.value ? 1 : 0;
+				break;
 			default:
 				el.value = entry.value;
 				break;

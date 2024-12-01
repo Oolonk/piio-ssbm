@@ -301,12 +301,12 @@ Server.prototype.getOverlays = function getOverlays(path, options) {
 }
 
 Server.prototype.createDynStatic = function createDynStatic(path, options) {
-	var static = express.static(path, options);
+	var statics = express.static(path, options);
 	var dyn = function (req, res, next) {
-		return static(req, res, next)
+		return statics(req, res, next)
 	}
 	dyn.setPath = function (newPath) {
-		static = express.static(newPath, options)
+		statics = express.static(newPath, options)
 	}
 	return dyn;
 }

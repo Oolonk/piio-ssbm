@@ -63,6 +63,52 @@
             <button id="start-obs-btn" onclick="startObs();">START OBS</button>
             <button id="stop-obs-btn" onclick="stopObs();" style="display: none;">STOP OBS</button>
         </div>
+        <div class="obsbtn-div">
+            <div class=slippibtn-div">
+
+                <div class="label slippiNonStartByType-div">Game Start Switch To:</div>
+                <div class="item slippiNonStartByType-div">
+                    <input class="toggle-color obsSceneButtons" id="obs-startall-toggle" type="checkbox">
+                    <select class="obsSceneDropdown" id="obs-startall">
+                    </select>
+                </div>
+
+                <div class="label slippiStartByType-div hide">Game Start Singles Switch To:</div>
+                <div class="item slippiStartByType-div hide">
+                    <input class="toggle-color obsSceneButtons" id="obs-startsingles-toggle" type="checkbox">
+                    <select class="obsSceneDropdown" id="obs-startsingles">
+                    </select>
+                </div>
+
+                <div class="label slippiStartByType-div hide">Game Start Doubles Switch To:</div>
+                <div class="item slippiStartByType-div hide">
+                    <input class="toggle-color obsSceneButtons" id="obs-startdoubles-toggle" type="checkbox">
+                    <select class="obsSceneDropdown" id="obs-startdoubles">
+                    </select>
+                </div>
+
+                <div class="label slippiNonStopByWinner-div">Game End Switch To:</div>
+                <div class="item slippiNonStopByWinner-div">
+                    <input class="toggle-color obsSceneButtons" id="obs-stopall-toggle" type="checkbox">
+                    <select class="obsSceneDropdown" id="obs-stopall">
+                    </select>
+                </div>
+
+                <div class="label slippiStopByWinner-div hide">Game End Left Seat Win:</div>
+                <div class="item slippiStopByWinner-div hide">
+                    <input class="toggle-color obsSceneButtons" id="obs-endleft-toggle" type="checkbox">
+                    <select class="obsSceneDropdown" id="obs-endleft">
+                    </select>
+                </div>
+
+                <div class="label slippiStopByWinner-div hide">Game End Right Seat Win:</div>
+                <div class="item slippiStopByWinner-div hide">
+                    <input class="toggle-color obsSceneButtons" id="obs-endright-toggle" type="checkbox">
+                    <select class="obsSceneDropdown" id="obs-endright">
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="sidebar-options">
         <select id="theme-select" onchange="setTheme(this.value)"></select>

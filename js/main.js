@@ -46,7 +46,7 @@ var scoreboard = {
         phase: null
     },
     smashggtoken: null,
-    type: null,
+    type: "teams",
     _D: null
 };
 var streamQueue = [];
@@ -173,6 +173,13 @@ async function init() {
         setTeamSize(Math.max(scoreboard.teams[1].players.length, 1));
         insertScoreboardData(scoreboard);
         release("scoreboardchanged");
+        let teamType = {
+            'teams': 0,
+            'crews': 1,
+            'ironman': 2
+
+        }
+        setTeamType(teamType[scoreboard.type]);
     });
 
 
@@ -213,6 +220,15 @@ window.addEventListener("keydown", (e) => {
 
 let smashggToken = "";
 let showsmashggToken = false;
+let obsSceneList = [];
+let obsSceneListValues = {};
+let obsSceneListSelected = {};
+let obsSlippiDelayStart = 0;
+let obsSlippiDelayEnd = 2000;
+let obsSlippiDelayQuit = 0;
+
+let slippiStopByWinner = false;
+let slippiStartByType = false;
 
 async function applyClientSettings(settings) {
     for (let row of settings) {
@@ -223,17 +239,17 @@ async function applyClientSettings(settings) {
             case "smashgg-token":
                 smashggToken = row.value;
                 smashgg.Token = row.value;
-                if(showsmashggToken) {
+                if (showsmashggToken) {
                     scoreboard.smashggtoken = row.value;
-                }else{
+                } else {
                     scoreboard.smashggtoken = "";
                 }
                 break;
             case "showSmashggToken":
                 showsmashggToken = row.value;
-                if(row.value) {
+                if (row.value) {
                     scoreboard.smashggtoken = smashggToken;
-                }else{
+                } else {
                     scoreboard.smashggtoken = "";
                 }
                 break;
@@ -282,9 +298,88 @@ async function applyClientSettings(settings) {
                 break;
             case "obsSceneList":
                 console.log("obsSceneList", row.value);
+                obsSceneList = row.value;
+                changeObsDropdown();
+                break;
+            case "obsSceneListValues":
+                console.log("obsSceneListValues", row.value);
+                obsSceneListValues = row.value;
+                break;
+            case "obsSceneListSelected":
+                console.log("obsSceneList", row.value);
+                obsSceneListSelected = row.value;
+                obsSceneListSelectedInit();
+                break;
+            case "obsSlippiDelayStart":
+                obsSlippiDelayStart = parseInt(row.value, 10);
+                break;
+            case "obsSlippiDelayEnd":
+                obsSlippiDelayEnd = parseInt(row.value, 10);
+                break;
+            case "obsSlippiDelayQuit":
+                obsSlippiDelayQuit = parseInt(row.value, 10);
+                break;
+            case "slippiStartByType":
+                showSlippiListsStartByType(row.value);
+                break;
+            case "slippiStopByWinner":
+                showSlippiListsStopByWinner(row.value);
                 break;
         }
     }
+}
+function obsSceneListSelectedInit(){
+    let buttons = document.getElementsByClassName("obsSceneButtons");
+    for(let i = 0; i < buttons.length; i++){
+        let button = buttons[i];
+        if(obsSceneListSelected[button.id] != undefined){
+            button.checked = obsSceneListSelected[button.id];
+        }
+    }
+}
+document.addEventListener("DOMContentLoaded", () => {
+    Array.prototype.forEach.call(document.getElementsByClassName("obsSceneButtons"), (el) => {
+        el.onclick = (e) => {
+            let id = e.target.id;
+            obsSceneListSelected[id] = e.target.checked;
+            ipcRenderer.invoke("set", "obsSceneListSelected", obsSceneListSelected);
+            applyClientSettings([{name: 'obsSceneListSelected', value: obsSceneListSelected}]);
+        }
+    });
+});
+function changeObsDropdown() {
+    let dropdowns = document.getElementsByClassName("obsSceneDropdown");
+    for (let i = 0; i < dropdowns.length; i++) {
+        let dropdown = dropdowns[i];
+        let dropdownSelected = '';
+        if(obsSceneListValues[dropdown.id] != undefined) {
+            dropdownSelected = obsSceneListValues[dropdown.id];
+        }
+        dropdown.innerHTML = "";
+
+        let option = document.createElement("option");
+        option.text = '';
+        option.value = '';
+        dropdown.add(option);
+        for (let j = 0; j < obsSceneList.length; j++) {
+            let option = document.createElement("option");
+            option.text = obsSceneList[j];
+            option.value = obsSceneList[j];
+            dropdown.add(option);
+            if (option.text === dropdownSelected) {
+                dropdown.selectedIndex = j + 1;
+            }
+        }
+    }
+
+    Array.prototype.forEach.call(document.getElementsByClassName("obsSceneDropdown"), (el) => {
+        el.onchange = (e) => {
+            let id = e.target.id;
+            obsSceneListValues[id] = e.target.value;
+            ipcRenderer.invoke("set", "obsSceneListValues", obsSceneListValues);
+            applyClientSettings([{name: 'obsSceneListValues', value: obsSceneListValues}]);
+        }
+    });
 }
 
 async function openSettingsWindow() {
@@ -346,7 +441,7 @@ function buildTeamPlayerList() {
 
             teamPlayerField.appendChild(playerItemEl);
 
-            if (teamSize <= 4) { // limit seatorder to max 4 players per team
+            if ((scoreboard.type == 'crews' && scoreboard.teams[teamNum].selected != null && scoreboard.teams[teamNum].selected === i) || (scoreboard.type == "teams" && teamSize <= 4)) { // limit seatorder to max 4 players per team
                 scoreboard.seatorder.push([teamNum, i]);
             }
 
@@ -725,7 +820,6 @@ function setTeamSize(size) {
     }
     buildTeamPlayerList();
 }
-
 function setTeamType(num) {
     let teamTypes = ["teams", "crews", "ironman"];
     for (let i = 0; i < teamTypes.length; i++) {
@@ -733,6 +827,7 @@ function setTeamType(num) {
     }
     document.getElementById('team-type-select').value = num;
     scoreboard.type = teamTypes[num];
+    buildPlayerSeatOrder();
 }
 
 function resetScore() {
@@ -834,6 +929,51 @@ function setPlayerActive(teamNum, playerNum) {
     }
     scoreboard.teams[teamNum].selected = playerNum;
     fire("scoreboardchanged", true);
+    buildPlayerSeatOrder();
+}
+
+function buildPlayerSeatOrder(){
+    let teamSize = Math.max(scoreboard.teams[1].players.length, scoreboard.teams[2].players.length);
+    let seatorder = scoreboard.seatorder;
+    let team2first = false;
+    if(seatorder[0] != undefined && seatorder[0][0] == 2){
+        team2first = true;
+    }
+    scoreboard.seatorder = [];
+    if(!team2first) {
+        for (let teamNum = 1; teamNum <= 2; teamNum++) {
+            for (let i = 0; i < teamSize; i++) {
+                if ((scoreboard.type == 'crews' && scoreboard.teams[teamNum].selected != null && scoreboard.teams[teamNum].selected === i) || (scoreboard.type == "teams" && teamSize <= 4)) { // limit seatorder to max 4 players per team
+                    scoreboard.seatorder.push([teamNum, i]);
+                }
+            }
+            // Team Player Swap Buttons
+            let swapButtonField = document.getElementById('sb-players-swap-' + teamNum).truncate();
+            for (let swapButton = 1; swapButton < teamSize; swapButton++) {
+                swapButtonField.appendChild(createElement({
+                    "type": "button",
+                    "onclick": () => swap(teamNum, swapButton)
+                }));
+            }
+        }
+    } else{
+        for (let teamNum = 2; teamNum >= 1; teamNum--) {
+            for (let i = 0; i < teamSize; i++) {
+                if ((scoreboard.type == 'crews' && scoreboard.teams[teamNum].selected != null && scoreboard.teams[teamNum].selected === i) || (scoreboard.type == "teams" && teamSize <= 4)) { // limit seatorder to max 4 players per team
+                    scoreboard.seatorder.push([teamNum, i]);
+                }
+            }
+            // Team Player Swap Buttons
+            let swapButtonField = document.getElementById('sb-players-swap-' + teamNum).truncate();
+            for (let swapButton = 1; swapButton < teamSize; swapButton++) {
+                swapButtonField.appendChild(createElement({
+                    "type": "button",
+                    "onclick": () => swap(teamNum, swapButton)
+                }));
+            }
+        }
+    }
+    fire("scoreboardseatorderchanged");
 }
 
 function setPlayerOut(teamNum, playerNum) {
@@ -1342,10 +1482,12 @@ async function update() {
 function slippiUpdate(name, stats) {
     _ws.send('slippi' + name, {stats});
 }
+
 function obsUpdate(name, stats) {
     _ws.send('obs' + name, {stats});
 }
-function streamqueuechanged(value){
+
+function streamqueuechanged(value) {
     // console.log(scoreboard.streamlist);
     // console.log('streamqueue changed')
     // console.log(streamQueue);
@@ -1586,18 +1728,40 @@ function startSlippi() {
 function stopSlippi() {
     ipcRenderer.send("slippi", "stop");
 }
-function showSlippi(value){
-    if(value){
+
+function showSlippi(value) {
+    if (value) {
         document.querySelectorAll('.slippibtn-div').forEach(e => e.classList.remove('hide'));
-    }else{
+    } else {
         document.querySelectorAll('.slippibtn-div').forEach(e => e.classList.add('hide'));
     }
 }
-function showObs(value){
-    if(value){
+
+function showObs(value) {
+    if (value) {
         document.querySelectorAll('.obsbtn-div').forEach(e => e.classList.remove('hide'));
-    }else{
+    } else {
         document.querySelectorAll('.obsbtn-div').forEach(e => e.classList.add('hide'));
+    }
+}
+function showSlippiListsStartByType(value){
+    slippiStartByType = value;
+    if(value){
+        document.querySelectorAll('.slippiStartByType-div').forEach(e => e.classList.remove('hide'));
+        document.querySelectorAll('.slippiNonStartByType-div').forEach(e => e.classList.add('hide'));
+    }else{
+        document.querySelectorAll('.slippiStartByType-div').forEach(e => e.classList.add('hide'));
+        document.querySelectorAll('.slippiNonStartByType-div').forEach(e => e.classList.remove('hide'));
+    }
+}
+function showSlippiListsStopByWinner(value){
+    slippiStopByWinner = value;
+    if(value){
+        document.querySelectorAll('.slippiStopByWinner-div').forEach(e => e.classList.remove('hide'));
+        document.querySelectorAll('.slippiNonStopByWinner-div').forEach(e => e.classList.add('hide'));
+    }else{
+        document.querySelectorAll('.slippiStopByWinner-div').forEach(e => e.classList.add('hide'));
+        document.querySelectorAll('.slippiNonStopByWinner-div').forEach(e => e.classList.remove('hide'));
     }
 }
 
@@ -1642,6 +1806,41 @@ ipcRenderer.on('obsSceneChanged', (event, name) => {
     obs.currentScene = name;
     obsUpdate('SceneChanged', obs);
 });
+ipcRenderer.on('slippiStarted', (event, name) => {
+    let isTeams = name.players.length > 2;
+    setTimeout(function(){
+        if(slippiStartByType){
+            if(isTeams){
+                if(obsSceneListSelected['obs-startdoubles-toggle'] !== undefined && obsSceneListSelected['obs-startdoubles-toggle'] && obsSceneListValues['obs-startdoubles'] !== undefined){
+                    ipcRenderer.send('switchScene', obsSceneListValues['obs-startdoubles'])
+                }
+            }else{
+                if(obsSceneListSelected['obs-startsingles-toggle'] !== undefined && obsSceneListSelected['obs-startsingles-toggle'] && obsSceneListValues['obs-startsingles'] !== undefined){
+                    ipcRenderer.send('switchScene', obsSceneListValues['obs-startsingles'])
+                }
+            }
+        }else{
+            if(obsSceneListSelected['obs-startall-toggle'] !== undefined && obsSceneListSelected['obs-startall-toggle'] && obsSceneListValues['obs-startall'] !== undefined){
+                ipcRenderer.send('switchScene', obsSceneListValues['obs-startall'])
+            }
+        }
+
+    }, obsSlippiDelayStart)
+    console.log(event, name);
+})
+ipcRenderer.on('slippiEnded', (event, name) => {
+    let lrastarted = name.gameEndMethod === 7;
+    let delay = lrastarted ? obsSlippiDelayQuit : obsSlippiDelayEnd;
+    setTimeout(function(){
+        if(slippiStopByWinner){
+
+        }else{
+            if(obsSceneListSelected['obs-stopall-toggle'] !== undefined && obsSceneListSelected['obs-stopall-toggle'] && obsSceneListValues['obs-stopall'] !== undefined){
+                ipcRenderer.send('switchScene', obsSceneListValues['obs-stopall'])
+            }
+        }
+    }, delay)
+})
 
 
 function startObs() {
@@ -1692,6 +1891,7 @@ ipcRenderer.on('obsSceneListChanged', (event, list) => {
     ipcRenderer.invoke("set", "obsSceneList", list);
     applyClientSettings([{name: 'obsSceneList', value: list}]);
 });
+
 function casterAdd() {
     _theme.caster++;
     buildCasterList();

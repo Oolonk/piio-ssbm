@@ -73,9 +73,13 @@ Slippi.prototype.setSlippiType = function setSlippiType(val) {
 }
 
 Slippi.prototype.startSlippi = function startSlippi() {
+	if(typeof this.stream == 'object' && this.stream != null) {
+		this.stream.destroy();
+	}
 	this.stream = new SlpLiveStream(this.slippiType);
 	this.stream.start(this.slippiIP, (this.slippiType == "dolphin") ? Ports.DEFAULT : this.slippiPort)
 		.catch(console.error());
+	this.realtime = new SlpRealTime();
 	this.realtime.setStream(this.stream);
 	if (this.slippiType == "dolphin") {
 		this.autoconnect = true;
@@ -109,7 +113,7 @@ Slippi.prototype.startSlippi = function startSlippi() {
 	});
 	this.realtime.game.start$.subscribe((payload) => {
 		this.gameStarted = payload;
-		this.event.emit("started");
+		this.event.emit("started", payload);
 	});
 	this.realtime.game.end$.subscribe((payload) => {
 		this.cache.settings = this.stream.parser.settings;
@@ -127,7 +131,7 @@ Slippi.prototype.startSlippi = function startSlippi() {
 		this.cache = Object.assign({}, this.cache);
 		this.event.emit("frame");
 		this.gameEnded = payload
-		this.event.emit("ended");
+		this.event.emit("ended", payload);
 	});
 
 	// } catch (error) {
@@ -139,7 +143,6 @@ Slippi.prototype.stopSlippi = function stopSlippi() {
 	this.autoconnect = false;
 	this.stream.end();
 	this.stream.destroy();
-	this.stream = null;
 }
 Slippi.prototype.restartSlippi = async function restartSlippi() {
 	this.stream = null;

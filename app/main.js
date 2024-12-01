@@ -100,6 +100,18 @@ slippi.on('frame', () => {
 	server.broadcast({ type: 'slippiFrame', data: slippi.cache })
 })
 
+slippi.on('started', (data) => {
+	server.broadcast({ type: 'slippiGameStarted', data: data })
+	electron.send('slippiStarted', data)
+})
+slippi.on('ended', (data) => {
+	server.broadcast({ type: 'slippiGameEnded', data: data })
+	electron.send('slippiEnded', data);
+})
+
+electron.ipcMain.on('switchScene', (event, name) => {
+	obs.setCurrentScene(name)
+});
 obs.on('CurrentSceneChanged', (data) =>{
 	// console.log('obs scene changed to:', data);
 	electron.send("obsCurrentSceneChanged", data);

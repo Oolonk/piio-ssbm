@@ -1135,6 +1135,20 @@ body.modal #modal {
 	border: 1px solid rgba(var(--backgroundRGB), 0.5);
 }
 
+#sidebar-buttons .label {
+	font-size: 10px;
+	background: rgb(var(--backgroundRGB));
+	padding: 0px 10px;
+	border-radius: 4px;
+	border: 1px solid rgba(var(--backgroundRGB), 0.5);
+}
+#sidebar-buttons .item{
+	padding-left: 5px;
+}
+.obsSceneDropdown{
+	width: calc(100% - 36px)
+}
+
 #fields .item.hascheckbox {
 	padding-right: 40px;
 }

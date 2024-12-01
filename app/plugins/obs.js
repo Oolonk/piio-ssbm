@@ -44,21 +44,37 @@ Obs.prototype.startObs = async function startObs() {
         this.obs.on('SceneListChanged', function(value){
             thisObs.sceneList = [];
             value.scenes.forEach(function(scene){
-                // console.log(scene);
                 thisObs.sceneList.push(scene.sceneName);
             })
-            console.log(thisObs.sceneList);
-            thisObs.event.emit('SceneListChanged', thisObs.sceneList);
+            setTimeout(function(){
+                thisObs.event.emit('SceneListChanged', thisObs.sceneList);
+            }, 20)
+        });
+        this.obs.on('CurrentSceneCollectionChanged', function(value1){
+            thisObs.obs.call('GetSceneList').then(async (value)=>{
+                thisObs.sceneList.length = 0;
+                value.scenes.forEach(function(scene){
+                    thisObs.sceneList.push(scene.sceneName);
+                    console.log(thisObs.sceneList);
+                })
+                setTimeout(function(){
+                    thisObs.event.emit('SceneListChanged', thisObs.sceneList);
+                }, 20)
+            });
         });
         this.obs.call('GetSceneList').then((value)=>{
             // console.log(value)
             thisObs.sceneList = [];
             value.scenes.forEach(function(scene){
                 // console.log(scene);
-                thisObs.sceneList.push(scene.sceneName);
+                if(scene.sceneName !== undefined){
+                    thisObs.sceneList.push(scene.sceneName);
+                }
             })
             // console.log(this.sceneList);
-            thisObs.event.emit('SceneListChanged', this.sceneList);
+            setTimeout(function(){
+                thisObs.event.emit('SceneListChanged', thisObs.sceneList);
+            }, 20)
         });
         this.obs.call('GetCurrentProgramScene').then((value)=>{
             // console.log('test', value.sceneName);
@@ -94,7 +110,7 @@ Obs.prototype.stopObs = async function stopObs() {
 }
 Obs.prototype.setCurrentScene = async function setCurrentScene(currentSceneName) {
     try {
-        await this.obs.call('SetCurrentProgramScene', currentSceneName);
+        await this.obs.call('SetCurrentProgramScene', {sceneName: currentSceneName});
         return true;
     } catch (error) {
         console.error(error);

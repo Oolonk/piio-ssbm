@@ -150,6 +150,53 @@
         <div class="obs-settings">
             <details class="slippi-settings">
                 <summary>OBS x Slippi Settings</summary>
+                <div class="item">
+                    <div class="label">Slippi Start Offset</div>
+                    <div class="saved" id="obsSlippiDelayStart-saved"></div>
+                    <div>
+                        <input type="number" id="obsSlippiDelayStart-value" oninput="set('obsSlippiDelayStart', this.value)"
+                               value="0" style="text-align:right;width:50px;"/>ms
+                    </div>
+                    <div class="description">
+                        The amount of of time to wait after a new game starts before automatic switching the scene.
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="label">Slippi End Offset</div>
+                    <div class="saved" id="obsSlippiDelayEnd-saved"></div>
+                    <div>
+                        <input type="number" id="obsSlippiDelayEnd-value" oninput="set('obsSlippiDelayEnd', this.value)"
+                               value="2100" style="text-align:right;width:50px;"/>ms
+                    </div>
+                    <div class="description">
+                        The amount of of time to wait after ending the game before automatic updating the overlays
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="label">Slippi Quit Offset</div>
+                    <div class="saved" id="obsSlippiDelayQuit-saved"></div>
+                    <div>
+                        <input type="number" id="obsSlippiDelayQuit-value" oninput="set('obsSlippiDelayQuit', this.value)"
+                               value="0" style="text-align:right;width:50px;"/>ms
+                    </div>
+                    <div class="description">
+                        The amount of of time to wait after quitting the game before automatic updating the overlays
+                    </div>
+                </div>
+                <div class="item item-short">
+                    <input class="toggle-color" type="checkbox" id="slippiStartByType-value" oninput="set('slippiStartByType', this.checked)"
+                           value=""
+                    />
+                    <div class="label">Differentiate on Slippi Start between Player Amount</div>
+                    <div class="saved" id="slippiStartByType-saved"></div>
+                </div>
+                <div class="item item-short" style="display: none">
+                    <input class="toggle-color" type="checkbox" id="slippiStopByWinner-value" oninput="set('slippiStopByWinner', this.checked)"
+                           value=""
+                    />
+                    <div class="label">Differentiate on Slippi Stop between Winner Seat Side</div>
+                    <div class="saved" id="slippiStopByWinner-saved"></div>
+                </div>
             </details>
         </div>
     </div>
