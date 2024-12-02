@@ -64,7 +64,7 @@ server.on("port-in-use", () => {
 	process.exit(1);
 });
 server.on("api", async (data, cb) => {
-	console.log(data);
+	// console.log(data);
 	if (data.name == "version") {
 		data.version = electron.APP.getVersion();
 		cb(data);

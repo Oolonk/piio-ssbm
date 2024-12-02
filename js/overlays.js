@@ -36,7 +36,7 @@ function init() {
 
 function displayOverlayList(list) {
 	console.log("displayOverlayList");
-	console.log(list);
+	// console.log(list);
 	let el = document.getElementById("list").truncate();
 	list.forEach((overlay) => {
 		let item = document.createElement("div");

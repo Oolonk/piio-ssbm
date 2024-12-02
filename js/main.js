@@ -294,19 +294,19 @@ async function applyClientSettings(settings) {
                 showObs(row.value);
                 break;
             case "obsCurrentScene":
-                console.log("obsCurrentScene", row.value);
+                // console.log("obsCurrentScene", row.value);
                 break;
             case "obsSceneList":
-                console.log("obsSceneList", row.value);
+                // console.log("obsSceneList", row.value);
                 obsSceneList = row.value;
                 changeObsDropdown();
                 break;
             case "obsSceneListValues":
-                console.log("obsSceneListValues", row.value);
+                // console.log("obsSceneListValues", row.value);
                 obsSceneListValues = row.value;
                 break;
             case "obsSceneListSelected":
-                console.log("obsSceneList", row.value);
+                // console.log("obsSceneList", row.value);
                 obsSceneListSelected = row.value;
                 obsSceneListSelectedInit();
                 break;
@@ -1826,7 +1826,7 @@ ipcRenderer.on('slippiStarted', (event, name) => {
         }
 
     }, obsSlippiDelayStart)
-    console.log(event, name);
+    // console.log(event, name);
 })
 ipcRenderer.on('slippiEnded', (event, name) => {
     let lrastarted = name.gameEndMethod === 7;

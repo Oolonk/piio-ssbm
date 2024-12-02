@@ -55,7 +55,7 @@ Obs.prototype.startObs = async function startObs() {
                 thisObs.sceneList.length = 0;
                 value.scenes.forEach(function(scene){
                     thisObs.sceneList.push(scene.sceneName);
-                    console.log(thisObs.sceneList);
+                    // console.log(thisObs.sceneList);
                 })
                 setTimeout(function(){
                     thisObs.event.emit('SceneListChanged', thisObs.sceneList);

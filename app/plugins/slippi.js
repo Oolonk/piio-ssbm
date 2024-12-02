@@ -65,7 +65,7 @@ Slippi.prototype.setSlippiPort = function setSlippiPort(val) {
 	this.slippiPort = parseInt(val);
 }
 Slippi.prototype.setSlippiFolder = function setSlippiFolder(val) {
-	console.log(val);
+	// console.log(val);
 	this.slippiFolder = val;
 }
 Slippi.prototype.setSlippiType = function setSlippiType(val) {
