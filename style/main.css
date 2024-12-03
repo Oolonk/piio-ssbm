@@ -868,6 +868,7 @@ body.modal #modal {
 }
 
 #seatorder>div {
+	color: white;
 	position: Relative;
 	background: #777;
 	background: #888;
@@ -946,6 +947,7 @@ body.modal #modal {
 	z-index: 20;
 	background: #000;
 	box-shadow: 2px 2px 11px rgba(var(--backgroundRGB), 0.5);
+	color: white;
 }
 
 #caster>.item .search:after {
