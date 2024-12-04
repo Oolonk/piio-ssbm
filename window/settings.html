@@ -85,7 +85,7 @@
             <div class="label">Enable OBS Websocket Plugin</div>
             <div class="saved" id="enable-obs-saved"></div>
         </div>
-        <details class="slippi-settings">
+        <details class="slippi-settings hide">
             <summary>Slippi Settings</summary>
             <div class="item">
                 <div class="label">Slippi Type</div>
@@ -117,7 +117,7 @@
                 </div>
             </div>
         </details>
-        <details class="obs-settings">
+        <details class="obs-settings hide">
             <summary>OBS Websocket Settings</summary>
             <div class="item">
                 <div class="label">Websocket IP</div>
@@ -138,7 +138,7 @@
                 </div>
             </div>
             <div class="item">
-                <div class="label">Websocket IP</div>
+                <div class="label">Websocket Passwort</div>
                 <div class="saved" id="obs-password-saved"></div>
                 <input type="text" id="obs-password-value" oninput="set('obs-password', this.value)" value=""
                        placeholder="The OBS Websocket Password"/>
@@ -147,8 +147,8 @@
                 </div>
             </div>
         </details>
-        <div class="obs-settings">
-            <details class="slippi-settings">
+        <div class="obs-settings hide">
+            <details class="slippi-settings hide">
                 <summary>OBS x Slippi Settings</summary>
                 <div class="item">
                     <div class="label">Slippi Start Offset</div>

@@ -23,16 +23,14 @@ addEventListener("load", async () => {
 				break;
 			case "enable-slippi":
 				el.checked = entry.value ? 1 : 0;
-				if(entry.value) {
-				}else{
-					document.querySelectorAll('.slippi-settings').forEach(e => e.classList.add('hide'));
+				if(entry.value != null && entry.value) {
+					document.querySelectorAll('.slippi-settings').forEach(e => e.classList.remove('hide'));
 				}
 				break;
 			case "enable-obs":
 				el.checked = entry.value ? 1 : 0;
-				if(entry.value) {
-				}else{
-					document.querySelectorAll('.obs-settings').forEach(e => e.classList.add('hide'));
+				if(entry.value != null && entry.value) {
+					document.querySelectorAll('.obs-settings').forEach(e => e.classList.remove('hide'));
 				}
 				break;
 			case "slippiStartByType":
