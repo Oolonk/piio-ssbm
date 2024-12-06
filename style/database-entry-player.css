@@ -259,6 +259,7 @@ select[multiple] {
 	margin-top: 5px;
 	padding: 1px;
 	border-radius: 2px;
+	color: white;
 	background: #440;
 	grid-template-columns: 1fr 22px 22px;
 	grid-template-rows: 22px;
