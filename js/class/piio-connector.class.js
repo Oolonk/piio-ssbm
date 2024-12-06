@@ -1,5 +1,5 @@
 class PiioConnector {
-    constructor(name, requests, subscriptions) {
+    constructor(name, requests) {
         this.address = location.hostname;
         this.port = location.port;
         this.id = Date.now().toString(32) + Math.ceil(Math.random() * 1000).toString(32);
