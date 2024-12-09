@@ -30,13 +30,13 @@ To fetch data at the overlay page site via Javascript see [this example](themes/
 
 ## Information:
 This project is not maintained by Liva or the piio team. If you have question DM me!
-<!---
+
 ## Social Media or Donation Link
 
 ### Oolonk:
 <a href="https://twitter.com/RDF_Dortimus51" target="_blank"><img height='35' style='border:0px;height:46px;' src='https://abs.twimg.com/favicons/twitter.2.ico'></a>
-<a href="https://bsky.app/profile/oolonk.bsky.app" target="_blank"><img height='35' style='border:0px;height:46px;' src='https://abs.twimg.com/favicons/twitter.2.ico'></a>
-<a href="https://twitch.tv/Oolonk" target="_blank"><img height='35' style='border:0px;height:46px;' src='https://brand.twitch.tv/assets/logos/svg/glitch/purple.svg' border='0'  ></a>(Inactive) 
+<a href="https://bsky.app/profile/oolonk.bsky.app" target="_blank"><img height='35' style='border:0px;height:46px;' src='https://bsky.social/about/images/favicon-32x32.png'></a>
+<!---
 <a href="https://ko-fi.com/oolonk" target="_blank"><img height='35' style='border:0px;height:46px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Tea at ko-fi.com' ></a>
 
 ### BerlinMelee:
