@@ -28,11 +28,9 @@ This is a fork from [piio](https://github.com/MYI-Liva/piio) made by Liva
 ## Example
 To fetch data at the overlay page site via Javascript see [this example](themes/default/test.html)
 
-## SlippiConnector:
-
 ## Information:
 This project is not maintained by Liva or the piio team. If you have question DM me!
-
+<!---
 ## Social Media or Donation Link
 
 ### Oolonk:
