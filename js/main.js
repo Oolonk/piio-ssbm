@@ -1195,6 +1195,13 @@ async function insertPlayerUI(teamNum, playerNum) {
         pEl.querySelector(".player-edit-btn").classList.toggle("outdated", res.differences.length > 0);
     });
 
+    let country;
+    country = APPRES + '/assets/country/' + po.country + '.png';
+    if (fs.existsSync(APPRES + '/assets/country/' + po.country + '.png')) {
+        country = APPRES + '/assets/country/' + po.country + '.png';
+    } else {
+        country = APPRES + '/assets/country/' + po.country + '.svg';
+    }
 
     if (po.InDB) {
         db.get("team", {$or: [].concat(po.team).map(x => ({"_id": x}))}).then(entry => {
@@ -1204,10 +1211,12 @@ async function insertPlayerUI(teamNum, playerNum) {
         });
         db.count("player", {"name": {$regex: new RegExp(`^${po.name}$`, 'i')}})
             .then(count => pEl.getElementsByClassName("player-multi-btn")[0].disabled = count <= 1);
+        pEl.querySelector('.country').style.backgroundImage = `url('${country}')`;
     } else {
         pEl.querySelector(".team").innerText = "";
         pEl.classList.remove("hasteam");
         pEl.querySelector(".player-multi-btn").disabled = true;
+        pEl.querySelector(".country").style.backgroundImage = "";
     }
 }
 
@@ -1371,6 +1380,17 @@ async function buildPlayerAutoCompleteList() {
             opt.value = p.name;
             frag.appendChild(opt);
             namesAdded.push(p.name);
+            let country;
+            country = APPRES + '/assets/country/' + p.country + '.png';
+            if (fs.existsSync(APPRES + '/assets/country/' + p.country + '.png')) {
+                country = APPRES + '/assets/country/' + p.country + '.png';
+            } else {
+                country = APPRES + '/assets/country/' + p.country + '.svg';
+            }
+            opt.style.backgroundImage = `url('${country}')`;
+            opt.style.backgroundSize = "contain";
+            opt.style.backgroundRepeat = "no-repeat";
+            opt.style.backgroundPosition = "right";
         }
     });
     document.getElementById('playernames').truncate().appendChild(frag);

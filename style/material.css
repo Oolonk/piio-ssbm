@@ -2,8 +2,10 @@
 	:root {
 		--background: #121721;
 		--text: #fff;
+		--textSecondary: #bbb;
 		--backgroundRGB: 0, 0, 0;
-		--textRGB: 255, 255, 255
+		--textRGB: 255, 255, 255;
+		--inputBackground: #272f40;
 	}
 
 	#statusbar {
@@ -17,7 +19,9 @@
 		--background: #dee3ed;
 		--text: #000;
 		--backgroundRGB: 255, 255, 255;
-		--textRGB: 0, 0, 0
+		--textRGB: 0, 0, 0;
+		--statusbar: #070c14;
+		--inputBackground: #dadae8;
 	}
 
 	#statusbar {
@@ -61,10 +65,22 @@ input[type="reset"]:active {
 
 input[type="text"],
 input[type="file"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="number"],
+input[type="datetime"],
+input[type="date"],
+input[type="time"],
+.field-time-offset,
 textarea,
 select {
-	background: #fff;
-	color: #000;
+	/*background: #fff;*/
+	/*color: #000;*/
+	color: var(--text) !important;
+	background: var(--inputBackground) !important;
 }
 
 input[type="checkbox"]:before {

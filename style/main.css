@@ -500,7 +500,14 @@ body.modal #modal {
 #sb>div .player-item:nth-child(even) {
 	background: rgba(var(--backgroundRGB), 0.2);
 }
-
+#sb>div .player-item .country {
+	position: absolute;
+	left: 5px;
+	width: 30px;
+	height: 30px;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
 #sb-team-1 .player-item {
 	grid-template-columns: 34px 1fr;
 	grid-template-areas: "character playername"
@@ -538,7 +545,8 @@ body.modal #modal {
 #sb>div div.playername {
 	grid-area: playername;
 	position: relative;
-	background: #fff;
+	background: var(--background);
+	color: var(--text);
 	border-radius: 2px;
 	padding: 0;
 	margin: 1px;
@@ -549,9 +557,10 @@ body.modal #modal {
 }
 
 #sb>div input.playername {
+	color: var(--text);
 	font-size: 14px;
 	font-weight: bold;
-	padding: 5px 10px 5px;
+	padding: 5px 10px 5px 40px;
 	line-height: 22px;
 	width: 100%;
 	box-sizing: border-box;
@@ -561,16 +570,16 @@ body.modal #modal {
 }
 
 #sb>div .hasteam input.playername {
-	padding: 7px 10px 3px;
+	padding: 7px 10px 3px 40px;
 }
 
 #sb>div div.playername .team {
 	position: absolute;
-	left: 10px;
+	left: 40px;
 	top: 0px;
 	font-size: 8px;
-	opacity: 0.5;
-	color: #000;
+	/*opacity: 0.5;*/
+	color: var(--textSecondary);
 }
 
 #sb>div .player-options {
