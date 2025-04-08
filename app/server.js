@@ -215,7 +215,7 @@ Server.prototype.start = async function start() {
 	});
 
 	// handle 404
-	this.server.get("/*", (req, res, next) => res.sendStatus(404));
+	this.server.get("/*splat", (req, res, next) => res.sendStatus(404));
 	this.checkPort(this.port).then(() => {
 		console.log("Start server on port", this.port);
 		this.server.listen(this.port, () => this.event.emit("listening"));
