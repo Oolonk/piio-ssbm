@@ -286,14 +286,17 @@ body.maximized #titlebar .title:after {
 
 #titlebar .controls .close {
 	background-image: url('../img/window-close.svg');
+	cursor: pointer;
 }
 
 #titlebar .controls .minimize {
 	background-image: url('../img/window-minimize.svg');
+	cursor: pointer;
 }
 
 #titlebar .controls .maximize {
 	background-image: url('../img/window-maximize.svg');
+	cursor: pointer;
 }
 
 #titlebar .controls div:hover {
