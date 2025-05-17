@@ -31,6 +31,8 @@
                 src="img/right-arrow.svg" height="24"/></button>
         <input type="checkbox" class="red" value="1" id="autoupdate-cbx" onclick="toggleAutoUpdate()"/>
         <label for="autoupdate-cbx">Autoupdate</label>
+        <input type="checkbox" class="red slippi-item" value="1" id="autoscore-cbx" onclick="toggleAutoScore()"  style="display: none"/>
+        <label for="autoscore-cbx" class="slippi-item" style="display: none">Autoscore</label>
     </div>
     <div id="working" onclick="alert(bgWork.workers.join(', '))"></div>
     <div id="clock">
@@ -230,6 +232,9 @@
     </template>
     <template id="fields-dropdown-tpl">
         <select class="ref"></select>
+    </template>
+    <template id="fields-scenes-tpl">
+        <select class="ref obsSceneDropdown"></select>
     </template>
     <template id="fields-time-tpl">
         <input type="time" class="ref" value=""/>

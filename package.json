@@ -85,11 +85,11 @@
     "icon": "app/logo.png"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^7.8.0",
-    "@electron-forge/maker-squirrel": "^7.8.0",
-    "@electron-forge/maker-zip": "^7.8.0",
-    "debug": "^4.4.0",
-    "electron": "^35.1.4",
+    "@electron-forge/cli": "^7.8.1",
+    "@electron-forge/maker-squirrel": "^7.8.1",
+    "@electron-forge/maker-zip": "^7.8.1",
+    "debug": "^4.4.1",
+    "electron": "^36.2.1",
     "electron-builder": "^26.0.12",
     "electron-forge-maker-appimage": "^26.0.12",
     "electron-packager": "^17.1.2",
@@ -107,6 +107,6 @@
     "object-watcher": "^1.0.2",
     "obs-websocket-js": "^5.0.6",
     "rxjs": "^7.x",
-    "ws": "^8.18.1"
+    "ws": "^8.18.2"
   }
 }

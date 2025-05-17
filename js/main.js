@@ -116,6 +116,7 @@ var obs = {
 
 var client = {
     autoupdate: false,
+    autoscore: false,
     autoupdateThreshold: 500,
     teamSize: null,
     fixedSidebar: true
@@ -231,6 +232,7 @@ let slippiStopByWinner = false;
 let slippiStartByType = false;
 
 async function applyClientSettings(settings) {
+    console.log(settings)
     for (let row of settings) {
         switch (row.name) {
             case "theme":
@@ -256,6 +258,8 @@ async function applyClientSettings(settings) {
             case "autoupdate":
                 toggleAutoUpdate(row.value);
                 break;
+            case "autoscore":
+                toggleAutoScore(row.value);
             case "autoupdateThreshold":
                 client.autoupdateThreshold = row.value;
                 break;
@@ -1455,12 +1459,21 @@ function createField(field) {
                 optEl.innerText = opt;
                 inputElm.appendChild(optEl);
             });
+        case "scenes":
+            if(field.multiple){
+                inputElm.setAttribute('multiple', '1')
+                inputElm.setAttribute('size', '1')
+            }
             break;
     }
 
     inputElm.id = "field-" + field.name;
     inputElm.addEventListener("input", (e) => {
-        scoreboard.fields[field.name].value = e.target.value;
+        if(e.target.multiple){
+            scoreboard.fields[field.name].value = Array.from(e.target.selectedOptions).map(x => x.value);
+        }else {
+            scoreboard.fields[field.name].value = e.target.value;
+        }
         fire("scoreboardchanged");
     });
 
@@ -1471,6 +1484,13 @@ function toggleAutoUpdate(value) {
     client.autoupdate = (value != null ? value : !client.autoupdate);
     ipcRenderer.invoke("set", "autoupdate", client.autoupdate);
     document.getElementById('autoupdate-cbx').checked = client.autoupdate;
+}
+
+function toggleAutoScore(value) {
+    client.autoscore = (value != null ? value : !client.autoscore);
+    ipcRenderer.invoke("set", "autoscore", client.autoupdate);
+    ipcRenderer.send("slippiautoscore", client.autoscore);
+    document.getElementById('autoscore-cbx').checked = client.autoscore;
 }
 
 function autoUpdate(noThreshold) {
@@ -1798,6 +1818,9 @@ ipcRenderer.on("slippi_status", (event, name) => {
             document.getElementById("start-slippi-btn").style.display = 'inherit';
             document.getElementById('stop-slippi-btn').style.display = 'none';
             document.getElementById("slippi-status").innerHTML = 'Disconnected to Slippi';
+            for (let element of document.getElementsByClassName("slippi-item")) {
+                element.style.display = 'none';
+            }
             break;
         case "connected":
             document.getElementById("start-slippi-btn").disabled = true;
@@ -1805,6 +1828,9 @@ ipcRenderer.on("slippi_status", (event, name) => {
             document.getElementById("start-slippi-btn").style.display = 'none';
             document.getElementById("stop-slippi-btn").style.display = 'inherit';
             document.getElementById("slippi-status").innerHTML = 'Connected to Slippi';
+            for (let element of document.getElementsByClassName("slippi-item")) {
+                element.style.display = '';
+            }
             break;
         case 'connecting':
             document.getElementById("start-slippi-btn").disabled = true;
@@ -1812,6 +1838,9 @@ ipcRenderer.on("slippi_status", (event, name) => {
             document.getElementById("start-slippi-btn").style.display = 'none';
             document.getElementById("stop-slippi-btn").style.display = 'inherit';
             document.getElementById("slippi-status").innerHTML = 'Connecting to Slippi';
+            for (let element of document.getElementsByClassName("slippi-item")) {
+                element.style.display = '';
+            }
             break;
         case 'reconnecting':
             document.getElementById("start-slippi-btn").disabled = true;
@@ -1819,6 +1848,9 @@ ipcRenderer.on("slippi_status", (event, name) => {
             document.getElementById("start-slippi-btn").style.display = 'none';
             document.getElementById("stop-slippi-btn").style.display = 'inherit';
             document.getElementById("slippi-status").innerHTML = 'Reconnecting to Slippi';
+            for (let element of document.getElementsByClassName("slippi-item")) {
+                element.style.display = '';
+            }
             break;
     }
 });

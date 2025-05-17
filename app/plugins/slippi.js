@@ -18,6 +18,7 @@ function Slippi() {
 	this.status = null;
 	this.autoconnect = false;
 	this.port = 42070;
+	this.autoscore = false;
 
 	this.pingInterval = 10; // seconds
 

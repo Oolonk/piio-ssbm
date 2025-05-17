@@ -129,6 +129,7 @@ electron.ipcMain.on('slippiPort', (event, name) => slippi.setSlippiPort(name));
 electron.ipcMain.on('connectionType', (event, name) => slippi.setSlippiType(name == true ? "dolphin" : "console"));
 electron.ipcMain.on('slippiFolder', (event, name) => slippi.setSlippiFolder(name));
 electron.ipcMain.on('slippi', (event, name) => slippiChanger(event, name));
+electron.ipcMain.on('slippiautoscore', (event, name) => changeAutoScore(event, name));
 function slippiChanger(event, name) {
 	if (name == "start") {
 		slippi.startSlippi();
@@ -139,6 +140,10 @@ function slippiChanger(event, name) {
 		electron.send("slippi_status", 'disconnected');
 
 	}
+}
+function changeAutoScore(event, name) {
+	console.log(name);
+	slippi.autoscore = name;
 }
 function slippiViewer() {
 	slippi.stream.connection.on("statusChange", (status) => {
@@ -270,6 +275,8 @@ process.on("uncaughtException", (err) => {
 function showNotification(title, body, silent = true) {
 	let notification = new Notification({
 		title: title == null ? electron.APP.getName() : title, body: body, silent: silent, icon: path.join(__dirname, 'logo.png')
-	}).show()
+	});
+    notification.sound = false;
+    notification.show();
 	// return notification.close();
 }
