@@ -423,6 +423,16 @@ class PiioConnector {
         }
     }
 
+    async getPlayersByStartGGId(startGGId) {
+        if (this.ws && this.ws.Open) {
+            let randomId = Math.random().toString(36).substring(2, 15);
+            this.ws.send({"type": "getPlayersByStartGGId", "data": {data: startGGId, 'id': this.id, 'mid': randomId}});
+            this.ws.once("getPlayersByStartGGId-" + randomId, (data) => {
+                console.log(data);
+                return data;
+            })
+        }
+    }
 
     getPictureUrl(url) {
         if (url) {

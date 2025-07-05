@@ -1896,6 +1896,13 @@ ipcRenderer.on('slippiEnded', (event, name) => {
             }
         }
     }, delay)
+});
+ipcRenderer.on('slippiAddScore', (event, port) => {
+    if(scoreboard.type  === "teams" && port != null && port > 0) {
+        if(scoreboard.ports[port] != null) {
+            modifyScore(scoreboard.ports[port][0], 1);
+        }
+    }
 })
 
 

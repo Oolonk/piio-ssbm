@@ -96,6 +96,24 @@ server.on('data-getSlippiStats', async (data, cb) => {
 
 });
 
+server.on('data-getPlayersByStartGGId', async (data, cb) => {
+	console.log(data);
+	let randomId = data.mid;
+	let startGGIds = data.data;
+	let returnData = []
+	if(Array.isArray(startGGIds)) {
+		for(let i = 0; i < startGGIds.length; i++) {
+			let id = startGGIds[i].toString();
+			returnData = returnData.concat(await database.get("player", {  "smashgg": id  }));
+		}
+	}else{
+		startGGIds = startGGIds.toString();
+		returnData = returnData.concat(await database.get("player", {  "smashgg": startGGIds  }));
+	}
+	server.sendToID({ type: 'getPlayersByStartGGId-' + randomId, data: await returnData }, data.id);
+
+});
+
 slippi.on('frame', () => {
 	server.broadcast({ type: 'slippiFrame', data: slippi.cache })
 })
@@ -107,6 +125,10 @@ slippi.on('started', (data) => {
 slippi.on('ended', (data) => {
 	server.broadcast({ type: 'slippiGameEnded', data: data })
 	electron.send('slippiEnded', data);
+})
+slippi.on('addScore', (slippiPort) => {
+	let port = slippiPort + 1;
+	electron.send('slippiAddScore', port);
 })
 
 electron.ipcMain.on('switchScene', (event, name) => {
@@ -142,7 +164,6 @@ function slippiChanger(event, name) {
 	}
 }
 function changeAutoScore(event, name) {
-	console.log(name);
 	slippi.autoscore = name;
 }
 function slippiViewer() {
@@ -276,7 +297,7 @@ function showNotification(title, body, silent = true) {
 	let notification = new Notification({
 		title: title == null ? electron.APP.getName() : title, body: body, silent: silent, icon: path.join(__dirname, 'logo.png')
 	});
-    notification.sound = false;
+    // notification.sound = false;
     notification.show();
 	// return notification.close();
 }

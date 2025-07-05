@@ -202,8 +202,12 @@ Server.prototype.start = async function start() {
 					data = [data];
 				}
 				data.forEach((d) => {
+					switch(d.type) {
+						default:
 					this.handleMessage(d, ws);
 					this.broadcast(JSON.stringify(d), ws);
+					break;
+					}
 				});
 			} catch (error) {
 				console.log("error:", error);
