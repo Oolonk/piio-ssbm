@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require("fs")
 const EventEmitter = require('events');
 const {inspect} = require("node:util");
+const electron = require("../electron");
 const watch = require('object-watcher').watch;
 
 
@@ -17,7 +18,7 @@ function Slippi() {
     this.realtime = new SlpRealTime;
     this.slippiType = "console";
     this.stream = new SlpLiveStream(this.slippiType);
-    this.status = null;
+    this.status = ConnectionStatus.DISCONNECTED;
     this.autoconnect = false;
     this.port = 42070;
     this.autoscore = false;
@@ -49,8 +50,6 @@ function Slippi() {
     this.gameStarted = {};
     this.frame = 0;
     this.sceneFrameCounter = 0;
-
-
 }
 
 Slippi.prototype.on = function on(...args) {
@@ -78,7 +77,7 @@ Slippi.prototype.setSlippiType = function setSlippiType(val) {
     this.slippiType = val;
 }
 
-Slippi.prototype.startSlippi = function startSlippi() {
+Slippi.prototype.startSlippi = async function startSlippi() {
     if (typeof this.stream == 'object' && this.stream != null) {
         this.stream.destroy();
     }

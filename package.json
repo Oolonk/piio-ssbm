@@ -97,7 +97,7 @@
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",
-    "@slippi/slippi-js": "^7.0.1",
+    "@slippi/slippi-js": "^6.7.0",
     "@vinceau/slp-realtime": "^4.0.0",
     "express": "^5.1.0",
     "express-ws": "^5.0.2",

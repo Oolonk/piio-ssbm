@@ -168,44 +168,47 @@ function changeAutoScore(event, name) {
 }
 function slippiViewer() {
 	slippi.stream.connection.on("statusChange", (status) => {
-		if (status === slippi.connectionStatus.DISCONNECTED) {
-			console.log("DISCONNECTED to the relay");
-			if (slippi.autoconnect) {
-				electron.send("slippi_status", 'reconnecting');
-				showNotification("Slippi Status", "Reconnecting to the relay");
-				setTimeout(function () {
-					slippi.restartSlippi();
-					slippiViewer();
-				}, 200)
-			} else {
-				console.log("Disconnected to the relay");
-				electron.send("slippi_status", 'disconnected');
-			}
-		}
-		if (status === slippi.connectionStatus.CONNECTED) {
-			// notification("Slippi Stream Tool", "Connected to the relay", "Connected to the relay");
-			console.log("Connected to the relay");
-			electron.send("slippi_status", 'connected');
-			showNotification("Slippi Status", "Connected to the relay");
-		}
-		if (status === slippi.connectionStatus.CONNECTING) {
-			// notification("Slippi Stream Tool", "Connected to the relay", "Connected to the relay");
-			console.log("Connecting to the relay");
-			electron.send("slippi_status", 'connecting');
-		}
-		if (status === slippi.connectionStatus.RECONNECT_WAIT) {
-			// notification("Slippi Stream Tool", "Connected to the relay", "Connected to the relay");
-			console.log("RECONNECT_WAIT to the relay");
-			console.log(slippi.autoconnect);
-			if (slippi.autoconnect) {
-				console.log("test to the relay");
-				electron.send("slippi_status", 'reconnecting');
-				showNotification("Slippi Status", "Reconnecting to the relay");
-			} else {
-				slippi.stopSlippi();
-				console.log("Disconnected to the relay");
-				electron.send("slippi_status", 'disconnected');
-			}
+		slippi.status = status;
+		switch (status) {
+			case slippi.connectionStatus.DISCONNECTED:
+				console.log("DISCONNECTED to the relay");
+				if (slippi.autoconnect) {
+					electron.send("slippi_status", 'reconnecting');
+					showNotification("Slippi Status", "Reconnecting to the relay");
+					setTimeout(function () {
+						slippi.restartSlippi();
+						slippiViewer();
+					}, 200)
+				} else {
+					console.log("Disconnected to the relay");
+					electron.send("slippi_status", 'disconnected');
+				}
+			break;
+			case slippi.connectionStatus.CONNECTED:
+				// notification("Slippi Stream Tool", "Connected to the relay", "Connected to the relay");
+				console.log("Connected to the relay");
+				electron.send("slippi_status", 'connected');
+				showNotification("Slippi Status", "Connected to the relay");
+			break;
+			case slippi.connectionStatus.CONNECTING:
+				// notification("Slippi Stream Tool", "Connected to the relay", "Connected to the relay");
+				console.log("Connecting to the relay");
+				electron.send("slippi_status", 'connecting');
+			break;
+			case slippi.connectionStatus.RECONNECT_WAIT:
+				// notification("Slippi Stream Tool", "Connected to the relay", "Connected to the relay");
+				console.log("RECONNECT_WAIT to the relay");
+				console.log(slippi.autoconnect);
+				if (slippi.autoconnect) {
+					console.log("test to the relay");
+					electron.send("slippi_status", 'reconnecting');
+					showNotification("Slippi Status", "Reconnecting to the relay");
+				} else {
+					slippi.stopSlippi();
+					console.log("Disconnected to the relay");
+					electron.send("slippi_status", 'disconnected');
+				}
+			break;
 		}
 	});
 }
