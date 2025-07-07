@@ -1,6 +1,6 @@
 
 const path = require("path");
-const nedb = require("nedb");
+const nedb = require("@seald-io/nedb");
 const EventEmitter = require('events');
 var event = new EventEmitter();
 

@@ -1,7 +1,7 @@
 const { app, ipcMain, BrowserWindow } = require('electron');
 require('@electron/remote/main').initialize();
 const path = require("path");
-const nedb = require("nedb");
+const nedb = require("@seald-io/nedb");
 const fs = require("fs");
 const EventEmitter = require('events');
 var event = new EventEmitter();
