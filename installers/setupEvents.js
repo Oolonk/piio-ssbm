@@ -55,7 +55,7 @@ module.exports = {
 				fse.ensureDirSync(path.join(docDir, 'assets', 'game'));
 				fse.ensureDirSync(path.join(docDir, 'assets', 'player'));
 
-				fse.copySync(path.join(app.getAppPath(), 'themes', 'default'), path.join(docDir, 'themes', 'default'), { overwrite: true });
+				fse.copySync(path.join(app.getAppPath(), 'themes', 'default'), path.join(docDir, 'themes', 'default'), { overwrite: false });
 
 				// create databases
 				var dbstructDB = new nedb({ filename: path.join(docDir, 'db', 'dbstruct'), autoload: true });
