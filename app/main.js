@@ -91,8 +91,10 @@ electron.on("ready", async () => { // programm is ready
 });
 
 server.on('data-getSlippiStats', async (data, cb) => {
+	let randomId = data.mid;
 	let stats = slippi.getStats(await data.length);
 	server.sendToID({ type: 'slippiStats', data: await stats }, data.id);
+	server.sendToID({ type: 'getSlippiStats-' + randomId, data: await stats }, data.id);
 
 });
 

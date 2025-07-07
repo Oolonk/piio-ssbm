@@ -1,6 +1,6 @@
 {
   "name": "piio",
-  "version": "0.7.33-custom.4",
+  "version": "0.7.33-custom.5",
   "description": "Piio is a live production interface software",
   "main": "app/main.js",
   "scripts": {
@@ -24,7 +24,7 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/Oolonk/piio-linux/issues"
+    "url": "https://github.com/Oolonk/piio-ssbm/issues"
   },
   "license": "UNLICENSED",
   "config": {
@@ -97,13 +97,13 @@
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",
+    "@seald-io/nedb": "^4.1.2",
     "@slippi/slippi-js": "^6.7.0",
     "@vinceau/slp-realtime": "^4.0.0",
     "express": "^5.1.0",
     "express-ws": "^5.0.2",
     "fs": "^0.0.1-security",
     "fs-extra": "^11.3.0",
-    "@seald-io/nedb": "^4.1.2",
     "object-watcher": "^1.0.2",
     "obs-websocket-js": "^5.0.6",
     "rxjs": "^7.x",

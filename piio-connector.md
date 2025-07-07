@@ -151,6 +151,16 @@ Returns the value of the specified field.
 
 - **name**: The field name.
 
+##### `async getPlayersByStartGGId(ids: integer | integer[]): Promise<Object[]>`
+
+Requests the all Players with the StartGG IDs.
+
+- **ids**: An integer or an array of integers representing the StartGG IDs of the players.
+- Returns a promise that resolves with an Object: {
+  "data": Array of the players,
+  "type": Name of the returned call
+  }
+
 ##### `TeamSize: number`
 
 Returns the size of the team.
@@ -173,12 +183,16 @@ Returns the name of the move corresponding to the given move ID.
 
 - **move**: The ID of the move.
 
-##### `slippi.getGamesStats(amount?: number)`
+##### `async slippi.getGamesStats(amount?: number): Promise<Object>`
 
 Requests the statistics for a specified number of games.
-It will be returned by the **slippiStats** subscription.
+As an addition it will be returned by the **slippiStats** subscription.
 
 - **amount**: The number of games to retrieve statistics for (default is 1).
+- Returns a promise that resolves with an Object: {
+  "data": Array of game statistics,
+  "type": Name of the returned call
+}
 
 #### Subscription Parameters
 

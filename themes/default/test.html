@@ -23,8 +23,8 @@
         piio.on("slippiGameStarted", (data) => {
             console.log('new slippi game started data', data);
         });
-        piio.on("slippiGameStarted", (data) => {
-            console.log('lippi game ended data', data);
+        piio.on("slippiGameEnded", (data) => {
+            console.log('Slippi game ended data', data);
         });
         piio.on("obsSceneChanged", (data) => {
             console.log('OBS Scene Changed', data);

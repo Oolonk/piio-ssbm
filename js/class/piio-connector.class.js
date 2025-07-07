@@ -477,142 +477,337 @@ class PiioConnector {
 
     slippi = {
         moveId(move) {
-            switch (move) {
-                case 1:
-                    return "Item Throw";
-                case 2:
-                    return "Jab";
-                case 3:
-                    return "Jab";
-                case 4:
-                    return "Jab";
-                case 5:
-                    return "Jab";
-                case 6:
-                    return "Dash Attack";
-                case 7:
-                    return "Forward Tilt";
-                case 8:
-                    return "Up Tilt";
-                case 9:
-                    return "Down Tilt";
-                case 10:
-                    return "Side Smash";
-                case 11:
-                    return "Up Smash";
-                case 12:
-                    return "Down Smash";
-                case 13:
-                    return "Neutral Air";
-                case 14:
-                    return "Forward Air";
-                case 15:
-                    return "Back Air";
-                case 16:
-                    return "Up Air";
-                case 17:
-                    return "Down Air";
-                case 18:
-                    return "Neutral Special";
-                case 19:
-                    return "Side Special";
-                case 20:
-                    return "Up Special";
-                case 21:
-                    return "Down Special";
-                case 50:
-                    return "Get Up Attack";
-                case 51:
-                    return "Get Up Attack";
-                case 52:
-                    return "Pummel";
-                case 53:
-                    return "Forward Throw";
-                case 54:
-                    return "Back Throw";
-                case 55:
-                    return "Up Throw";
-                case 56:
-                    return "Down Throw";
-                case 57:
-                    return "Cargo Forward Throw";
-                case 58:
-                    return "Cargo Back Throw";
-                case 59:
-                    return "Cargo Up Throw";
-                case 60:
-                    return "Cargo Down Throw";
-                case 61:
-                    return "Ledge Attack";
-                case 62:
-                    return "Ledge Attack";
-                case 63:
-                    return "Beam Sword Jab";
-                case 64:
-                    return "Beam Sword Tilt Swing";
-                case 65:
-                    return "Beam Sword Smash Swing";
-                case 66:
-                    return "Beam Sword Dash Swing";
-                case 87:
-                    return "Peach Parasol";
-                case 22:
-                    return "Kirby Copy";
-                case 23:
-                    return "Kirby Copy";
-                case 24:
-                    return "Kirby Copy";
-                case 25:
-                    return "Kirby Copy";
-                case 26:
-                    return "Kirby Copy";
-                case 27:
-                    return "Kirby Copy";
-                case 28:
-                    return "Kirby Copy";
-                case 29:
-                    return "Kirby Copy";
-                case 30:
-                    return "Kirby Copy";
-                case 31:
-                    return "Kirby Copy";
-                case 32:
-                    return "Kirby Copy";
-                case 33:
-                    return "Kirby Copy";
-                case 34:
-                    return "Kirby Copy";
-                case 35:
-                    return "Kirby Copy";
-                case 36:
-                    return "Kirby Copy";
-                case 37:
-                    return "Kirby Copy";
-                case 38:
-                    return "Kirby Copy";
-                case 39:
-                    return "Kirby Copy";
-                case 40:
-                    return "Kirby Copy";
-                case 41:
-                    return "Kirby Copy";
-                case 42:
-                    return "Kirby Copy";
-                case 43:
-                    return "Kirby Copy";
-                case 44:
-                    return "Kirby Copy";
-                case 45:
-                    return "Kirby Copy";
-                case 46:
-                    return "Kirby Copy";
-                default:
-                    return `Unknown MoveID: ${move}`;
+            move = move.toString();
+            if(this.moves.hasOwnProperty(move)) {
+                return this.moves[move].name;
+            }else {
+                return `Unknown MoveID: ${move}`;
             }
         },
-        getGamesStats: (amount = 1) => {
+        getGamesStats: async (amount = 1) => {
             if (this.ws && this.ws.Open) {
-                this.ws.send({"type": "getSlippiStats", "data": {length: amount, 'id': this.id}});
+                let randomId = Math.random().toString(36).substring(2, 15);
+                this.ws.send({"type": "getSlippiStats", "data": {length: amount, 'id': this.id, 'mid': randomId}});
+                this.ws.once("getSlippiStats-" + randomId, (data) => {
+                    console.log(data);
+                    return data;
+                })
+            }
+        },
+        moves: {
+            "1": {
+                "name": "Miscellaneous",
+                "shortName": "misc"
+            },
+            "2": {
+                "name": "Jab",
+                "shortName": "jab"
+            },
+            "3": {
+                "name": "Jab",
+                "shortName": "jab"
+            },
+            "4": {
+                "name": "Jab",
+                "shortName": "jab"
+            },
+            "5": {
+                "name": "Rapid Jabs",
+                "shortName": "rapid-jabs"
+            },
+            "6": {
+                "name": "Dash Attack",
+                "shortName": "dash"
+            },
+            "7": {
+                "name": "Forward Tilt",
+                "shortName": "ftilt"
+            },
+            "8": {
+                "name": "Up Tilt",
+                "shortName": "utilt"
+            },
+            "9": {
+                "name": "Down Tilt",
+                "shortName": "dtilt"
+            },
+            "10": {
+                "name": "Forward Smash",
+                "shortName": "fsmash"
+            },
+            "11": {
+                "name": "Up Smash",
+                "shortName": "usmash"
+            },
+            "12": {
+                "name": "Down Smash",
+                "shortName": "dsmash"
+            },
+            "13": {
+                "name": "Neutral Air",
+                "shortName": "nair"
+            },
+            "14": {
+                "name": "Forward Air",
+                "shortName": "fair"
+            },
+            "15": {
+                "name": "Back Air",
+                "shortName": "bair"
+            },
+            "16": {
+                "name": "Up Air",
+                "shortName": "uair"
+            },
+            "17": {
+                "name": "Down Air",
+                "shortName": "dair"
+            },
+            "18": {
+                "name": "Neutral B",
+                "shortName": "neutral-b"
+            },
+            "19": {
+                "name": "Side B",
+                "shortName": "side-b"
+            },
+            "20": {
+                "name": "Up B",
+                "shortName": "up-b"
+            },
+            "21": {
+                "name": "Down B",
+                "shortName": "down-b"
+            },
+            "50": {
+                "name": "Getup Attack",
+                "shortName": "getup"
+            },
+            "51": {
+                "name": "Getup Attack (Slow)",
+                "shortName": "getup-slow"
+            },
+            "52": {
+                "name": "Grab Pummel",
+                "shortName": "pummel"
+            },
+            "53": {
+                "name": "Forward Throw",
+                "shortName": "fthrow"
+            },
+            "54": {
+                "name": "Back Throw",
+                "shortName": "bthrow"
+            },
+            "55": {
+                "name": "Up Throw",
+                "shortName": "uthrow"
+            },
+            "56": {
+                "name": "Down Throw",
+                "shortName": "dthrow"
+            },
+            "61": {
+                "name": "Edge Attack (Slow)",
+                "shortName": "edge-slow"
+            },
+            "62": {
+                "name": "Edge Attack",
+                "shortName": "edge"
+            }
+        },
+        stages: {
+            "2": "Fountain of Dreams",
+            "3": "Pokémon Stadium",
+            "4": "Princess Peach's Castle",
+            "5": "Kongo Jungle",
+            "6": "Brinstar",
+            "7": "Corneria",
+            "8": "Yoshi's Story",
+            "9": "Onett",
+            "10": "Mute City",
+            "11": "Rainbow Cruise",
+            "12": "Jungle Japes",
+            "13": "Great Bay",
+            "14": "Hyrule Temple",
+            "15": "Brinstar Depths",
+            "16": "Yoshi's Island",
+            "17": "Green Greens",
+            "18": "Fourside",
+            "19": "Mushroom Kingdom I",
+            "20": "Mushroom Kingdom II",
+            "22": "Venom",
+            "23": "Poké Floats",
+            "24": "Big Blue",
+            "25": "Icicle Mountain",
+            "26": "Icetop",
+            "27": "Flat Zone",
+            "28": "Dream Land N64",
+            "29": "Yoshi's Island N64",
+            "30": "Kongo Jungle N64",
+            "31": "Battlefield",
+            "32": "Final Destination",
+            "33": "Target Test (Mario)",
+            "34": "Target Test (Captain Falcon)",
+            "35": "Target Test (Young Link)",
+            "36": "Target Test (Donkey Kong)",
+            "37": "Target Test (Dr. Mario)",
+            "38": "Target Test (Falco)",
+            "39": "Target Test (Fox)",
+            "40": "Target Test (Ice Climbers)",
+            "41": "Target Test (Kirby)",
+            "42": "Target Test (Bowser)",
+            "43": "Target Test (Link)",
+            "44": "Target Test (Luigi)",
+            "45": "Target Test (Marth)",
+            "46": "Target Test (Mewtwo)",
+            "47": "Target Test (Ness)",
+            "48": "Target Test (Peach)",
+            "49": "Target Test (Pichu)",
+            "50": "Target Test (Pikachu)",
+            "51": "Target Test (Jigglypuff)",
+            "52": "Target Test (Samus)",
+            "53": "Target Test (Sheik)",
+            "54": "Target Test (Yoshi)",
+            "55": "Target Test (Zelda)",
+            "56": "Target Test (Mr. Game & Watch)",
+            "57": "Target Test (Roy)",
+            "58": "Target Test (Ganondorf)",
+            "84": "Home-Run Contest"
+        },
+        characters: {
+            "0": {
+                "name": "Captain Falcon",
+                "shortName": "Falcon",
+                "colors": ["Black", "Red", "White", "Green", "Blue"]
+            },
+            "1": {
+                "name": "Donkey Kong",
+                "shortName": "DK",
+                "colors": ["Black", "Red", "Blue", "Green"]
+            },
+            "2": {
+                "name": "Fox",
+                "colors": ["Red", "Blue", "Green"]
+            },
+            "3": {
+                "name": "Mr. Game & Watch",
+                "shortName": "G&W",
+                "colors": ["Red", "Blue", "Green"]
+            },
+            "4": {
+                "name": "Kirby",
+                "colors": ["Yellow", "Blue", "Red", "Green", "White"]
+            },
+            "5": {
+                "name": "Bowser",
+                "colors": ["Red", "Blue", "Black"]
+            },
+            "6": {
+                "name": "Link",
+                "colors": ["Red", "Blue", "Black", "White"]
+            },
+            "7": {
+                "name": "Luigi",
+                "colors": ["White", "Blue", "Red"]
+            },
+            "8": {
+                "name": "Mario",
+                "colors": ["Yellow", "Black", "Blue", "Green"]
+            },
+            "9": {
+                "name": "Marth",
+                "colors": ["Red", "Green", "Black", "White"]
+            },
+            "10": {
+                "name": "Mewtwo",
+                "colors": ["Red", "Blue", "Green"]
+            },
+            "11": {
+                "name": "Ness",
+                "colors": ["Yellow", "Blue", "Green"]
+            },
+            "12": {
+                "name": "Peach",
+                "colors": ["Daisy", "White", "Blue", "Green"]
+            },
+            "13": {
+                "name": "Pikachu",
+                "colors": ["Red", "Party Hat", "Cowboy Hat"]
+            },
+            "14": {
+                "name": "Ice Climbers",
+                "shortName": "ICs",
+                "colors": ["Green", "Orange", "Red"]
+            },
+            "15": {
+                "name": "Jigglypuff",
+                "shortName": "Puff",
+                "colors": ["Red", "Blue", "Headband", "Crown"]
+            },
+            "16": {
+                "name": "Samus",
+                "colors": ["Pink", "Black", "Green", "Purple"]
+            },
+            "17": {
+                "name": "Yoshi",
+                "colors": ["Red", "Blue", "Yellow", "Pink", "Cyan"]
+            },
+            "18": {
+                "name": "Zelda",
+                "colors": ["Red", "Blue", "Green", "White"]
+            },
+            "19": {
+                "name": "Sheik",
+                "colors": ["Red", "Blue", "Green", "White"]
+            },
+            "20": {
+                "name": "Falco",
+                "colors": ["Red", "Blue", "Green"]
+            },
+            "21": {
+                "name": "Young Link",
+                "shortName": "YLink",
+                "colors": ["Red", "Blue", "White", "Black"]
+            },
+            "22": {
+                "name": "Dr. Mario",
+                "shortName": "Doc",
+                "colors": ["Red", "Blue", "Green", "Black"]
+            },
+            "23": {
+                "name": "Roy",
+                "colors": ["Red", "Blue", "Green", "Yellow"]
+            },
+            "24": {
+                "name": "Pichu",
+                "colors": ["Red", "Blue", "Green"]
+            },
+            "25": {
+                "name": "Ganondorf",
+                "shortName": "Ganon",
+                "colors": ["Red", "Blue", "Green", "Purple"]
+            },
+            "26": {
+                "name": "Master Hand"
+            },
+            "27": {
+                "name": "Wireframe (Male)"
+            },
+            "28": {
+                "name": "Wireframe (Female)"
+            },
+            "29": {
+                "name": "Gigabowser"
+            },
+            "30": {
+                "name": "Crazy Hand"
+            },
+            "31": {
+                "name": "Sandbag"
+            },
+            "32": {
+                "name": "Popo"
             }
         }
     }
