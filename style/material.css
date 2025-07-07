@@ -77,10 +77,22 @@ input[type="time"],
 .field-time-offset,
 textarea,
 select {
-	/*background: #fff;*/
-	/*color: #000;*/
 	color: var(--text) !important;
 	background: var(--inputBackground) !important;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+	background: var(--inputBackground) !important;
+	-webkit-box-shadow: 0 0 0 1000px var(--inputBackground) inset !important;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: var(--text);
+}
+select::after {
+	content: "▼";
+	position: absolute;
+	color: var(--text);
 }
 
 input[type="checkbox"]:before {
