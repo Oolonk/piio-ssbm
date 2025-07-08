@@ -90,9 +90,10 @@ input:-webkit-autofill:active{
 	-webkit-text-fill-color: var(--text);
 }
 select::after {
-	content: "▼";
+	content: "keyboard_arrow_down";
 	position: absolute;
 	color: var(--text);
+	font-family: "Material Icons";
 }
 
 input[type="checkbox"]:before {

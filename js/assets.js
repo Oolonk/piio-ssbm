@@ -171,7 +171,7 @@ function buildRelatedItem(isFileList, name, dirPath, id, rel) {
 		} else {
 			childElm = createElement({ className: "item file add" });
 			let labelEl = document.createElement("div");
-			let fileEl = createElement({ "className": "file" });
+			let fileEl = createElement({ className: "file material-icons" });
 			labelEl.innerText = name;
 			childElm.appendChild(labelEl);
 			childElm.appendChild(fileEl);

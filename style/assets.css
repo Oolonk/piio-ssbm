@@ -168,8 +168,11 @@
 }
 
 #list-grid .item.add .file {
-	background-image: url('../img/upload.svg');
-	background-size: auto 50%;
+	font-size: calc(9vw - 20px);
+	text-align: center;
+}
+#list-grid .item.add .file:after {
+	content: 'image_arrow_up';
 }
 
 #list-grid .item.dropfile {
