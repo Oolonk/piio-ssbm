@@ -1,7 +1,4 @@
 @media (prefers-color-scheme: light) {
-	#list-grid .item.add .file {
-		filter: invert(100%)
-	}
 }
 
 #assets-selection {
