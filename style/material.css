@@ -89,7 +89,7 @@ input:-webkit-autofill:active{
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: var(--text);
 }
-select::after {
+select:not([multiple])::after{
 	content: "keyboard_arrow_down";
 	position: absolute;
 	color: var(--text);
