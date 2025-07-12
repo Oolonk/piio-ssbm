@@ -25,6 +25,7 @@ function Slippi() {
     this.statscomputer = null;
 
     this.pingInterval = 10; // seconds
+    this.isEndedRecently = false;
 
     this.event = new EventEmitter();
 
@@ -148,7 +149,14 @@ Slippi.prototype.startSlippi = async function startSlippi() {
         this.event.emit("frame");
         this.gameEnded = payload
         this.event.emit("ended", payload);
-        this.addScoreToScoreboard(payload);
+	if(!this.isEndedRecently){
+		this.this.isEndedRecently = true;
+        	this.addScoreToScoreboard(payload);
+		setTimeout(() => {
+  			this.isEndedRecently = false;
+		}, 300);
+
+	}
     });
 }
 Slippi.prototype.stopSlippi = function stopSlippi() {
