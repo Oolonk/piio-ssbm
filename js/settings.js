@@ -54,7 +54,7 @@ async function set(name, value) {
 		if (_timeouts.hasOwnProperty("save_success_" + name)) {
 			clearTimeout(_timeouts["save_success_" + name]);
 		}
-		let el = document.getElementById(name + '-saved');
+		let el = document.getElementById(name + "-saved");
 		el.classList.add("pending");
 		let saveSuccess = await ipcRenderer.invoke("set", name, value);
 		el.classList.remove("pending");

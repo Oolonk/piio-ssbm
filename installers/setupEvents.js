@@ -1,5 +1,5 @@
 const electron = require('electron');
-const nedb = require("@seald-io/nedb");
+const nedb = require("nedb");
 const app = electron.app;
 
 module.exports = {

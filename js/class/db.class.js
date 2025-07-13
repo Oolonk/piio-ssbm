@@ -2,7 +2,7 @@
 
 class DBWrapper {
 	constructor(path) {
-		this.nedb = require("@seald-io/nedb");
+		this.nedb = require("nedb");
 		this.fs = require("fs");
 		this._callbacks = { on: {}, once: {}, any: [] };
 		this.db = {};

@@ -1,4 +1,4 @@
-const nedb = require('@seald-io/nedb');
+const nedb = require('nedb');
 const path = require('path');
 const fs = require('fs');
 const fse = require('fs-extra');
