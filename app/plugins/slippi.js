@@ -150,7 +150,7 @@ Slippi.prototype.startSlippi = async function startSlippi() {
         this.gameEnded = payload
         this.event.emit("ended", payload);
 	if(!this.isEndedRecently){
-		this.this.isEndedRecently = true;
+		this.isEndedRecently = true;
         	this.addScoreToScoreboard(payload);
 		setTimeout(() => {
   			this.isEndedRecently = false;
