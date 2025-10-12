@@ -37,4 +37,4 @@ This project is not maintained by Liva or the piio team. If you have question DM
 ## Social Media 
 
 ### Oolonk:
-<a href="https://bsky.app/profile/oolonk.bsky.social" target="_blank"><img height='35' style='border:0px;height:46px;' src='https://bsky.social/about/images/favicon-32x32.png'></a>
+<a href="https://bsky.app/profile/oolonk.de" target="_blank"><img height='35' style='border:0px;height:46px;' src='https://bsky.social/about/images/favicon-32x32.png'></a>
