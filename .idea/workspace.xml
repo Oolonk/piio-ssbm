@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ac754f3c-49e0-4331-910a-bdd2a02e1a30" name="Changes" comment="update vcs">
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="update_dependencies" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/package-lock.json" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2WSLWlC46CfM2HuZvMI2EHWnwXx" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.Unnamed.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Shell Script.check update.executor": "Run",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "javascript.nodejs.core.library.configured.version": "24.8.0",
+    "javascript.nodejs.core.library.typings.version": "24.8.1",
+    "last_opened_file_path": "C:/Users/Dorti/Production Interface IO/themes/Sommer",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "npm.Starten.executor": "Run",
+    "npm.make-linux.executor": "Run",
+    "npm.make-windows.executor": "Run",
+    "settings.editor.selected.configurable": "Template Data Languages",
+    "ts.external.directory.path": "/home/oolonk/.local/share/JetBrains/Toolbox/apps/webstorm/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "two.files.diff.last.used.file": "C:/Users/Dorti/Production Interface IO/themes/default/styles/ui_vertical.css",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Dorti\Production Interface IO\themes\Sommer" />
+      <recent name="C:\Users\Dorti\Production Interface IO\themes\Sommer\scripts" />
+      <recent name="C:\Users\Dorti\Production Interface IO\themes\Sommer\styles" />
+      <recent name="C:\Users\Dorti\Production Interface IO\themes\default\styles" />
+      <recent name="C:\Users\Dorti\Production Interface IO\themes\default\scripts" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.make-linux">
+    <configuration name="check update" type="ShConfigurationType">
+      <option name="SCRIPT_TEXT" value="npx npm-check-update -u" />
+      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+      <option name="SCRIPT_PATH" value="" />
+      <option name="SCRIPT_OPTIONS" value="" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="powershell.exe" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <option name="EXECUTE_SCRIPT_FILE" value="false" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="Starten" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="start" />
+      <node-interpreter value="node" />
+      <package-manager value="npm" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="make-linux" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="make-linux" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="make-windows-x86" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="make-windows-x86" />
+      </scripts>
+      <node-interpreter value="project" />
+      <package-manager value="npm" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="make-windows" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="make-windows" />
+      </scripts>
+      <node-interpreter value="project" />
+      <package-manager value="npm" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="npm.Starten" />
+      <item itemvalue="npm.make-linux" />
+      <item itemvalue="npm.make-windows-x86" />
+      <item itemvalue="npm.make-windows" />
+      <item itemvalue="Shell Script.check update" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.make-windows" />
+        <item itemvalue="npm.make-windows-x86" />
+        <item itemvalue="npm.make-windows" />
+        <item itemvalue="npm.make-windows-x86" />
+        <item itemvalue="npm.make-windows" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.112" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ac754f3c-49e0-4331-910a-bdd2a02e1a30" name="Changes" comment="" />
+      <created>1696721068157</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1696721068157</updated>
+      <workItem from="1696721069240" duration="780000" />
+      <workItem from="1696785054675" duration="19000" />
+      <workItem from="1697577496605" duration="139000" />
+      <workItem from="1698704439698" duration="56000" />
+      <workItem from="1728835247369" duration="4944000" />
+      <workItem from="1728855518393" duration="1633000" />
+      <workItem from="1728938560039" duration="5029000" />
+      <workItem from="1731231867039" duration="16812000" />
+      <workItem from="1731332146234" duration="3448000" />
+      <workItem from="1731352967926" duration="4803000" />
+      <workItem from="1731357802218" duration="3057000" />
+      <workItem from="1731361333156" duration="80000" />
+      <workItem from="1732370636318" duration="681000" />
+      <workItem from="1733048944628" duration="106000" />
+      <workItem from="1733066854007" duration="20740000" />
+      <workItem from="1733089593330" duration="6655000" />
+      <workItem from="1733150002172" duration="3323000" />
+      <workItem from="1733155680399" duration="2540000" />
+      <workItem from="1733258226852" duration="4444000" />
+      <workItem from="1733301335471" duration="2026000" />
+      <workItem from="1733328599815" duration="1589000" />
+      <workItem from="1733689352892" duration="76000" />
+      <workItem from="1733772032497" duration="3547000" />
+      <workItem from="1735389622874" duration="21000" />
+      <workItem from="1744130823938" duration="6468000" />
+      <workItem from="1744140359467" duration="4229000" />
+      <workItem from="1747480475727" duration="6009000" />
+      <workItem from="1749221252351" duration="666000" />
+      <workItem from="1751745610050" duration="14195000" />
+      <workItem from="1751894566159" duration="9471000" />
+      <workItem from="1751907348669" duration="136000" />
+      <workItem from="1751918659970" duration="3323000" />
+      <workItem from="1751998707520" duration="6692000" />
+      <workItem from="1752078690645" duration="8598000" />
+      <workItem from="1752150197920" duration="995000" />
+      <workItem from="1752402300227" duration="4397000" />
+      <workItem from="1752597385236" duration="1151000" />
+      <workItem from="1752864976877" duration="1302000" />
+      <workItem from="1753473199383" duration="24000" />
+      <workItem from="1754734962891" duration="49000" />
+      <workItem from="1754735089159" duration="1000" />
+      <workItem from="1754735418503" duration="1466000" />
+      <workItem from="1761305808421" duration="219000" />
+      <workItem from="1761306036835" duration="1015000" />
+    </task>
+    <task id="LOCAL-00001" summary="add obs websocket dependencies">
+      <option name="closed" value="true" />
+      <created>1728841056538</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1728841056538</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add function to start/stop obs websocket connection">
+      <option name="closed" value="true" />
+      <created>1728857146183</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1728857146183</updated>
+    </task>
+    <task id="LOCAL-00003" summary="piio Plugins can be enabled/disabled for clarity&#10;css changes">
+      <option name="closed" value="true" />
+      <created>1728943579016</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1728943579016</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added functions:&#10;- add Bluesky to Player Settings&#10;- add OBS Events (OBS List and Active Scene) to Overlay&#10;- add Option to hide StartGG Developer Code for Overlay&#10;- add Option to select style and script folder">
+      <option name="closed" value="true" />
+      <created>1731333537667</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1731333537667</updated>
+    </task>
+    <task id="LOCAL-00005" summary="- add new Method for the Overlay (piio.getPictureUrl(String) search for the picture extension (svg -&gt; png -&gt; gif -&gt; jpg -&gt; jpeg) and returns the path. If no pictrue is found it returns false">
+      <option name="closed" value="true" />
+      <created>1731354289226</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1731354289227</updated>
+    </task>
+    <task id="LOCAL-00006" summary="save last found Scene List and last opened Obs Scene">
+      <option name="closed" value="true" />
+      <created>1731357015793</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1731357015793</updated>
+    </task>
+    <task id="LOCAL-00007" summary="fix auto use startgg from streamqueue">
+      <option name="closed" value="true" />
+      <created>1731360836948</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1731360836948</updated>
+    </task>
+    <task id="LOCAL-00008" summary="finished obs integration (Auto Switcher)">
+      <option name="closed" value="true" />
+      <created>1733096191996</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1733096191996</updated>
+    </task>
+    <task id="LOCAL-00009" summary="added custom 4 name">
+      <option name="closed" value="true" />
+      <created>1733096250948</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1733096250948</updated>
+    </task>
+    <task id="LOCAL-00010" summary="disable some console.log">
+      <option name="closed" value="true" />
+      <created>1733153737089</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1733153737089</updated>
+    </task>
+    <task id="LOCAL-00011" summary="update readme, Caster set handle viewed to bluesky. If not given set to twitter">
+      <option name="closed" value="true" />
+      <created>1733262514553</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1733262514553</updated>
+    </task>
+    <task id="LOCAL-00012" summary="change color of input fields">
+      <option name="closed" value="true" />
+      <created>1744139036482</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1744139036482</updated>
+    </task>
+    <task id="LOCAL-00013" summary="update dependencies">
+      <option name="closed" value="true" />
+      <created>1744141663770</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1744141663770</updated>
+    </task>
+    <task id="LOCAL-00014" summary="update dependencies&#10;add beginning steps for autoscoring">
+      <option name="closed" value="true" />
+      <created>1747486340797</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1747486340797</updated>
+    </task>
+    <task id="LOCAL-00015" summary="change cursor to pointer on the windows buttons">
+      <option name="closed" value="true" />
+      <created>1747486691016</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1747486691016</updated>
+    </task>
+    <task id="LOCAL-00016" summary="add last changes autoscore&#10;add async function slippi.getPlayersByStartGGId">
+      <option name="closed" value="true" />
+      <created>1751759044260</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1751759044260</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fix missing quote">
+      <option name="closed" value="true" />
+      <created>1751759215520</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1751759215520</updated>
+    </task>
+    <task id="LOCAL-00018" summary="change nedb to different fork">
+      <option name="closed" value="true" />
+      <created>1751899074008</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1751899074008</updated>
+    </task>
+    <task id="LOCAL-00019" summary="slippi-js go back because of error">
+      <option name="closed" value="true" />
+      <created>1751903645331</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1751903645331</updated>
+    </task>
+    <task id="LOCAL-00020" summary="add return from piio.getSlippiStats&#10;Added constants in slippi piio.connector&#10;update markdown files&#10;increment version number">
+      <option name="closed" value="true" />
+      <created>1751921043510</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1751921043510</updated>
+    </task>
+    <task id="LOCAL-00021" summary="disable overwrite existing default theme">
+      <option name="closed" value="true" />
+      <created>1751921143851</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1751921143851</updated>
+    </task>
+    <task id="LOCAL-00022" summary="change icons to material icons font">
+      <option name="closed" value="true" />
+      <created>1752003445969</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1752003445969</updated>
+    </task>
+    <task id="LOCAL-00023" summary="fixes some light mode invertions with new icons">
+      <option name="closed" value="true" />
+      <created>1752004016113</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1752004016113</updated>
+    </task>
+    <task id="LOCAL-00024" summary="change streamlogo to new berlinmelee logo">
+      <option name="closed" value="true" />
+      <created>1752081485901</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1752081485901</updated>
+    </task>
+    <task id="LOCAL-00025" summary="fix select multiple">
+      <option name="closed" value="true" />
+      <created>1752092258909</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1752092258909</updated>
+    </task>
+    <task id="LOCAL-00026" summary="update sommerpause overlay">
+      <option name="closed" value="true" />
+      <created>1752095470442</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1752095470442</updated>
+    </task>
+    <task id="LOCAL-00027" summary="add vertical theme">
+      <option name="closed" value="true" />
+      <created>1752407905609</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1752407905609</updated>
+    </task>
+    <task id="LOCAL-00028" summary="update vcs">
+      <option name="closed" value="true" />
+      <created>1761305984135</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1761305984135</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/update_dependencies" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$USER_HOME$/Production Interface IO" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="save last found Scene List and last opened Obs Scene" />
+    <MESSAGE value="click from" />
+    <MESSAGE value="finished obs integration (Auto Switcher)" />
+    <MESSAGE value="added custom 4 name" />
+    <MESSAGE value="disable some console.log" />
+    <MESSAGE value="update readme, Caster set handle viewed to bluesky. If not given set to twitter" />
+    <MESSAGE value="fix auto use startgg from streamqueue" />
+    <MESSAGE value="add new strea" />
+    <MESSAGE value="update dependencies" />
+    <MESSAGE value="change color of input fields" />
+    <MESSAGE value="update dependencies&#10;add beginning steps for autoscoring" />
+    <MESSAGE value="change cursor to pointer on the windows buttons" />
+    <MESSAGE value="add last changes autoscore&#10;add async function slippi.getPlayersByStartGGId" />
+    <MESSAGE value="fix missing quote" />
+    <MESSAGE value="change nedb to different fork" />
+    <MESSAGE value="slippi-js go back because of error" />
+    <MESSAGE value="add return from piio.getSlippiStats&#10;Added constants in slippi piio.connector&#10;update markdown files&#10;increment version number" />
+    <MESSAGE value="disable overwrite existing default theme" />
+    <MESSAGE value="change icons to material icons font" />
+    <MESSAGE value="fixes some light mode invertions with new icons" />
+    <MESSAGE value="change streamlogo to new berlinmelee logo" />
+    <MESSAGE value="fix select multiple" />
+    <MESSAGE value="update sommerpause overlay" />
+    <MESSAGE value="add vertical theme" />
+    <MESSAGE value="update vcs" />
+    <option name="LAST_COMMIT_MESSAGE" value="update vcs" />
+  </component>
+</project>
