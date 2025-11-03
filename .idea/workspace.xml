@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac754f3c-49e0-4331-910a-bdd2a02e1a30" name="Changes" comment="update vcs">
+      <change afterPath="$PROJECT_DIR$/js/class/parrygg.class.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -22,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="update_dependencies" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -47,12 +49,13 @@
     "Node.js.Unnamed.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "Shell Script.check update.executor": "Run",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feat/parrygg",
     "ignore.virus.scanning.warn.message": "true",
-    "javascript.nodejs.core.library.configured.version": "24.8.0",
-    "javascript.nodejs.core.library.typings.version": "24.8.1",
+    "javascript.nodejs.core.library.configured.version": "22.17.0",
+    "javascript.nodejs.core.library.typings.version": "22.17.2",
     "last_opened_file_path": "C:/Users/Dorti/Production Interface IO/themes/Sommer",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -64,7 +67,7 @@
     "npm.make-linux.executor": "Run",
     "npm.make-windows.executor": "Run",
     "settings.editor.selected.configurable": "Template Data Languages",
-    "ts.external.directory.path": "/home/oolonk/.local/share/JetBrains/Toolbox/apps/webstorm/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "ts.external.directory.path": "C:\\Users\\Dorti\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "two.files.diff.last.used.file": "C:/Users/Dorti/Production Interface IO/themes/default/styles/ui_vertical.css",
     "vue.rearranger.settings.migration": "true"
   }
@@ -154,7 +157,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.112" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-WS-252.27397.92" />
       </set>
     </attachedChunks>
   </component>
@@ -210,6 +213,7 @@
       <workItem from="1754735418503" duration="1466000" />
       <workItem from="1761305808421" duration="219000" />
       <workItem from="1761306036835" duration="1015000" />
+      <workItem from="1762203110440" duration="1927000" />
     </task>
     <task id="LOCAL-00001" summary="add obs websocket dependencies">
       <option name="closed" value="true" />

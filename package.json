@@ -97,6 +97,7 @@
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",
+    "@parry-gg/client": "^1.0.4",
     "@seald-io/nedb": "^4.1.2",
     "@slippi/slippi-js": "^6.7.0",
     "@vinceau/slp-realtime": "^4.0.0",
