@@ -42,34 +42,15 @@
             </div>
         </div>
         <div class="item">
-            <div class="label">Start.gg queue</div>
-            <div class="saved" id="fixedSmashggQueue-saved"></div>
-            <select id="fixedSmashggQueue-value" onchange="set('fixedSmashggQueue', this.value == 1)">
+            <div class="label">Stream Matches queue</div>
+            <div class="saved" id="fixedStreamQueue-saved"></div>
+            <select id="fixedStreamQueue-value" onchange="set('fixedStreamQueue', this.value == 1)">
                 <option value="0">Dropdown list on bottom right</option>
                 <option value="1">Stick to right side</option>
             </select>
             <div class="description">
-                Toggle if the Start.gg queue list should hide itself or stay visible.
+                Toggle if the Stream Matches queue list should hide itself or stay visible.
             </div>
-        </div>
-        <div class="item">
-            <div class="label">Start.gg Token</div>
-            <div class="saved" id="smashgg-token-saved"></div>
-            <input type="text" id="smashgg-token-value" oninput="set('smashgg-token', this.value)" value=""
-                   placeholder="Your developer token"/>
-            <div class="description">
-                In order to access Start.gg’s API, you must enter an authentication token.
-                These tokens can be created from the Developer Settings page in your Start.gg account settings.
-                <a href="javascript:shell.openExternal('https://developer.start.gg/docs/authentication');">How to
-                    generate your Token</a>
-            </div>
-        </div>
-        <div class="item item-short">
-            <input class="toggle-color" type="checkbox" id="showSmashggToken-value" oninput="set('showSmashggToken', this.checked)"
-                   value=""
-            />
-            <div class="label">Show Start.gg Token inside the Overlay <br><b>(use only when you are not in a public network)</b></div>
-            <div class="saved" id="showSmashggToken-saved"></div>
         </div>
         <div class="item item-short">
             <input class="toggle-color" type="checkbox" id="enable-slippi-value" oninput="setSlippiEnable(this.checked)"
@@ -85,6 +66,50 @@
             <div class="label">Enable OBS Websocket Plugin</div>
             <div class="saved" id="enable-obs-saved"></div>
         </div>
+        <details class="startgg-settings">
+            <summary>StartGG Settings</summary>
+            <div class="item">
+                <div class="label">Start.gg Token</div>
+                <div class="saved" id="smashgg-token-saved"></div>
+                <input type="text" id="smashgg-token-value" oninput="set('smashgg-token', this.value)" value=""
+                       placeholder="Your developer token"/>
+                <div class="description">
+                    In order to access Start.gg’s API, you must enter an authentication token.
+                    These tokens can be created from the Developer Settings page in your Start.gg account settings.
+                    <a href="javascript:shell.openExternal('https://developer.start.gg/docs/authentication');">How to
+                        generate your Token</a>
+                </div>
+            </div>
+            <div class="item item-short">
+                <input class="toggle-color" type="checkbox" id="showSmashggToken-value" oninput="set('showSmashggToken', this.checked)"
+                       value=""
+                />
+                <div class="label">Show Start.gg Token inside the Overlay <br><b>(use only when you are not in a public network)</b></div>
+                <div class="saved" id="showSmashggToken-saved"></div>
+            </div>
+        </details>
+        <details class="parrygg-settings">
+            <summary>Parry.GG Settings</summary>
+            <div class="item">
+                <div class="label">Start.gg Token</div>
+                <div class="saved" id="parrygg-token-saved"></div>
+                <input type="text" id="parrygg-token-value" oninput="set('parrygg-token', this.value)" value=""
+                       placeholder="Your developer token"/>
+                <div class="description">
+                    In order to access Parry.gg’s API, you must enter an authentication token.
+                    These tokens can be created from the Developer Settings page in your Parry.gg account settings.
+                    <a href="javascript:shell.openExternal('https://developer.start.gg/docs/authentication');">How to
+                        generate your Token</a>
+                </div>
+            </div>
+            <div class="item item-short">
+                <input class="toggle-color" type="checkbox" id="showParryggToken-value" oninput="set('showParryggToken', this.checked)"
+                       value=""
+                />
+                <div class="label">Show Parry.gg Token inside the Overlay <br><b>(use only when you are not in a public network)</b></div>
+                <div class="saved" id="showParryggToken-saved"></div>
+            </div>
+        </details>
         <details class="slippi-settings hide">
             <summary>Slippi Settings</summary>
             <div class="item">

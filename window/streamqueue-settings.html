@@ -3,25 +3,30 @@
 
 <head>
 	<meta charset="UTF-8" />
-	<title>Start.gg Settings</title>
+	<title>Stream Queue Settings</title>
 	<base href="../" />
 
-	<script type="text/javascript" src="js/class/smashgg.class.js"></script>
+	<script type="text/javascript" src="js/class/websites.class.js"></script>
 	<script type="text/javascript" src="js/general.js"></script>
-	<script type="text/javascript" src="js/smashgg-settings.js"></script>
+	<script type="text/javascript" src="js/streamqueue-settings.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="style/general.css" />
-	<link rel="stylesheet" type="text/css" href="style/smashgg-settings.css" />
+	<link rel="stylesheet" type="text/css" href="style/streamqueue-settings.css" />
 </head>
 
 <body>
 	<div id="titlebar"></div>
 	<div id="main">
 		<div id="search-tournament">
-			<input type="text" id="smashgg-search-tbx" oninput="search()"
+			<input type="text" id="tournament-search-tbx" oninput="search()"
 				placeholder="Search tournament: slug or name" />
 		</div>
-		<div id="results"></div>
+        <div class="tab">
+            <button id="smashgg-tablink" class="tablinks" onclick="openTab(event, 'smashgg-results')">Start.GG</button>
+            <button id="parrygg-tablink" class="tablinks" onclick="openTab(event, 'parrygg-results')">Parry.GG</button>
+        </div>
+		<div id="smashgg-results" class="tabcontent"></div>
+        <div id="parrygg-results" class="tabcontent"></div>
 
 		<div id="selected-tournament">
 			<div class="bg"></div>
@@ -52,6 +57,7 @@
 			<div class="date"></div>
 		</div>
 	</template>
+
 </body>
 
 </html>

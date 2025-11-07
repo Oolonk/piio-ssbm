@@ -1,11 +1,11 @@
 const smashgg = new SmashggWrapper();
 var streamvar = {}
 smashgg.on("streamschanged", (stream) => {
-	document.querySelector("#smashgg-queue .list .title .channel").innerText = (stream == null ? "No stream selected" : stream.streamName);
+	document.querySelector("#stream-queue .list .title .channel").innerText = (stream == null ? "No stream selected" : stream.streamName);
 });
 smashgg.on("streamqueuechanged", displaySmashggStreamQueue);
 smashgg.on("streamqueuechanged", (sets) => {
-	_ws.send(JSON.stringify({ "type": "smashgg-queue", "data": sets }));
+	_ws.send(JSON.stringify({ "type": "stream-queue", "data": sets }));
 });
 
 on("ws-ready", async () => {
@@ -93,25 +93,12 @@ function smashggApplyNextSet() {
 
 async function displaySmashggCurrent() {
 	let set = await smashgg.getSet(scoreboard.startgg.set);
-	document.querySelector("#smashgg-queue .current").innerText = (set ? set.slots.map(x => x.entrant ? x.entrant.name : "N/A").join(" vs ") : 'No set selected');
-	for (let itemEl of document.querySelectorAll("#smashgg-queue .list .sets > div")) {
+	document.querySelector("#stream-queue .current").innerText = (set ? set.slots.map(x => x.entrant ? x.entrant.name : "N/A").join(" vs ") : 'No set selected');
+	for (let itemEl of document.querySelectorAll("#stream-queue .list .sets > div")) {
 		itemEl.classList.toggle("selected", set && itemEl.dataset.setId == set.id);
 	}
 }
 on("scoreboardsmashggchanged", displaySmashggCurrent);
-
-async function openSmashggOptions() {
-	let smashggSettings = await openWindow("smashgg-settings", {
-		"tournamentSlug": smashgg.selectedTournament,
-		"streamId": smashgg.selectedStream,
-		"cache": smashgg.cache,
-		"token": smashgg.token
-	}, true);
-	if (!smashggSettings) { return; }
-
-	applySmashggSettings(smashggSettings.tournamentSlug, smashggSettings.streamId);
-	ipcRenderer.invoke('set', 'smashgg', { "tournament": smashgg.selectedTournament, "stream": smashgg.selectedStream });
-}
 
 function applySmashggSettings(tournamentSlug, streamId) {
 	smashgg.SelectedTournament = tournamentSlug;
@@ -121,7 +108,7 @@ function applySmashggSettings(tournamentSlug, streamId) {
 
 async function displaySmashggStreamQueue(sets) {
 	let setIds = sets.map(x => x.id);
-	let el = document.getElementById("smashgg-queue");
+	let el = document.getElementById("stream-queue");
 	let listEl = el.querySelector(".list .sets");
 
 	el.classList.toggle("empty", sets.length == 0);
@@ -130,9 +117,9 @@ async function displaySmashggStreamQueue(sets) {
 	// add/edit sets
 	sets.forEach((set, idx) => {
 		let entrants = set.slots.map(slot => (slot.entrant ? slot.entrant.name : ""));
-		let item = document.getElementById("smashgg-queue-item-" + set.id);
+		let item = document.getElementById("stream-queue-item-" + set.id);
 		if (!item) {
-			item = createElement({ "id": "smashgg-queue-item-" + set.id });
+			item = createElement({ "id": "stream-queue-item-" + set.id });
 			item.dataset.setId = set.id;
 			item.appendChild(createElement({ "className": "round" }));
 			item.appendChild(createElement({ "className": "names" }));

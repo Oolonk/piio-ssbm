@@ -5,9 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac754f3c-49e0-4331-910a-bdd2a02e1a30" name="Changes" comment="update vcs">
-      <change afterPath="$PROJECT_DIR$/js/class/parrygg.class.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/class/websites.class.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/main.parrygg.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/ensure.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/ensure.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/class/parrygg.class.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/class/smashgg.class.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/main.smashgg.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.smashgg.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/smashgg-settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/streamqueue-settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/style/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/style/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/style/smashgg-settings.css" beforeDir="false" afterPath="$PROJECT_DIR$/style/streamqueue-settings.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/window/connections.html" beforeDir="false" afterPath="$PROJECT_DIR$/window/connections.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/window/database-entry-player.html" beforeDir="false" afterPath="$PROJECT_DIR$/window/database-entry-player.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/window/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/window/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/window/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/window/settings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/window/smashgg-player-search.html" beforeDir="false" afterPath="$PROJECT_DIR$/window/smashgg-player-search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/window/smashgg-settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/window/streamqueue-settings.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,34 +60,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.Unnamed.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Shell Script.check update.executor": "Run",
-    "git-widget-placeholder": "feat/parrygg",
-    "ignore.virus.scanning.warn.message": "true",
-    "javascript.nodejs.core.library.configured.version": "22.17.0",
-    "javascript.nodejs.core.library.typings.version": "22.17.2",
-    "last_opened_file_path": "C:/Users/Dorti/Production Interface IO/themes/Sommer",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "npm",
-    "npm.Starten.executor": "Run",
-    "npm.make-linux.executor": "Run",
-    "npm.make-windows.executor": "Run",
-    "settings.editor.selected.configurable": "Template Data Languages",
-    "ts.external.directory.path": "C:\\Users\\Dorti\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "two.files.diff.last.used.file": "C:/Users/Dorti/Production Interface IO/themes/default/styles/ui_vertical.css",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Shell Script.check update.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/parrygg&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;22.17.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;22.17.2&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Dorti/Production Interface IO/themes/Sommer&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.Starten.executor&quot;: &quot;Run&quot;,
+    &quot;npm.make-linux.executor&quot;: &quot;Run&quot;,
+    &quot;npm.make-windows.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Template Data Languages&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Dorti\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/Dorti/Production Interface IO/themes/default/styles/ui_vertical.css&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Dorti\Production Interface IO\themes\Sommer" />
@@ -81,7 +97,7 @@
       <recent name="C:\Users\Dorti\Production Interface IO\themes\default\scripts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.make-linux">
+  <component name="RunManager" selected="npm.Starten">
     <configuration name="check update" type="ShConfigurationType">
       <option name="SCRIPT_TEXT" value="npx npm-check-update -u" />
       <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
@@ -213,7 +229,8 @@
       <workItem from="1754735418503" duration="1466000" />
       <workItem from="1761305808421" duration="219000" />
       <workItem from="1761306036835" duration="1015000" />
-      <workItem from="1762203110440" duration="1927000" />
+      <workItem from="1762203110440" duration="2703000" />
+      <workItem from="1762544711314" duration="14491000" />
     </task>
     <task id="LOCAL-00001" summary="add obs websocket dependencies">
       <option name="closed" value="true" />

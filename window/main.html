@@ -13,11 +13,12 @@
     <script type="text/javascript" src="js/class/ws.class.js"></script>
     <script type="text/javascript" src="js/class/trigger.class.js"></script>
     <script type="text/javascript" src="js/class/midi.class.js"></script>
-    <script type="text/javascript" src="js/class/smashgg.class.js"></script>
+    <script type="text/javascript" src="js/class/websites.class.js"></script>
 
     <script type="text/javascript" src="js/general.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/main.smashgg.js"></script>
+    <script type="text/javascript" src="js/main.parrygg.js"></script>
 
     <link rel="stylesheet" type="text/css" href="style/general.css"/>
     <link rel="stylesheet" type="text/css" href="style/main.css"/>
@@ -256,7 +257,7 @@
     <div id="system-status"><span id="slippi-status"></span>&nbsp;<span id="obs-status"></span></div>
 </div>
 
-<div id="smashgg-queue" class="empty">
+<div id="stream-queue" class="empty">
     <div class="list">
         <div class="title">
             <div class="channel">No stream selected</div>
@@ -265,7 +266,7 @@
         <div class="sets"></div>
     </div>
     <div class="current" onclick="this.parentNode.classList.toggle('visible')">No set selected</div>
-    <div class="icon material-icons" onclick="openSmashggOptions()">settings</div>
+    <div class="icon material-icons" onclick="openStreamQueueOptions()">settings</div>
     <div class="next" onclick="smashggApplyNextSet()"></div>
 </div>
 

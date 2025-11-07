@@ -250,6 +250,15 @@ electron.ipcMain.handle('get', async (event, name) => {
 					}
 				});
 				break;
+            case "parrygg-token":
+                clientSettings.find({ "name": "parrygg-token" }, (e, row) => {
+                    if (e || !row || !row[0]) {
+                        resolve("");
+                    } else {
+                        resolve(row[0].value);
+                    }
+                });
+                break;
 			default:
 				clientSettings.find({ "name": name }, (e, row) => {
 					if (e || !row || !row[0]) {

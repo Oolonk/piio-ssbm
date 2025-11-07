@@ -32,7 +32,7 @@ body.fixedSidebar #main {
 	left: 155px;
 }
 
-body.fixedSmashggQueue #main {
+body.fixedStreamQueue #main {
 	right: 205px;
 }
 
@@ -226,7 +226,7 @@ body.fixedSidebar #topbar {
 	width: 150px;
 	top: 24px;
 	bottom: 0px;
-	z-index: -1;
+	z-index: 4;
 
 	display: grid;
 
@@ -1425,7 +1425,7 @@ item>input[type="checkbox"].toggle-color {
 	grid-template-rows: 20px;
 }
 
-.fixedSmashggQueue #statusbar {
+.fixedStreamQueue #statusbar {
 	right: 200px;
 	left: 150px;
 }
@@ -1443,7 +1443,7 @@ item>input[type="checkbox"].toggle-color {
 	color: #f00;
 }
 
-#smashgg-queue {
+#stream-queue {
 	position: absolute;
 	right: 10px;
 	bottom: 0px;
@@ -1453,22 +1453,22 @@ item>input[type="checkbox"].toggle-color {
 	z-index: 500;
 }
 
-.fixedSmashggQueue #smashgg-queue {
+.fixedStreamQueue #stream-queue {
 	top: 84px;
 	right: 0px;
 	width: 200px;
 	height: auto;
 }
 
-#smashgg-queue.empty:before {
+#stream-queue.empty:before {
 	content: 'No sets queued';
 }
 
-#smashgg-queue>div {
+#stream-queue>div {
 	position: absolute;
 }
 
-#smashgg-queue .current {
+#stream-queue .current {
 	left: 0px;
 	height: 20px;
 	bottom: 0px;
@@ -1478,7 +1478,7 @@ item>input[type="checkbox"].toggle-color {
 	line-height: 20px;
 }
 
-#smashgg-queue .icon {
+#stream-queue .icon {
 	position: absolute;
 	left: 0px;
 	bottom: 0px;
@@ -1488,12 +1488,12 @@ item>input[type="checkbox"].toggle-color {
 	font-size: 17px;
 }
 
-#smashgg-queue .icon:hover {
+#stream-queue .icon:hover {
 background-color: rgba(var(--backgroundRGB), 0.5);
 opacity: 1;
 }
 
-#smashgg-queue .next {
+#stream-queue .next {
 right: 0px;
 bottom: 0px;
 width: 30px;
@@ -1506,11 +1506,11 @@ background-position: 50%;
 background-repeat: no-repeat;
 }
 
-#smashgg-queue .next:hover {
+#stream-queue .next:hover {
 background-color: #c00;
 }
 
-#smashgg-queue .list {
+#stream-queue .list {
 left: 0px;
 right: 0px;
 top: 0px;
@@ -1520,18 +1520,18 @@ transform: translateY(-20px);
 transition: all 200ms;
 }
 
-body:not(.fixedSmashggQueue) #smashgg-queue:hover .list {
+body:not(.fixedStreamQueue) #stream-queue:hover .list {
 transform: translateY(-220px);
 transition: all 300ms;
 }
 
-.fixedSmashggQueue #smashgg-queue .list {
+.fixedStreamQueue #stream-queue .list {
 bottom: 0px;
 height: auto;
 background: rgba(var(--backgroundRGB), 0.3);
 }
 
-#smashgg-queue .list .title {
+#stream-queue .list .title {
 position: absolute;
 top: 0;
 left: 0;
@@ -1541,7 +1541,7 @@ font-weight: bold;
 background: rgba(var(--backgroundRGB), 0.5);
 }
 
-#smashgg-queue .list .title .setcount {
+#stream-queue .list .title .setcount {
 position: absolute;
 right: 1px;
 top: 1px;
@@ -1554,7 +1554,7 @@ font-weight: bold;
 background: rgb(var(--backgroundRGB));
 }
 
-#smashgg-queue .list .sets {
+#stream-queue .list .sets {
 position: absolute;
 left: 0;
 right: 0;
@@ -1563,7 +1563,7 @@ bottom: 0px;
 overflow-y: auto;
 }
 
-#smashgg-queue .list .sets>div {
+#stream-queue .list .sets>div {
 position: absolute;
 left: 0;
 right: 0;
@@ -1574,7 +1574,7 @@ cursor: pointer;
 transition: transform 100ms;
 }
 
-#smashgg-queue .list .sets>div:not(:last-child):after {
+#stream-queue .list .sets>div:not(:last-child):after {
 content: '';
 position: absolute;
 left: 0;
@@ -1585,20 +1585,20 @@ background: gba(var(--backgroundRGB), 0.2);
 }
 
 
-#smashgg-queue .list .sets>div:hover {
+#stream-queue .list .sets>div:hover {
 background: #eee;
 color: #000;
 }
 
-#smashgg-queue .list .sets>div.selected {
+#stream-queue .list .sets>div.selected {
 border-left: 3px solid #f00;
 }
 
-#smashgg-queue .list .sets>div .round {
+#stream-queue .list .sets>div .round {
 opacity: 0.8;
 }
 
-#smashgg-queue .list .sets>div .indentifier {
+#stream-queue .list .sets>div .indentifier {
 position: absolute;
 right: 5px;
 top: 5px;

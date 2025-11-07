@@ -8,7 +8,7 @@ const exeName = path.basename(process.execPath);
 let resFolder, appFolder, userDataFolder, settingsDb;
 
 let defaultSettings = {
-    fixedSmashggQueue: false,
+    fixedStreamQueue: false,
     autoupdate: false,
     fixedSidebar: true,
     autoupdateThreshold: 500

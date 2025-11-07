@@ -46,6 +46,7 @@ var scoreboard = {
         phase: null
     },
     smashggtoken: null,
+    parryggToken: null,
     type: "teams",
     _D: null
 };
@@ -112,6 +113,7 @@ var slippi = {
 var obs = {
     currentScene: ""
 }
+var usedTournamentWebsite = null;
 
 
 var client = {
@@ -220,6 +222,8 @@ window.addEventListener("keydown", (e) => {
 }, true);
 
 let smashggToken = "";
+let parryggToken = "";
+let showparryggToken = false;
 let showsmashggToken = false;
 let obsSceneList = [];
 let obsSceneListValues = {};
@@ -238,6 +242,15 @@ async function applyClientSettings(settings) {
             case "theme":
                 await setTheme(row.value);
                 break;
+            case "parrygg-token":
+                parryggToken = row.value;
+                parrygg.Token = row.value;
+                if (showparryggToken) {
+                    scoreboard.parryggtoken = row.value;
+                } else {
+                    scoreboard.parryggtoken = "";
+                }
+                break;
             case "smashgg-token":
                 smashggToken = row.value;
                 smashgg.Token = row.value;
@@ -255,6 +268,14 @@ async function applyClientSettings(settings) {
                     scoreboard.smashggtoken = "";
                 }
                 break;
+            case "showParryggToken":
+                showparryggToken = row.value;
+                if (row.value) {
+                    scoreboard.parryggtoken = parryggToken;
+                } else {
+                    scoreboard.parryggtoken = "";
+                }
+                break;
             case "autoupdate":
                 toggleAutoUpdate(row.value);
                 break;
@@ -267,9 +288,9 @@ async function applyClientSettings(settings) {
                 client.fixedSidebar = row.value;
                 document.body.classList.toggle("fixedSidebar", row.value);
                 break;
-            case "fixedSmashggQueue":
-                client.fixedSmashggQueue = row.value;
-                document.body.classList.toggle("fixedSmashggQueue", row.value);
+            case "fixedStreamQueue":
+                client.fixedStreamQueue = row.value;
+                document.body.classList.toggle("fixedStreamQueue", row.value);
                 break;
             case "connection-type":
                 ipcRenderer.send("connectionType", row.value);
@@ -1967,4 +1988,29 @@ function casterDelete() {
         buildCasterList();
     }
 
+}
+async function openStreamQueueOptions(){
+    let windowSettings = await openWindow("streamqueue-settings", {
+        "tournamentSlug": usedTournamentWebsite == "startgg" ? smashgg.selectedTournament : parrygg.selectedTournament,
+        "streamId": usedTournamentWebsite == "startgg" ? smashgg.selectedStream : parrygg.selectedStream,
+        "smashgg-cache": smashgg.cache,
+        "smashgg-token": smashgg.token,
+        "parrygg-token": parrygg.token,
+        "parrygg-cache": parrygg.cache,
+        "tournamentWebsite": usedTournamentWebsite
+    }, true);
+    if (!windowSettings) { return; }
+    usedTournamentWebsite = windowSettings.tournamentWebsite;
+    switch (usedTournamentWebsite) {
+        case "startgg":
+            applySmashggSettings(windowSettings.tournamentSlug, windowSettings.streamId);
+            ipcRenderer.invoke('set', 'smashgg', { "tournament": smashgg.selectedTournament, "stream": smashgg.selectedStream });
+            ipcRenderer.invoke('set', 'parrygg', { "tournament": "", "stream": "" });
+            break;
+        case "parrygg":
+            applyParryggSettings(windowSettings.tournamentSlug, windowSettings.streamId);
+            ipcRenderer.invoke('set', 'parrygg', { "tournament": parrygg.selectedTournament, "stream": parrygg.selectedStream });
+            ipcRenderer.invoke('set', 'smashgg', { "tournament": "", "stream": "" });
+            break;
+    }
 }
