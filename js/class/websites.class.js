@@ -687,6 +687,7 @@ class ParryggWrapper extends WebsiteWrapper{
         this.client = new this.parrygg.UserServiceClient(ParryggWrapper.ENDPOINT);
         this.event = null;
         this.tournamentClient = new this.parrygg.TournamentServiceClient(ParryggWrapper.ENDPOINT);
+        this.userClient = new this.parrygg.UserServiceClient(ParryggWrapper.ENDPOINT);
     }
 
     set Token(val) {
@@ -775,4 +776,19 @@ class ParryggWrapper extends WebsiteWrapper{
     async getTournament(){
 
     }
+    async findParticipants(tag) {
+        const request = new this.parrygg.GetTournamentAttendeesRequest();
+        request.setTournamentId(this.selectedTournament.id);
+        const filter = new this.parrygg.UsersFilter();
+        try {
+            const response = await this.userClient.getUsers(
+                request,
+                this.createAuthMetadata(),
+            );
+            return response.getUsersList()
+                .map((user) => user.toObject())
+                .filter((user) => user.gamerTag.toLowerCase().includes(tag.toLowerCase()));
+        } catch (error) {}
+            return [];
+        }
 }

@@ -279,6 +279,9 @@ async function applyClientSettings(settings) {
             case "autoupdate":
                 toggleAutoUpdate(row.value);
                 break;
+            case "tournamentWebsite":
+                usedTournamentWebsite = row.value;
+                break;
             case "autoscore":
                 toggleAutoScore(row.value);
             case "autoupdateThreshold":
@@ -1991,8 +1994,8 @@ function casterDelete() {
 }
 async function openStreamQueueOptions(){
     let windowSettings = await openWindow("streamqueue-settings", {
-        "tournamentSlug": usedTournamentWebsite == "startgg" ? smashgg.selectedTournament : parrygg.selectedTournament,
-        "streamId": usedTournamentWebsite == "startgg" ? smashgg.selectedStream : parrygg.selectedStream,
+        "tournamentSlug": usedTournamentWebsite == "smashgg" ? smashgg.selectedTournament : parrygg.selectedTournament,
+        "streamId": usedTournamentWebsite == "smashgg" ? smashgg.selectedStream : parrygg.selectedStream,
         "smashgg-cache": smashgg.cache,
         "smashgg-token": smashgg.token,
         "parrygg-token": parrygg.token,
@@ -2001,16 +2004,18 @@ async function openStreamQueueOptions(){
     }, true);
     if (!windowSettings) { return; }
     usedTournamentWebsite = windowSettings.tournamentWebsite;
-    switch (usedTournamentWebsite) {
-        case "startgg":
+    ipcRenderer.invoke("set", "tournamentWebsite", usedTournamentWebsite);
+    console.log(windowSettings);
+        switch (usedTournamentWebsite) {
+        case "smashgg":
             applySmashggSettings(windowSettings.tournamentSlug, windowSettings.streamId);
-            ipcRenderer.invoke('set', 'smashgg', { "tournament": smashgg.selectedTournament, "stream": smashgg.selectedStream });
-            ipcRenderer.invoke('set', 'parrygg', { "tournament": "", "stream": "" });
+            ipcRenderer.invoke('set', 'smashgg', { "tournament": windowSettings.tournamentSlug, "stream": windowSettings.streamId });
+            ipcRenderer.invoke('set', 'parrygg', { "tournament": "", "stream": null });
             break;
         case "parrygg":
             applyParryggSettings(windowSettings.tournamentSlug, windowSettings.streamId);
             ipcRenderer.invoke('set', 'parrygg', { "tournament": parrygg.selectedTournament, "stream": parrygg.selectedStream });
-            ipcRenderer.invoke('set', 'smashgg', { "tournament": "", "stream": "" });
+            ipcRenderer.invoke('set', 'smashgg', { "tournament": "", "stream": null });
             break;
     }
 }

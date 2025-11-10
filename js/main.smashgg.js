@@ -14,7 +14,10 @@ on("ws-ready", async () => {
 		smashgg.SelectedTournament = data.tournament;
 		smashgg.SelectedStream = data.stream;
 	});
-	smashgg.startStreamQueuePolling();
+
+    if(parrygg.SelectedTournament != null) {
+        smashgg.startStreamQueuePolling();
+    }
 });
 
 
@@ -103,7 +106,11 @@ on("scoreboardsmashggchanged", displaySmashggCurrent);
 function applySmashggSettings(tournamentSlug, streamId) {
 	smashgg.SelectedTournament = tournamentSlug;
 	smashgg.SelectedStream = streamId;
-	smashgg.startStreamQueuePolling();
+    if(tournamentSlug != null) {
+        smashgg.startStreamQueuePolling();
+    }else {
+        smashgg.stopStreamQueuePolling();
+    }
 }
 
 async function displaySmashggStreamQueue(sets) {

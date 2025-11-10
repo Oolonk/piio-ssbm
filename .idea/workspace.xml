@@ -4,26 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ac754f3c-49e0-4331-910a-bdd2a02e1a30" name="Changes" comment="update vcs">
-      <change afterPath="$PROJECT_DIR$/js/class/websites.class.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/main.parrygg.js" afterDir="false" />
+    <list default="true" id="ac754f3c-49e0-4331-910a-bdd2a02e1a30" name="Changes" comment="add logic for parrygg find tournaments&#10;restructure startgg for other websites">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ensure.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/ensure.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/class/parrygg.class.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/class/smashgg.class.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/class/websites.class.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/class/websites.class.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/main.parrygg.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.parrygg.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/main.smashgg.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.smashgg.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/settings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/smashgg-settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/streamqueue-settings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/style/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style/smashgg-settings.css" beforeDir="false" afterPath="$PROJECT_DIR$/style/streamqueue-settings.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/window/connections.html" beforeDir="false" afterPath="$PROJECT_DIR$/window/connections.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/window/database-entry-player.html" beforeDir="false" afterPath="$PROJECT_DIR$/window/database-entry-player.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/window/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/window/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/streamqueue-settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/streamqueue-settings.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/window/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/window/settings.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/window/smashgg-player-search.html" beforeDir="false" afterPath="$PROJECT_DIR$/window/smashgg-player-search.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/window/smashgg-settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/window/streamqueue-settings.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -230,7 +218,11 @@
       <workItem from="1761305808421" duration="219000" />
       <workItem from="1761306036835" duration="1015000" />
       <workItem from="1762203110440" duration="2703000" />
-      <workItem from="1762544711314" duration="14491000" />
+      <workItem from="1762544711314" duration="14594000" />
+      <workItem from="1762602354501" duration="2679000" />
+      <workItem from="1762606095669" duration="1325000" />
+      <workItem from="1762716712239" duration="1755000" />
+      <workItem from="1762808194810" duration="867000" />
     </task>
     <task id="LOCAL-00001" summary="add obs websocket dependencies">
       <option name="closed" value="true" />
@@ -456,7 +448,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761305984135</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="add logic for parrygg find tournaments&#10;restructure startgg for other websites">
+      <option name="closed" value="true" />
+      <created>1762559298095</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1762559298095</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -518,7 +518,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="save last found Scene List and last opened Obs Scene" />
     <MESSAGE value="click from" />
     <MESSAGE value="finished obs integration (Auto Switcher)" />
     <MESSAGE value="added custom 4 name" />
@@ -543,6 +542,7 @@
     <MESSAGE value="update sommerpause overlay" />
     <MESSAGE value="add vertical theme" />
     <MESSAGE value="update vcs" />
-    <option name="LAST_COMMIT_MESSAGE" value="update vcs" />
+    <MESSAGE value="add logic for parrygg find tournaments&#10;restructure startgg for other websites" />
+    <option name="LAST_COMMIT_MESSAGE" value="add logic for parrygg find tournaments&#10;restructure startgg for other websites" />
   </component>
 </project>

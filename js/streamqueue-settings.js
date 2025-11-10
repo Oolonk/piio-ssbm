@@ -21,9 +21,13 @@ ipcRenderer.on("data", async (event, data) => {
 	smashgg.Token = data['smashgg-token'];
     parrygg.cache = data['parrygg-cache'];
     parrygg.token = data['parrygg-token'];
+    console.log(data);
 	smashgg.SelectedTournament = data.tournamentSlug;
 	smashgg.SelectedStream = data.streamId;
     usedTournamentWebsite = data.tournamentWebsite;
+    selectedStream = data.streamId;
+    selectedTournament = data.tournamentSlug;
+    await
 	fillTournamentInfo();
     console.log(usedTournamentWebsite);
     document.getElementById(`${usedTournamentWebsite}-tablink`).click();
@@ -57,7 +61,9 @@ async function fillTournamentInfo() {
         displayChannels(tournament && tournament.streams ? tournament.streams : []);
         break;
         case "parrygg":
+            console.log(parrygg);
             var tournament = await parrygg.getTournament();
+            console.log(tournament);
             document.querySelector("#info .title").innerText = (tournament ? tournament.name : "");
             document.querySelector("#info .logo").style.backgroundImage = "url('" + tournament.pictures.banner + "')";
             // document.querySelector("#selected-tournament .bg").style.backgroundImage = "url('" + SmashggWrapper.getImage(tournament, "banner") + "')";
@@ -96,6 +102,7 @@ function displayChannels(channels) {
 			smashgg.SelectedStream = stream.id;
 			el.querySelectorAll(".item").forEach((elm) => elm.classList.remove("selected"));
 			itemEl.classList.add("selected");
+            selectedStream = smashgg.selectedStream;
 		};
 		el.appendChild(itemEl);
 	});
@@ -251,6 +258,7 @@ async function selectTournament(slug, tournamentWebsite) {
             selectedTournament = parrygg.selectedTournament;
             selectedStream = parrygg.selectedStream;
     }
+    console.log(smashgg);
     document.body.classList.remove("locked");
 }
 
