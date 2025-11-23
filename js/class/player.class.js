@@ -138,6 +138,10 @@ class Player {
 		return !isNaN(parseInt(this.smashgg)) && this.smashgg != 0;
 	}
 
+    get HasParrygg() {
+        return this.parrygg && this.parrygg.length > 0;
+    }
+
 	get PhotoPath() {
 		return "assets/player/photo/" + this.ID + ".png";
 	}

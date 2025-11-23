@@ -790,9 +790,16 @@ async function setCaster(index, co) {
         }
         casterEl.querySelector(".info .name").innerText = co.name;
         casterEl.querySelector(".info .twitter").innerText = twitterbsky != (null || '') ? `@${twitterbsky}` : '';
-        if (co.HasSmashgg && co.InDB) {
+        if (co.HasSmashgg && co.InDB || co.HasSmashgg && co.InDB) {
             let id = co.ID;
             getSmashggDifferences(co).then((res) => {
+                if (scoreboard.caster[index]._id != id) {
+                    return;
+                } // outdated request - quit out
+                casterEl.querySelector(".info .player-options .player-edit-btn").classList.toggle("outdated", res.differences.length > 0);
+            });
+            getParryggDifferences(co).then((res) => {
+                console.log(res);
                 if (scoreboard.caster[index]._id != id) {
                     return;
                 } // outdated request - quit out
@@ -1220,6 +1227,13 @@ async function insertPlayerUI(teamNum, playerNum) {
         if (scoreboard.teams[teamNum].players[playerNum]._id != res.player._id) {
             return;
         } // check if still same player
+        pEl.querySelector(".player-edit-btn").classList.toggle("outdated", res.differences.length > 0);
+    });
+    getParryggDifferences(po).then((res) => {
+        console.log(res);
+        if (scoreboard.teams[teamNum].players[playerNum]._id != res.player._id) {
+            return;
+        } // outdated request - quit out
         pEl.querySelector(".player-edit-btn").classList.toggle("outdated", res.differences.length > 0);
     });
 

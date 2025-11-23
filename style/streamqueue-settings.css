@@ -245,7 +245,8 @@ body.locked {
 /* Style the tab */
 .tab {
     overflow: hidden;
-    border: 1px solid #ccc;
+    margin: 0 10px;
+    padding: 0 10px;
 }
 
 /* Style the buttons that are used to open the tab content */
@@ -273,6 +274,5 @@ body.locked {
 .tabcontent {
     display: none;
     padding: 6px 12px;
-    border: 1px solid #ccc;
     border-top: none;
 }

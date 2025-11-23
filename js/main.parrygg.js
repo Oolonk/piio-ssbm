@@ -27,6 +27,18 @@ async function displayParryggCurrent() {
     }
 }
 
+
+async function getParryggDifferences(player) {
+    let res = { "differences": [], "player": player };
+    if (!player.InDB || !player.HasParrygg) { return res; }
+
+    player = await db.resolveRelations("player", player);
+    let parryggPlayer = await parrygg.getPlayer(player.parrygg);
+    console.log("comparing player", player, parryggPlayer);
+    res.differences = ParryggWrapper.comparePlayer(player, parryggPlayer);
+    return res;
+}
+
 on("scoreboardparryggchanged", displayParryggCurrent);
 
 function applyParryggSettings(tournamentSlug, streamId) {
