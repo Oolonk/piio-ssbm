@@ -838,20 +838,21 @@ class ParryggWrapper extends WebsiteWrapper{
         return player;
     }
     async convertRegion(countryCode, regionCode){
-        var json = await fetch(`./json/regions-parrygg.json`);
-        json = await json.json();
-        var country = await json.filter((region) => region.code2 === countryCode);
-        var states = country[0].states;
-        var region = states.filter((state) => state.code === regionCode);
+        // var country = await this.convertCountry(countryCode);
+        var json = await fetch(`./json/states.json`);
+        var states = await json.json();
+        var region = states.filter((state) => state.iso2 === regionCode && state.country_code === countryCode);
+        console.log(region);
         if(region[0]){
             return region[0].name;
         }
         return null;
     }
     async convertCountry(countryCode){
-        var json = await fetch(`./json/regions-parrygg.json`);
+        var json = await fetch(`./json/countries.json`);
         json = await json.json();
-        var country = await json.filter((region) => region.code2 === countryCode);
+        var country = await json.filter((country) => country.iso2 === countryCode);
+        console.log(country);
         if(country[0]){
             return country[0].name;
         }

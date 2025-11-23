@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ac754f3c-49e0-4331-910a-bdd2a02e1a30" name="Changes" comment="fix start use last tournament&#10;fix packaging program error">
+    <list default="true" id="ac754f3c-49e0-4331-910a-bdd2a02e1a30" name="Changes" comment="show differences for parrygg on site">
+      <change afterPath="$PROJECT_DIR$/json/countries.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/json/states.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/class/websites.class.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/class/websites.class.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +51,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Node.js.Unnamed.executor": "Run",
+    "Node.js.index.js.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
@@ -92,7 +95,7 @@
       <recent name="E:\GitHub\piio-linux" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.make-windows">
+  <component name="RunManager" selected="npm.Starten">
     <configuration name="check update" type="ShConfigurationType">
       <option name="SCRIPT_TEXT" value="npx npm-check-update -u" />
       <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
@@ -229,7 +232,7 @@
       <workItem from="1762808194810" duration="1138000" />
       <workItem from="1763247220102" duration="18000" />
       <workItem from="1763815127355" duration="4582000" />
-      <workItem from="1763896477476" duration="18258000" />
+      <workItem from="1763896477476" duration="24112000" />
     </task>
     <task id="LOCAL-00001" summary="add obs websocket dependencies">
       <option name="closed" value="true" />
@@ -487,7 +490,23 @@
       <option name="project" value="LOCAL" />
       <updated>1763914999614</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="fix dependencies">
+      <option name="closed" value="true" />
+      <created>1763916025562</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1763916025562</updated>
+    </task>
+    <task id="LOCAL-00034" summary="show differences for parrygg on site">
+      <option name="closed" value="true" />
+      <created>1763917531029</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1763917531029</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -549,8 +568,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="disable some console.log" />
-    <MESSAGE value="update readme, Caster set handle viewed to bluesky. If not given set to twitter" />
     <MESSAGE value="fix auto use startgg from streamqueue" />
     <MESSAGE value="add new strea" />
     <MESSAGE value="update dependencies" />
@@ -574,7 +591,9 @@
     <MESSAGE value="update getTournament site" />
     <MESSAGE value="Adding ParryGG User Connection to Player&#10;Adding Regions and connecting it to ParryGG" />
     <MESSAGE value="fix start use last tournament&#10;fix packaging program error" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix start use last tournament&#10;fix packaging program error" />
+    <MESSAGE value="fix dependencies" />
+    <MESSAGE value="show differences for parrygg on site" />
+    <option name="LAST_COMMIT_MESSAGE" value="show differences for parrygg on site" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
