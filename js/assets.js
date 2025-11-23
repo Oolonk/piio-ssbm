@@ -15,6 +15,7 @@ var _relation = {
 	character: ["game", "character", null, "character.skins"],
 	player: [null, "player"],
 	country: ["country"],
+    region: ["region"],
 	game: ["game"],
 	team: ["team"],
 	pride: ["pride"]

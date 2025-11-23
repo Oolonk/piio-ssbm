@@ -17,12 +17,14 @@ let defaultSettings = {
 let dbStruct = [
     { "name": "player", "field": "name", "type": "text", "index": -1 },
     { "name": "player", "field": "country", "type": "relation", "relation": "country", "index": -4 },
+    { "name": "player", "field": "region", "type": "relation", "relation": "region", "index": -4 },
     { "name": "player", "field": "city", "type": "text" },
     { "name": "player", "field": "firstname", "type": "text", "index": -2 },
     { "name": "player", "field": "lastname", "type": "text", "index": -3 },
     { "name": "player", "field": "birthday", "type": "date", "listhide": true },
     { "name": "player", "field": "pronoun", "type": "text", "listhide": true },
     { "name": "player", "field": "smashgg", "type": "number" },
+    { "name": "player", "field": "parrygg", "type": "text" },
     { "name": "player", "field": "twitter", "type": "text" },
     { "name": "player", "field": "twitch", "type": "text", "index": -4 },
     { "name": "player", "field": "steam", "type": "text", "listhide": true },
@@ -49,7 +51,9 @@ let dbStruct = [
     { "name": "character", "field": "skins", "type": "text", "multi": true },
     { "name": "character", "field": "game", "type": "relation", "relation": "game", "multi": null },
     { "name": "pride", "field": "name", "index": -1, "type": "text" },
-    { "name": "pride", "field": "color", "type": "color", "index": -4 }
+    { "name": "pride", "field": "color", "type": "color", "index": -4 },
+    { "name": "region", "field": "name", "index": -1, "type": "text" },
+    { "name": "region", "field": "country", "index": -2, "type": "relation", "relation": "country",  }
 ];
 
 

@@ -10,7 +10,9 @@ var dbName, id, fields, dataset, hook, _returnChannel;
 var _callbacks = { on: {}, once: {}, hold: [] }; // callbacks for on,once & fire
 var editMode = false;
 var smashgg = new SmashggWrapper();
+var parrygg = new ParryggWrapper();
 var smashggIgnore = {};
+var parryggIgnore = {};
 
 ipcRenderer.on("returnchannel", (event, data) => _returnChannel = data);
 
@@ -34,6 +36,8 @@ smashgg.on("fetch-error", (e) => {
 async function startFunction() {
 	await ipcRenderer.invoke("get", "smashgg-token").then(token => smashgg.Token = token);
 	await ipcRenderer.invoke("get", "smashgg").then(data => smashgg.SelectedTournament = data.tournament);
+    await ipcRenderer.invoke("get", "parrygg-token").then(token => parrygg.Token = token);
+    await ipcRenderer.invoke("get", "parrygg").then(data => parrygg.SelectedTournament = data.tournament);
 
 	await buildForm();
 
@@ -96,6 +100,42 @@ async function checkSmashggCompare() {
 	console.log("Differences:", diffs);
 }
 
+async function checkParryggCompare() {
+    let parryggId = document.getElementById('field-parrygg').value;
+    if (parryggId === '' || parryggId == null || parryggId == undefined) { return; }
+    let entry = await parrygg.getPlayer(parryggId);
+
+    console.log(entry);
+
+    let diffs = ParryggWrapper.comparePlayer(dataset, entry, true);
+    console.log(diffs);
+
+
+    for (let diffIdx in diffs) {
+        const diff = diffs[diffIdx];
+        const diffEl = document.querySelector(`#field-${diff.field} .parrygg-diff`);
+        const field = fields.find(x => x.field == diff.field);
+        if(diff.parrygg != undefined) {
+            if (field.type == "relation" && diff.parrygg != undefined && diff.parrygg.length > 0) {
+                let relationEntry = await db.getSingle(field.relation, {"name": diff.parrygg});
+                console.log("?", diff.parrygg, relationEntry);
+                diff.parryggRelationId = (relationEntry == null ? null : relationEntry._id);
+            }
+
+            document.getElementById(`field-${diff.field}`).parryggDifference = diff;
+            diffEl.classList.add("visible");
+            diffEl.classList.toggle("no-db", diff.parryggRelationId === null);
+            diffEl.classList.toggle("ignored", diff.ignored);
+            diffEl.querySelector(`.merge`).disabled = diff.parryggRelationId === null;
+            diffEl.querySelector(`.ignore`).disabled = diff.ignored || diff.parryggRelationId === null;
+            diffEl.querySelector(`.value`).innerText = diff.parrygg;
+            diffEl.querySelector(`.value`).classList.toggle("empty", diff.parrygg.length == 0);
+        }
+    }
+
+    console.log("Differences:", diffs);
+}
+
 async function buildForm() {
 	let formEl = document.getElementById("form");
 
@@ -148,6 +188,22 @@ async function buildForm() {
 		opt.value = entry._id;
 		countrySelect.appendChild(opt);
 	});
+
+    let regionsSelect = document.querySelector("#field-region .input > *");
+
+    let optionValsRegions = await db.get("region");
+    optionValsRegions.sort(function (a, b) {
+        if (a.name < b.name) { return -1; }
+        if (a.name > b.name) { return 1; }
+        return 0;
+    });
+    optionValsRegions.unshift({ "_id": "", name: " - None - " });
+    optionValsRegions.forEach((entry) => {
+        let opt = document.createElement("option");
+        opt.innerText = entry.name;
+        opt.value = entry._id;
+        regionsSelect.appendChild(opt);
+    });
 
 
 
@@ -237,6 +293,8 @@ async function insertValues(entry) {
 	document.querySelector('#info .name').innerText = editMode ? entry.name : "New Player";
 	document.querySelector('#info .id').innerText = editMode ? entry._id : "TBD";
 	document.getElementById('field-smashgg').value = entry.smashgg;
+    console.log(entry);
+    document.getElementById('field-parrygg').value = entry.parrygg;
 
 
 	for (let field of fields) {
@@ -280,6 +338,10 @@ async function insertValues(entry) {
 		smashggIgnore = Object.assign(smashggIgnore, dataset.smashggIgnore);
 		checkSmashggCompare();
 	}
+    if (entry.parrygg != null && entry.parrygg != undefined && entry.parrygg !== '') {
+        parryggIgnore = Object.assign(parryggIgnore, dataset.parryggIgnore);
+        checkParryggCompare();
+    }
 }
 
 function calcInsertAge() {
@@ -292,28 +354,51 @@ function calcInsertAge() {
 	document.getElementById('birthday-age').innerText = age;
 }
 
-async function merge(fieldName) {
+async function merge(fieldName, website) {
 	let el = document.querySelector(`#field-${fieldName}`);
-	let diffEl = el.querySelector(`.smashgg-diff`);
-	if (smashggIgnore.hasOwnProperty(fieldName)) {
-		delete smashggIgnore[fieldName];
-	}
+	let diffEl = el.querySelector(`.${website}-diff`);
+    switch (website) {
+        case "smashgg":
+            if (smashggIgnore.hasOwnProperty(fieldName)) {
+                delete smashggIgnore[fieldName];
+            }
 
-	if (el.smashggDifference.smashggRelationId !== undefined) { // relation
-		el.querySelector(".input .value").value = el.smashggDifference.smashggRelationId;
-	} else {
-		el.querySelector(".input .value").value = el.smashggDifference.smashgg;
-	}
+            if (el.smashggDifference.smashggRelationId !== undefined) { // relation
+                el.querySelector(".input .value").value = el.smashggDifference.smashggRelationId;
+            } else {
+                el.querySelector(".input .value").value = el.smashggDifference.smashgg;
+            }
+            break;
+        case "parrygg":
+            if (parryggIgnore.hasOwnProperty(fieldName)) {
+                delete parryggIgnore[fieldName];
+            }
+
+            if (el.parryggDifference.parryggRelationId !== undefined) { // relation
+                el.querySelector(".input .value").value = el.parryggDifference.parryggRelationId;
+            } else {
+                el.querySelector(".input .value").value = el.parryggDifference.parrygg;
+            }
+            break;
+    }
 
 	diffEl.classList.remove("visible");
 }
 
-async function ignore(fieldName) {
+async function ignore(fieldName, website) {
 	let el = document.querySelector(`#field-${fieldName}`);
-	let diffEl = el.querySelector(`.smashgg-diff`);
+	let diffEl = el.querySelector(`.${website}-diff`);
 	// el.querySelector(".input .value").value = el.smashggDifference.smashgg;
-	smashggIgnore[fieldName] = el.smashggDifference.smashgg;
-	diffEl.querySelector(".ignore").setAttribute("disabled", "disabled");
+    switch (website) {
+        case "smashgg":
+            smashggIgnore[fieldName] = el.smashggDifference.smashgg;
+            diffEl.querySelector(".ignore").setAttribute("disabled", "disabled");
+            break;
+        case "parrygg":
+            parryggIgnore[fieldName] = el.parryggDifference.parrygg;
+            diffEl.querySelector(".ignore").setAttribute("disabled", "disabled");
+            break;
+    }
 	diffEl.classList.add("ignored");
 }
 
@@ -327,8 +412,19 @@ async function assignSmashgg() {
 	}
 }
 
+async function assignParrygg() {
+    let nameField = document.querySelector('#field-name .input input');
+    let name = (nameField.value.length > 0 ? nameField.value : dataset.name);
+    let res = await openWindow("parrygg-player-search", { name, dataset }, true);
+    if (res && res.id) {
+        document.getElementById("field-parrygg").value = res.id;
+        checkParryggCompare();
+    }
+}
+
 async function save() {
 	dataset.smashggIgnore = smashggIgnore;
+    dataset.parryggIgnore = parryggIgnore;
 
 	for (let i in fields) {
 		let field = fields[i];
@@ -347,7 +443,9 @@ async function save() {
 			}
 		} else if (field.field == "smashgg") {
 			value = document.getElementById('field-smashgg').value;
-		} else {
+		} else if (field.field == "parrygg") {
+            value = document.getElementById('field-parrygg').value;
+        } else {
 			let el = document.querySelector("#field-" + field.field + " .input .value");
 			if (el) {
 				if (field.type == "relation" && field.multi) {

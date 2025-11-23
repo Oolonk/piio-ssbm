@@ -710,6 +710,14 @@ class ParryggWrapper extends WebsiteWrapper{
             pictures: this.getTournamentPictures(tournament)
         }
     }
+    async getAdditionalUserInfos(user) {
+        let additional =  {
+            country: await this.convertCountry(user.locationCountry),
+            state: await this.convertRegion(user.locationCountry, user.locationState),
+            pictures: this.getUserPictures(user)
+        }
+        return await additional;
+    }
     getSlug(tournament) {
         return (
             tournament.slugsList.find(
@@ -721,6 +729,17 @@ class ParryggWrapper extends WebsiteWrapper{
         return{
             'banner': tournament.imagesList.find(
                 (image) => image.type === this.parrygg.ImageType.IMAGE_TYPE_BANNER,
+            )?.url || ''
+        };
+
+    }
+    getUserPictures(tournament) {
+        return{
+            'banner': tournament.imagesList.find(
+                (image) => image.type === this.parrygg.ImageType.IMAGE_TYPE_BANNER,
+            )?.url || '',
+            'avatar': tournament.imagesList.find(
+                (image) => image.type === this.parrygg.ImageType.IMAGE_TYPE_AVATAR,
             )?.url || ''
         };
 
@@ -777,18 +796,131 @@ class ParryggWrapper extends WebsiteWrapper{
 
     }
     async findParticipants(tag) {
-        const request = new this.parrygg.GetTournamentAttendeesRequest();
-        request.setTournamentId(this.selectedTournament.id);
+        const request = new this.parrygg.GetUsersRequest();
+        // request.setTournamentId(this.selectedTournament.id);
         const filter = new this.parrygg.UsersFilter();
+        filter.setGamerTag(tag);
+        request.setFilter(filter);
         try {
             const response = await this.userClient.getUsers(
                 request,
                 this.createAuthMetadata(),
             );
-            return response.getUsersList()
-                .map((user) => user.toObject())
-                .filter((user) => user.gamerTag.toLowerCase().includes(tag.toLowerCase()));
+            var returns =  Promise.all(response.getUsersList()
+                .map(async (user) => await Object.assign(user.toObject(), await this.getAdditionalUserInfos(user.toObject()))));
+            return await returns;
+
         } catch (error) {}
             return [];
         }
+    async getPlayer(playerId, cacheMaxAge) {
+        if (playerId == null) {
+            return null;
+        }
+        let player = this.getCache("player-parry", playerId, cacheMaxAge);
+        if (player == null) {
+            const request = new this.parrygg.GetUserRequest();
+            request.setId(playerId);
+            try {
+                const response = await this.userClient.getUser(
+                    request,
+                    this.createAuthMetadata(),
+                );
+                player = response.getUser().toObject();
+                player = await Object.assign(player, await this.getAdditionalUserInfos(player));
+                this.setCache("player-parry", playerId, player);
+            }
+            catch (error) {
+                return null;
+            }
+        }
+
+        return player;
+    }
+    async convertRegion(countryCode, regionCode){
+        var json = await fetch(`./json/regions-parrygg.json`);
+        json = await json.json();
+        var country = await json.filter((region) => region.code2 === countryCode);
+        var states = country[0].states;
+        var region = states.filter((state) => state.code === regionCode);
+        if(region[0]){
+            return region[0].name;
+        }
+        return null;
+    }
+    async convertCountry(countryCode){
+        var json = await fetch(`./json/regions-parrygg.json`);
+        json = await json.json();
+        var country = await json.filter((region) => region.code2 === countryCode);
+        if(country[0]){
+            return country[0].name;
+        }
+        return null;
+    }
+
+    static comparePlayer(local, remote, includeIgnore) {
+        // normalize remote structure to local structure
+        remote = this.convertPlayerStructure(remote);
+
+        let diffs = [];
+
+        for (let key in local) {
+            if (!remote.hasOwnProperty(key)) { continue }
+
+            let ignored = false;
+            if (local.hasOwnProperty("parryggIgnore") && local.smashggIgnore.hasOwnProperty(key)) {
+                ignored = (local.smashggIgnore[key] == remote[key]);
+            }
+
+            let compareResult = false;
+            switch (key) {
+                case "country":
+                function recursiveNationCompare(country, countryName) {
+                    if (country == null) { return false; }
+                    if (country.name == countryName) { return true; }
+                    if (country.nation == null || country.nation.length == 0) { return false; }
+                    return recursiveNationCompare(country.nation, countryName);
+                }
+                    compareResult = !recursiveNationCompare(local[key], remote[key]);
+                    break;
+                case "region":
+                    compareResult = local[key].name != remote[key];
+                    break;
+                default: compareResult = local[key] != remote[key]; break;
+            }
+
+            if (compareResult) {
+                if (!ignored || includeIgnore) {
+                    diffs.push({ "field": key, "local": local[key], "parrygg": remote[key], "ignored": ignored });
+                }
+            }
+        }
+        return diffs;
+    }
+    static convertPlayerStructure(data) {
+        let fixed = {
+            "name": data.gamerTag,
+            "pronoun": "",
+            "firstname": "",
+            "lastname": "",
+            "country": "",
+            "city": "",
+            // "twitter": "",
+            // "twitch": "",
+            // "steam": "",
+            // "birthday": ""
+        };
+        if (data.player) {
+            fixed.name = data.gamerTag;
+        }
+        fixed.pronoun = data.pronouns;
+        fixed.lastname = data.lastName;
+        fixed.firstname = data.firstName;
+        fixed.city = data.locationCity;
+        fixed.country = data.country;
+        fixed.region = data.state;
+        console.log(data);
+        console.log(fixed);
+        return fixed;
+    }
 }

@@ -55,7 +55,7 @@
 	font-size: 16px;
 }
 
-#smashgg {
+#smashgg, #parrygg {
 	margin: 20px;
 	background: rgb(var(--textRGB));
 	color: rgb(var(--backgroundRGB));
@@ -64,7 +64,7 @@
 	padding: 5px;
 }
 
-#smashgg .label {
+#smashgg .label, #parrygg .label {
 	font-weight: bold;
 	color: #f00;
 	font-size: 14px;
@@ -72,7 +72,7 @@
 	border-bottom: 2px solid #f00;
 }
 
-#smashgg input {
+#smashgg input, #parrygg input {
 	color: rgb(var(--textRGB));
 	background: rgb(var(--backgroundRGB));
 	width: 50px;
@@ -253,7 +253,7 @@ select[multiple] {
 }
 
 
-.smashgg-diff {
+.smashgg-diff, .parrygg-diff {
 	display: none;
 	font-size: 10px;
 	margin-top: 5px;
@@ -268,47 +268,47 @@ select[multiple] {
 	align-items: stretch;
 }
 
-.smashgg-diff.visible {
+.smashgg-diff.visible, .parrygg-diff.visible {
 	display: grid;
 }
 
-.smashgg-diff.ignored {
+.smashgg-diff.ignored, .parrygg-diff.ignored {
 	background: #222;
 	color: #aaa;
 }
 
-.smashgg-diff.no-db {
+.smashgg-diff.no-db, .parrygg-diff.no-db {
 	background: #500;
 	color: #faa;
 }
 
-.smashgg-diff .value {
+.smashgg-diff .value, .parrygg-diff .value {
 	padding: 0px 10px;
 	justify-self: left;
 	align-self: center;
 }
 
-.smashgg-diff .value.empty:after {
+.smashgg-diff .value.empty:after, .parrygg-diff .value.empty:after {
 	content: 'empty';
 	font-style: italic;
 	opacity: 0.6;
 }
 
-.smashgg-diff.no-db .value:after {
+.smashgg-diff.no-db .value:after, .parrygg-diff.no-db .value:after {
 	content: ' No database equivalent';
 	font-style: italic;
 	opacity: 0.6;
 }
 
-.smashgg-diff button {
+.smashgg-diff button, .parrygg-diff button {
 	padding: 0;
 	border-radius: 2px;
 }
 
-.smashgg-diff button.merge {
+.smashgg-diff button.merge, .parrygg-diff button.merge {
 	background: #33aa00;
 }
 
-.smashgg-diff button.ignore {
+.smashgg-diff button.ignore, .parrygg-diff button.ignore {
 	background: #aa0000;
 }

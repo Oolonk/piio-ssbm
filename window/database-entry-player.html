@@ -32,6 +32,11 @@
 				<input type="text" id="field-smashgg" />
 				<button class="red" onclick="assignSmashgg()">Assign Account</button>
 			</div>
+            <div id="parrygg">
+                <div class="label">Parry.gg</div>
+                <input type="text" id="field-parrygg" />
+                <button class="red" onclick="assignParrygg()">Assign Account</button>
+            </div>
 		</div>
 		<div id="form">
 			<div class="field-item" id="field-name">
@@ -41,9 +46,14 @@
 				</div>
 				<div class="smashgg-diff">
 					<div class="value"></div>
-					<button class="merge" onclick="merge('name')"></button>
-					<button class="ignore" onclick="ignore('name')"></button>
+					<button class="merge" onclick="merge('name', 'smashgg')"></button>
+					<button class="ignore" onclick="ignore('name', 'smashgg')"></button>
 				</div>
+                <div class="parrygg-diff">
+                    <div class="value"></div>
+                    <button class="merge" onclick="merge('name', 'parrygg')"></button>
+                    <button class="ignore" onclick="ignore('name', 'parrygg')"></button>
+                </div>
 			</div>
 			<div class="field-item" id="field-country">
 				<label>Country</label>
@@ -52,10 +62,31 @@
 				</div>
 				<div class="smashgg-diff">
 					<div class="value"></div>
-					<button class="merge" onclick="merge('country')"></button>
-					<button class="ignore" onclick="ignore('country')"></button>
+					<button class="merge" onclick="merge('country', 'smashgg')"></button>
+					<button class="ignore" onclick="ignore('country', 'smashgg')"></button>
 				</div>
+                <div class="parrygg-diff">
+                    <div class="value"></div>
+                    <button class="merge" onclick="merge('country', 'parrygg')"></button>
+                    <button class="ignore" onclick="ignore('country', 'parrygg')"></button>
+                </div>
 			</div>
+            <div class="field-item" id="field-region">
+                <label>Region</label>
+                <div class="input">
+                    <select class="value"></select>
+                </div>
+                <div class="smashgg-diff">
+                    <div class="value"></div>
+                    <button class="merge" onclick="merge('region', 'smashgg')"></button>
+                    <button class="ignore" onclick="ignore('region', 'smashgg')"></button>
+                </div>
+                <div class="parrygg-diff">
+                    <div class="value"></div>
+                    <button class="merge" onclick="merge('region', 'parrygg')"></button>
+                    <button class="ignore" onclick="ignore('region', 'parrygg')"></button>
+                </div>
+            </div>
 			<div class="field-item" id="field-city">
 				<label>City</label>
 				<div class="input">
@@ -63,9 +94,14 @@
 				</div>
 				<div class="smashgg-diff">
 					<div class="value"></div>
-					<button class="merge" onclick="merge('city')"></button>
-					<button class="ignore" onclick="ignore('city')"></button>
+					<button class="merge" onclick="merge('city', 'smashgg')"></button>
+					<button class="ignore" onclick="ignore('city', 'smashgg')"></button>
 				</div>
+                <div class="parrygg-diff">
+                    <div class="value"></div>
+                    <button class="merge" onclick="merge('city', 'parrygg')"></button>
+                    <button class="ignore" onclick="ignore('city', 'parrygg')"></button>
+                </div>
 			</div>
 			<div class="field-item grid">
 				<div id="field-firstname">
@@ -75,9 +111,14 @@
 					</div>
 					<div class="smashgg-diff">
 						<div class="value"></div>
-						<button class="merge" onclick="merge('firstname')"></button>
-						<button class="ignore" onclick="ignore('firstname')"></button>
+						<button class="merge" onclick="merge('firstname', 'smashgg')"></button>
+						<button class="ignore" onclick="ignore('firstname', 'smashgg')"></button>
 					</div>
+                    <div class="parrygg-diff">
+                        <div class="value"></div>
+                        <button class="merge" onclick="merge('firstname', 'parrygg')"></button>
+                        <button class="ignore" onclick="ignore('firstname', 'parrygg')"></button>
+                    </div>
 				</div>
 				<div id="field-lastname">
 					<label>Lastname</label>
@@ -86,9 +127,14 @@
 					</div>
 					<div class="smashgg-diff">
 						<div class="value"></div>
-						<button class="merge" onclick="merge('lastname')"></button>
-						<button class="ignore" onclick="ignore('lastname')"></button>
+						<button class="merge" onclick="merge('lastname', 'smashgg')"></button>
+						<button class="ignore" onclick="ignore('lastname', 'smashgg')"></button>
 					</div>
+                    <div class="parrygg-diff">
+                        <div class="value"></div>
+                        <button class="merge" onclick="merge('lastname', 'parrygg')"></button>
+                        <button class="ignore" onclick="ignore('lastname', 'parrygg')"></button>
+                    </div>
 				</div>
 			</div>
 			<div class="field-item" id="field-birthday">
@@ -99,9 +145,14 @@
 				</div>
 				<div class="smashgg-diff">
 					<div class="value"></div>
-					<button class="merge" onclick="merge('birthday');calcInsertAge()"></button>
-					<button class="ignore" onclick="ignore('birthday');calcInsertAge()"></button>
+					<button class="merge" onclick="merge('birthday', 'smashgg');calcInsertAge()"></button>
+					<button class="ignore" onclick="ignore('birthday', 'smashgg');calcInsertAge()"></button>
 				</div>
+                <div class="parrygg-diff">
+                    <div class="value"></div>
+                    <button class="merge" onclick="merge('birthday', 'parrygg');calcInsertAge()"></button>
+                    <button class="ignore" onclick="ignore('birthday', 'parrygg');calcInsertAge()"></button>
+                </div>
 			</div>
 			<div class="field-item" id="field-pronoun">
 				<label>Pronoun</label>
@@ -110,20 +161,30 @@
 				</div>
 				<div class="smashgg-diff">
 					<div class="value"></div>
-					<button class="merge" onclick="merge('pronoun')"></button>
-					<button class="ignore" onclick="ignore('pronoun')"></button>
+					<button class="merge" onclick="merge('pronoun', 'smashgg')"></button>
+					<button class="ignore" onclick="ignore('pronoun', 'smashgg')"></button>
 				</div>
+                <div class="parrygg-diff">
+                    <div class="value"></div>
+                    <button class="merge" onclick="merge('pronoun', 'parrygg')"></button>
+                    <button class="ignore" onclick="ignore('pronoun', 'parrygg')"></button>
+                </div>
 			</div>
 			<div class="field-item" id="field-twitter">
-				<label>Twitter</label>
+				<label>Twitter/X</label>
 				<div class="input">
 					<input type="text" class="value" value="" />
 				</div>
 				<div class="smashgg-diff">
 					<div class="value"></div>
-					<button class="merge" onclick="merge('twitter')"></button>
-					<button class="ignore" onclick="ignore('twitter')"></button>
+					<button class="merge" onclick="merge('twitter', 'smashgg')"></button>
+					<button class="ignore" onclick="ignore('twitter', 'smashgg')"></button>
 				</div>
+                <div class="parrygg-diff">
+                    <div class="value"></div>
+                    <button class="merge" onclick="merge('twitter', 'parrygg')"></button>
+                    <button class="ignore" onclick="ignore('twitter', 'parrygg')"></button>
+                </div>
 			</div>
 			<div class="field-item" id="field-bluesky">
 				<label>Bluesky</label>
@@ -132,9 +193,14 @@
 				</div>
 				<div class="smashgg-diff">
 					<div class="value"></div>
-					<button class="merge" onclick="merge('bluesky')"></button>
-					<button class="ignore" onclick="ignore('bluesky')"></button>
+					<button class="merge" onclick="merge('bluesky', 'smashgg')"></button>
+					<button class="ignore" onclick="ignore('bluesky', 'smashgg')"></button>
 				</div>
+                <div class="parrygg-diff">
+                    <div class="value"></div>
+                    <button class="merge" onclick="merge('bluesky', 'parrygg')"></button>
+                    <button class="ignore" onclick="ignore('bluesky', 'parrygg')"></button>
+                </div>
 			</div>
 			<div class="field-item" id="field-twitch">
 				<label>Twitch</label>
@@ -143,9 +209,14 @@
 				</div>
 				<div class="smashgg-diff">
 					<div class="value"></div>
-					<button class="merge" onclick="merge('twitch')"></button>
-					<button class="ignore" onclick="ignore('twitch')"></button>
+					<button class="merge" onclick="merge('twitch', 'smashgg')"></button>
+					<button class="ignore" onclick="ignore('twitch', 'smashgg')"></button>
 				</div>
+                <div class="parrygg-diff">
+                    <div class="value"></div>
+                    <button class="merge" onclick="merge('twitch', 'parrygg')"></button>
+                    <button class="ignore" onclick="ignore('twitch', 'parrygg')"></button>
+                </div>
 			</div>
 			<div class="field-item" id="field-steam">
 				<label>Steam</label>
@@ -154,9 +225,14 @@
 				</div>
 				<div class="smashgg-diff">
 					<div class="value"></div>
-					<button class="merge" onclick="merge('steam')"></button>
-					<button class="ignore" onclick="ignore('steam')"></button>
+					<button class="merge" onclick="merge('steam', 'smashgg')"></button>
+					<button class="ignore" onclick="ignore('steam', 'smashgg')"></button>
 				</div>
+                <div class="parrygg-diff">
+                    <div class="value"></div>
+                    <button class="merge" onclick="merge('steam', 'parrygg')"></button>
+                    <button class="ignore" onclick="ignore('steam', 'parrygg')"></button>
+                </div>
 			</div>
 			<div class="field-item" id="field-slippicode">
 				<label>Slippi-Code</label>
@@ -165,9 +241,14 @@
 				</div>
 				<div class="smashgg-diff">
 					<div class="value"></div>
-					<button class="merge" onclick="merge('slippicode')"></button>
-					<button class="ignore" onclick="ignore('slippicode')"></button>
+					<button class="merge" onclick="merge('slippicode', 'smashgg')"></button>
+					<button class="ignore" onclick="ignore('slippicode', 'smashgg')"></button>
 				</div>
+                <div class="parrygg-diff">
+                    <div class="value"></div>
+                    <button class="merge" onclick="merge('slippicode', 'parrygg')"></button>
+                    <button class="ignore" onclick="ignore('slippicode', 'parrygg')"></button>
+                </div>
 			</div>
 			<div class="field-item">
 				<label>Team / Sponsor<div class="right">0 selected</div></label>

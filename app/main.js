@@ -82,7 +82,7 @@ electron.on("ready", async () => { // programm is ready
 	await ensure(APPRES, APPROOT, APPUSERDATA);
 
 	database.setPath(APPRES);
-	database.newDb(['dbstruct', 'player', 'country', 'game', 'character', 'team', 'match', 'pride']);
+	database.newDb(['dbstruct', 'player', 'country', 'game', 'character', 'team', 'match', 'pride', 'region']);
 	await database.load();
 
 	server.webPath = APPRES;

@@ -18,8 +18,11 @@ class Player {
 		this.city = params.city || null;
 		this.team = params.team || [];
 		this.pride = params.pride || [];
+        this.region = params.region || [];
 		this.smashgg = params.smashgg || [];
 		this.smashggIgnore = params.smashggIgnore || {};
+        this.parrygg = params.parrygg || [];
+        this.parryggIgnore = params.parryggIgnore || {};
 		this.lastActivity = params.lastActivity || null;
 
 	}
@@ -73,6 +76,7 @@ class Player {
 
 		let team = await db.get("team", { $or: [].concat(this.team).map(x => { return { "_id": x } }) });
 		let pride = await db.get("pride", { $or: [].concat(this.pride).map(x => { return { "_id": x } }) });
+        let region = await this.region ? await db.getSingle("region", this.region) : { name: "" };
 		let prefix = team.map(x => x.prefix).join(" ");
 
 		ignored = this.isSmashggFieldIgnored("country", spo.country);

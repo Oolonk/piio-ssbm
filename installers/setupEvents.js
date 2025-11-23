@@ -1,5 +1,7 @@
 const electron = require('electron');
 const nedb = require("@seald-io/nedb");
+const fse = require("fs-extra");
+const path = require("path");
 const app = electron.app;
 
 module.exports = {
@@ -52,6 +54,7 @@ module.exports = {
 				fse.ensureDirSync(path.join(docDir, 'assets'));
 				fse.ensureDirSync(path.join(docDir, 'assets', 'character'));
 				fse.ensureDirSync(path.join(docDir, 'assets', 'country'));
+                fse.ensureDirSync(path.join(docDir, 'assets', 'region'));
 				fse.ensureDirSync(path.join(docDir, 'assets', 'game'));
 				fse.ensureDirSync(path.join(docDir, 'assets', 'player'));
 
@@ -61,35 +64,45 @@ module.exports = {
 				var dbstructDB = new nedb({ filename: path.join(docDir, 'db', 'dbstruct'), autoload: true });
 				dbstructDB.remove({}, { multi: true }, () => {
 					dbstructDB.insert([
-						{ "name": "player", "field": "pronoun", "type": "text", "listhide": true },
-						{ "name": "player", "field": "birthday", "type": "date", "listhide": true },
-						{ "name": "player", "field": "lastname", "type": "text", "index": -3 },
-						{ "name": "player", "field": "team", "type": "relation", "relation": "team", "multi": true },
-						{ "name": "player", "field": "firstname", "type": "text", "index": -2 },
-						{ "name": "player", "field": "country", "type": "relation", "relation": "country", "index": -4 },
-						{ "name": "player", "field": "name", "type": "text", "index": -1 },
-						{ "name": "player", "field": "twitch", "type": "text", "index": -4 },
-						{ "name": "player", "field": "steam", "type": "text", "listhide": true },
-						{ "name": "player", "field": "twitter", "type": "text" },
-						{ "name": "player", "field": "bluesky", "type": "text" },
-						{ "name": "player", "field": "smashgg", "type": "number" },
-						{ "name": "player", "field": "city", "type": "text" },
-						{ "name": "character", "field": "skins", "type": "text", "multi": true },
-						{ "name": "character", "field": "name", "type": "text", "relation": null, "multi": null },
-						{ "name": "character", "field": "game", "type": "relation", "relation": "game", "multi": null },
-						{ "name": "character", "field": "shorten", "type": "text", "relation": null, "multi": null },
-						{ "name": "team", "field": "delimiter", "type": "text", "default": " | ", "index": -4 },
-						{ "name": "team", "field": "website", "index": -4, "type": "text" },
-						{ "name": "team", "field": "regex", "type": "text", "index": -4 },
-						{ "name": "team", "field": "prefix", "index": -3, "type": "text" },
-						{ "name": "team", "field": "shorten", "index": -2, "type": "text" },
-						{ "name": "team", "field": "name", "index": -1, "type": "text" },
-						{ "name": "country", "field": "continent", "index": -2, "type": "text" },
-						{ "name": "country", "field": "nation", "type": "relation", "relation": "country", "multi": null, "index": -2 },
-						{ "name": "country", "field": "name", "index": -1, "type": "text" },
-						{ "name": "game", "field": "videogameId", "type": "number", "index": -3 },
-						{ "name": "game", "field": "name", "type": "text", "index": -1 },
-						{ "name": "game", "field": "shorten", "type": "text", "index": -2 }
+                        { "name": "player", "field": "name", "type": "text", "index": -1 },
+                        { "name": "player", "field": "country", "type": "relation", "relation": "country", "index": -4 },
+                        { "name": "player", "field": "region", "type": "relation", "relation": "region", "index": -4 },
+                        { "name": "player", "field": "city", "type": "text" },
+                        { "name": "player", "field": "firstname", "type": "text", "index": -2 },
+                        { "name": "player", "field": "lastname", "type": "text", "index": -3 },
+                        { "name": "player", "field": "birthday", "type": "date", "listhide": true },
+                        { "name": "player", "field": "pronoun", "type": "text", "listhide": true },
+                        { "name": "player", "field": "smashgg", "type": "number" },
+                        { "name": "player", "field": "parrygg", "type": "text" },
+                        { "name": "player", "field": "twitter", "type": "text" },
+                        { "name": "player", "field": "twitch", "type": "text", "index": -4 },
+                        { "name": "player", "field": "steam", "type": "text", "listhide": true },
+                        { "name": "player", "field": "slippicode", "type": "text" },
+                        { "name": "player", "field": "bluesky", "type": "text" },
+                        { "name": "player", "field": "team", "type": "relation", "relation": "team", "multi": true },
+                        { "name": "player", "field": "pride", "type": "relation", "relation": "pride", "multi": true },
+                        { "name": "team", "field": "name", "index": -1, "type": "text" },
+                        { "name": "team", "field": "shorten", "index": -2, "type": "text" },
+                        { "name": "team", "field": "prefix", "index": -3, "type": "text" },
+                        { "name": "team", "field": "website", "index": -4, "type": "text" },
+                        { "name": "team", "field": "delimiter", "type": "text", "default": " | ", "index": -4 },
+                        { "name": "team", "field": "regex", "type": "text", "index": -4 },
+                        { "name": "team", "field": "backgroundcolor", "type": "color", "index": -4 },
+                        { "name": "team", "field": "textcolor", "type": "color", "index": -4 },
+                        { "name": "country", "field": "name", "index": -1, "type": "text" },
+                        { "name": "country", "field": "continent", "index": -2, "type": "text" },
+                        { "name": "country", "field": "nation", "type": "relation", "relation": "country", "multi": null, "index": -2 },
+                        { "name": "game", "field": "videogameId", "type": "number", "index": -3 },
+                        { "name": "game", "field": "name", "type": "text", "index": -1 },
+                        { "name": "game", "field": "shorten", "type": "text", "index": -2 },
+                        { "name": "character", "field": "name", "type": "text", "relation": null, "multi": null },
+                        { "name": "character", "field": "shorten", "type": "text", "relation": null, "multi": null },
+                        { "name": "character", "field": "skins", "type": "text", "multi": true },
+                        { "name": "character", "field": "game", "type": "relation", "relation": "game", "multi": null },
+                        { "name": "pride", "field": "name", "index": -1, "type": "text" },
+                        { "name": "pride", "field": "color", "type": "color", "index": -4 },
+                        { "name": "region", "field": "name", "index": -1, "type": "text" },
+                        { "name": "region", "field": "country", "index": -2, "type": "relation", "relation": "country",  }
 					]);
 				});
 
