@@ -2005,7 +2005,6 @@ async function openStreamQueueOptions(){
     if (!windowSettings) { return; }
     usedTournamentWebsite = windowSettings.tournamentWebsite;
     ipcRenderer.invoke("set", "tournamentWebsite", usedTournamentWebsite);
-    console.log(windowSettings);
         switch (usedTournamentWebsite) {
         case "smashgg":
             applySmashggSettings(windowSettings.tournamentSlug, windowSettings.streamId);

@@ -13,11 +13,10 @@ on("ws-ready", async () => {
 	await ipcRenderer.invoke("get", "smashgg").then((data) => {
 		smashgg.SelectedTournament = data.tournament;
 		smashgg.SelectedStream = data.stream;
+        if(data.stream != null) {
+            smashgg.startStreamQueuePolling();
+        }
 	});
-
-    if(parrygg.SelectedTournament != null) {
-        smashgg.startStreamQueuePolling();
-    }
 });
 
 

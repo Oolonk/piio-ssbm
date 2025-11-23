@@ -107,6 +107,7 @@
     "object-watcher": "^1.0.2",
     "obs-websocket-js": "^5.0.6",
     "rxjs": "^7.x",
-    "ws": "^8.18.2"
+    "ws": "^8.18.2",
+    "google-protobuf": "^4.0.1"
   }
 }
