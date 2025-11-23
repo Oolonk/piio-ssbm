@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ac754f3c-49e0-4331-910a-bdd2a02e1a30" name="Changes" comment="Adding ParryGG User Connection to Player&#10;Adding Regions and connecting it to ParryGG">
+    <list default="true" id="ac754f3c-49e0-4331-910a-bdd2a02e1a30" name="Changes" comment="fix start use last tournament&#10;fix packaging program error">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/main.smashgg.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.smashgg.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -231,7 +229,7 @@
       <workItem from="1762808194810" duration="1138000" />
       <workItem from="1763247220102" duration="18000" />
       <workItem from="1763815127355" duration="4582000" />
-      <workItem from="1763896477476" duration="17345000" />
+      <workItem from="1763896477476" duration="18258000" />
     </task>
     <task id="LOCAL-00001" summary="add obs websocket dependencies">
       <option name="closed" value="true" />
@@ -481,7 +479,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763908532579</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="fix start use last tournament&#10;fix packaging program error">
+      <option name="closed" value="true" />
+      <created>1763914999614</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1763914999614</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -543,7 +549,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added custom 4 name" />
     <MESSAGE value="disable some console.log" />
     <MESSAGE value="update readme, Caster set handle viewed to bluesky. If not given set to twitter" />
     <MESSAGE value="fix auto use startgg from streamqueue" />
@@ -568,7 +573,8 @@
     <MESSAGE value="add logic for parrygg find tournaments&#10;restructure startgg for other websites" />
     <MESSAGE value="update getTournament site" />
     <MESSAGE value="Adding ParryGG User Connection to Player&#10;Adding Regions and connecting it to ParryGG" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding ParryGG User Connection to Player&#10;Adding Regions and connecting it to ParryGG" />
+    <MESSAGE value="fix start use last tournament&#10;fix packaging program error" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix start use last tournament&#10;fix packaging program error" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
