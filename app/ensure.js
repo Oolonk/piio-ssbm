@@ -132,6 +132,7 @@ async function folder() {
     fse.ensureDirSync(path.join(resFolder, 'assets', 'game'));
     fse.ensureDirSync(path.join(resFolder, 'assets', 'team'));
     fse.ensureDirSync(path.join(resFolder, 'assets', 'player'));
+    fse.ensureDirSync(path.join(resFolder, 'assets', 'region'));
     fse.ensureDirSync(path.join(resFolder, 'assets', 'player', 'avatar'));
     fse.ensureDirSync(path.join(resFolder, 'assets', 'player', 'photo'));
 }

@@ -2,6 +2,7 @@ const { clipboard } = require('electron');
 const dialog = remote.dialog;
 const path = require('path');
 const fs = require('fs');
+const { contextBridge, webUtils } = require('electron')
 
 const APPROOT = remote.getGlobal("APPROOT");
 const APPRES = remote.getGlobal("APPRES");
@@ -195,7 +196,7 @@ function buildRelatedItem(isFileList, name, dirPath, id, rel) {
 		}
 		childElm.lastChild.ondrop = e => {
 			childElm.classList.remove("dropfile");
-			editAsset(name, path.join(dirPath, id + "." + e.dataTransfer.files[0].path.split('.').pop()), e.dataTransfer.files[0].path).then(getList);
+			editAsset(name, path.join(dirPath, id + "." + e.dataTransfer.files[0].name.split('.').pop()), webUtils.getPathForFile(e.dataTransfer.files[0])).then(getList);
 			e.preventDefault();
 		}
 		return childElm;
