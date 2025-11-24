@@ -24,10 +24,11 @@ ipcRenderer.on("data", async (event, data) => {
     console.log(data);
 	smashgg.SelectedTournament = data.tournamentSlug;
 	smashgg.SelectedStream = data.streamId;
+    parrygg.SelectedTournament = data.tournamentSlug;
+    parrygg.SelectedStream = data.streamId;
     usedTournamentWebsite = data.tournamentWebsite;
     selectedStream = data.streamId;
     selectedTournament = data.tournamentSlug;
-    await
 	fillTournamentInfo();
     console.log(usedTournamentWebsite);
     document.getElementById(`${usedTournamentWebsite}-tablink`).click();
@@ -66,11 +67,15 @@ async function fillTournamentInfo() {
             console.log(tournament);
             document.querySelector("#info .title").innerText = (tournament ? tournament.name : "");
             document.querySelector("#info .logo").style.backgroundImage = "url('" + tournament.pictures.banner + "')";
+            document.querySelector("#selected-tournament .bg").style.backgroundImage = "url('" + tournament.pictures.banner + "')";
             // document.querySelector("#selected-tournament .bg").style.backgroundImage = "url('" + SmashggWrapper.getImage(tournament, "banner") + "')";
 
             var infoLines = [];
             if (tournament) {
-                infoLines.push(getDateString(tournament.startDate.seconds, tournament.endDate.seconds, tournament.timezone));
+                infoLines.push(getDateString(tournament.startDate.seconds, tournament.endDate.seconds, tournament.timeZone));
+                if (tournament.venueAddress) {
+                    infoLines.push(tournament.venueAddress);
+                }
                 // if (tournament.city || tournament.countryCode) {
                 //     infoLines.push([tournament.city, tournament.countryCode].filter(x => x != null && x.length > 0).join(", "));
                 // }
@@ -252,13 +257,11 @@ async function selectTournament(slug, tournamentWebsite) {
             selectedStream = smashgg.selectedStream;
         case "parrygg":
             parrygg.SelectedTournament = null;
-            await fillTournamentInfo();
             parrygg.SelectedTournament = slug;
             await fillTournamentInfo();
             selectedTournament = parrygg.selectedTournament;
             selectedStream = parrygg.selectedStream;
     }
-    console.log(smashgg);
     document.body.classList.remove("locked");
 }
 

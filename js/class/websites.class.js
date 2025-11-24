@@ -131,7 +131,7 @@ class SmashggWrapper extends WebsiteWrapper {
     async getTournament(tournamentSlug, cacheMaxAge) {
         tournamentSlug = tournamentSlug == null ? this.selectedTournament : tournamentSlug;
         if (tournamentSlug == null) { return; }
-        let tournament = this.getCache("tournament", tournamentSlug, cacheMaxAge);
+        let tournament = this.getCache("tournament-smashgg", tournamentSlug, cacheMaxAge);
         if (tournament == null) {
             let res = await this.query(`query ($slug: String!) {
 				tournament(slug: $slug){
@@ -149,7 +149,7 @@ class SmashggWrapper extends WebsiteWrapper {
 			}`, { "slug": tournamentSlug });
             if (res == null) { return null; }
             tournament = res.tournament;
-            this.setCache("tournament", tournamentSlug, tournament);
+            this.setCache("tournament-smashgg", tournamentSlug, tournament);
         }
         return tournament;
     }
@@ -157,7 +157,7 @@ class SmashggWrapper extends WebsiteWrapper {
     async getTournamentParticipants(tournamentSlug, cacheMaxAge) {
         tournamentSlug = tournamentSlug == null ? this.selectedTournament : tournamentSlug;
         if (tournamentSlug == null) { return []; }
-        let participants = this.getCache("getTournamentParticipants", tournamentSlug, cacheMaxAge);
+        let participants = this.getCache("getTournamentParticipants-smashgg", tournamentSlug, cacheMaxAge);
         if (participants == null) {
             participants = [];
             let page = 1;
@@ -194,14 +194,14 @@ class SmashggWrapper extends WebsiteWrapper {
                 }
                 page++;
             }
-            this.setCache("getTournamentParticipants", tournamentSlug, participants);
+            this.setCache("getTournamentParticipants-smashgg", tournamentSlug, participants);
         }
         return participants;
     }
 
     async getSet(setId, cacheMaxAge) {
         if (setId == null) { return null; }
-        let set = this.getCache("set", setId, cacheMaxAge);
+        let set = this.getCache("set-smashgg", setId, cacheMaxAge);
         if (set == null) {
             let res = await this.query(`query ($id: ID!) {
 				set(id: $id){
@@ -245,7 +245,7 @@ class SmashggWrapper extends WebsiteWrapper {
 			}`, { "id": setId });
             if (res == null) { return null; }
             set = res.set;
-            this.setCache("set", setId, set);
+            this.setCache("set-smashgg", setId, set);
         }
         return set;
     }
@@ -313,7 +313,7 @@ class SmashggWrapper extends WebsiteWrapper {
 
     async getPlayer(playerId, cacheMaxAge) {
         if (playerId == null) { return null; }
-        let player = this.getCache("player", playerId, cacheMaxAge);
+        let player = this.getCache("player-smashgg", playerId, cacheMaxAge);
         if (player == null) {
             let res = await this.query(`query ($id: ID!) {
 				player(id: $id){ id gamerTag 
@@ -327,7 +327,7 @@ class SmashggWrapper extends WebsiteWrapper {
 			}`, { "id": playerId });
             if (res == null) { return null; }
             player = res.player;
-            this.setCache("player", playerId, player);
+            this.setCache("player-smashgg", playerId, player);
         }
 
         // fix country names (example: USA -> United States of America)
@@ -792,8 +792,29 @@ class ParryggWrapper extends WebsiteWrapper{
         } catch (error) {}
         return null;
     }
-    async getTournament(){
 
+
+    async getTournament(tournamentSlug, cacheMaxAge) {
+        tournamentSlug = tournamentSlug == null ? this.selectedTournament : tournamentSlug;
+        if (tournamentSlug == null) { return; }
+        let tournament = this.getCache("tournament-parry", tournamentSlug, cacheMaxAge);
+        if( tournament == null) {
+            const request = new this.parrygg.GetTournamentRequest();
+            request.setTournamentSlug(tournamentSlug);
+            try {
+
+                const response = await this.tournamentClient.getTournament(
+                    request,
+                    this.createAuthMetadata(),
+                );
+                var returnObject = Object.assign(response.getTournament().toObject(), this.getAdditionalTournamentInfos(response.getTournament().toObject()));
+                this.setCache("tournament-parry", tournamentSlug, returnObject);
+                return returnObject;
+            } catch (error) {
+                return null;
+            }
+        }
+        return tournament;
     }
     async findParticipants(tag) {
         const request = new this.parrygg.GetUsersRequest();
