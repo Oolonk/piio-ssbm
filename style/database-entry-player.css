@@ -266,6 +266,15 @@ select[multiple] {
 	grid-gap: 2px;
 	justify-items: stretch;
 	align-items: stretch;
+    padding-left: 20px;
+    background-size: 22px;
+    background-repeat: no-repeat;
+}
+.smashgg-diff{
+    background-image: url('../img/smashgg-icon.svg');
+}
+.parrygg-diff{
+    background-image: url('../img/parrygg-icon.svg');
 }
 
 .smashgg-diff.visible, .parrygg-diff.visible {

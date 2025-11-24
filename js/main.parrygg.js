@@ -2,6 +2,7 @@ const parrygg = new ParryggWrapper();
 var streamvar = {}
 parrygg.on("streamschanged", (stream) => {
     document.querySelector("#stream-queue .list .title .channel").innerText = (stream == null ? "No stream selected" : stream.streamName);
+    document.querySelector("#stream-queue .list .title").dataset.site = "parrygg";
 });
 // parrygg.on("streamqueuechanged", displayStreamQueue);
 parrygg.on("streamqueuechanged", (sets) => {

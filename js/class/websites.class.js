@@ -842,7 +842,7 @@ class ParryggWrapper extends WebsiteWrapper{
         var json = await fetch(`./json/states.json`);
         var states = await json.json();
         var region = states.filter((state) => state.iso2 === regionCode && state.country_code === countryCode);
-        console.log(region);
+        // console.log(region);
         if(region[0]){
             return region[0].name;
         }
@@ -852,7 +852,7 @@ class ParryggWrapper extends WebsiteWrapper{
         var json = await fetch(`./json/countries.json`);
         json = await json.json();
         var country = await json.filter((country) => country.iso2 === countryCode);
-        console.log(country);
+        // console.log(country);
         if(country[0]){
             return country[0].name;
         }
@@ -920,8 +920,8 @@ class ParryggWrapper extends WebsiteWrapper{
         fixed.city = data.locationCity;
         fixed.country = data.country;
         fixed.region = data.state;
-        console.log(data);
-        console.log(fixed);
+        // console.log(data);
+        // console.log(fixed);
         return fixed;
     }
 }
