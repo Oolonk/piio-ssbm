@@ -671,10 +671,11 @@ class ParryggWrapper extends WebsiteWrapper{
         this.parrygg = require('@parry-gg/client');
         this.emitter = new (require("events"))();
         this.token = "";
-        this.streamQueuePollInterval = 6000; // ms (6s)
+        this.streamQueuePollInterval = 10000; // ms (6s)
         this.cacheMaxAge = 60000; // ms (60s)
         this.timers = {};
         this.cache = { sets: {}, tournaments: {}, players: {} };
+        this.events = {};
 
 
         this.requestCounter = [];
@@ -683,10 +684,12 @@ class ParryggWrapper extends WebsiteWrapper{
 
         this.selectedTournament = null;
         this.selectedStream = null;
+        this.brackets = [];
         this.streamQueueSetIdList = [];
         this.client = new this.parrygg.UserServiceClient(ParryggWrapper.ENDPOINT);
         this.event = null;
         this.tournamentClient = new this.parrygg.TournamentServiceClient(ParryggWrapper.ENDPOINT);
+        this.bracketClient = new this.parrygg.BracketServiceClient(ParryggWrapper.ENDPOINT);
         this.userClient = new this.parrygg.UserServiceClient(ParryggWrapper.ENDPOINT);
     }
 
@@ -880,6 +883,73 @@ class ParryggWrapper extends WebsiteWrapper{
         return null;
     }
 
+    async setBrackets() {
+        this.brackets = [];
+        var tournament = await this.getTournament(this.selectedTournament);
+        var tournamentSlug = await tournament.slug;
+        var events = [];
+        tournament.eventsList.forEach(event => {
+            var phases = [];
+            event.phasesList.forEach(phase => {
+                var brackets = [];
+                phase.bracketsList.forEach(bracket => {
+                    brackets.push(bracket.id);
+                })
+                phases[phase.slug] = brackets;
+            })
+            events[event.slug] = phases;
+        })
+        this.brackets = {tournament: tournamentSlug, events: events};
+    }
+
+    async getSetsFromStreamQueue() {
+        var sets = [];
+        console.log(this.brackets);
+        if (!this.brackets || !this.brackets.events) {
+            return sets;
+        }
+
+        // Iterate events (works for arrays or objects)
+        for (const [, phases] of Object.entries(this.brackets.events)) {
+            if (!phases) { continue; }
+
+            // Iterate phases (works for arrays or objects)
+            for (const [, bracketIds] of Object.entries(phases)) {
+                if (!Array.isArray(bracketIds) || bracketIds.length === 0) { continue; }
+
+                // Create promises for all bracket fetches in this phase
+                const bracketPromises = bracketIds.map(async (bracketId) => {
+                    const request = new this.parrygg.GetBracketRequest();
+                    request.setId(bracketId);
+                    try {
+                        const response = await this.bracketClient.getBracket(
+                            request,
+                            this.createAuthMetadata(),
+                        );
+                        var matches =  response.getBracket().toObject().matchesList;
+                        var rightStates = [this.parrygg.MatchState.MATCH_STATE_PENDING, this.parrygg.MatchState.MATCH_STATE_IN_PROGRESS, this.parrygg.MatchState.MATCH_STATE_READY];
+                        //
+                        return matches.filter(match => rightStates.includes(match.state));
+                    } catch (error) {
+                        // ignore individual failures
+                        return null;
+                    }
+                });
+
+                // Wait for all brackets in this phase and add successful results
+                const results = await Promise.all(bracketPromises);
+                results.forEach(r => { if (r) {
+                    r.forEach(bracket => {
+                      sets.push(bracket);
+                    })} });
+            }
+        }
+        console.log(sets);
+
+        return await sets;
+
+    }
+
     static comparePlayer(local, remote, includeIgnore) {
         // normalize remote structure to local structure
         remote = this.convertPlayerStructure(remote);
@@ -944,5 +1014,52 @@ class ParryggWrapper extends WebsiteWrapper{
         // console.log(data);
         // console.log(fixed);
         return fixed;
+    }
+
+    async fetchStreamQueue() {
+        console.log("fetching stream queue");
+        // if (this.selectedTournament == null || this.selectedStream == null) {
+        if (this.selectedTournament == null) {
+            this.stopStreamQueuePolling();
+        }
+
+        var sets = await this.getSetsFromStreamQueue();
+        console.log(await sets);
+        // if (res.tournament.streams.some(x => x.id == this.selectedStream) == false) {
+        //     // this tournament does not have a stream with selectedStream slug
+        //     this.selectedStream = null;
+        //     this.stopStreamQueuePolling();
+        // }
+
+        let queues = res.tournament.streamQueue;
+        if (queues != null && queues.length > 0) {
+            let queue = queues.find(x => x.stream.id == this.selectedStream);
+            if (queue != null && queue.sets != null && queue.sets.length > 0) {
+                sets = queue.sets;
+            }
+        }
+
+        if (sets.map(x => x.id).join("-") != this.streamQueueSetIdList.join("-")) {
+            this.streamQueueSetIdList = sets.map(x => x.id);
+            this.emit("streamqueuechanged", sets);
+        }
+
+        return sets;
+    }
+
+    startStreamQueuePolling(pollInterval) {
+        this.stopStreamQueuePolling();
+
+        this.emit("streamschanged", 'no stream rn');
+
+        this.fetchStreamQueue();
+        this.timers.streamQueuePoll = setInterval(() => this.fetchStreamQueue(), pollInterval || this.streamQueuePollInterval);
+    }
+
+    stopStreamQueuePolling() {
+        if (this.timers.hasOwnProperty("streamQueuePoll")) {
+            clearTimeout(this.timers.streamQueuePoll);
+            this.emit("streamschanged", null);
+        }
     }
 }
