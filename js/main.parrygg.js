@@ -14,7 +14,9 @@ on("ws-ready", async () => {
     await ipcRenderer.invoke("get", "parrygg").then((data) => {
         parrygg.SelectedTournament = data.tournament;
         parrygg.SelectedStream = data.stream;
-        parrygg.setBrackets();
+        if(parrygg.selectedTournament != null && parrygg.selectedTournament != '') {
+            parrygg.setBrackets();
+        }
     });
     if(await parrygg.SelectedTournament != null) {
         parrygg.startStreamQueuePolling();
@@ -46,8 +48,8 @@ on("scoreboardparryggchanged", displayParryggCurrent);
 async function applyParryggSettings(tournamentSlug, streamId) {
     parrygg.SelectedTournament = tournamentSlug;
     parrygg.SelectedStream = streamId;
-    await parrygg.setBrackets();
-    if (tournamentSlug != null) {
+    if (tournamentSlug != null && tournamentSlug != '') {
+        await parrygg.setBrackets();
         parrygg.startStreamQueuePolling();
     } else {
         parrygg.stopStreamQueuePolling();
