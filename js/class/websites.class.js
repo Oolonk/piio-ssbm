@@ -701,19 +701,57 @@ class ParryggWrapper extends WebsiteWrapper{
         this.token = val.trim();
     }
     getSetRoundName(set, bracket) {
-        console.log(set);
+        var matchList = bracket.matchesList;
+        //get highest round number for winners and losers
+        var highestWinnersRound = 0;
+        var highestLosersRound = 0;
+        matchList.forEach(match => {
+            if(!match.grandFinals) {
+                if (match.winnersSide) {
+                    if (match.round > highestWinnersRound) {
+                        highestWinnersRound = match.round;
+                    }
+                } else {
+                    if (match.round > highestLosersRound) {
+                        highestLosersRound = match.round;
+                    }
+                }
+            }
+        });
         if (bracket.type == parrygg.parrygg.BracketType.BRACKET_TYPE_DOUBLE_ELIMINATION) {
             if (set.grandFinals) {
                 return "Grand Finals";
             } else if(set.winnersSide){
+                if(set.round === highestWinnersRound){
+                    return "Winners Final";
+                } else if(set.round === highestWinnersRound -1){
+                    return "Winners Semi-Final";
+                } else if(set.round === highestWinnersRound -2){
+                    return "Winners Quarter-Final";
+                }
                 return "Winners Round " + set.round;
             } else {
+                if(set.round === highestLosersRound){
+                    return "Losers Final";
+                } else if(set.round === highestLosersRound -1){
+                    return "Losers Semi-Final";
+                } else if(set.round === highestLosersRound -2){
+                    return "Losers Quarter-Final";
+                } else if(set.round === highestLosersRound -3){
+                    return "Losers Top 8";
+                }
                 return "Losers Round " + set.round;
             }
         } else if(bracket.type === parrygg.parrygg.BracketType.BRACKET_TYPE_SINGLE_ELIMINATION) {
             return "Round " + set.round;
+        } else if(bracket.type === parrygg.parrygg.BracketType.BRACKET_TYPE_ROUND_ROBIN) {
+            var round = bracket.name;
+            if(round == "Bracket"){
+                round = "Round Robin";
+            }
+            return round;
         }
-        return null;
+        return "";
     }
     set SelectedTournament(val) {
         if (this.selectedTournament == val) { return; }

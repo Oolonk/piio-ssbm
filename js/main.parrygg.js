@@ -62,9 +62,7 @@ async function applyParryggSettings(tournamentSlug, streamId) {
 }
 
 async function displayParryggStreamQueue(sets) {
-    console.log(sets);
     let tournament = parrygg.tournamentObject;
-    console.log(tournament);
     let setIds = sets.map(x => x.id);
     let el = document.getElementById("stream-queue");
     let listEl = el.querySelector(".list .sets");
@@ -186,13 +184,6 @@ async function applyParryggSet(setId, bracketId, phaseId, eventId, tournamentId)
 
     setTeamSize(teamSize);
     set.fullRoundText = parrygg.getSetRoundName(set, bracket);
-    if (bracket.type == parrygg.parrygg.BracketType.BRACKET_TYPE_ROUND_ROBIN) {
-        set.fullRoundText = `${bracket.name}`;
-    } else {
-        // if (set.phaseGroup.phase.groupCount > 1) {
-        //     set.fullRoundText = `${phase.name} ${set.phaseGroup.displayIdentifier} ${set.fullRoundText}`;
-        // }
-    }
     set.eventName = event.name;
     set.slug = tournament.slug;
     set.hashtag = '';

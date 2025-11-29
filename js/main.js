@@ -1237,7 +1237,6 @@ async function insertPlayerUI(teamNum, playerNum) {
         pEl.querySelector(".player-edit-btn").classList.toggle("outdated", res.differences.length > 0);
     });
     getParryggDifferences(po).then((res) => {
-        console.log(res);
         if (scoreboard.teams[teamNum].players[playerNum]._id != res.player._id) {
             return;
         } // outdated request - quit out
