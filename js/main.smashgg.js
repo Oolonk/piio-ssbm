@@ -27,6 +27,13 @@ async function applySmashggSet(setId) {
 	let teamSize = 1;
 	var set = await smashgg.getSet(setId, 0);
 	console.log(set)
+    scoreboard.parrygg = {
+        set: null,
+        bracket: null,
+        event: null,
+        phase: null,
+        tournament: null,
+    };
 	scoreboard.startgg.set = set.id;
 	scoreboard.startgg.event = set.event.id;
 	scoreboard.startgg.phaseGroup = set.phaseGroup.id;

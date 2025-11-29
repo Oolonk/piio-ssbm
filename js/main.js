@@ -45,6 +45,13 @@ var scoreboard = {
         phaseGroup: null,
         phase: null
     },
+    parrygg: {
+        set: null,
+        bracket: null,
+        event: null,
+        phase: null,
+        tournament: null,
+    },
     smashggtoken: null,
     parryggToken: null,
     type: "teams",

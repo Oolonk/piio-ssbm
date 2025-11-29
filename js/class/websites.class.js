@@ -671,7 +671,7 @@ class ParryggWrapper extends WebsiteWrapper{
         this.parrygg = require('@parry-gg/client');
         this.emitter = new (require("events"))();
         this.token = "";
-        this.streamQueuePollInterval = 10000; // ms (6s)
+        this.streamQueuePollInterval = 6000; // ms (6s)
         this.cacheMaxAge = 60000; // ms (60s)
         this.timers = {};
         this.cache = { sets: {}, tournaments: {}, players: {} };
@@ -691,12 +691,30 @@ class ParryggWrapper extends WebsiteWrapper{
         this.tournamentClient = new this.parrygg.TournamentServiceClient(ParryggWrapper.ENDPOINT);
         this.bracketClient = new this.parrygg.BracketServiceClient(ParryggWrapper.ENDPOINT);
         this.userClient = new this.parrygg.UserServiceClient(ParryggWrapper.ENDPOINT);
+        this.matchClient = new this.parrygg.MatchServiceClient(ParryggWrapper.ENDPOINT);
+        this.tournamentObject = null;
+        this.eventClient = new this.parrygg.EventServiceClient(ParryggWrapper.ENDPOINT);
+        this.phaseClient = new this.parrygg.PhaseServiceClient(ParryggWrapper.ENDPOINT);
     }
 
     set Token(val) {
         this.token = val.trim();
     }
-
+    getSetRoundName(set, bracket) {
+        console.log(set);
+        if (bracket.type == parrygg.parrygg.BracketType.BRACKET_TYPE_DOUBLE_ELIMINATION) {
+            if (set.grandFinals) {
+                return "Grand Finals";
+            } else if(set.winnersSide){
+                return "Winners Round " + set.round;
+            } else {
+                return "Losers Round " + set.round;
+            }
+        } else if(bracket.type === parrygg.parrygg.BracketType.BRACKET_TYPE_SINGLE_ELIMINATION) {
+            return "Round " + set.round;
+        }
+        return null;
+    }
     set SelectedTournament(val) {
         if (this.selectedTournament == val) { return; }
         this.selectedTournament = val;
@@ -770,18 +788,6 @@ class ParryggWrapper extends WebsiteWrapper{
         }
         return [];
     }
-    async findTournament(id) {
-        const request = new this.parrygg.GetTournamentRequest();
-        request.setTournamentIdentifier(id);
-        try{
-            const response = await this.tournamentClient.getTournament(
-                request,
-                this.createAuthMetadata(),
-            );
-            return Object.assign(response.getTournament().toObject(), this.getAdditionalTournamentInfos(response.getTournament().toObject()));
-        } catch (error) {}
-        return null;
-    }
     async findTournamentBySlug(slug) {
         const request = new this.parrygg.GetTournamentRequest();
         request.setTournamentSlug(slug);
@@ -796,6 +802,26 @@ class ParryggWrapper extends WebsiteWrapper{
         return null;
     }
 
+    async getPhase(phaseId, cacheMaxAge) {
+        if (phaseId == null) { return; }
+        let phase = this.getCache("phase-parry", phaseId, cacheMaxAge);
+        if( phase == null) {
+            const request = new this.parrygg.GetPhaseRequest();
+            request.setId(phaseId);
+            try {
+
+                const response = await this.phaseClient.getPhase(
+                    request,
+                    this.createAuthMetadata(),
+                );
+                this.setCache("phase-parry", phaseId, response.getPhase().toObject());
+                return response.getPhase().toObject();
+            } catch (error) {
+                return null;
+            }
+        }
+        return phase;
+    }
 
     async getTournament(tournamentSlug, cacheMaxAge) {
         tournamentSlug = tournamentSlug == null ? this.selectedTournament : tournamentSlug;
@@ -812,6 +838,29 @@ class ParryggWrapper extends WebsiteWrapper{
                 );
                 var returnObject = Object.assign(response.getTournament().toObject(), this.getAdditionalTournamentInfos(response.getTournament().toObject()));
                 this.setCache("tournament-parry", tournamentSlug, returnObject);
+                return returnObject;
+            } catch (error) {
+                return null;
+            }
+        }
+        return tournament;
+    }
+    async getTournamentById(tournamentId, cacheMaxAge) {
+        if (tournamentId == null) { return; }
+        let tournament = this.getCache("tournamentId-parry", tournamentId, cacheMaxAge);
+        if( tournament == null) {
+            const request = new this.parrygg.GetTournamentRequest();
+            const tournamentIdentifier = new this.parrygg.TournamentIdentifier();
+            tournamentIdentifier.setId(tournamentId);
+            request.setTournamentIdentifier(tournamentIdentifier);
+            try {
+
+                const response = await this.tournamentClient.getTournament(
+                    request,
+                    this.createAuthMetadata(),
+                );
+                var returnObject = Object.assign(response.getTournament().toObject(), this.getAdditionalTournamentInfos(response.getTournament().toObject()));
+                this.setCache("tournamentId-parry", tournamentId, returnObject);
                 return returnObject;
             } catch (error) {
                 return null;
@@ -895,45 +944,37 @@ class ParryggWrapper extends WebsiteWrapper{
                 phase.bracketsList.forEach(bracket => {
                     brackets.push(bracket.id);
                 })
-                phases[phase.slug] = brackets;
+                phases[phase.id] = {name: phase.slug, brackets: brackets};
             })
-            events[event.slug] = phases;
+            events[event.id] = {name: event.name, phases: phases};
         })
         this.brackets = {tournament: tournamentSlug, events: events};
     }
 
     async getSetsFromStreamQueue() {
         var sets = [];
-        console.log(this.brackets);
         if (!this.brackets || !this.brackets.events) {
             return sets;
         }
 
         // Iterate events (works for arrays or objects)
-        for (const [, phases] of Object.entries(this.brackets.events)) {
-            if (!phases) { continue; }
-
+        for (const [eventId, event] of Object.entries(this.brackets.events)) {
+            if (!event.phases) { continue; }
             // Iterate phases (works for arrays or objects)
-            for (const [, bracketIds] of Object.entries(phases)) {
+            for (const [phaseId, phase] of Object.entries(event.phases)) {
+                const bracketIds = phase.brackets;
                 if (!Array.isArray(bracketIds) || bracketIds.length === 0) { continue; }
 
                 // Create promises for all bracket fetches in this phase
                 const bracketPromises = bracketIds.map(async (bracketId) => {
-                    const request = new this.parrygg.GetBracketRequest();
-                    request.setId(bracketId);
-                    try {
-                        const response = await this.bracketClient.getBracket(
-                            request,
-                            this.createAuthMetadata(),
-                        );
-                        var matches =  response.getBracket().toObject().matchesList;
-                        var rightStates = [this.parrygg.MatchState.MATCH_STATE_PENDING, this.parrygg.MatchState.MATCH_STATE_IN_PROGRESS, this.parrygg.MatchState.MATCH_STATE_READY];
-                        //
-                        return matches.filter(match => rightStates.includes(match.state));
-                    } catch (error) {
-                        // ignore individual failures
+                    var bracket = await this.getBracket(bracketId);
+                    if( bracket === null) {
                         return null;
                     }
+                    var matches =  bracket.matchesList;
+                    var rightStates = [this.parrygg.MatchState.MATCH_STATE_PENDING, this.parrygg.MatchState.MATCH_STATE_IN_PROGRESS, this.parrygg.MatchState.MATCH_STATE_READY];
+                    //
+                    return matches.filter(match => rightStates.includes(match.state)).map(match => Object.assign(match, {event: {id: eventId, name: event.name}, phase: {id: phaseId, name: phase}, bracket: {id: bracketId}, tournament: {id: this.tournamentObject.id, name: this.tournamentObject.name}}));
                 });
 
                 // Wait for all brackets in this phase and add successful results
@@ -944,12 +985,88 @@ class ParryggWrapper extends WebsiteWrapper{
                     })} });
             }
         }
-        console.log(sets);
-
         return await sets;
 
     }
 
+    async getEntrantFromSeedAndBracket(slotId, bracketId, cacheMaxAge) {
+        var participant = {
+            id: null,
+            name: "TBD",
+        };
+        if (slotId == null || bracketId == null) {
+            return participant;
+        }
+        let participantNew = this.getCache("entrantfromseedandbracket-parry", slotId + '|' + bracketId, cacheMaxAge);
+        if (participantNew == null) {
+            var bracket = await this.getBracket(bracketId);
+            if( bracket !== null) {
+                participantNew = bracket.seedsList.find(seed => seed.id === slotId);
+                if(participantNew == undefined){
+                    return participant;
+                }
+                participantNew = participantNew.eventEntrant;
+                if(participantNew.name == ""){
+                    if(participantNew.entrant.usersList.length > 0){
+                        participantNew.name = participantNew.entrant.usersList[0].gamerTag;
+                    }
+                }
+                this.setCache("entrantfromseedandbracket-parry", slotId + '|' + bracketId, participantNew);
+            }
+        }
+
+        return participantNew;
+    }
+    async getBracket(bracketId, cacheMaxAge) {
+        if (bracketId == null) {
+            return null;
+        }
+        var bracket = this.getCache("bracket-parry", bracketId, cacheMaxAge);
+        if (bracket == null) {
+            const request = new this.parrygg.GetBracketRequest();
+            request.setId(bracketId);
+
+            try {
+
+                const response = await this.bracketClient.getBracket(
+                    request,
+                    this.createAuthMetadata(),
+                );
+                bracket =  response.getBracket().toObject();
+                this.setCache("bracket-parry", bracketId, bracket);
+            }
+            catch (error) {
+                return null;
+            }
+        }
+        // console.log(bracket);
+        return bracket;
+    }
+    async getEvent(eventId, cacheMaxAge) {
+        if (eventId == null) {
+            return null;
+        }
+        var event = this.getCache("event-parry", eventId, cacheMaxAge);
+        if (event == null) {
+            const request = new this.parrygg.GetEventRequest();
+            request.setId(eventId);
+
+            try {
+
+                const response = await this.eventClient.getEvent(
+                    request,
+                    this.createAuthMetadata(),
+                );
+                event =  response.getEvent().toObject();
+                this.setCache("event-parry", eventId, event);
+            }
+            catch (error) {
+                return null;
+            }
+        }
+        // console.log(event);
+        return event;
+    }
     static comparePlayer(local, remote, includeIgnore) {
         // normalize remote structure to local structure
         remote = this.convertPlayerStructure(remote);
@@ -1017,27 +1134,25 @@ class ParryggWrapper extends WebsiteWrapper{
     }
 
     async fetchStreamQueue() {
-        console.log("fetching stream queue");
         // if (this.selectedTournament == null || this.selectedStream == null) {
         if (this.selectedTournament == null) {
             this.stopStreamQueuePolling();
         }
 
         var sets = await this.getSetsFromStreamQueue();
-        console.log(await sets);
         // if (res.tournament.streams.some(x => x.id == this.selectedStream) == false) {
         //     // this tournament does not have a stream with selectedStream slug
         //     this.selectedStream = null;
         //     this.stopStreamQueuePolling();
         // }
 
-        let queues = res.tournament.streamQueue;
-        if (queues != null && queues.length > 0) {
-            let queue = queues.find(x => x.stream.id == this.selectedStream);
-            if (queue != null && queue.sets != null && queue.sets.length > 0) {
-                sets = queue.sets;
-            }
-        }
+        // let queues = res.tournament.streamQueue;
+        // if (queues != null && queues.length > 0) {
+        //     let queue = queues.find(x => x.stream.id == this.selectedStream);
+        //     if (queue != null && queue.sets != null && queue.sets.length > 0) {
+        //         sets = queue.sets;
+        //     }
+        // }
 
         if (sets.map(x => x.id).join("-") != this.streamQueueSetIdList.join("-")) {
             this.streamQueueSetIdList = sets.map(x => x.id);
@@ -1045,6 +1160,27 @@ class ParryggWrapper extends WebsiteWrapper{
         }
 
         return sets;
+    }
+
+    async getSet(setId, cacheMaxAge) {
+        if (setId == null) { return null; }
+        let set = this.getCache("set-parry", setId, cacheMaxAge);
+        if (set == null) {
+            const request = new this.parrygg.GetMatchRequest();
+            request.setId(setId);
+            try {
+                const response = await this.matchClient.getMatch(
+                    request,
+                    this.createAuthMetadata(),
+                );
+                set = Object.assign(response.getMatch().toObject(), {});
+                this.setCache("set-parry", setId, set);
+            } catch (error) {
+                console.error(error);
+                return null;
+            }
+        }
+        return set;
     }
 
     startStreamQueuePolling(pollInterval) {
