@@ -778,11 +778,16 @@ class ParryggWrapper extends WebsiteWrapper{
         return await additional;
     }
     getSlug(tournament) {
-        return (
+        var slug =
             tournament.slugsList.find(
                 (slug) => slug.type === this.parrygg.SlugType.SLUG_TYPE_CUSTOM,
-            )?.slug || ''
-        );
+            )?.slug || '';
+        if(slug === ''){
+            slug = tournament.slugsList.find(
+                (slug) => slug.type === this.parrygg.SlugType.SLUG_TYPE_PRIMARY,
+            )?.slug || '';
+        }
+        return slug;
     }
     getTournamentPictures(tournament) {
         return{

@@ -62,12 +62,10 @@ async function fillTournamentInfo() {
         displayChannels(tournament && tournament.streams ? tournament.streams : []);
         break;
         case "parrygg":
-            console.log(parrygg);
             var tournament = await parrygg.getTournament();
-            console.log(tournament);
             document.querySelector("#info .title").innerText = (tournament ? tournament.name : "");
-            document.querySelector("#info .logo").style.backgroundImage = "url('" + tournament.pictures.banner + "')";
-            document.querySelector("#selected-tournament .bg").style.backgroundImage = "url('" + tournament.pictures.banner + "')";
+            document.querySelector("#info .logo").style.backgroundImage = "url('" + (tournament.pictures != null ? tournament.pictures.banner : "") + "')";
+            document.querySelector("#selected-tournament .bg").style.backgroundImage = "url('" + (tournament.pictures != null ?tournament.pictures.banner : "") + "')";
             // document.querySelector("#selected-tournament .bg").style.backgroundImage = "url('" + SmashggWrapper.getImage(tournament, "banner") + "')";
 
             var infoLines = [];
