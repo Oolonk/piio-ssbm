@@ -697,9 +697,88 @@ class ParryggWrapper extends WebsiteWrapper{
         this.phaseClient = new this.parrygg.PhaseServiceClient(ParryggWrapper.ENDPOINT);
     }
 
+    get createAuthMetadata() {
+        return {
+            'X-API-KEY': this.token,
+        };
+    }
+
     set Token(val) {
         this.token = val.trim();
     }
+
+    set SelectedTournament(val) {
+        if (this.selectedTournament == val) { return; }
+        this.selectedTournament = val;
+        this.SelectedStream = null;
+    }
+
+    static comparePlayer(local, remote, includeIgnore) {
+        // normalize remote structure to local structure
+        remote = this.convertPlayerStructure(remote);
+
+        let diffs = [];
+
+        for (let key in local) {
+            if (!remote.hasOwnProperty(key)) { continue }
+
+            let ignored = false;
+            if (local.hasOwnProperty("parryggIgnore") && local.smashggIgnore.hasOwnProperty(key)) {
+                ignored = (local.smashggIgnore[key] == remote[key]);
+            }
+
+            let compareResult = false;
+            switch (key) {
+                case "country":
+                function recursiveNationCompare(country, countryName) {
+                    if (country == null) { return false; }
+                    if (country.name == countryName) { return true; }
+                    if (country.nation == null || country.nation.length == 0) { return false; }
+                    return recursiveNationCompare(country.nation, countryName);
+                }
+                    compareResult = !recursiveNationCompare(local[key], remote[key]);
+                    break;
+                case "region":
+                    compareResult = local[key].name != remote[key];
+                    break;
+                default: compareResult = local[key] != remote[key]; break;
+            }
+
+            if (compareResult) {
+                if (!ignored || includeIgnore) {
+                    diffs.push({ "field": key, "local": local[key], "parrygg": remote[key], "ignored": ignored });
+                }
+            }
+        }
+        return diffs;
+    }
+    static convertPlayerStructure(data) {
+        let fixed = {
+            "name": data.gamerTag,
+            "pronoun": "",
+            "firstname": "",
+            "lastname": "",
+            "country": "",
+            "city": "",
+            // "twitter": "",
+            // "twitch": "",
+            // "steam": "",
+            // "birthday": ""
+        };
+        if (data.player) {
+            fixed.name = data.gamerTag;
+        }
+        fixed.pronoun = data.pronouns;
+        fixed.lastname = data.lastName;
+        fixed.firstname = data.firstName;
+        fixed.city = data.locationCity;
+        fixed.country = data.country;
+        fixed.region = data.state;
+        // console.log(data);
+        // console.log(fixed);
+        return fixed;
+    }
+
     getSetRoundName(set, bracket) {
         var matchList = bracket.matchesList;
         //get highest round number for winners and losers
@@ -753,22 +832,14 @@ class ParryggWrapper extends WebsiteWrapper{
         }
         return "";
     }
-    set SelectedTournament(val) {
-        if (this.selectedTournament == val) { return; }
-        this.selectedTournament = val;
-        this.SelectedStream = null;
-    }
-    createAuthMetadata() {
-        return {
-            'X-API-KEY': this.token,
-        };
-    }
+
     getAdditionalTournamentInfos(tournament) {
         return {
             slug: this.getSlug(tournament),
             pictures: this.getTournamentPictures(tournament)
         }
     }
+
     async getAdditionalUserInfos(user) {
         let additional =  {
             country: await this.convertCountry(user.locationCountry),
@@ -777,6 +848,28 @@ class ParryggWrapper extends WebsiteWrapper{
         }
         return await additional;
     }
+    async convertRegion(countryCode, regionCode){
+        // var country = await this.convertCountry(countryCode);
+        var json = await fetch(`./json/states.json`);
+        var states = await json.json();
+        var region = states.filter((state) => state.iso2 === regionCode && state.country_code === countryCode);
+        // console.log(region);
+        if(region[0]){
+            return region[0].name;
+        }
+        return null;
+    }
+    async convertCountry(countryCode){
+        var json = await fetch(`./json/countries.json`);
+        json = await json.json();
+        var country = await json.filter((country) => country.iso2 === countryCode);
+        // console.log(country);
+        if(country[0]){
+            return country[0].name;
+        }
+        return null;
+    }
+
     getSlug(tournament) {
         var slug =
             tournament.slugsList.find(
@@ -789,6 +882,7 @@ class ParryggWrapper extends WebsiteWrapper{
         }
         return slug;
     }
+
     getTournamentPictures(tournament) {
         return{
             'banner': tournament.imagesList.find(
@@ -797,6 +891,7 @@ class ParryggWrapper extends WebsiteWrapper{
         };
 
     }
+
     getUserPictures(tournament) {
         return{
             'banner': tournament.imagesList.find(
@@ -808,6 +903,7 @@ class ParryggWrapper extends WebsiteWrapper{
         };
 
     }
+
     async findTournaments(name){
         const request = new this.parrygg.GetTournamentsRequest();
         const tournamentsFilter = new this.parrygg.TournamentsFilter();
@@ -830,19 +926,6 @@ class ParryggWrapper extends WebsiteWrapper{
 
         }
         return [];
-    }
-    async findTournamentBySlug(slug) {
-        const request = new this.parrygg.GetTournamentRequest();
-        request.setTournamentSlug(slug);
-        try {
-
-            const response = await this.tournamentClient.getTournament(
-                request,
-                this.createAuthMetadata(),
-            );
-            return Object.assign(response.getTournament().toObject(), this.getAdditionalTournamentInfos(response.getTournament().toObject()));
-        } catch (error) {}
-        return null;
     }
 
     async getPhase(phaseId, cacheMaxAge) {
@@ -877,7 +960,7 @@ class ParryggWrapper extends WebsiteWrapper{
 
                 const response = await this.tournamentClient.getTournament(
                     request,
-                    this.createAuthMetadata(),
+                    this.createAuthMetadata,
                 );
                 var returnObject = Object.assign(response.getTournament().toObject(), this.getAdditionalTournamentInfos(response.getTournament().toObject()));
                 this.setCache("tournament-parry", tournamentSlug, returnObject);
@@ -900,7 +983,7 @@ class ParryggWrapper extends WebsiteWrapper{
 
                 const response = await this.tournamentClient.getTournament(
                     request,
-                    this.createAuthMetadata(),
+                    this.createAuthMetadata,
                 );
                 var returnObject = Object.assign(response.getTournament().toObject(), this.getAdditionalTournamentInfos(response.getTournament().toObject()));
                 this.setCache("tournamentId-parry", tournamentId, returnObject);
@@ -920,7 +1003,7 @@ class ParryggWrapper extends WebsiteWrapper{
         try {
             const response = await this.userClient.getUsers(
                 request,
-                this.createAuthMetadata(),
+                this.createAuthMetadata,
             );
             var returns =  Promise.all(response.getUsersList()
                 .map(async (user) => await Object.assign(user.toObject(), await this.getAdditionalUserInfos(user.toObject()))));
@@ -940,7 +1023,7 @@ class ParryggWrapper extends WebsiteWrapper{
             try {
                 const response = await this.userClient.getUser(
                     request,
-                    this.createAuthMetadata(),
+                    this.createAuthMetadata,
                 );
                 player = response.getUser().toObject();
                 player = await Object.assign(player, await this.getAdditionalUserInfos(player));
@@ -952,27 +1035,6 @@ class ParryggWrapper extends WebsiteWrapper{
         }
 
         return player;
-    }
-    async convertRegion(countryCode, regionCode){
-        // var country = await this.convertCountry(countryCode);
-        var json = await fetch(`./json/states.json`);
-        var states = await json.json();
-        var region = states.filter((state) => state.iso2 === regionCode && state.country_code === countryCode);
-        // console.log(region);
-        if(region[0]){
-            return region[0].name;
-        }
-        return null;
-    }
-    async convertCountry(countryCode){
-        var json = await fetch(`./json/countries.json`);
-        json = await json.json();
-        var country = await json.filter((country) => country.iso2 === countryCode);
-        // console.log(country);
-        if(country[0]){
-            return country[0].name;
-        }
-        return null;
     }
 
     async setBrackets() {
@@ -1073,7 +1135,7 @@ class ParryggWrapper extends WebsiteWrapper{
 
                 const response = await this.bracketClient.getBracket(
                     request,
-                    this.createAuthMetadata(),
+                    this.createAuthMetadata,
                 );
                 bracket =  response.getBracket().toObject();
                 this.setCache("bracket-parry", bracketId, bracket);
@@ -1098,7 +1160,7 @@ class ParryggWrapper extends WebsiteWrapper{
 
                 const response = await this.eventClient.getEvent(
                     request,
-                    this.createAuthMetadata(),
+                    this.createAuthMetadata,
                 );
                 event =  response.getEvent().toObject();
                 this.setCache("event-parry", eventId, event);
@@ -1109,71 +1171,6 @@ class ParryggWrapper extends WebsiteWrapper{
         }
         // console.log(event);
         return event;
-    }
-    static comparePlayer(local, remote, includeIgnore) {
-        // normalize remote structure to local structure
-        remote = this.convertPlayerStructure(remote);
-
-        let diffs = [];
-
-        for (let key in local) {
-            if (!remote.hasOwnProperty(key)) { continue }
-
-            let ignored = false;
-            if (local.hasOwnProperty("parryggIgnore") && local.smashggIgnore.hasOwnProperty(key)) {
-                ignored = (local.smashggIgnore[key] == remote[key]);
-            }
-
-            let compareResult = false;
-            switch (key) {
-                case "country":
-                function recursiveNationCompare(country, countryName) {
-                    if (country == null) { return false; }
-                    if (country.name == countryName) { return true; }
-                    if (country.nation == null || country.nation.length == 0) { return false; }
-                    return recursiveNationCompare(country.nation, countryName);
-                }
-                    compareResult = !recursiveNationCompare(local[key], remote[key]);
-                    break;
-                case "region":
-                    compareResult = local[key].name != remote[key];
-                    break;
-                default: compareResult = local[key] != remote[key]; break;
-            }
-
-            if (compareResult) {
-                if (!ignored || includeIgnore) {
-                    diffs.push({ "field": key, "local": local[key], "parrygg": remote[key], "ignored": ignored });
-                }
-            }
-        }
-        return diffs;
-    }
-    static convertPlayerStructure(data) {
-        let fixed = {
-            "name": data.gamerTag,
-            "pronoun": "",
-            "firstname": "",
-            "lastname": "",
-            "country": "",
-            "city": "",
-            // "twitter": "",
-            // "twitch": "",
-            // "steam": "",
-            // "birthday": ""
-        };
-        if (data.player) {
-            fixed.name = data.gamerTag;
-        }
-        fixed.pronoun = data.pronouns;
-        fixed.lastname = data.lastName;
-        fixed.firstname = data.firstName;
-        fixed.city = data.locationCity;
-        fixed.country = data.country;
-        fixed.region = data.state;
-        // console.log(data);
-        // console.log(fixed);
-        return fixed;
     }
 
     async fetchStreamQueue() {
@@ -1214,7 +1211,7 @@ class ParryggWrapper extends WebsiteWrapper{
             try {
                 const response = await this.matchClient.getMatch(
                     request,
-                    this.createAuthMetadata(),
+                    this.createAuthMetadata,
                 );
                 set = Object.assign(response.getMatch().toObject(), {});
                 this.setCache("set-parry", setId, set);

@@ -192,7 +192,7 @@ async function fetchResults() {
     let parryggTournaments = await parrygg.findTournaments(term, currentPage.parrygg, 50);
     if (term != searchTbx.value) { return; }
     if (currentPage.parrygg == 1) {
-        let parryggTournament = await parrygg.findTournamentBySlug(term);
+        let parryggTournament = await parrygg.getTournament(term);
         if (term != searchTbx.value) { return; }
         if (parryggTournament) {
             parryggTournament.matchedSlug = true;
