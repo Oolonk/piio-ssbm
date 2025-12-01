@@ -914,7 +914,7 @@ class ParryggWrapper extends WebsiteWrapper{
         try {
             const response = await this.tournamentClient.getTournaments(
                 request,
-                this.createAuthMetadata(),
+                this.createAuthMetadata,
             );
             return response.getTournamentsList()
                 .sort((a, b) => {
@@ -938,7 +938,7 @@ class ParryggWrapper extends WebsiteWrapper{
 
                 const response = await this.phaseClient.getPhase(
                     request,
-                    this.createAuthMetadata(),
+                    this.createAuthMetadata,
                 );
                 this.setCache("phase-parry", phaseId, response.getPhase().toObject());
                 return response.getPhase().toObject();
