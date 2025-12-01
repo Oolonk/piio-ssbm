@@ -723,8 +723,8 @@ class ParryggWrapper extends WebsiteWrapper{
             if (!remote.hasOwnProperty(key)) { continue }
 
             let ignored = false;
-            if (local.hasOwnProperty("parryggIgnore") && local.smashggIgnore.hasOwnProperty(key)) {
-                ignored = (local.smashggIgnore[key] == remote[key]);
+            if (local.hasOwnProperty("parryggIgnore") && local.parryggIgnore.hasOwnProperty(key)) {
+                ignored = (local.parryggIgnore[key] == remote[key]);
             }
 
             let compareResult = false;
