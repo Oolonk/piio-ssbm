@@ -1223,6 +1223,16 @@ class ParryggWrapper extends WebsiteWrapper{
         return set;
     }
 
+
+    async getPlayerPhoto(playerId, cacheMaxAge) {
+        let player = await this.getPlayer(playerId, cacheMaxAge);
+        console.log(await player);
+        if (player == null || player.pictures == null) { return null; }
+        let url = await player.pictures.avatar;
+        console.log(await player.pictures.avatar);
+        return await fetch(url);
+    }
+
     startStreamQueuePolling(pollInterval) {
         this.stopStreamQueuePolling();
 

@@ -67,6 +67,21 @@ async function downloadPhotoFromSmashgg() {
 	document.getElementById('photo').style.backgroundImage = `url('${path.join(APPRES, "assets", "player", "avatar", dataset._id + ".png").replace(/\\/g, "/")}?_rand=${Math.random()}')`;
 }
 
+async function downloadPhotoFromParrygg() {
+    let parryggId = document.getElementById('field-parrygg').value;
+    if (parryggId === '' || parryggId == null || parryggId == undefined) { return; }
+    await new Promise(async (resolve, reject) => {
+        let res = await parrygg.getPlayerPhoto(parryggId);
+        console.log(parryggId, await res);
+        let buffer = await res.arrayBuffer();
+        fs.writeFile(`${APPRES}/assets/player/avatar/${dataset._id}.png`, Buffer.from(buffer), (err) => {
+            if (err) throw err;
+            resolve();
+        });
+    });
+    document.getElementById('photo').style.backgroundImage = `url('${path.join(APPRES, "assets", "player", "avatar", dataset._id + ".png").replace(/\\/g, "/")}?_rand=${Math.random()}')`;
+}
+
 async function checkSmashggCompare() {
 	let smashggId = parseInt(document.getElementById('field-smashgg').value);
 	if (isNaN(smashggId) || smashggId == 0) { return; }
@@ -337,10 +352,16 @@ async function insertValues(entry) {
 	if (entry.smashgg > 0) {
 		smashggIgnore = Object.assign(smashggIgnore, dataset.smashggIgnore);
 		checkSmashggCompare();
-	}
+        document.getElementById("downloadPhotoSmashgg").style.display = "inline-block";
+	}else{
+        document.getElementById("downloadPhotoSmashgg").style.display = "none";
+    }
     if (entry.parrygg != null && entry.parrygg != undefined && entry.parrygg !== '') {
         parryggIgnore = Object.assign(parryggIgnore, dataset.parryggIgnore);
         checkParryggCompare();
+        document.getElementById("downloadPhotoParrygg").style.display = "inline-block";
+    }else{
+        document.getElementById("downloadPhotoParrygg").style.display = "none";
     }
 }
 
@@ -409,7 +430,10 @@ async function assignSmashgg() {
 	if (res && res.player && res.player.id) {
 		document.getElementById("field-smashgg").value = res.player.id;
 		checkSmashggCompare();
-	}
+        document.getElementById("downloadPhotoSmashgg").style.display = "inline-block";
+	}else{
+        document.getElementById("downloadPhotoSmashgg").style.display = "none";
+    }
 }
 
 async function assignParrygg() {
@@ -419,6 +443,9 @@ async function assignParrygg() {
     if (res && res.id) {
         document.getElementById("field-parrygg").value = res.id;
         checkParryggCompare();
+        document.getElementById("downloadPhotoParrygg").style.display = "inline-block";
+    }else{
+        document.getElementById("downloadPhotoParrygg").style.display = "none";
     }
 }
 
