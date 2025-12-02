@@ -53,7 +53,8 @@ let dbStruct = [
     { "name": "pride", "field": "name", "index": -1, "type": "text" },
     { "name": "pride", "field": "color", "type": "color", "index": -4 },
     { "name": "region", "field": "name", "index": -1, "type": "text" },
-    { "name": "region", "field": "country", "index": -2, "type": "relation", "relation": "country",  }
+    { "name": "region", "field": "country", "index": -2, "type": "relation", "relation": "country",  },
+    { "name": "region", "field": "shortcode", "index": -3, "type": "text" },
 ];
 
 

@@ -1097,7 +1097,7 @@ class ParryggWrapper extends WebsiteWrapper{
     async getEntrantFromSeedAndBracket(slotId, bracketId, cacheMaxAge) {
         var participant = {
             id: null,
-            name: "TBD",
+            name: "N/A",
         };
         if (slotId == null || bracketId == null) {
             return participant;
@@ -1111,7 +1111,7 @@ class ParryggWrapper extends WebsiteWrapper{
                     return participant;
                 }
                 participantNew = participantNew.eventEntrant;
-                if(participantNew.name == ""){
+                if(participantNew && participantNew.name == ""){
                     if(participantNew.entrant.usersList.length > 0){
                         participantNew.name = participantNew.entrant.usersList[0].gamerTag;
                     }

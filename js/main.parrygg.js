@@ -89,9 +89,9 @@ async function displayParryggStreamQueue(sets) {
         item.style.transform = "translateY(" + (40 * idx) + "px)";
         item.querySelector(".indentifier").innerText = set.identifier;
         item.querySelector(".round").innerText = set.fullRoundText;
-        var entrant1 = await entrants[0];
-        var entrant2 = await entrants[1];
-        item.querySelector(".names").innerText = (await entrants[0].name || "N/A") + " Vs. " + (await entrants[1].name || "N/A");
+        var entrant1 = await entrants[0] || {};
+        var entrant2 = await entrants[1] || {};
+        item.querySelector(".names").innerText = (await entrant1.name || "N/A") + " Vs. " + (await entrant2.name || "N/A");
     });
     if (streamvar != sets) {
         // scoreboard.streamlist = sets;
