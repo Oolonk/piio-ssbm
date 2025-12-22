@@ -1411,19 +1411,18 @@ item > input[type="checkbox"].toggle-color {
 
 #statusbar {
     position: fixed;
-    left: 201px;
     right: 210px;
     bottom: 0px;
     height: 20px;
     padding-left: 30px;
-    padding-right: 10px;
-    z-index: 400;
     font-size: 10px;
     box-shadow: inset 0px 0px 0px #000;
-
     display: grid;
     grid-template-columns: 1fr 250px;
     grid-template-rows: 20px;
+    width: 100%;
+    z-index: -2;
+    left: 0;
 }
 
 .fixedStreamQueue #statusbar {
@@ -1434,6 +1433,11 @@ item > input[type="checkbox"].toggle-color {
 #system-status {
     justify-self: stretch;
     align-self: center;
+    transition: all 150ms 5ms;
+}
+
+html:has(#sidebar:hover, body.fixedSidebar) #system-status {
+    margin-left: 140px;
 }
 
 #system-status.warning {

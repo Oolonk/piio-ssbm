@@ -836,6 +836,7 @@ class ParryggWrapper extends WebsiteWrapper{
     getAdditionalTournamentInfos(tournament) {
         return {
             slug: this.getSlug(tournament),
+            primarySlug: this.getSlug(tournament, true),
             pictures: this.getTournamentPictures(tournament)
         }
     }
@@ -870,12 +871,12 @@ class ParryggWrapper extends WebsiteWrapper{
         return null;
     }
 
-    getSlug(tournament) {
+    getSlug(tournament, primary = false) {
         var slug =
             tournament.slugsList.find(
                 (slug) => slug.type === this.parrygg.SlugType.SLUG_TYPE_CUSTOM,
             )?.slug || '';
-        if(slug === ''){
+        if(slug === '' || primary){
             slug = tournament.slugsList.find(
                 (slug) => slug.type === this.parrygg.SlugType.SLUG_TYPE_PRIMARY,
             )?.slug || '';
@@ -909,6 +910,7 @@ class ParryggWrapper extends WebsiteWrapper{
         const tournamentsFilter = new this.parrygg.TournamentsFilter();
         const options = new this.parrygg.GetTournamentsOptions();
         options.setReturnPermissions(true);
+        tournamentsFilter.setName(name);
         request.setFilter(tournamentsFilter);
         request.setOptions(options);
         try {
@@ -920,8 +922,7 @@ class ParryggWrapper extends WebsiteWrapper{
                 .sort((a, b) => {
                     return b.getStartDate().getSeconds() - a.getStartDate().getSeconds();
                 })
-                .map((tournament) => (Object.assign(tournament.toObject(), this.getAdditionalTournamentInfos(tournament.toObject()))))
-                .filter((tournament) => tournament.name.toLowerCase().includes(name.toLowerCase()));
+                .map((tournament) => (Object.assign(tournament.toObject(), this.getAdditionalTournamentInfos(tournament.toObject()))));
         }catch (error) {
 
         }

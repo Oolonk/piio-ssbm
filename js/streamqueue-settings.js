@@ -199,19 +199,21 @@ async function fetchResults() {
             slugMatchTournament = parryggTournament;
             parryggTournaments.unshift(parryggTournament);
         }
+    }else{
+        parryggTournaments = [];
     }
 
     if (slugMatchTournament) {
         parryggTournaments = parryggTournaments.filter(x => x.id != slugMatchTournament.id || x.matchedSlug);
     }
 
-    el.classList.toggle("noresults", currentPage.smashgg == 1 && startggTournaments.length == 0);
+    el.classList.toggle("noresults", currentPage.parrygg == 1 && parryggTournaments.length == 0);
     parryggTournaments.forEach((tournament) => el.appendChild(buildItem(tournament, "parrygg")));
-    currentPage.smashgg++;
+    currentPage.parrygg++;
     if (startggTournaments.length == 0) {
         el.onscroll = null;
     }
-    infiniteScrollLoading.smashgg = false;
+    infiniteScrollLoading.parrygg = false;
     el.classList.remove("fetching");
 
 }
@@ -238,7 +240,7 @@ function buildItem(tournament, tournamentWebsite) {
             tEl.querySelector(".name").innerText = tournament.name;
             tEl.querySelector(".date").innerText = getDateString(tournament.startDate.seconds, tournament.endDate.seconds, tournament.timezone);
     }
-	tEl.querySelector(".item").onclick = () => selectTournament(tournament.slug, tournamentWebsite);
+	tEl.querySelector(".item").onclick = () => selectTournament(tournament.primarySlug, tournamentWebsite);
 	return tEl.querySelector(".item");
 }
 
