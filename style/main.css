@@ -40,8 +40,8 @@ body.fixedStreamQueue #main {
 
 #topbar {
     position: fixed;
-    left: 0px;
-    right: 0px;
+    left: 0;
+    right: 0;
     top: 24px;
     padding-left: 20px;
     height: 40px;
@@ -223,10 +223,10 @@ body.fixedSidebar #topbar {
 
 #sidebar {
     position: fixed;
-    left: 0px;
+    left: 0;
     width: 150px;
     top: 24px;
-    bottom: 0px;
+    bottom: 0;
     z-index: 4;
 
     display: grid;
@@ -254,10 +254,8 @@ body:not(.fixedSidebar) #sidebar:not(:hover) > * {
 }
 
 #logo {
-    background: url('../img/logo.svg');
+    background: url('../img/logo.svg') no-repeat 50%;
     background-size: auto 80%;
-    background-position: 50%;
-    background-repeat: no-repeat;
 }
 
 #sidebar button {
@@ -394,7 +392,7 @@ body.modal #modal {
     grid-template-columns: 1fr 100px 1fr;
     grid-template-areas: "sbteam1 sbmiddle sbteam2"
 		"sbinfo1 sbmiddle sbinfo2";
-    margin: 0px 0px 10px;
+    margin: 0 0 10px;
 }
 
 #sb.multi {
@@ -474,7 +472,7 @@ body.modal #modal {
 
 #sb .sb-team-name {
     padding: 5px;
-    margin: 4px 0px;
+    margin: 4px 0;
     border-radius: 3px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(var(--backgroundRGB), 0.2);
@@ -487,7 +485,7 @@ body.modal #modal {
     line-height: 20px;
     width: 100%;
     box-sizing: border-box;
-    border: 0px;
+    border: 0;
     margin: 0;
 }
 
@@ -495,7 +493,7 @@ body.modal #modal {
     vertical-align: middle;
     display: grid;
     padding: 5px;
-    margin: 4px 0px;
+    margin: 4px 0;
     border-radius: 3px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(var(--backgroundRGB), 0.4);
@@ -561,7 +559,7 @@ body.modal #modal {
 
     background-size: auto 200%;
     background-repeat: no-repeat;
-    background-position: 100% 0%;
+    background-position: 100% 0;
 }
 
 #sb > div input.playername {
@@ -572,7 +570,7 @@ body.modal #modal {
     line-height: 22px;
     width: 100%;
     box-sizing: border-box;
-    border: 0px;
+    border: 0;
     margin: 0;
     background: transparent;
 }
@@ -584,7 +582,7 @@ body.modal #modal {
 #sb > div div.playername .team {
     position: absolute;
     left: 40px;
-    top: 0px;
+    top: 0;
     font-size: 8px;
     /*opacity: 0.5;*/
     color: var(--textSecondary);
@@ -597,7 +595,7 @@ body.modal #modal {
 
 #sb > div .player-options > button {
     position: relative;
-    margin: 0px 4px;
+    margin: 0 4px;
     padding: 0;
     width: 20px;
 }
@@ -615,7 +613,7 @@ body.modal #modal {
 #sb > div .player-options > button > img {
     position: relative;
     z-index: 5;
-    margin: 0px auto;
+    margin: 0 auto;
     padding: 0;
     display: block;
     opacity: 0.9;
@@ -627,7 +625,7 @@ body.modal #modal {
 
 #sb > div .player-options .player-ports {
     display: flex;
-    margin: 0px 4px;
+    margin: 0 4px;
     height: 18px;
     border-radius: 2px;
     background: #1B629B;
@@ -649,12 +647,12 @@ body.modal #modal {
 }
 
 #sb > div .player-options .player-ports .port:first-child {
-    border-radius: 3px 0px 0px 3px;
+    border-radius: 3px 0 0 3px;
 }
 
 #sb > div .player-options .player-ports .port:last-child {
-    border-radius: 0px 3px 3px 0px;
-    margin-right: 0px;
+    border-radius: 0 3px 3px 0;
+    margin-right: 0;
 }
 
 #sb > div .player-options .player-ports .port.checked {
@@ -775,15 +773,15 @@ body.modal #modal {
 }
 
 #sb > div .score {
-    border-radius: 0px;
+    border-radius: 0;
     font-size: 16px;
     font-weight: bold;
     text-align: center;
     line-height: 18px;
     height: 18px;
-    padding: 5px 0px;
-    margin-left: 0px;
-    margin-right: 0px;
+    padding: 5px 0;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 #sb > div button.score {
@@ -795,11 +793,11 @@ body.modal #modal {
 }
 
 #sb > div .score:first-child {
-    border-radius: 2px 0px 0px 2px;
+    border-radius: 2px 0 0 2px;
 }
 
 #sb > div .score:last-child {
-    border-radius: 0px 2px 2px 0px;
+    border-radius: 0 2px 2px 0;
 }
 
 #sb > div .score::-webkit-outer-spin-button,
@@ -809,7 +807,7 @@ body.modal #modal {
 }
 
 #sb .state {
-    padding: 0px 10px;
+    padding: 0 10px;
 }
 
 #sb .state button {
@@ -845,7 +843,7 @@ body.modal #modal {
     width: 100%;
     padding-left: 0;
     padding-right: 0;
-    margin: 2px 0px;
+    margin: 2px 0;
 
 }
 
@@ -854,7 +852,6 @@ body.modal #modal {
     display: grid;
     margin: 20px 1px;
     grid-gap: 2px;
-    grid-template-columns: 2;
     grid-template-columns: 1fr 30px;
     -webkit-user-select: none;
     user-select: none;
@@ -863,7 +860,7 @@ body.modal #modal {
 #seatorder-glue-option {
     background: rgba(var(--backgroundRGB), 0.6);
     border: 1px dashed #333;
-    border-radius: 0px 6px 6px 0px;
+    border-radius: 0 6px 6px 0;
     cursor: pointer;
 }
 
@@ -875,7 +872,7 @@ body.modal #modal {
     display: none;
     justify-content: space-evenly;
     border: 1px dashed #333;
-    border-radius: 6px 0px 0px 6px;
+    border-radius: 6px 0 0 6px;
     background: rgba(var(--backgroundRGB), 0.3);
 
 
@@ -888,7 +885,6 @@ body.modal #modal {
 #seatorder > div {
     color: white;
     position: Relative;
-    background: #777;
     background: #888;
     flex-grow: 1;
     max-width: 150px;
@@ -930,11 +926,9 @@ body.modal #modal {
 }
 
 #caster {
-    display: flex;
     justify-content: space-evenly;
-    margin: 10px 0px;
     width: calc(100% - 40px);
-    margin-right: 0px;
+    margin: 10px 0 10px 0;
     display: inline-flex;
 
 }
@@ -958,8 +952,8 @@ body.modal #modal {
 #caster > .item .search {
     display: none;
     position: absolute;
-    left: 0px;
-    right: 0px;
+    left: 0;
+    right: 0;
     top: 55px;
     padding: 3px;
     z-index: 20;
@@ -986,7 +980,7 @@ body.modal #modal {
     width: 100%;
     box-sizing: border-box;
     margin: 0;
-    border-radius: 0px;
+    border-radius: 0;
 }
 
 #caster > .item .selection {
@@ -1026,7 +1020,7 @@ body.modal #modal {
 
 #caster > .item .selection > .item.clear {
     background: rgba(150, 40, 20, 0.5);
-    padding: 5px 0px;
+    padding: 5px 0;
     height: auto;
 }
 
@@ -1115,7 +1109,7 @@ body.modal #modal {
 #caster > .item .info .player-options > button {
     position: relative;
     display: block;
-    padding: 0px;
+    padding: 0;
     width: 18px;
     height: 18px;
 }
@@ -1123,7 +1117,7 @@ body.modal #modal {
 #caster > .item .info .player-options > button > img {
     position: relative;
     z-index: 5;
-    margin: 0px;
+    margin: 0;
     padding: 0;
     display: block;
     opacity: 0.9;
@@ -1152,7 +1146,7 @@ body.modal #modal {
     left: 10px;
     font-size: 10px;
     background: rgb(var(--backgroundRGB));
-    padding: 0px 10px;
+    padding: 0 10px;
     border-radius: 4px;
     border: 1px solid rgba(var(--backgroundRGB), 0.5);
 }
@@ -1160,7 +1154,7 @@ body.modal #modal {
 #sidebar-buttons .label {
     font-size: 10px;
     background: rgb(var(--backgroundRGB));
-    padding: 0px 10px;
+    padding: 0 10px;
     border-radius: 4px;
     border: 1px solid rgba(var(--backgroundRGB), 0.5);
 }
@@ -1203,12 +1197,6 @@ body.modal #modal {
     background: #0c0;
 }
 
-item > input[type="checkbox"].toggle-color {
-    position: absolute;
-    top: 11px;
-    right: 10px;
-}
-
 .item > input[type="checkbox"].toggle-color:not(:checked):after {
     background: transparent;
 }
@@ -1246,7 +1234,7 @@ item > input[type="checkbox"].toggle-color {
     background: #fff;
     color: #555;
     border-radius: 3px;
-    padding: 0px 0px 0px 3px;
+    padding: 0 0 0 3px;
     vertical-align: middle;
 }
 
@@ -1291,7 +1279,7 @@ item > input[type="checkbox"].toggle-color {
 }
 
 #character-select-roster {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 #character-select-modal .character-row .item {
@@ -1328,12 +1316,12 @@ item > input[type="checkbox"].toggle-color {
 #character-select-modal .character-row .item:after {
     content: '';
     position: absolute;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
-    background: lrgba(200, 255, 255, 0.1);
-    border-radius: 0px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(200, 255, 255, 0.1);
+    border-radius: 0;
 }
 
 #character-select-modal .character-row .item .icon {
@@ -1412,11 +1400,11 @@ item > input[type="checkbox"].toggle-color {
 #statusbar {
     position: fixed;
     right: 210px;
-    bottom: 0px;
+    bottom: 0;
     height: 20px;
     padding-left: 30px;
     font-size: 10px;
-    box-shadow: inset 0px 0px 0px #000;
+    box-shadow: inset 0 0 0 #000;
     display: grid;
     grid-template-columns: 1fr 250px;
     grid-template-rows: 20px;
@@ -1451,7 +1439,7 @@ html:has(#sidebar:hover, body.fixedSidebar) #system-status {
 #stream-queue {
     position: absolute;
     right: 10px;
-    bottom: 0px;
+    bottom: 0;
     width: 300px;
     height: 20px;
     font-size: 10px;
@@ -1460,7 +1448,7 @@ html:has(#sidebar:hover, body.fixedSidebar) #system-status {
 
 .fixedStreamQueue #stream-queue {
     top: 84px;
-    right: 0px;
+    right: 0;
     width: 200px;
     height: auto;
 }
@@ -1474,19 +1462,19 @@ html:has(#sidebar:hover, body.fixedSidebar) #system-status {
 }
 
 #stream-queue .current {
-    left: 0px;
+    left: 0;
     height: 20px;
-    bottom: 0px;
+    bottom: 0;
     right: 30px;
     padding-left: 30px;
-    background: rgba(var(--backgroundRGB), 0.5);
+    background: rgb(var(--backgroundRGB));
     line-height: 20px;
 }
 
 #stream-queue .icon {
     position: absolute;
-    left: 0px;
-    bottom: 0px;
+    left: 0;
+    bottom: 0;
     height: 20px;
     width: 20px;
     cursor: pointer;
@@ -1499,8 +1487,8 @@ html:has(#sidebar:hover, body.fixedSidebar) #system-status {
 }
 
 #stream-queue .next {
-    right: 0px;
-    bottom: 0px;
+    right: 0;
+    bottom: 0;
     width: 30px;
     height: 20px;
     cursor: pointer;
@@ -1516,9 +1504,9 @@ html:has(#sidebar:hover, body.fixedSidebar) #system-status {
 }
 
 #stream-queue .list {
-    left: 0px;
-    right: 0px;
-    top: 0px;
+    left: 0;
+    right: 0;
+    top: 0;
     height: 220px;
     background: rgba(5, 5, 5, 1);
     transform: translateY(-20px);
@@ -1531,7 +1519,7 @@ body:not(.fixedStreamQueue) #stream-queue:hover .list {
 }
 
 .fixedStreamQueue #stream-queue .list {
-    bottom: 0px;
+    bottom: 0;
     height: auto;
     background: rgba(var(--backgroundRGB), 0.3);
 }
@@ -1543,9 +1531,8 @@ body:not(.fixedStreamQueue) #stream-queue:hover .list {
     right: 0;
     padding: 3px 10px 3px 24px;
     font-weight: bold;
-    background: rgba(var(--backgroundRGB), 0.5);
     background-size: 18px;
-    background-repeat: no-repeat;
+    background: rgba(var(--backgroundRGB), 0.5) no-repeat;
 }
 
 #stream-queue .list .title[data-site="smashgg"] {
@@ -1561,10 +1548,9 @@ body:not(.fixedStreamQueue) #stream-queue:hover .list {
     position: absolute;
     right: 1px;
     top: 1px;
-    padding: 0px 5px;
+    padding: 0 5px;
     font-size: 12px;
     line-height: 16px;
-    background: #f00;
     text-align: Center;
     font-weight: bold;
     background: rgb(var(--backgroundRGB));
@@ -1575,7 +1561,7 @@ body:not(.fixedStreamQueue) #stream-queue:hover .list {
     left: 0;
     right: 0;
     top: 20px;
-    bottom: 0px;
+    bottom: 0;
     overflow-y: auto;
 }
 
@@ -1597,7 +1583,7 @@ body:not(.fixedStreamQueue) #stream-queue:hover .list {
     right: 0;
     bottom: 0;
     height: 1px;
-    background: gba(var(--backgroundRGB), 0.2);
+    background: rgba(var(--backgroundRGB), 0.2);
 }
 
 
