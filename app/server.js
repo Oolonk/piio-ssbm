@@ -263,7 +263,7 @@ Server.prototype.handleMessage = function handleMessage(inData, ws) {
 		case "subscribe": return subscribe.call(ws, inData.data); break;
 		case "register": return this.registerOverlay(ws, inData.data); break;
 		case "api":
-			if( inData.data.password !== this.apiPassword && this.apiPassword != "") {
+			if( inData.password !== this.apiPassword && this.apiPassword != "" && (!ws.hasPassword)) {
 				ws.send(JSON.stringify({ type: "error", data: "Invalid API password", mid: inData.mid }));
 			}
 			else{
@@ -271,29 +271,30 @@ Server.prototype.handleMessage = function handleMessage(inData, ws) {
 				if(inData.data.name){
 					type = inData.data.name;
 				}
+				var subscriptionCalls = [];
 				switch(type) {
 					case 'subscribe':
 						switch(inData.data.type){
 							case 'dmx':
 								console.log("Subscribing to dmx-channel");
-								try{
-									subscribe.call(ws, 'dmx-channel');
-									ws.send(JSON.stringify({ type: "api", data: { name: 'subscribe', success: true }, mid: inData.mid }));
-								} catch(err){
-									ws.send(JSON.stringify({ type: "error", data: err, mid: inData.mid }));
-								}
+								subscriptionCalls = ['dmx-channel', 'slippiGameStarted', 'slippiGameEnded', 'slippiStockDeath', 'slippiPercentChange'];
 								break;
 							case 'app':
-								try{
-									subscribe.call(ws, 'app');
-									ws.send(JSON.stringify({ type: "api", data: { name: 'subscribe', success: true }, mid: inData.mid }));
-								} catch(err){
-									ws.send(JSON.stringify({ type: "error", data: err, mid: inData.mid }));
-								}
+								subscriptionCalls = ['app','slippiGameStarted', 'slippiGameEnded'];
 								break;
-							default:
-								ws.send(JSON.stringify({ type: "api", data: { name: 'subscribe', success: false, err: 'Invalid Type to subscribe' }, mid: inData.mid }));
-								break;
+						}
+						if(subscriptionCalls.length === 0){
+							ws.send(JSON.stringify({ type: "api", data: { name: 'subscribe', success: false, err: 'Invalid Type to subscribe' }, mid: inData.mid }));
+						} else {
+							try{
+								subscriptionCalls.forEach((call) => {
+									subscribe.call(ws, call);
+								});
+								ws.send(JSON.stringify({ type: "api", data: { name: 'subscribe', success: true }, mid: inData.mid }));
+							} catch(err){
+								ws.send(JSON.stringify({ type: "error", data: err, mid: inData.mid }));
+							}
+							ws.hasPassword = true;
 						}
 					break;
 					default:

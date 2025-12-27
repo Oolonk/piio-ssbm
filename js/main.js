@@ -1447,6 +1447,9 @@ async function buildPlayerAutoCompleteList() {
     });
     document.getElementById('playernames').truncate().appendChild(frag);
     bgWork.finish("buildPlayerAutoCompleteList");
+    if(_ws != undefined) {
+        _ws.send("playersList", players);
+    }
 }
 
 

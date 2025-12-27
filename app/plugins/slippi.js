@@ -83,7 +83,7 @@ Slippi.prototype.startSlippi = async function startSlippi() {
     }
     this.stream = new SlpLiveStream(this.slippiType);
     this.stream.start(this.slippiIP, (this.slippiType == "dolphin") ? Ports.DEFAULT : this.slippiPort)
-        .catch(console.error());
+        .catch(err => {console.error(err);});
     this.realtime = new SlpRealTime();
     this.realtime.setStream(this.stream);
     if (this.slippiType == "dolphin") {
@@ -149,6 +149,12 @@ Slippi.prototype.startSlippi = async function startSlippi() {
         this.gameEnded = payload
         this.event.emit("ended", payload);
         this.addScoreToScoreboard(payload);
+    });
+    this.realtime.stock.playerDied$.subscribe((payload) => {
+        this.event.emit("stockDeath", payload);
+    });
+    this.realtime.stock.percentChange$.subscribe((payload) => {
+        this.event.emit("percentChange", payload);
     });
 }
 Slippi.prototype.stopSlippi = function stopSlippi() {

@@ -92,7 +92,7 @@ async function createMainWindow() {
 		show: false,
 		icon: path.join(__dirname, 'logo.png'),
 		autoHideMenuBar: true,
-		webPreferences: { devTools: _debug, nodeIntegration: true, contextIsolation: false, enableRemoteModule: true }
+		webPreferences: { devTools: _debug, nodeIntegration: true, contextIsolation: false, enableRemoteModule: true, nodeIntegrationInWorker: true }
 	});
 	require("@electron/remote/main").enable(mainWin.webContents);
 	mainWin.once('ready-to-show', () => setTimeout(() => {

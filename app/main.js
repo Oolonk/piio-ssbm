@@ -149,6 +149,12 @@ slippi.on('addScore', (slippiPort) => {
 	let port = slippiPort + 1;
 	electron.send('slippiAddScore', port);
 })
+slippi.on('stockDeath', (data) => {
+	server.broadcast({ type: 'slippiStockDeath', data: data })
+})
+slippi.on('percentChange', (data) => {
+	server.broadcast({ type: 'slippiPercentChange', data: data })
+})
 
 electron.ipcMain.on('switchScene', (event, name) => {
 	obs.setCurrentScene(name)
