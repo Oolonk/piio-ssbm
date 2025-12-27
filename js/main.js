@@ -53,7 +53,7 @@ var scoreboard = {
         tournament: null,
     },
     smashggtoken: null,
-    parryggToken: null,
+    parryggtoken: null,
     type: "teams",
     _D: null
 };
@@ -290,6 +290,7 @@ async function applyClientSettings(settings) {
                 usedTournamentWebsite = row.value;
                 break;
             case "autoscore":
+                console.log("apply autoscore", row.value);
                 toggleAutoScore(row.value);
             case "autoupdateThreshold":
                 client.autoupdateThreshold = row.value;
@@ -1539,7 +1540,7 @@ function toggleAutoUpdate(value) {
 
 function toggleAutoScore(value) {
     client.autoscore = (value != null ? value : !client.autoscore);
-    ipcRenderer.invoke("set", "autoscore", client.autoupdate);
+    ipcRenderer.invoke("set", "autoscore", client.autoscore);
     ipcRenderer.send("slippiautoscore", client.autoscore);
     document.getElementById('autoscore-cbx').checked = client.autoscore;
 }

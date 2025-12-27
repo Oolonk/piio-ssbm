@@ -56,6 +56,7 @@ Server.prototype.start = async function start() {
 			res.write('<html>\r\n');
 			res.write('<head>\r\n');
 			res.write('<meta charset="UTF-8" />\r\n');
+			res.write('<link rel="icon" type="image/x-icon" href="/favicon.svg">\r\n');
 			res.write('<title>Piio | ' + (this.themeManifest.name || this.theme) + ' | ' + req.params.filename + ' ' + (this.themeManifest.resolution ? '[' + self.themeManifest.resolution.join(",") + ']' : '') + '</title>\r\n');
 			if (this.themeManifest.styles) {
 				for (let i = 0; i < this.themeManifest.styles.length; i++) {
@@ -126,7 +127,13 @@ Server.prototype.start = async function start() {
 		}
 		res.write(JSON.stringify(about, null, 4));
 		res.end();
-	})
+	});
+	this.server.get('/favicon.svg', (req, res) => {
+		res.writeHead(200, { 'Content-Type': 'image/svg+xml' });
+		let cont = fs.readFileSync(path.join(this.root, '..', 'img/logo.svg'), 'utf8');
+		res.write(cont);
+		res.end();
+	});
 
 	this.server.get('/', (req, res) => {
 		res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -137,6 +144,7 @@ Server.prototype.start = async function start() {
 				manifest = JSON.parse(fs.readFileSync(path.join(this.webPath, 'themes/' + this.theme + '/manifest.json')));
 			} catch (err) { }
 			res.write('<html><head><title>' + this.theme + ' | piio overlays</title><meta charset="UTF-8" />');
+			res.write('<link rel="icon" type="image/x-icon" href="/favicon.svg">');
 			res.write(`<style>
 			body {
 				font-family:segoe ui, arial; color: black; margin:0; background: #dee3ed;

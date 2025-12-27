@@ -147,6 +147,7 @@ class SmashggWrapper extends WebsiteWrapper {
 					}
 				}
 			}`, { "slug": tournamentSlug });
+            console.log(await res)
             if (res == null) { return null; }
             tournament = res.tournament;
             this.setCache("tournament-smashgg", tournamentSlug, tournament);

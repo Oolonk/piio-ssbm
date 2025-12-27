@@ -39,7 +39,7 @@ ipcRenderer.on("returnchannel", (event, data) => _returnChannel = data);
 async function fillTournamentInfo() {
     switch (usedTournamentWebsite) {
         case  "smashgg":
-        var tournament = await smashgg.getTournament();
+        var tournament = await smashgg.getTournament()
         document.querySelector("#info .title").innerText = (tournament ? tournament.name : "");
         let img = SmashggWrapper.getImage(tournament, "profile", 150);
         document.querySelector("#info .logo").style.backgroundImage = "url('" + img + "')";
@@ -71,12 +71,12 @@ async function fillTournamentInfo() {
             var infoLines = [];
             if (tournament) {
                 infoLines.push(getDateString(tournament.startDate.seconds, tournament.endDate.seconds, tournament.timeZone));
-                if (tournament.venueAddress) {
+
+                if(tournament.address){
+                    infoLines.push([tournament.address.administrativeAreaLevel1, tournament.address.countryCode].filter(x => x != null && x.length > 0).join(", "));
+                }else if (tournament.venueAddress) {
                     infoLines.push(tournament.venueAddress);
                 }
-                // if (tournament.city || tournament.countryCode) {
-                //     infoLines.push([tournament.city, tournament.countryCode].filter(x => x != null && x.length > 0).join(", "));
-                // }
                 if (tournament.numAttendees) {
                     infoLines.push(tournament.numAttendees + " attendees");
                 }
@@ -233,14 +233,15 @@ function buildItem(tournament, tournamentWebsite) {
             }
             tEl.querySelector(".name").innerText = tournament.name;
             tEl.querySelector(".date").innerText = getDateString(tournament.startAt, tournament.endAt, tournament.timezone);
+            tEl.querySelector(".item").onclick = () => selectTournament(tournament.slug, tournamentWebsite);
             break;
         case "parrygg":
             console.log(tournament);
             tEl.querySelector(".logo").style.backgroundImage = "url('" + tournament.pictures.banner + "')";
             tEl.querySelector(".name").innerText = tournament.name;
             tEl.querySelector(".date").innerText = getDateString(tournament.startDate.seconds, tournament.endDate.seconds, tournament.timezone);
+            tEl.querySelector(".item").onclick = () => selectTournament(tournament.primarySlug, tournamentWebsite);
     }
-	tEl.querySelector(".item").onclick = () => selectTournament(tournament.primarySlug, tournamentWebsite);
 	return tEl.querySelector(".item");
 }
 
@@ -250,7 +251,6 @@ async function selectTournament(slug, tournamentWebsite) {
     switch (usedTournamentWebsite) {
         case "smashgg":
             smashgg.SelectedTournament = null;
-            await fillTournamentInfo();
             smashgg.SelectedTournament = slug;
             await fillTournamentInfo();
             selectedTournament = smashgg.selectedTournament;

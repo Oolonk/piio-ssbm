@@ -11,7 +11,8 @@ let defaultSettings = {
     fixedStreamQueue: false,
     autoupdate: false,
     fixedSidebar: true,
-    autoupdateThreshold: 500
+    autoupdateThreshold: 500,
+    autoscore: false
 };
 
 let dbStruct = [
