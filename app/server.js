@@ -5,6 +5,8 @@ const net = require('net');
 const EventEmitter = require('events');
 const ExpressWs = require('express-ws');
 const WebSocket = require('ws');
+const electron = require("./electron");
+const os = require('os');
 function port() {
 	if (process.platform === "win32") {
 		return (80);
@@ -25,6 +27,7 @@ function Server() {
 	this.event = new EventEmitter();
 
 	this.theme = "";
+	this.apiPassword = "";
 	this.webPath = "";
 	this.themeManifest = {};
 	this.msgCache = {};
@@ -113,6 +116,17 @@ Server.prototype.start = async function start() {
 			res.end();
 		});
 	});
+	this.server.get('/about.json', (req, res) => {
+		res.writeHead(200, { 'Content-Type': 'application/json' });
+		let about = {
+			"name": "PIIO",
+			"version": electron.APP.getVersion(),
+			"host": os.hostname(),
+			"apiPassword" : this.apiPassword != "" ? true : false
+		}
+		res.write(JSON.stringify(about, null, 4));
+		res.end();
+	})
 
 	this.server.get('/', (req, res) => {
 		res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -249,13 +263,50 @@ Server.prototype.handleMessage = function handleMessage(inData, ws) {
 		case "subscribe": return subscribe.call(ws, inData.data); break;
 		case "register": return this.registerOverlay(ws, inData.data); break;
 		case "api":
-			this.event.emit("api", inData.data, (outData) => {
-				console.log(inData);
-				outData.mid = inData.mid;
-				console.log(outData);
-				ws.send(JSON.stringify(outData));
-			});
-			break;
+			if( inData.data.password !== this.apiPassword && this.apiPassword != "") {
+				ws.send(JSON.stringify({ type: "error", data: "Invalid API password", mid: inData.mid }));
+			}
+			else{
+				var type = '';
+				if(inData.data.name){
+					type = inData.data.name;
+				}
+				switch(type) {
+					case 'subscribe':
+						switch(inData.data.type){
+							case 'dmx':
+								console.log("Subscribing to dmx-channel");
+								try{
+									subscribe.call(ws, 'dmx-channel');
+									ws.send(JSON.stringify({ type: "api", data: { name: 'subscribe', success: true }, mid: inData.mid }));
+								} catch(err){
+									ws.send(JSON.stringify({ type: "error", data: err, mid: inData.mid }));
+								}
+								break;
+							case 'app':
+								try{
+									subscribe.call(ws, 'app');
+									ws.send(JSON.stringify({ type: "api", data: { name: 'subscribe', success: true }, mid: inData.mid }));
+								} catch(err){
+									ws.send(JSON.stringify({ type: "error", data: err, mid: inData.mid }));
+								}
+								break;
+							default:
+								ws.send(JSON.stringify({ type: "api", data: { name: 'subscribe', success: false, err: 'Invalid Type to subscribe' }, mid: inData.mid }));
+								break;
+						}
+					break;
+					default:
+						this.event.emit("api", inData.data, (outData) => {
+							console.log(inData);
+							outData.mid = inData.mid;
+							console.log(outData);
+							ws.send(JSON.stringify(outData));
+						});
+					break;
+				}
+				break;
+			}
 	}
 }
 

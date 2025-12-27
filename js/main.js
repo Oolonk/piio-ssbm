@@ -360,6 +360,10 @@ async function applyClientSettings(settings) {
             case "slippiStopByWinner":
                 showSlippiListsStopByWinner(row.value);
                 break;
+            case 'apiPassword':
+                ipcRenderer.send("apiPassword", row.value);
+                break;
+
         }
     }
 }

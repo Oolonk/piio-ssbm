@@ -250,6 +250,7 @@ async function obsChanger(event, name) {
 }
 
 
+electron.ipcMain.on('apiPassword', (event, name) => {server.apiPassword = name;});
 electron.ipcMain.on('theme', (event, name) => applyTheme(name));
 
 electron.ipcMain.handle('get', async (event, name) => {

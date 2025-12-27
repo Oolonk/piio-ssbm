@@ -52,6 +52,15 @@
                 Toggle if the Stream Matches queue list should hide itself or stay visible.
             </div>
         </div>
+        <div class="item">
+            <div class="label">API Password</div>
+            <div class="saved" id="apiPassword-saved"></div>
+            <input type="text" id="apiPassword-value" oninput="set('apiPassword', this.value)" value=""
+                   placeholder="no Password"/>
+            <div class="description">
+                This password will be required to access the local API. Leave empty for no password.
+            </div>
+        </div>
         <div class="item item-short">
             <input class="toggle-color" type="checkbox" id="enable-slippi-value" oninput="setSlippiEnable(this.checked)"
                    value=""
