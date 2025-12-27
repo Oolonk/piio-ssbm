@@ -161,6 +161,16 @@ Requests the all Players with the StartGG IDs.
   "type": Name of the returned call
   }
 
+##### `async getPlayersByParryGGId(ids: string | string[]): Promise<Object[]>`
+
+Requests the all Players with the ParryGG IDs.
+
+- **ids**: An integer or an array of integers representing the ParryGG IDs of the players.
+- Returns a promise that resolves with an Object: {
+  "data": Array of the players,
+  "type": Name of the returned call
+  }
+
 ##### `TeamSize: number`
 
 Returns the size of the team.
@@ -192,7 +202,7 @@ As an addition it will be returned by the **slippiStats** subscription.
 - Returns a promise that resolves with an Object: {
   "data": Array of game statistics,
   "type": Name of the returned call
-}
+  }
 
 #### Subscription Parameters
 

@@ -116,6 +116,23 @@ server.on('data-getPlayersByStartGGId', async (data, cb) => {
 
 });
 
+server.on('data-getPlayersByParryGGId', async (data, cb) => {
+	console.log(data);
+	let randomId = data.mid;
+	let parryGGIds = data.data;
+	let returnData = []
+	if(Array.isArray(parryGGIds)) {
+		for(let i = 0; i < parryGGIds.length; i++) {
+			let id = parryGGIds[i];
+			returnData = returnData.concat(await database.get("player", {  "parrygg": id  }));
+		}
+	}else{
+		returnData = returnData.concat(await database.get("player", {  "parrygg": parryGGIds  }));
+	}
+	server.sendToID({ type: 'getPlayersByParryGGId-' + randomId, data: await returnData }, data.id);
+
+});
+
 slippi.on('frame', () => {
 	server.broadcast({ type: 'slippiFrame', data: slippi.cache })
 })

@@ -434,6 +434,17 @@ class PiioConnector {
         }
     }
 
+    async getPlayersByParryGGId(parryGGId) {
+        if (this.ws && this.ws.Open) {
+            let randomId = Math.random().toString(36).substring(2, 15);
+            this.ws.send({"type": "getPlayersByParryGGId", "data": {data: parryGGId, 'id': this.id, 'mid': randomId}});
+            this.ws.once("getPlayersByParryGGId-" + randomId, (data) => {
+                console.log(data);
+                return data;
+            })
+        }
+    }
+
     getPictureUrl(url) {
         if (url) {
             let urlSVG = url + '.svg';
