@@ -1982,6 +1982,12 @@ ipcRenderer.on('slippiEnded', (event, name) => {
         }
     }, delay)
 });
+/**
+ * @TODO: Charaktere setzen bei den Spieler mit den Ports
+ */
+ipcRenderer.on('slippiStarted', (event, name) => {
+    // setCharacter();
+});
 ipcRenderer.on('slippiAddScore', (event, port) => {
     if(scoreboard.type  === "teams" && port != null && port > 0) {
         if(scoreboard.ports[port] != null) {

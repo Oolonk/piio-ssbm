@@ -50,6 +50,7 @@ let dbStruct = [
     { "name": "character", "field": "name", "type": "text", "relation": null, "multi": null },
     { "name": "character", "field": "shorten", "type": "text", "relation": null, "multi": null },
     { "name": "character", "field": "skins", "type": "text", "multi": true },
+    { "name": "character", "field": "slippiId", "type": "number", "relation": null, "multi": null },
     { "name": "character", "field": "game", "type": "relation", "relation": "game", "multi": null },
     { "name": "pride", "field": "name", "index": -1, "type": "text" },
     { "name": "pride", "field": "color", "type": "color", "index": -4 },
