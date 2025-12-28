@@ -37,6 +37,10 @@ var scoreboard = {
     caster: [],
     seatorder: [],
     ports: [],
+    matchformat: {
+        type: 0,
+        value: 0,
+    },
     fields: {},
     game: null,
     startgg: {
@@ -790,6 +794,26 @@ async function teamNameInput(team, e) {
     bgWork.finish("teamNameInput");
 }
 
+async function setMatchmakingMode(value) {
+    bgWork.start("matchmakingModeInput");
+    scoreboard.matchformat.type = parseInt(value);
+    if(scoreboard.matchformat.type == 0){
+        document.getElementById("matchmaking-value").style.display = "none";
+    }
+    else{
+        document.getElementById("matchmaking-value").style.display = null;
+    }
+    fire("scoreboardchanged");
+    bgWork.finish("matchmakingModeInput");
+}
+
+async function setMatchmakingValue(value) {
+    bgWork.start("matchmakingValueInput");
+    scoreboard.matchformat.value = parseInt(value);
+    fire("scoreboardchanged");
+    bgWork.finish("matchmakingValueInput");
+}
+
 async function setCaster(index, co) {
     bgWork.start("setCaster");
     scoreboard.caster[index] = co;
@@ -1330,6 +1354,15 @@ function insertScoreboardData(newScoreboard) {
                 document.getElementById("playerport-" + portNum + "-" + teamNum + "-" + playerNum).classList.toggle("checked", hasPort);
             }
         }
+    }
+    var matchmakingValue = document.getElementById("matchmaking-value");
+    matchmakingValue.value = scoreboard.matchformat.value;
+    var matchmakingMode = document.getElementById("matchmaking-mode");
+    matchmakingMode.value = scoreboard.matchformat.type;
+    if(scoreboard.matchformat.type === 0){
+        matchmakingValue.style.display = "none";
+    }else{
+        matchmakingValue.style.display = null;
     }
 
     fire("scoreboardsmashggchanged");

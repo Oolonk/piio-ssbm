@@ -847,6 +847,12 @@ body.modal #modal {
 
 }
 
+#sb-middle > .matchmaking{
+    text-align: center;
+    line-height: 14px;
+    font-size: 11px;
+}
+
 
 #seatorder-wrap {
     display: grid;

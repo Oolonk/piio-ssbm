@@ -123,7 +123,8 @@ Server.prototype.start = async function start() {
 			"name": "PIIO",
 			"version": electron.APP.getVersion(),
 			"host": os.hostname(),
-			"apiPassword" : this.apiPassword != "" ? true : false
+			"apiPassword" : this.apiPassword != "",
+			"apiVersion": 1,
 		}
 		res.write(JSON.stringify(about, null, 4));
 		res.end();
@@ -285,10 +286,10 @@ Server.prototype.handleMessage = function handleMessage(inData, ws) {
 						switch(inData.data.type){
 							case 'dmx':
 								console.log("Subscribing to dmx-channel");
-								subscriptionCalls = ['dmx-channel', 'slippiGameStarted', 'slippiGameEnded', 'slippiStockDeath', 'slippiPercentChange'];
+								subscriptionCalls = ['dmx-channel', 'slippiGameStarted', 'slippiGameEnded', 'slippiStockDeath', 'slippiPercentChange', 'scoreboard'];
 								break;
 							case 'app':
-								subscriptionCalls = ['app','slippiGameStarted', 'slippiGameEnded'];
+								subscriptionCalls = ['app','scoreboard', 'streamQueue'];
 								break;
 						}
 						if(subscriptionCalls.length === 0){

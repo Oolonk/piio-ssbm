@@ -178,6 +178,12 @@
             <button onclick="swap();" style="font-size: 26px; height: 23px;"><span class="material-icons">swap_horiz</span></button>
             <button onclick="clearBoard();">Clear</button>
             <button onclick="resetScore();">0 - 0</button>
+            <select class="matchmaking" id="matchmaking-mode" onchange="setMatchmakingMode(this.value)">
+                <option value="0">Freeplay</option>
+                <option value="1">Best of</option>
+                <option value="1">First to</option>
+            </select>
+            <input class="matchmaking" type="number" id="matchmaking-value" value="3" min="1" oninput="setMatchmakingValue(this.value)"/>
         </div>
         <template id="sb-player-tpl">
             <button class="character-select-btn">

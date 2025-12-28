@@ -30,6 +30,16 @@ class PiioConnector {
         document.onreadystatechange = (e) => this.init();
     }
 
+    static MATCHFORMAT_TYPE = {
+        FREEPLAY: 0,
+        BESTOF: 1,
+        FIRSTTO: 2,
+
+        0: "FREEPLAY",
+        1: "BESTOF",
+        2: "FIRSTTO"
+    }
+
     init() {
         if (document.readyState != "complete") return;
         this.connect();
