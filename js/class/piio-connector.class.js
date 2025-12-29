@@ -134,6 +134,12 @@ class PiioConnector {
         return data;
     }
 
+    /**
+     * Get player object
+     * @param teamNum
+     * @param playerNum
+     * @returns {*|null}
+     */
     getPlayer(teamNum, playerNum) {
         if (playerNum == null) {
             playerNum = this.getSelectedPlayer(teamNum);

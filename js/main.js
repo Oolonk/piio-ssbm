@@ -1983,10 +1983,21 @@ ipcRenderer.on('slippiEnded', (event, name) => {
     }, delay)
 });
 /**
- * @TODO: Charaktere setzen bei den Spieler mit den Ports
+ * @param event
+ * @param data
+ * Set characters on slippi start based on port
  */
-ipcRenderer.on('slippiStarted', (event, name) => {
-    // setCharacter();
+ipcRenderer.on('slippiStarted', (event, data) => {
+    data.players.forEach((player, index) => {
+        let port = player.port;
+        if(scoreboard.ports[port] != null) {
+            db.getSingle("character", {slippiId: player.characterId.toString(), game: scoreboard.game}).then((char) => {
+                if(char != null) {
+                    setCharacter(scoreboard.ports[port][0], scoreboard.ports[port][1], char._id, player.characterColor);
+                }
+            });
+        }
+    });
 });
 ipcRenderer.on('slippiAddScore', (event, port) => {
     if(scoreboard.type  === "teams" && port != null && port > 0) {
