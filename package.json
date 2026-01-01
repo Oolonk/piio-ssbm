@@ -101,15 +101,16 @@
     "@seald-io/nedb": "^4.1.2",
     "@slippi/slippi-js": "7.2.0",
     "@vinceau/slp-realtime": "^4.0.0",
+    "bonjour": "^3.5.0",
     "express": "^5.1.0",
     "express-ws": "^5.0.2",
     "fs-extra": "^11.3.2",
+    "google-protobuf": "^4.0.1",
+    "grpc-web": "^2.0.2",
     "object-watcher": "^1.0.2",
     "obs-websocket-js": "^5.0.7",
     "rxjs": "^7.x",
     "ws": "^8.18.3",
-    "google-protobuf": "^4.0.1",
-    "grpc-web": "^2.0.2",
     "xhr2": "^0.2.1"
   }
 }

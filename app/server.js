@@ -6,6 +6,7 @@ const EventEmitter = require('events');
 const ExpressWs = require('express-ws');
 const WebSocket = require('ws');
 const electron = require("./electron");
+var bonjour = require('bonjour')()
 const os = require('os');
 function port() {
 	if (process.platform === "win32") {
@@ -20,6 +21,7 @@ function Server() {
 	this.server = express();
 	this.expressWs = ExpressWs(this.server);
 	this.port = port();
+	this.bonjour = bonjour;
 
 	this.pingInterval = 10; // seconds
 	this.socket = require('dgram').createSocket('udp4');
@@ -34,6 +36,12 @@ function Server() {
 	this.root = ''
 	this.themeWatcher;
 	this.dynStatic;
+	this.about = {
+		"name": "PIIO",
+		"version": electron.APP.getVersion(),
+		"host": os.hostname(),
+		"apiVersion": 1,
+	}
 }
 
 Server.prototype.on = function on(...args) {
@@ -45,7 +53,7 @@ Server.prototype.start = async function start() {
 
 	this.themeWatcher = fs.watch(path.join(APPRES, 'themes'));
 	this.themeWatcher.on("change", () => this.event.emit("themefolder-changed"));
-
+	this.bonjour.publish({ name: 'piio', type: 'http', port: this.port, txt: this.about });
 	this.dynStatic = this.createDynStatic(path.join(this.webPath, 'themes/' + this.theme));
 	this.server.use('/assets', express.static(path.join(this.webPath, 'assets')));
 	this.server.use('/class', express.static(path.join(this.root, 'class')));
