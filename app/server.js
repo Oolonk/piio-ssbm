@@ -137,6 +137,12 @@ Server.prototype.start = async function start() {
 		res.write(JSON.stringify(about, null, 4));
 		res.end();
 	});
+	this.server.get('/checkPassword/:password', (req, res) => {
+		res.writeHead(200, { 'Content-Type': 'application/json' });
+		let isValid = (this.apiPassword === req.params.password || this.apiPassword === "");
+		res.write(JSON.stringify({ valid: isValid }, null, 4));
+		res.end();
+	});
 	this.server.get('/favicon.svg', (req, res) => {
 		res.writeHead(200, { 'Content-Type': 'image/svg+xml' });
 		let cont = fs.readFileSync(path.join(this.root, '..', 'img/logo.svg'), 'utf8');
