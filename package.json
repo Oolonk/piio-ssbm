@@ -81,8 +81,7 @@
       "description": "Production Interface IO"
     },
     "appId": "de.piio",
-    "productName": "piio",
-    "icon": "app/logo.png"
+    "productName": "piio"
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.10.2",
