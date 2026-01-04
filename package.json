@@ -41,10 +41,7 @@
           "regions.json",
           "changelog.txt",
           "README.md",
-          "scoreboard.json",
-          "build",
-            "dist",
-            "out"
+          "scoreboard.json"
         ],
         "executableName": "piio",
         "icon": "./app/logo.ico"
@@ -68,9 +65,7 @@
       "!regions.json",
       "!changelog.txt",
       "!README.md",
-      "!scoreboard.json",
-      "!dist/**",
-      "!out/**"
+      "!scoreboard.json"
     ],
     "linux": {
       "target": [
