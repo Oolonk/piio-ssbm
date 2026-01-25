@@ -57,7 +57,7 @@ class WebsiteWrapper{
 /* --exclude-from-all */
 
 class SmashggWrapper extends WebsiteWrapper {
-    static ENDPOINT = "https://api.smash.gg/gql/alpha";
+    static ENDPOINT = "https://api.start.gg/gql/alpha";
     static GROUP_TYPE = {
         SINGLE_ELIMINATION: 1,
         DOUBLE_ELIMINATION: 2,

@@ -1537,8 +1537,9 @@ body:not(.fixedStreamQueue) #stream-queue:hover .list {
     right: 0;
     padding: 3px 10px 3px 24px;
     font-weight: bold;
-    background-size: 18px;
-    background: rgba(var(--backgroundRGB), 0.5) no-repeat;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: rgba(var(--backgroundRGB), 0.5);
 }
 
 #stream-queue .list .title[data-site="smashgg"] {

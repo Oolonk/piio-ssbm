@@ -6,7 +6,11 @@ const EventEmitter = require('events');
 const ExpressWs = require('express-ws');
 const WebSocket = require('ws');
 const electron = require("./electron");
-var bonjour = require('bonjour')()
+var bonjour = require('bonjour')(
+	{
+		multicast: false
+	}
+);
 const os = require('os');
 function port() {
 	if (process.platform === "win32") {
@@ -53,7 +57,7 @@ Server.prototype.start = async function start() {
 
 	this.themeWatcher = fs.watch(path.join(APPRES, 'themes'));
 	this.themeWatcher.on("change", () => this.event.emit("themefolder-changed"));
-	this.bonjour.publish({ name: 'piio', type: 'http', port: this.port, txt: this.about });
+	this.bonjour.publish({ name: `${os.hostname()}-${(Math.random() + 1).toString(36).substring(7)}`, type: 'piio', port: this.port, txt: this.about });
 	this.dynStatic = this.createDynStatic(path.join(this.webPath, 'themes/' + this.theme));
 	this.server.use('/assets', express.static(path.join(this.webPath, 'assets')));
 	this.server.use('/class', express.static(path.join(this.root, 'class')));
