@@ -80,7 +80,7 @@ async function theme() {
                 console.log("default theme exists");
                 return resolve();
             }
-            console.log("default theme missing");
+            console.error("default theme manifest missing on path " + err['path']);
             fse.copySync(path.join(appFolder, 'themes', 'default'), path.join(resFolder, 'themes', 'default'), { overwrite: true });
             resolve();
         });
