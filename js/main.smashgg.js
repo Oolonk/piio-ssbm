@@ -173,6 +173,9 @@ async function getSmashggDifferences(player) {
 
 	player = await db.resolveRelations("player", player);
 	let smashggPlayer = await smashgg.getPlayer(player.smashgg);
+	if(smashggPlayer == null){
+		return res;
+	}
 	res.differences = SmashggWrapper.comparePlayer(player, smashggPlayer);
 	return res;
 }

@@ -42,6 +42,8 @@ addEventListener("load", async () => {
 			case "slippiStopByWinner":
 				el.checked = entry.value ? 1 : 0;
 				break;
+			case "parrygg-hideNotReadySets":
+				el.checked = entry.value ? 1 : 0;
 			default:
 				el.value = entry.value;
 				break;

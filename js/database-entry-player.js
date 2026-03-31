@@ -86,7 +86,9 @@ async function checkSmashggCompare() {
 	let smashggId = parseInt(document.getElementById('field-smashgg').value);
 	if (isNaN(smashggId) || smashggId == 0) { return; }
 	let smashggEntry = await smashgg.getPlayer(smashggId);
-
+    if(smashggEntry == null){
+		return
+	}
 	console.log(smashggEntry);
 
 	let diffs = SmashggWrapper.comparePlayer(dataset, smashggEntry, true);

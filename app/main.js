@@ -239,6 +239,9 @@ function slippiViewer() {
 }
 
 electron.ipcMain.on('obsIp', (event, name) => {obs.setIp(name)});
+electron.ipcMain.on('parryggHideNotReadySets', (event, name) => {
+	console.log("parrygg-hideNotReadySets", name);
+	parryGGHideNotReadySets(Boolean(name))});
 electron.ipcMain.on('obsPort', (event, name) => {obs.setPort(name)});
 electron.ipcMain.on('obsPassword', (event, name) => {obs.setPassword(name)});
 electron.ipcMain.on('obs', (event, name) => {obsChanger(event, name)});

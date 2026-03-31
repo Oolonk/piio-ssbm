@@ -22,6 +22,10 @@ on("ws-ready", async () => {
     });
 });
 
+function parryGGHideNotReadySets(bool){
+    console.log("parryGGHideNotReadySets", bool);
+    parrygg.hideNotReadySets = bool;
+}
 async function displayParryggCurrent() {
     let set = await parrygg.getSet(scoreboard.parrygg.set);
     var entrants = await Promise.all(await set.slotsList.map(async slot => (

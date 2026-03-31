@@ -132,7 +132,7 @@ class SmashggWrapper extends WebsiteWrapper {
         tournamentSlug = tournamentSlug == null ? this.selectedTournament : tournamentSlug;
         if (tournamentSlug == null) { return; }
         let tournament = this.getCache("tournament-smashgg", tournamentSlug, cacheMaxAge);
-        if (tournament == null) {
+        if (tournament == null) {try {
             let res = await this.query(`query ($slug: String!) {
 				tournament(slug: $slug){
 					id name city countryCode createdAt rules hashtag numAttendees primaryContact primaryContactType shortSlug slug startAt endAt timezone tournamentType
@@ -151,6 +151,9 @@ class SmashggWrapper extends WebsiteWrapper {
             if (res == null) { return null; }
             tournament = res.tournament;
             this.setCache("tournament-smashgg", tournamentSlug, tournament);
+        } catch (e) {
+            return null;
+        }
         }
         return tournament;
     }
@@ -349,12 +352,16 @@ class SmashggWrapper extends WebsiteWrapper {
     }
 
     async findTournament(term) {
-        let res = await this.query(`query ($term: String!) {
+        try {
+            let res = await this.query(`query ($term: String!) {
 			tournament(slug: $term){
 				${SmashggWrapper.GRAPHQL_FIELDS.TOURNAMENT}
 			}
 		}`, { "term": term });
-        return res.tournament;
+            return res.tournament;
+        } catch (err) {
+            return null;
+        }
     }
 
     async fetchStreamQueue() {
@@ -519,6 +526,7 @@ class SmashggWrapper extends WebsiteWrapper {
     }
 
     async request(args) {
+        try{
         const fetchResponse = await fetch(SmashggWrapper.ENDPOINT, {
             method: 'POST',
             cache: 'no-cache',
@@ -529,6 +537,9 @@ class SmashggWrapper extends WebsiteWrapper {
             body: JSON.stringify(args)
         });
         return await fetchResponse.json();
+        } catch(err) {
+            return null;
+        }
     }
 
     destroy() {
@@ -677,6 +688,7 @@ class ParryggWrapper extends WebsiteWrapper{
         this.timers = {};
         this.cache = { sets: {}, tournaments: {}, players: {} };
         this.events = {};
+        this.hideNotReadySets = true;
 
 
         this.requestCounter = [];
@@ -1079,7 +1091,11 @@ class ParryggWrapper extends WebsiteWrapper{
                         return null;
                     }
                     var matches =  bracket.matchesList;
-                    var rightStates = [this.parrygg.MatchState.MATCH_STATE_PENDING, this.parrygg.MatchState.MATCH_STATE_IN_PROGRESS, this.parrygg.MatchState.MATCH_STATE_READY];
+                    // var rightStates = [this.parrygg.MatchState.MATCH_STATE_PENDING, this.parrygg.MatchState.MATCH_STATE_IN_PROGRESS, this.parrygg.MatchState.MATCH_STATE_READY];
+                    var rightStates = [this.parrygg.MatchState.MATCH_STATE_IN_PROGRESS, this.parrygg.MatchState.MATCH_STATE_READY];
+                    if(this.hideNotReadySets == false){
+                        rightStates.push(this.parrygg.MatchState.MATCH_STATE_PENDING);
+                    }
                     //
                     return matches.filter(match => rightStates.includes(match.state)).map(match => Object.assign(match, {event: {id: eventId, name: event.name}, phase: {id: phaseId, name: phase}, bracket: {id: bracketId}, tournament: {id: this.tournamentObject.id, name: this.tournamentObject.name}}));
                 });

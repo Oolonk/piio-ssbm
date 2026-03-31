@@ -142,80 +142,119 @@ function checkForLoad(e) {
 }
 
 async function fetchResults() {
-	let el = document.getElementById('smashgg-results');
-	let searchTbx = document.getElementById('tournament-search-tbx')
-	let term = searchTbx.value.trim();
-	el.classList.toggle("visible", term.length > 0);
-
-	if (term.length == 0) {
-		return;
-	}
-
-	el.classList.add("fetching");
-
-	let startggTournaments = await smashgg.findTournaments(term, currentPage.smashgg, 50);
-    console.log(startggTournaments);
-	if (term != searchTbx.value) { return; } // abort due to changed term while executing async request
-
-	if (currentPage.smashgg == 1) {
-		let startggTournament = await smashgg.findTournament(term);
-		if (term != searchTbx.value) { return; } // abort due to changed term while executing async request
-		if (startggTournament) {
-            startggTournament.matchedSlug = true;
-			slugMatchTournament = startggTournament;
-            startggTournaments.unshift(startggTournament);
-		}
-	}
-
-	if (slugMatchTournament) {
-        startggTournaments = startggTournaments.filter(x => x.id != slugMatchTournament.id || x.matchedSlug);
-	}
-
-	el.classList.toggle("noresults", currentPage.smashgg == 1 && startggTournaments.length == 0);
-    startggTournaments.forEach((tournament) => el.appendChild(buildItem(tournament, "smashgg")));
-	currentPage.smashgg++;
-	if (startggTournaments.length == 0) {
-		el.onscroll = null;
-	}
-	infiniteScrollLoading.smashgg = false;
-	el.classList.remove("fetching");
-    // Parrygg section
-    slugMatchTournament = null;
-    el = document.getElementById('parrygg-results');
-    el.classList.toggle("visible", term.length > 0);
-
-    if (term.length == 0) {
-        return;
+    try {
+        await fetchResultsSite("smashgg");
+    }catch(err) {
+        console.log(err);
     }
 
-    el.classList.add("fetching");
-    let parryggTournaments = await parrygg.findTournaments(term, currentPage.parrygg, 50);
-    if (term != searchTbx.value) { return; }
-    if (currentPage.parrygg == 1) {
-        let parryggTournament = await parrygg.getTournament(term);
-        if (term != searchTbx.value) { return; }
-        if (parryggTournament) {
-            parryggTournament.matchedSlug = true;
-            slugMatchTournament = parryggTournament;
-            parryggTournaments.unshift(parryggTournament);
-        }
-    }else{
-        parryggTournaments = [];
+    try {
+        await fetchResultsSite("parrygg");
+    }catch(err) {
+        console.log(err);
     }
+}
 
-    if (slugMatchTournament) {
-        parryggTournaments = parryggTournaments.filter(x => x.id != slugMatchTournament.id || x.matchedSlug);
+async function fetchResultsSite(tournamentWebsite) {
+    var searchTbx = document.getElementById('tournament-search-tbx')
+    var term = searchTbx.value.trim();
+    switch (tournamentWebsite) {
+        case "smashgg":
+            var el = document.getElementById('smashgg-results');
+            el.classList.toggle("visible", term.length > 0);
+
+            if (term == null || term.length == 0) {
+                return;
+            }
+
+            el.classList.add("fetching");
+
+            let startggTournaments = await smashgg.findTournaments(term, currentPage.smashgg, 50);
+            console.log(startggTournaments);
+            if (term != searchTbx.value) {
+                infiniteScrollLoading.smashgg = false;
+                el.classList.remove("fetching");
+                return; } // abort due to changed term while executing async request
+
+            if (currentPage.smashgg == 1) {
+                let startggTournament = await smashgg.findTournament(term);
+                if (term != searchTbx.value) {
+                    infiniteScrollLoading.smashgg = false;
+                    el.classList.remove("fetching");
+                    return; } // abort due to changed term while executing async request
+                if (startggTournament) {
+                    startggTournament.matchedSlug = true;
+                    slugMatchTournament = startggTournament;
+                    startggTournaments.unshift(startggTournament);
+                }
+            }
+
+            if (slugMatchTournament) {
+                startggTournaments = startggTournaments.filter(x => x.id != slugMatchTournament.id || x.matchedSlug);
+            }
+            if(startggTournaments == null){
+                infiniteScrollLoading.smashgg = false;
+                el.classList.remove("fetching");
+                return;
+            } // abort due to changed term while executing async request
+
+            el.classList.toggle("noresults", currentPage.smashgg == 1 && startggTournaments.length == 0);
+            startggTournaments.forEach((tournament) => el.appendChild(buildItem(tournament, "smashgg")));
+            currentPage.smashgg++;
+            if (startggTournaments.length == 0) {
+                el.onscroll = null;
+            }
+            infiniteScrollLoading.smashgg = false;
+            el.classList.remove("fetching");
+            break;
+        case "parrygg":
+            // Parrygg section
+            slugMatchTournament = null;
+            var el = document.getElementById('parrygg-results');
+            el.classList.toggle("visible", term.length > 0);
+
+            if (term.length == 0) {
+
+                infiniteScrollLoading.parrygg = false;
+                el.classList.remove("fetching");
+                return;
+            }
+
+            el.classList.add("fetching");
+            let parryggTournaments = await parrygg.findTournaments(term, currentPage.parrygg, 50);
+            if (term != searchTbx.value) {
+                infiniteScrollLoading.parrygg = false;
+                el.classList.remove("fetching");
+                return; }
+            if (currentPage.parrygg == 1) {
+                let parryggTournament = await parrygg.getTournament(term);
+                if (term != searchTbx.value) {
+                    infiniteScrollLoading.parrygg = false;
+                    el.classList.remove("fetching");
+                    return; }
+                if (parryggTournament) {
+                    parryggTournament.matchedSlug = true;
+                    slugMatchTournament = parryggTournament;
+                    parryggTournaments.unshift(parryggTournament);
+                }
+            }else{
+                parryggTournaments = [];
+            }
+
+            if (slugMatchTournament) {
+                parryggTournaments = parryggTournaments.filter(x => x.id != slugMatchTournament.id || x.matchedSlug);
+            }
+
+            el.classList.toggle("noresults", currentPage.parrygg == 1 && parryggTournaments.length == 0);
+            parryggTournaments.forEach((tournament) => el.appendChild(buildItem(tournament, "parrygg")));
+            currentPage.parrygg++;
+            if (parryggTournaments.length == 0) {
+                el.onscroll = null;
+            }
+            infiniteScrollLoading.parrygg = false;
+            el.classList.remove("fetching");
+            break;
     }
-
-    el.classList.toggle("noresults", currentPage.parrygg == 1 && parryggTournaments.length == 0);
-    parryggTournaments.forEach((tournament) => el.appendChild(buildItem(tournament, "parrygg")));
-    currentPage.parrygg++;
-    if (startggTournaments.length == 0) {
-        el.onscroll = null;
-    }
-    infiniteScrollLoading.parrygg = false;
-    el.classList.remove("fetching");
-
 }
 
 function buildItem(tournament, tournamentWebsite) {
