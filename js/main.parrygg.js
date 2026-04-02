@@ -164,7 +164,7 @@ async function applyParryggSet(setId, bracketId, phaseId, eventId, tournamentId)
             let res = await db.get("player", {  "parrygg": participant.id  }, Player);
 
             // filter only with matching smashgg ID
-            let exactRes = res.filter(x => x.smashgg == participant.id).slice(0, 1);
+            let exactRes = res.filter(x => x.parrygg == participant.id).slice(0, 1);
             let insertPlayer;
             if (exactRes.length == 1) {
                 // has matching ID - just insert
