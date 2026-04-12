@@ -1112,6 +1112,40 @@ class ParryggWrapper extends WebsiteWrapper{
 
     }
 
+    /**
+     * TODO: New Implementation to reduce timing.
+     * @type {*[]}
+     */
+    async getSetsFromStreamQueueNEW(){
+        var sets = [];
+        if (!this.brackets || !this.brackets.events) {
+            return sets;
+        }
+
+        var request = new this.parrygg.GetMatchesRequest();
+        const matchesFilter = new this.parrygg.MatchesFilter();
+        const tournamentIdentifier = new this.parrygg.TournamentIdentifier();
+        tournamentIdentifier.setId(this.selectedTournament);
+        matchesFilter.setTournament(tournamentIdentifier);
+        request = request.setFilter(matchesFilter);
+        console.log(request);
+        try {
+            const response = await this.matchClient.getMatches(
+                request,
+                this.createAuthMetadata,
+            );
+            console.log(response);
+            return response.getTournamentsList()
+                .sort((a, b) => {
+                    return b.getStartDate().getSeconds() - a.getStartDate().getSeconds();
+                })
+                .map((tournament) => (Object.assign(tournament.toObject(), this.getAdditionalTournamentInfos(tournament.toObject()))));
+        }catch (error) {
+        console.error(error);
+        }
+        return [];
+    }
+
     async getEntrantFromSeedAndBracket(slotId, bracketId, cacheMaxAge) {
         var participant = {
             id: null,
