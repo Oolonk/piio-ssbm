@@ -18,7 +18,7 @@ class Player {
 		this.city = params.city || null;
 		this.team = params.team || [];
 		this.pride = params.pride || [];
-        this.region = params.region || [];
+        this.region = params.region || "";
 		this.smashgg = params.smashgg || [];
 		this.smashggIgnore = params.smashggIgnore || {};
         this.parrygg = params.parrygg || [];
