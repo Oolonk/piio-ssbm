@@ -99,7 +99,6 @@ server.on('data-getSlippiStats', async (data, cb) => {
 });
 
 server.on('data-getPlayersByStartGGId', async (data, cb) => {
-	console.log(data);
 	let randomId = data.mid;
 	let startGGIds = data.data;
 	let returnData = []
@@ -117,7 +116,6 @@ server.on('data-getPlayersByStartGGId', async (data, cb) => {
 });
 
 server.on('data-getPlayersByParryGGId', async (data, cb) => {
-	console.log(data);
 	let randomId = data.mid;
 	let parryGGIds = data.data;
 	let returnData = []
@@ -240,7 +238,6 @@ function slippiViewer() {
 
 electron.ipcMain.on('obsIp', (event, name) => {obs.setIp(name)});
 electron.ipcMain.on('parryggHideNotReadySets', (event, name) => {
-	console.log("parrygg-hideNotReadySets", name);
 	parryGGHideNotReadySets(Boolean(name))});
 electron.ipcMain.on('obsPort', (event, name) => {obs.setPort(name)});
 electron.ipcMain.on('obsPassword', (event, name) => {obs.setPassword(name)});
