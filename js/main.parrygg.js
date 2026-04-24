@@ -74,7 +74,7 @@ async function displayParryggStreamQueue(sets) {
 
     // add/edit sets
     sets.forEach(async (set, idx) => {
-        set.fullRoundText = parrygg.getSetRoundName(set.match, await parrygg.getBracket(set.bracket.id));
+        set.fullRoundText = parrygg.getSetRoundName(set, await parrygg.getBracket(set.bracket.id));
         var entrants = await Promise.all(await set.match.slotsList.map(async slot => (
             await parrygg.getEntrantFromSeedAndBracket(slot.seedId, set.bracket.id)
         )));
@@ -184,7 +184,7 @@ async function applyParryggSet(setId) {
     }
 
     setTeamSize(teamSize);
-    set.fullRoundText = parrygg.getSetRoundName(set.match, bracket);
+    set.fullRoundText = parrygg.getSetRoundName(set, bracket);
     set.eventName = event.name;
     set.slug = tournament.slug;
     set.hashtag = '';
