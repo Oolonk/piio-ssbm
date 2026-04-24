@@ -57,6 +57,7 @@ async function applyParryggSettings(tournamentSlug, streamId) {
     parrygg.SelectedStream = streamId;
     parrygg.tournamentObject = await parrygg.getTournament(this.selectedTournament);
     if (tournamentSlug != null && tournamentSlug != '') {
+        await parrygg.setBrackets();
         parrygg.startStreamQueuePolling();
     } else {
         parrygg.stopStreamQueuePolling();

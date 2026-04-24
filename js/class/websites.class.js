@@ -793,7 +793,6 @@ class ParryggWrapper extends WebsiteWrapper{
     }
 
     getSetRoundName(set, bracket) {
-        console.log(set, bracket);
         var matchList = bracket.matchesList;
         //get highest round number for winners and losers
         var highestWinnersRound = 0;
@@ -852,11 +851,6 @@ class ParryggWrapper extends WebsiteWrapper{
 
 
         }
-        if (bracket.type == parrygg.parrygg.BracketType.BRACKET_TYPE_DOUBLE_ELIMINATION) {
-        } else if(bracket.type === parrygg.parrygg.BracketType.BRACKET_TYPE_SINGLE_ELIMINATION) {
-        } else if(bracket.type === parrygg.parrygg.BracketType.BRACKET_TYPE_ROUND_ROBIN) {
-        }
-        return "";
     }
 
     getAdditionalTournamentInfos(tournament) {
@@ -1102,10 +1096,6 @@ class ParryggWrapper extends WebsiteWrapper{
         this.brackets = {tournament: tournamentSlug, events: events};
     }
 
-    /**
-     * TODO: New Implementation to reduce timing.
-     * @type {*[]}
-     */
     async getSetsFromStreamQueue(){
         var sets = [];
         if (!this.brackets || !this.brackets.events) {
