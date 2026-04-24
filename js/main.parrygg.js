@@ -23,12 +23,11 @@ on("ws-ready", async () => {
 });
 
 function parryGGHideNotReadySets(bool){
-    console.log("parryGGHideNotReadySets", bool);
     parrygg.hideNotReadySets = bool;
 }
 async function displayParryggCurrent() {
     let set = await parrygg.getSet(scoreboard.parrygg.set);
-    var entrants = await Promise.all(await set.slotsList.map(async slot => (
+    var entrants = await Promise.all(await set.match.slotsList.map(async slot => (
         await parrygg.getEntrantFromSeedAndBracket(slot.seedId, scoreboard.parrygg.bracket)
     )));
     document.querySelector("#stream-queue .current").innerText = (entrants ? entrants.map(x =>
@@ -133,13 +132,12 @@ async function applyParryggSet(setId, bracketId, phaseId, eventId, tournamentId)
         phaseGroup: null,
         phase: null
     }
-    scoreboard.parrygg.set = set.id;
+    scoreboard.parrygg.set = set.match.id;
     scoreboard.parrygg.bracket = bracket.id;
     scoreboard.parrygg.event = event.id;
     scoreboard.parrygg.phase = event.id;
     scoreboard.parrygg.tournament = tournament.id;
-
-    var entrants = await Promise.all(await set.slotsList.map(async slot => (
+    var entrants = await Promise.all(await set.match.slotsList.map(async slot => (
         await parrygg.getEntrantFromSeedAndBracket(slot.seedId, bracketId)
     )));
     console.log({
@@ -187,12 +185,12 @@ async function applyParryggSet(setId, bracketId, phaseId, eventId, tournamentId)
     }
 
     setTeamSize(teamSize);
-    set.fullRoundText = parrygg.getSetRoundName(set, bracket);
+    set.fullRoundText = parrygg.getSetRoundName(set.match, bracket);
     set.eventName = event.name;
     set.slug = tournament.slug;
     set.hashtag = '';
     set.tournamentName = tournament.name;
-    set.all = set;
+    set.all = set.match;
     _theme.fields.forEach((field) => {
         if (field.hasOwnProperty("smashgg") && field.type == "text" && set.hasOwnProperty(field.smashgg)) {
             document.getElementById('field-' + field.name).value = set[field.smashgg];

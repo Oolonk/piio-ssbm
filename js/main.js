@@ -369,7 +369,6 @@ async function applyClientSettings(settings) {
                 ipcRenderer.send("apiPassword", row.value);
                 break;
             case "parrygg-hideNotReadySets":
-                console.log("parrygg-hideNotReadySets", row.value);
                 parryGGHideNotReadySets(row.value);
                 ipcRenderer.send("parryggHideNotReadySets", row.value);
                 break;
