@@ -57,7 +57,6 @@ async function applyParryggSettings(tournamentSlug, streamId) {
     parrygg.SelectedStream = streamId;
     parrygg.tournamentObject = await parrygg.getTournament(this.selectedTournament);
     if (tournamentSlug != null && tournamentSlug != '') {
-        await parrygg.setBrackets();
         parrygg.startStreamQueuePolling();
     } else {
         parrygg.stopStreamQueuePolling();
@@ -66,7 +65,7 @@ async function applyParryggSettings(tournamentSlug, streamId) {
 
 async function displayParryggStreamQueue(sets) {
     let tournament = parrygg.tournamentObject;
-    let setIds = sets.map(x => x.id);
+    let setIds = sets.map(x => x.match.id);
     let el = document.getElementById("stream-queue");
     let listEl = el.querySelector(".list .sets");
 
@@ -75,22 +74,22 @@ async function displayParryggStreamQueue(sets) {
 
     // add/edit sets
     sets.forEach(async (set, idx) => {
-        set.fullRoundText = parrygg.getSetRoundName(set, await parrygg.getBracket(set.bracket.id));
-        var entrants = await Promise.all(await set.slotsList.map(async slot => (
+        set.fullRoundText = parrygg.getSetRoundName(set.match, await parrygg.getBracket(set.bracket.id));
+        var entrants = await Promise.all(await set.match.slotsList.map(async slot => (
             await parrygg.getEntrantFromSeedAndBracket(slot.seedId, set.bracket.id)
         )));
-        let item = document.getElementById("stream-queue-item-" + set.id);
+        let item = document.getElementById("stream-queue-item-" + set.match.id);
         if (!item) {
-            item = createElement({ "id": "stream-queue-item-" + set.id });
-            item.dataset.setId = set.id;
+            item = createElement({ "id": "stream-queue-item-" + set.match.id });
+            item.dataset.setId = set.match.id;
             item.appendChild(createElement({ "className": "round" }));
             item.appendChild(createElement({ "className": "names" }));
             item.appendChild(createElement({ "className": "indentifier" }));
-            item.onclick = (e) => applyParryggSet(set.id, set.bracket.id, set.phase.id, set.event.id, set.tournament.id);
+            item.onclick = (e) => applyParryggSet(set.match.id);
             listEl.appendChild(item);
         }
         item.style.transform = "translateY(" + (40 * idx) + "px)";
-        item.querySelector(".indentifier").innerText = set.identifier;
+        item.querySelector(".indentifier").innerText = set.match.identifier;
         item.querySelector(".round").innerText = set.fullRoundText;
         var entrant1 = await entrants[0] || {};
         var entrant2 = await entrants[1] || {};
@@ -117,15 +116,15 @@ async function displayParryggStreamQueue(sets) {
 }
 
 
-async function applyParryggSet(setId, bracketId, phaseId, eventId, tournamentId) {
+async function applyParryggSet(setId) {
     bgWork.start("applyParryggSet");
     clearBoard();
     let teamSize = 1;
     var set = await parrygg.getSet(setId, 0);
-    var bracket = await parrygg.getBracket(bracketId, 0);
-    var event = await parrygg.getEvent(eventId, 0);
-    var phase = await parrygg.getPhase(phaseId, 0);
-    var tournament = await parrygg.getTournamentById(tournamentId, 0);
+    var bracket = await parrygg.getBracket(set.bracket.id, 0);
+    var event = await parrygg.getEvent(set.event.id, 0);
+    var phase = await parrygg.getPhase(set.phase.id, 0);
+    var tournament = await parrygg.getTournamentById(set.tournament.id, 0);
     scoreboard.startgg = {
         set: null,
         event: null,
@@ -138,7 +137,7 @@ async function applyParryggSet(setId, bracketId, phaseId, eventId, tournamentId)
     scoreboard.parrygg.phase = event.id;
     scoreboard.parrygg.tournament = tournament.id;
     var entrants = await Promise.all(await set.match.slotsList.map(async slot => (
-        await parrygg.getEntrantFromSeedAndBracket(slot.seedId, bracketId)
+        await parrygg.getEntrantFromSeedAndBracket(slot.seedId, set.bracket.id)
     )));
     console.log({
         "set": set,

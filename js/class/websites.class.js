@@ -527,16 +527,16 @@ class SmashggWrapper extends WebsiteWrapper {
 
     async request(args) {
         try{
-        const fetchResponse = await fetch(SmashggWrapper.ENDPOINT, {
-            method: 'POST',
-            cache: 'no-cache',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + this.token
-            },
-            body: JSON.stringify(args)
-        });
-        return await fetchResponse.json();
+            const fetchResponse = await fetch(SmashggWrapper.ENDPOINT, {
+                method: 'POST',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.token
+                },
+                body: JSON.stringify(args)
+            });
+            return await fetchResponse.json();
         } catch(err) {
             return null;
         }
@@ -862,6 +862,25 @@ class ParryggWrapper extends WebsiteWrapper{
         }
         return await additional;
     }
+    async getAdditionalSetInfos(set){
+        set.hierarchy.pathsList.forEach((path => {
+            switch (path.type) {
+                case this.parrygg.PathType.PATH_TYPE_EVENT:
+                    set.event = path;
+                    break;
+                case this.parrygg.PathType.PATH_TYPE_PHASE:
+                    set.phase = path;
+                    break;
+                case this.parrygg.PathType.PATH_TYPE_BRACKET:
+                    set.bracket = path;
+                    break;
+                case this.parrygg.PathType.PATH_TYPE_TOURNAMENT:
+                    set.tournament = path;
+                    break;
+            }
+        }));
+        return set;
+    }
     async convertRegion(countryCode, regionCode){
         // var country = await this.convertCountry(countryCode);
         var json = await fetch(`./json/states.json`);
@@ -1024,8 +1043,8 @@ class ParryggWrapper extends WebsiteWrapper{
             return await returns;
 
         } catch (error) {}
-            return [];
-        }
+        return [];
+    }
     async getPlayer(playerId, cacheMaxAge) {
         if (playerId == null) {
             return null;
@@ -1070,53 +1089,11 @@ class ParryggWrapper extends WebsiteWrapper{
         this.brackets = {tournament: tournamentSlug, events: events};
     }
 
-    async getSetsFromStreamQueue() {
-        var sets = [];
-        if (!this.brackets || !this.brackets.events) {
-            return sets;
-        }
-
-        // Iterate events (works for arrays or objects)
-        for (const [eventId, event] of Object.entries(this.brackets.events)) {
-            if (!event.phases) { continue; }
-            // Iterate phases (works for arrays or objects)
-            for (const [phaseId, phase] of Object.entries(event.phases)) {
-                const bracketIds = phase.brackets;
-                if (!Array.isArray(bracketIds) || bracketIds.length === 0) { continue; }
-
-                // Create promises for all bracket fetches in this phase
-                const bracketPromises = bracketIds.map(async (bracketId) => {
-                    var bracket = await this.getBracket(bracketId);
-                    if( bracket === null) {
-                        return null;
-                    }
-                    var matches =  bracket.matchesList;
-                    // var rightStates = [this.parrygg.MatchState.MATCH_STATE_PENDING, this.parrygg.MatchState.MATCH_STATE_IN_PROGRESS, this.parrygg.MatchState.MATCH_STATE_READY];
-                    var rightStates = [this.parrygg.MatchState.MATCH_STATE_IN_PROGRESS, this.parrygg.MatchState.MATCH_STATE_READY];
-                    if(this.hideNotReadySets == false){
-                        rightStates.push(this.parrygg.MatchState.MATCH_STATE_PENDING);
-                    }
-                    //
-                    return matches.filter(match => rightStates.includes(match.state)).map(match => Object.assign(match, {event: {id: eventId, name: event.name}, phase: {id: phaseId, name: phase}, bracket: {id: bracketId}, tournament: {id: this.tournamentObject.id, name: this.tournamentObject.name}}));
-                });
-
-                // Wait for all brackets in this phase and add successful results
-                const results = await Promise.all(bracketPromises);
-                results.forEach(r => { if (r) {
-                    r.forEach(bracket => {
-                      sets.push(bracket);
-                    })} });
-            }
-        }
-        return await sets;
-
-    }
-
     /**
      * TODO: New Implementation to reduce timing.
      * @type {*[]}
      */
-    async getSetsFromStreamQueueNEW(){
+    async getSetsFromStreamQueue(){
         var sets = [];
         if (!this.brackets || !this.brackets.events) {
             return sets;
@@ -1125,25 +1102,25 @@ class ParryggWrapper extends WebsiteWrapper{
         var request = new this.parrygg.GetMatchesRequest();
         const matchesFilter = new this.parrygg.MatchesFilter();
         const tournamentIdentifier = new this.parrygg.TournamentIdentifier();
-        tournamentIdentifier.setId(this.selectedTournament);
+        tournamentIdentifier.setTournamentSlug(this.selectedTournament);
         matchesFilter.setTournament(tournamentIdentifier);
         request = request.setFilter(matchesFilter);
-        console.log(request);
         try {
             const response = await this.matchClient.getMatches(
                 request,
                 this.createAuthMetadata,
             );
-            console.log(response);
-            return response.getTournamentsList()
-                .sort((a, b) => {
-                    return b.getStartDate().getSeconds() - a.getStartDate().getSeconds();
-                })
-                .map((tournament) => (Object.assign(tournament.toObject(), this.getAdditionalTournamentInfos(tournament.toObject()))));
+            sets = response.getMatchesList()
+            sets = await Promise.all(sets.map(async (set) => await Object.assign(set.toObject(), await this.getAdditionalSetInfos(set.toObject()))));
+            var rightStates = [this.parrygg.MatchState.MATCH_STATE_IN_PROGRESS, this.parrygg.MatchState.MATCH_STATE_READY];
+            if(this.hideNotReadySets == false){
+                rightStates.push(this.parrygg.MatchState.MATCH_STATE_PENDING);
+            }
+            sets = await sets.filter(match => rightStates.includes(match.match.state));
         }catch (error) {
-        console.error(error);
+            console.error(error);
         }
-        return [];
+        return await sets;
     }
 
     async getEntrantFromSeedAndBracket(slotId, bracketId, cacheMaxAge) {
@@ -1166,6 +1143,9 @@ class ParryggWrapper extends WebsiteWrapper{
                 if(participantNew && participantNew.name == ""){
                     if(participantNew.entrant.usersList.length > 0){
                         participantNew.name = participantNew.entrant.usersList[0].gamerTag;
+                        if(participantNew.entrant.usersList[0].sponsorName != ''){
+                            participantNew.name = participantNew.entrant.usersList[0].sponsorName + ' | ' +  participantNew.entrant.usersList[0].gamerTag;
+                        }
                     }
                 }
                 this.setCache("entrantfromseedandbracket-parry", slotId + '|' + bracketId, participantNew);
@@ -1265,7 +1245,7 @@ class ParryggWrapper extends WebsiteWrapper{
                     request,
                     this.createAuthMetadata,
                 );
-                set = Object.assign(response.getMatch().toObject(), {});
+                set = await Object.assign(response.getMatch().toObject(), await this.getAdditionalSetInfos(response.getMatch().toObject()));
                 this.setCache("set-parry", setId, set);
             } catch (error) {
                 console.error(error);
