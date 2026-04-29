@@ -1098,9 +1098,6 @@ class ParryggWrapper extends WebsiteWrapper{
 
     async getSetsFromStreamQueue(){
         var sets = [];
-        if (!this.brackets || !this.brackets.events) {
-            return sets;
-        }
 
         var request = new this.parrygg.GetMatchesRequest();
         const matchesFilter = new this.parrygg.MatchesFilter();
@@ -1113,10 +1110,10 @@ class ParryggWrapper extends WebsiteWrapper{
                 request,
                 this.createAuthMetadata,
             );
-            sets = response.getMatchesList()
+            sets = response.getMatchesList();
             sets = await Promise.all(sets.map(async (set) => await Object.assign(set.toObject(), await this.getAdditionalSetInfos(set.toObject()))));
             var rightStates = [this.parrygg.MatchState.MATCH_STATE_IN_PROGRESS, this.parrygg.MatchState.MATCH_STATE_READY];
-            if(this.hideNotReadySets == false){
+            if(this.hideNotReadySets === false){
                 rightStates.push(this.parrygg.MatchState.MATCH_STATE_PENDING);
             }
             sets = await sets.filter(match => rightStates.includes(match.match.state));
@@ -1228,8 +1225,7 @@ class ParryggWrapper extends WebsiteWrapper{
         //         sets = queue.sets;
         //     }
         // }
-
-        if (sets.map(x => x.id).join("-") != this.streamQueueSetIdList.join("-")) {
+        if (sets.map(x => x.match.id).join("-") !== this.streamQueueSetIdList.join("-")) {
             this.streamQueueSetIdList = sets.map(x => x.id);
             this.emit("streamqueuechanged", sets);
         }

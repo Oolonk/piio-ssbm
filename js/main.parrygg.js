@@ -75,7 +75,7 @@ async function displayParryggStreamQueue(sets) {
 
     // add/edit sets
     sets.forEach(async (set, idx) => {
-        set.fullRoundText = parrygg.getSetRoundName(set, await parrygg.getBracket(set.bracket.id));
+        set.fullRoundText = set.round.label;
         var entrants = await Promise.all(await set.match.slotsList.map(async slot => (
             await parrygg.getEntrantFromSeedAndBracket(slot.seedId, set.bracket.id)
         )));
