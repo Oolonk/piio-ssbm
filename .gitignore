@@ -1,4 +1,5 @@
-settings.db
+# Runtime NeDB databases
+*.db
 release-builds
 
 # Logs

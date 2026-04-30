@@ -5,12 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac754f3c-49e0-4331-910a-bdd2a02e1a30" name="Changes" comment="Update logic for naming Rounds in Parrygg">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/db.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/electron.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/ensure.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/plugins/obs.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/plugins/slippi.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/forge.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/forge.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/class/countdown.class.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/class/piio-connector.class.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/class/savedvalue.class.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/class/twitch.class.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/class/utils.class.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/piio-connector.md" beforeDir="false" afterPath="$PROJECT_DIR$/piio-connector.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windowConf.db" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="122" />
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -37,10 +58,17 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2WSLWlC46CfM2HuZvMI2EHWnwXx" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -49,15 +77,19 @@
   "keyToString": {
     "Node.js.Unnamed.executor": "Run",
     "Node.js.index.js.executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "Shell Script.check update.executor": "Run",
-    "git-widget-placeholder": "main",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "reconfigure/ts",
     "ignore.virus.scanning.warn.message": "true",
     "javascript.nodejs.core.library.configured.version": "22.17.0",
     "javascript.nodejs.core.library.typings.version": "22.17.2",
+    "javascript.preferred.runtime.type.id": "node",
+    "junie.onboarding.icon.badge.shown": "true",
     "last_opened_file_path": "E:/GitHub/piio-linux/js",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -66,10 +98,15 @@
     "nodejs_interpreter_path": "node",
     "nodejs_package_manager_path": "npm",
     "npm.Starten.executor": "Run",
+    "npm.build:overlay.executor": "Run",
     "npm.make-linux.executor": "Run",
     "npm.make-windows.executor": "Run",
-    "settings.editor.selected.configurable": "settings.webpack",
-    "ts.external.directory.path": "C:\\Users\\Dorti\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "npm.start.executor": "Run",
+    "npm.typecheck.executor": "Run",
+    "npm.typecheck:renderer.executor": "Run",
+    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "/home/oolonk/Documents/GitHub/piio-ssbm/node_modules/typescript/lib",
     "two.files.diff.last.used.file": "C:/Users/Dorti/Production Interface IO/themes/default/styles/ui_vertical.css",
     "vue.rearranger.settings.migration": "true"
   },
@@ -92,7 +129,7 @@
       <recent name="E:\GitHub\piio-linux" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.Starten">
+  <component name="RunManager" selected="npm.start">
     <configuration name="check update" type="ShConfigurationType">
       <option name="SCRIPT_TEXT" value="npx npm-check-update -u" />
       <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
@@ -116,6 +153,16 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="build:overlay" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build:overlay" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="make-linux" type="js.build_tools.npm">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -123,17 +170,6 @@
         <script value="make-linux" />
       </scripts>
       <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="make-windows-x86" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="make-windows-x86" />
-      </scripts>
-      <node-interpreter value="project" />
-      <package-manager value="npm" />
       <envs />
       <method v="2" />
     </configuration>
@@ -148,26 +184,55 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="typecheck" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="typecheck" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="typecheck:renderer" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="typecheck:renderer" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="npm.Starten" />
       <item itemvalue="npm.make-linux" />
-      <item itemvalue="npm.make-windows-x86" />
+      <item itemvalue="npm.build:overlay" />
+      <item itemvalue="npm.start" />
+      <item itemvalue="npm.typecheck" />
+      <item itemvalue="npm.typecheck:renderer" />
       <item itemvalue="npm.make-windows" />
       <item itemvalue="Shell Script.check update" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.start" />
+        <item itemvalue="npm.build:overlay" />
+        <item itemvalue="npm.typecheck:renderer" />
+        <item itemvalue="npm.typecheck" />
         <item itemvalue="npm.make-windows" />
-        <item itemvalue="npm.make-windows-x86" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-js-predefined-d6986cc7102b-a71380e98a7c-JavaScript-WS-252.28238.10" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -516,6 +581,25 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/js/class/character.class.js" />
+        <option value="$PROJECT_DIR$/js/class/theme.class.js" />
+        <option value="$PROJECT_DIR$/js/class/db.class.js" />
+        <option value="$PROJECT_DIR$/js/class/player.class.js" />
+        <option value="$PROJECT_DIR$/js/class/countdown.class.js" />
+        <option value="$PROJECT_DIR$/js/class/savedvalue.class.js" />
+        <option value="$PROJECT_DIR$/js/class/ws.class.js" />
+        <option value="$PROJECT_DIR$/js/class/websites.class.js" />
+        <option value="$PROJECT_DIR$/js/class/piio-connector.class.js" />
+        <option value="$PROJECT_DIR$/app/ensure.js" />
+        <option value="$PROJECT_DIR$/app/plugins/obs.js" />
+        <option value="$PROJECT_DIR$/app/plugins/slippi.js" />
+        <option value="$PROJECT_DIR$/app/server.js" />
+        <option value="$PROJECT_DIR$/app/main.js" />
+        <option value="$PROJECT_DIR$/js/main.js" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="RECENT_FILTERS">
