@@ -1223,10 +1223,11 @@ class ParryggWrapper extends WebsiteWrapper{
         //     let queue = queues.find(x => x.stream.id == this.selectedStream);
         //     if (queue != null && queue.sets != null && queue.sets.length > 0) {
         //         sets = queue.sets;
-        //     }
+        //   sets  }
         // }
         if (sets.map(x => x.match.id).join("-") !== this.streamQueueSetIdList.join("-")) {
-            this.streamQueueSetIdList = sets.map(x => x.id);
+            console.log("Stream queue set ID list changed, updating...");
+            this.streamQueueSetIdList = sets.map(x => x.match.id);
             this.emit("streamqueuechanged", sets);
         }
 

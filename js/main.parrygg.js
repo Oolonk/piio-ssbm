@@ -73,12 +73,26 @@ async function displayParryggStreamQueue(sets) {
     el.classList.toggle("empty", sets.length == 0);
     el.querySelector(".list .title .setcount").innerText = sets.length;
 
-    // add/edit sets
-    sets.forEach(async (set, idx) => {
+
+
+    let toRemove = [];
+    for (let itemEl of listEl.children) {
+        if (!setIds.includes(parseInt(itemEl.dataset.setId))) {
+            toRemove.push(itemEl);
+        }
+    }
+
+    toRemove.forEach(x => x.remove());
+    // add/edit sets - await all name lookups before firing streamqueuechanged
+    await Promise.all(sets.map(async (set, idx) => {
         set.fullRoundText = set.round.label;
-        var entrants = await Promise.all(await set.match.slotsList.map(async slot => (
+        var entrants = await Promise.all(set.match.slotsList.map(async slot => (
             await parrygg.getEntrantFromSeedAndBracket(slot.seedId, set.bracket.id)
         )));
+        var entrant1 = entrants[0] || {};
+        var entrant2 = entrants[1] || {};
+        set._team1Name = entrant1.name || 'N/A';
+        set._team2Name = entrant2.name || 'N/A';
         let item = document.getElementById("stream-queue-item-" + set.match.id);
         if (!item) {
             item = createElement({ "id": "stream-queue-item-" + set.match.id });
@@ -92,10 +106,8 @@ async function displayParryggStreamQueue(sets) {
         item.style.transform = "translateY(" + (40 * idx) + "px)";
         item.querySelector(".indentifier").innerText = set.match.identifier;
         item.querySelector(".round").innerText = set.fullRoundText;
-        var entrant1 = await entrants[0] || {};
-        var entrant2 = await entrants[1] || {};
-        item.querySelector(".names").innerText = (await entrant1.name || "N/A") + " Vs. " + (await entrant2.name || "N/A");
-    });
+        item.querySelector(".names").innerText = set._team1Name + " Vs. " + set._team2Name;
+    }));
     if (streamvar != sets) {
         // scoreboard.streamlist = sets;
         // streamvar = sets;
@@ -105,15 +117,6 @@ async function displayParryggStreamQueue(sets) {
     }
 
     // remove sets
-
-    let toRemove = [];
-    for (let itemEl of listEl.children) {
-        if (!setIds.includes(parseInt(itemEl.dataset.setId))) {
-            toRemove.push(itemEl);
-        }
-    }
-
-    toRemove.forEach(x => x.remove());
 }
 
 

@@ -73,6 +73,38 @@ server.on("api", async (data, cb) => {
 		data.player = await database.get("player");
 		cb(data);
 	}
+	if (data.name == "modifyScore") {
+		electron.send('apiModifyScore', { team: data.team, inc: data.inc });
+		cb({ name: "modifyScore", success: true });
+	}
+	if (data.name == "resetScores") {
+		electron.send('apiResetScores', {});
+		cb({ name: "resetScores", success: true });
+	}
+	if (data.name == "setState") {
+		electron.send('apiSetState', { team: data.team, state: data.state });
+		cb({ name: "setState", success: true });
+	}
+	if (data.name == "setTeamName") {
+		electron.send('apiSetTeamName', { team: data.team, teamName: data.teamName });
+		cb({ name: "setTeamName", success: true });
+	}
+	if (data.name == "setPlayerName") {
+		electron.send('apiSetPlayerName', { team: data.team, playerIndex: data.playerIndex, name: data.playerName });
+		cb({ name: "setPlayerName", success: true });
+	}
+	if (data.name == "setField") {
+		electron.send('apiSetField', { fieldName: data.fieldName, value: data.value });
+		cb({ name: "setField", success: true });
+	}
+	if (data.name == "applyQueueItem") {
+		electron.send('apiApplyQueueItem', { index: data.index });
+		cb({ name: "applyQueueItem", success: true });
+	}
+	if (data.name == "assignPort") {
+		electron.send('apiAssignPort', { port: data.port, team: data.team, playerIndex: data.playerIndex });
+		cb({ name: "assignPort", success: true });
+	}
 });
 
 electron.on("ready", async () => { // programm is ready

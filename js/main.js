@@ -1621,10 +1621,30 @@ function obsUpdate(name, stats) {
 }
 
 function streamqueuechanged(value) {
-    // console.log(scoreboard.streamlist);
-    // console.log('streamqueue changed')
-    // console.log(streamQueue);
-    _ws.send('streamQueue', streamQueue);
+    let simplified = streamQueue.map((set, index) => {
+        if (set && set.slots) {
+            return {
+                index,
+                id: set.id,
+                round: set.fullRoundText || '',
+                identifier: set.identifier || '',
+                team1: set.slots[0]?.entrant?.name || 'N/A',
+                team2: set.slots[1]?.entrant?.name || 'N/A',
+            };
+        }
+        if (set && set.match) {
+            return {
+                index,
+                id: set.match.id,
+                round: set.round?.label || '',
+                identifier: set.match?.identifier || '',
+                team1: set._team1Name || 'N/A',
+                team2: set._team2Name || 'N/A',
+            };
+        }
+        return { index, id: index, round: '', identifier: '', team1: 'N/A', team2: 'N/A' };
+    });
+    _ws.send('streamQueue', simplified);
 }
 
 async function collectDatabaseEntries(sb) {
@@ -2010,6 +2030,75 @@ ipcRenderer.on('slippiAddScore', (event, port) => {
         }
     }
 })
+
+ipcRenderer.on('apiModifyScore', (event, data) => {
+    modifyScore(data.team, data.inc);
+})
+
+ipcRenderer.on('apiResetScores', () => {
+    modifyScore(1, 0, true);
+    modifyScore(2, 0, true);
+})
+
+ipcRenderer.on('apiSetState', (event, data) => {
+    setTeamState(data.team, data.state);
+})
+
+ipcRenderer.on('apiSetTeamName', (event, data) => {
+    if (!scoreboard.teams[data.team]) return;
+    scoreboard.teams[data.team].name = data.teamName;
+    let el = document.getElementById('sb-team-name-val-' + data.team);
+    if (el) el.value = data.teamName;
+    fire("scoreboardteamschanged");
+    fire("scoreboardchanged", true);
+});
+
+ipcRenderer.on('apiSetPlayerName', (event, data) => {
+    if (!scoreboard.teams[data.team] || scoreboard.teams[data.team].players.length <= data.playerIndex) return;
+    scoreboard.teams[data.team].players[data.playerIndex].name = data.name;
+    let el = document.getElementById("playername-" + data.team + "-" + data.playerIndex);
+    if (el) el.value = data.name;
+    fire("scoreboardchanged", true);
+});
+
+ipcRenderer.on('apiSetField', (event, data) => {
+    if (!scoreboard.fields || !scoreboard.fields[data.fieldName]) return;
+    scoreboard.fields[data.fieldName].value = data.value;
+    let el = document.getElementById("field-" + data.fieldName);
+    if (el) el.value = data.value;
+    fire("scoreboardchanged", true);
+});
+
+ipcRenderer.on('apiApplyQueueItem', (event, data) => {
+    if (!streamQueue || streamQueue.length <= data.index) return;
+    let item = streamQueue[data.index];
+    if (usedTournamentWebsite === "smashgg" && item.id) {
+        applySmashggSet(item.id);
+    } else if (usedTournamentWebsite === "parrygg" && item.match) {
+        applyParryggSet(item.match.id);
+    }
+});
+
+ipcRenderer.on('apiAssignPort', (event, data) => {
+    let port = data.port;        // 1–4
+    let teamNum = data.team;     // 1 or 2, or 0 to clear
+    let playerNum = data.playerIndex; // 0-based
+
+    if (teamNum === 0) {
+        scoreboard.ports[port] = null;
+    } else {
+        let newObj = [teamNum, playerNum];
+        // remove this player from any previously assigned port
+        for (let i = 1; i <= portAmount; i++) {
+            if (scoreboard.ports[i] && scoreboard.ports[i][0] === teamNum && scoreboard.ports[i][1] === playerNum) {
+                scoreboard.ports[i] = null;
+            }
+        }
+        scoreboard.ports[port] = newObj;
+    }
+    fire("scoreboardteamschanged");
+    fire("scoreboardchanged", true);
+});
 
 
 function startObs() {
