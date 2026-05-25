@@ -12,7 +12,6 @@ parrygg.on("streamschanged", (stream) => {
 });
 parrygg.on("streamqueuechanged", displayParryggStreamQueue);
 parrygg.on("streamqueuechanged", (sets) => {
-    console.log(sets);
     _ws.send(JSON.stringify({ "type": "stream-queue", "data": sets }));
 });
 
