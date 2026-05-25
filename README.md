@@ -6,9 +6,10 @@ This is a fork from [piio](https://github.com/MYI-Liva/piio) made by Liva
 - Added Slippi support
   - Added Auto Game Score increment
 - Added OBS support
+- Added ParryGG support
 - When OBS and Slippi is activated you can activate the Auto Scene Switcher
 - New fields: 
-    - For Player: City, Slippi-Code, Pride-Flags, Bluesky (StartGG has no implementation for Bluesky)
+    - For Player: City, Slippi-Code, Pride-Flags, Bluesky (StartGG has no implementation for Bluesky), Region
     - For Teams: primary color, secondary color
     - For Game: videogameID (ID of StartGG)
 - Ability to use SVG files in the assets tab
