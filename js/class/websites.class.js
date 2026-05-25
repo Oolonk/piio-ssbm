@@ -1175,14 +1175,13 @@ class ParryggWrapper extends WebsiteWrapper{
                 this.createAuthMetadata,
             );
             var obj = response.toObject();
-            var sets = [];
             for (const queue of obj.entriesList) {
                     sets[queue.position] = await this.getSet(queue.matchId);
             }
         }catch (error) {
             console.error(error);
         }
-        return await sets;
+        return sets;
     }
 
     async getEntrantFromSeedAndBracket(slotId, bracketId, cacheMaxAge) {

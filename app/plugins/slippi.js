@@ -1,5 +1,5 @@
-const {SlippiGame, Ports, DolphinConnection, ConnectionStatus} = require('@slippi/slippi-js');
-const {SlpFolderStream, SlpLiveStream, Slpstream, SlpRealTime} = require("@vinceau/slp-realtime");
+const {SlippiGame, Ports, DolphinConnection, ConnectionStatus, ConsoleConnection} = require('@slippi/slippi-js/node');
+const {SlpRealTime, RxSlpStream} = require("@vinceau/slp-realtime");
 
 
 const path = require('path');
@@ -7,6 +7,7 @@ const fs = require("fs")
 const EventEmitter = require('events');
 const {inspect} = require("node:util");
 const electron = require("../electron");
+const stream = require("node:stream");
 const watch = require('object-watcher').watch;
 
 
@@ -15,16 +16,23 @@ function Slippi() {
     this.slippiPort = 0;
     this.slippiFolder;
     this.connectionStatus = ConnectionStatus;
-    this.realtime = new SlpRealTime;
+    this.realtime = new SlpRealTime();
     this.slippiType = "console";
-    this.stream = new SlpLiveStream(this.slippiType);
+    switch(this.slippiType){
+        case "console":
+            this.connection = new ConsoleConnection();
+            break;
+        case "dolphin":
+            this.connection = new DolphinConnection();
+    }
+    this.stream = new RxSlpStream();
     this.status = ConnectionStatus.DISCONNECTED;
     this.autoconnect = false;
     this.port = 42070;
     this.autoscore = false;
     this.statscomputer = null;
 
-    this.pingInterval = 10; // seconds
+    this.pingInterval = 10; // secondsthis.stream =
     this.isEndedRecently = false;
 
     this.event = new EventEmitter();
@@ -79,17 +87,33 @@ Slippi.prototype.setSlippiType = function setSlippiType(val) {
 }
 
 Slippi.prototype.startSlippi = async function startSlippi() {
-    if (typeof this.stream == 'object' && this.stream != null) {
-        this.stream.destroy();
+    if (typeof this.realtime == 'object' && this.realtime != null) {
+        this.realtime.destroy();
     }
-    this.stream = new SlpLiveStream(this.slippiType);
-    this.stream.start(this.slippiIP, (this.slippiType == "dolphin") ? Ports.DEFAULT : this.slippiPort)
-        .catch(err => {console.error(err);});
+    switch(this.slippiType) {
+        case "console":
+            this.connection = new ConsoleConnection();
+            break;
+        case "dolphin":
+            this.connection = new DolphinConnection();
+            break;
+    }
     this.realtime = new SlpRealTime();
     this.realtime.setStream(this.stream);
+    this.connection.on("message", (data) => {
+        this.stream.process(data);
+    });
+    this.connection.connect(this.slippiIP, (this.slippiType == "dolphin") ? Ports.DEFAULT : this.slippiPort)
+        .catch(err => {console.error(err);});
     if (this.slippiType == "dolphin") {
         this.autoconnect = true;
     }
+    this.stream.messageSize$.subscribe((payload) => {
+        console.log("messageSize", payload);
+    });
+    this.stream.allFrames$.subscribe((payload) => {
+        console.log("allFrames", payload);
+    });
     watch(this.stream.parser, 'latestFrameIndex', (propertyName, oldValue, newValue) => {
         if(oldValue !== newValue) {
             let frame = this.stream.parser.frames[newValue];
@@ -130,6 +154,7 @@ Slippi.prototype.startSlippi = async function startSlippi() {
 
     });
     this.realtime.game.start$.subscribe((payload) => {
+        console.log("Game started", payload);
         this.gameStarted = payload;
         this.event.emit("started", payload);
     });
@@ -167,11 +192,10 @@ Slippi.prototype.startSlippi = async function startSlippi() {
 }
 Slippi.prototype.stopSlippi = function stopSlippi() {
     this.autoconnect = false;
-    this.stream.end();
-    this.stream.destroy();
+    this.connection.disconnect();
+    this.realtime.destroy();
 }
 Slippi.prototype.restartSlippi = async function restartSlippi() {
-    this.stream = null;
     this.startSlippi()
 }
 Slippi.prototype.getStats = async function getStats(games) {

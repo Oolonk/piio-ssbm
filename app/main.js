@@ -222,7 +222,8 @@ function changeAutoScore(event, name) {
 	slippi.autoscore = name;
 }
 function slippiViewer() {
-	slippi.stream.connection.on("statusChange", (status) => {
+	console.log(slippi.connection);
+	slippi.connection.on("statusChange", (status) => {
 		slippi.status = status;
 		switch (status) {
 			case slippi.connectionStatus.DISCONNECTED:
