@@ -19,11 +19,13 @@ This is a fork from [piio](https://github.com/MYI-Liva/piio) made by Liva
 - Send new data to the overlay:
     - StartGG token
     - StartGG data: SetId, EventId, PhaseGroupId, PhaseId
+    - ParryGG data
     - Stream set list
     - Obs scene switched
     - New Methods: 
         - `getPlayersByStartGGId(ids: integer | integer[]): Promise<Object[]>`
-- Ability to add/remove casters on the fly
+        - `getPlayersByParryGGId(ids: integer | integer[]): Promise<Object[]>`
+- Ability to add/remove caster spots on the fly
 - Update dependencies
 - Auto light and dark mode depends on settings off the computer
 - Updated Seatorder logic
