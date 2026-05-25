@@ -1,11 +1,10 @@
-
 const APPROOT = remote.getGlobal("APPROOT");
 
 var _returnChannel = "";
 var smashgg = new SmashggWrapper();
 var parrygg = new ParryggWrapper();
 var slugMatchTournament;
-var currentPage =  {
+var currentPage = {
     'smashgg': 1,
     'parrygg': 1
 }
@@ -17,19 +16,19 @@ var selectedTournament = null;
 var selectedStream = null;
 var usedTournamentWebsite = null;
 ipcRenderer.on("data", async (event, data) => {
-	smashgg.cache = data['smashgg-cache'];
-	smashgg.Token = data['smashgg-token'];
+    smashgg.cache = data['smashgg-cache'];
+    smashgg.Token = data['smashgg-token'];
     parrygg.cache = data['parrygg-cache'];
     parrygg.token = data['parrygg-token'];
     console.log(data);
-	smashgg.selectedTournament = data.tournamentSlug;
-	smashgg.selectedStream = data.streamId;
+    smashgg.selectedTournament = data.tournamentSlug;
+    smashgg.selectedStream = data.streamId;
     parrygg.selectedTournament = data.tournamentSlug;
     parrygg.SelectedStream = data.streamId;
     usedTournamentWebsite = data.tournamentWebsite;
     selectedStream = data.streamId;
     selectedTournament = data.tournamentSlug;
-	fillTournamentInfo();
+    fillTournamentInfo();
     console.log(usedTournamentWebsite);
     document.getElementById(`${usedTournamentWebsite}-tablink`).click();
 });
@@ -39,42 +38,42 @@ ipcRenderer.on("returnchannel", (event, data) => _returnChannel = data);
 async function fillTournamentInfo() {
     switch (usedTournamentWebsite) {
         case  "smashgg":
-        var tournament = await smashgg.getTournament()
-        document.querySelector("#info .title").innerText = (tournament ? tournament.name : "");
-        let img = SmashggWrapper.getImage(tournament, "profile", 150);
-        document.querySelector("#info .logo").style.backgroundImage = "url('" + img + "')";
-        document.querySelector("#selected-tournament .bg").style.backgroundImage = "url('" + SmashggWrapper.getImage(tournament, "banner") + "')";
+            var tournament = await smashgg.getTournament()
+            document.querySelector("#info .title").innerText = (tournament ? tournament.name : "");
+            let img = SmashggWrapper.getImage(tournament, "profile", 150);
+            document.querySelector("#info .logo").style.backgroundImage = "url('" + img + "')";
+            document.querySelector("#selected-tournament .bg").style.backgroundImage = "url('" + SmashggWrapper.getImage(tournament, "banner") + "')";
 
-        var infoLines = [];
-        if (tournament) {
-            infoLines.push(getDateString(tournament.startAt, tournament.endAt, tournament.timezone));
-            if (tournament.city || tournament.countryCode) {
-                infoLines.push([tournament.city, tournament.countryCode].filter(x => x != null && x.length > 0).join(", "));
+            var infoLines = [];
+            if (tournament) {
+                infoLines.push(getDateString(tournament.startAt, tournament.endAt, tournament.timezone));
+                if (tournament.city || tournament.countryCode) {
+                    infoLines.push([tournament.city, tournament.countryCode].filter(x => x != null && x.length > 0).join(", "));
+                }
+                if (tournament.numAttendees) {
+                    infoLines.push(tournament.numAttendees + " attendees");
+                }
+                if (tournament.hashtag) {
+                    infoLines.push("#" + tournament.hashtag);
+                }
             }
-            if (tournament.numAttendees) {
-                infoLines.push(tournament.numAttendees + " attendees");
-            }
-            if (tournament.hashtag) {
-                infoLines.push("#" + tournament.hashtag);
-            }
-        }
-        document.querySelector("#info .info").innerHTML = infoLines.join("<br />");
-        displayChannels(tournament && tournament.streams ? tournament.streams : []);
-        break;
+            document.querySelector("#info .info").innerHTML = infoLines.join("<br />");
+            displayChannels(tournament && tournament.streams ? tournament.streams : []);
+            break;
         case "parrygg":
             var tournament = await parrygg.getTournament();
             document.querySelector("#info .title").innerText = (tournament ? tournament.name : "");
             document.querySelector("#info .logo").style.backgroundImage = "url('" + (tournament.pictures != null ? tournament.pictures.banner : "") + "')";
-            document.querySelector("#selected-tournament .bg").style.backgroundImage = "url('" + (tournament.pictures != null ?tournament.pictures.banner : "") + "')";
+            document.querySelector("#selected-tournament .bg").style.backgroundImage = "url('" + (tournament.pictures != null ? tournament.pictures.banner : "") + "')";
             // document.querySelector("#selected-tournament .bg").style.backgroundImage = "url('" + SmashggWrapper.getImage(tournament, "banner") + "')";
 
             var infoLines = [];
             if (tournament) {
                 infoLines.push(getDateString(tournament.startDate.seconds, tournament.endDate.seconds, tournament.timeZone));
 
-                if(tournament.address){
+                if (tournament.address) {
                     infoLines.push([tournament.address.administrativeAreaLevel1, tournament.address.countryCode].filter(x => x != null && x.length > 0).join(", "));
-                }else if (tournament.venueAddress) {
+                } else if (tournament.venueAddress) {
                     infoLines.push(tournament.venueAddress);
                 }
                 if (tournament.numAttendees) {
@@ -92,7 +91,7 @@ async function fillTournamentInfo() {
 }
 
 function displayChannels(channels) {
-    switch(usedTournamentWebsite) {
+    switch (usedTournamentWebsite) {
         case "smashgg":
             var el = document.getElementById('channel-select').truncate();
             var tpl = document.getElementById('channel-item');
@@ -149,21 +148,22 @@ function displayChannels(channels) {
 }
 
 var _fetchResultTimeout;
+
 function search() {
-	if (_fetchResultTimeout)
-		clearTimeout(_fetchResultTimeout);
-	_fetchResultTimeout = setTimeout(() => {
-		currentPage = {
+    if (_fetchResultTimeout)
+        clearTimeout(_fetchResultTimeout);
+    _fetchResultTimeout = setTimeout(() => {
+        currentPage = {
             'smashgg': 1,
             'parrygg': 1
         }
-		slugMatchTournament = null;
-		let el = document.getElementById('smashgg-results').truncate();
-		el.onscroll = checkForLoad;
+        slugMatchTournament = null;
+        let el = document.getElementById('smashgg-results').truncate();
+        el.onscroll = checkForLoad;
         el = document.getElementById('parrygg-results').truncate();
         el.onscroll = checkForLoad;
-		fetchResults();
-	}, 200);
+        fetchResults();
+    }, 200);
 }
 
 
@@ -174,21 +174,38 @@ function checkForLoad(e) {
     let scrollLeft = e.target.scrollHeight - e.target.scrollTop - e.target.clientHeight;
     if (scrollLeft < 10 && !infiniteScrollLoading[tournamentWebsite]) {
         infiniteScrollLoading[tournamentWebsite] = true;
-        fetchResults();
+        fetchResults(tournamentWebsite);
     }
 }
 
-async function fetchResults() {
-    try {
-        await fetchResultsSite("smashgg");
-    }catch(err) {
-        console.log(err);
-    }
-
-    try {
-        await fetchResultsSite("parrygg");
-    }catch(err) {
-        console.log(err);
+async function fetchResults(site = 'all') {
+    switch (site) {
+        case "all":
+            try {
+                await fetchResultsSite("smashgg");
+            } catch (err) {
+                console.log(err);
+            }
+            try {
+                await fetchResultsSite("parrygg");
+            } catch (err) {
+                console.log(err);
+            }
+            break;
+        case "smashgg":
+            try {
+                await fetchResultsSite("smashgg");
+            } catch (err) {
+                console.log(err);
+            }
+            break;
+        case "parrygg":
+            try {
+                await fetchResultsSite("parrygg");
+            } catch (err) {
+                console.log(err);
+            }
+            break;
     }
 }
 
@@ -211,14 +228,16 @@ async function fetchResultsSite(tournamentWebsite) {
             if (term != searchTbx.value) {
                 infiniteScrollLoading.smashgg = false;
                 el.classList.remove("fetching");
-                return; } // abort due to changed term while executing async request
+                return;
+            } // abort due to changed term while executing async request
 
             if (currentPage.smashgg == 1) {
                 let startggTournament = await smashgg.findTournament(term);
                 if (term != searchTbx.value) {
                     infiniteScrollLoading.smashgg = false;
                     el.classList.remove("fetching");
-                    return; } // abort due to changed term while executing async request
+                    return;
+                } // abort due to changed term while executing async request
                 if (startggTournament) {
                     startggTournament.matchedSlug = true;
                     slugMatchTournament = startggTournament;
@@ -229,7 +248,7 @@ async function fetchResultsSite(tournamentWebsite) {
             if (slugMatchTournament) {
                 startggTournaments = startggTournaments.filter(x => x.id != slugMatchTournament.id || x.matchedSlug);
             }
-            if(startggTournaments == null){
+            if (startggTournaments == null) {
                 infiniteScrollLoading.smashgg = false;
                 el.classList.remove("fetching");
                 return;
@@ -247,12 +266,13 @@ async function fetchResultsSite(tournamentWebsite) {
         case "parrygg":
             // Parrygg section
             slugMatchTournament = null;
+            infiniteScrollLoading.parrygg = true;
             var el = document.getElementById('parrygg-results');
             el.classList.toggle("visible", term.length > 0);
 
             if (term.length == 0) {
 
-                infiniteScrollLoading.parrygg = false;
+                // infiniteScrollLoading.parrygg = false;
                 el.classList.remove("fetching");
                 return;
             }
@@ -260,21 +280,23 @@ async function fetchResultsSite(tournamentWebsite) {
             el.classList.add("fetching");
             let parryggTournaments = await parrygg.findTournaments(term, currentPage.parrygg, 50);
             if (term != searchTbx.value) {
-                infiniteScrollLoading.parrygg = false;
+                // infiniteScrollLoading.parrygg = false;
                 el.classList.remove("fetching");
-                return; }
+                return;
+            }
             if (currentPage.parrygg == 1) {
                 let parryggTournament = await parrygg.getTournament(term);
                 if (term != searchTbx.value) {
-                    infiniteScrollLoading.parrygg = false;
+                    // infiniteScrollLoading.parrygg = false;
                     el.classList.remove("fetching");
-                    return; }
+                    return;
+                }
                 if (parryggTournament) {
                     parryggTournament.matchedSlug = true;
                     slugMatchTournament = parryggTournament;
                     parryggTournaments.unshift(parryggTournament);
                 }
-            }else{
+            } else {
                 parryggTournaments = [];
             }
 
@@ -288,20 +310,20 @@ async function fetchResultsSite(tournamentWebsite) {
             if (parryggTournaments.length == 0) {
                 el.onscroll = null;
             }
-            infiniteScrollLoading.parrygg = false;
+            // infiniteScrollLoading.parrygg = false;
             el.classList.remove("fetching");
             break;
     }
 }
 
 function buildItem(tournament, tournamentWebsite) {
-	let tpl = document.getElementById('result-item');
-	let tEl = tpl.content.cloneNode(true);
+    let tpl = document.getElementById('result-item');
+    let tEl = tpl.content.cloneNode(true);
 
-	tEl.querySelector(".item").classList.toggle("selected", smashgg.selectedTournament == tournament.id);
-	tEl.querySelector(".item").classList.toggle("matchedSlug", tournament.matchedSlug == true);
+    tEl.querySelector(".item").classList.toggle("selected", smashgg.selectedTournament == tournament.id);
+    tEl.querySelector(".item").classList.toggle("matchedSlug", tournament.matchedSlug == true);
 
-    switch (tournamentWebsite){
+    switch (tournamentWebsite) {
         case "smashgg":
             let img = SmashggWrapper.getImage(tournament, "profile", 50);
             if (img) {
@@ -318,11 +340,11 @@ function buildItem(tournament, tournamentWebsite) {
             tEl.querySelector(".date").innerText = getDateString(tournament.startDate.seconds, tournament.endDate.seconds, tournament.timezone);
             tEl.querySelector(".item").onclick = () => selectTournament(tournament.primarySlug, tournamentWebsite);
     }
-	return tEl.querySelector(".item");
+    return tEl.querySelector(".item");
 }
 
 async function selectTournament(slug, tournamentWebsite) {
-	document.body.classList.add("locked");
+    document.body.classList.add("locked");
     usedTournamentWebsite = tournamentWebsite;
     switch (usedTournamentWebsite) {
         case "smashgg":
@@ -342,38 +364,40 @@ async function selectTournament(slug, tournamentWebsite) {
 }
 
 function save() {
-	ipcRenderer.send(_returnChannel, {
-		"tournamentSlug": selectedTournament,
-		"streamId": selectedStream,
+    ipcRenderer.send(_returnChannel, {
+        "tournamentSlug": selectedTournament,
+        "streamId": selectedStream,
         "tournamentWebsite": usedTournamentWebsite
-	})
-	window.close();
+    })
+    window.close();
 }
 
 function cancel() {
-	window.close();
+    window.close();
 }
 
 function getDateString(start, end, timezone) {
-	let startDate = new Date(start * 1000);
-	let endDate = new Date(end * 1000);
-	if (timezone) {
-		let diff = 0;
-		try {
-			let invdate = new Date(startDate.toLocaleString('en-US', { timeZone: timezone }));
-			diff = startDate.getTime() - invdate.getTime();
-		} catch (e) { }
-		startDate = new Date(startDate.getTime() + diff);
-		endDate = new Date(endDate.getTime() + diff);
-	}
-	let startString = startDate.getDate() + "-" + startDate.getMonth() + '-' + startDate.getYear();
-	let endString = endDate.getDate() + "-" + endDate.getMonth() + '-' + endDate.getYear();
-	let out = startDate.toLocaleDateString();
-	if (startString != endString) {
-		out += " - " + endDate.toLocaleDateString();
-	}
-	return out;
+    let startDate = new Date(start * 1000);
+    let endDate = new Date(end * 1000);
+    if (timezone) {
+        let diff = 0;
+        try {
+            let invdate = new Date(startDate.toLocaleString('en-US', {timeZone: timezone}));
+            diff = startDate.getTime() - invdate.getTime();
+        } catch (e) {
+        }
+        startDate = new Date(startDate.getTime() + diff);
+        endDate = new Date(endDate.getTime() + diff);
+    }
+    let startString = startDate.getDate() + "-" + startDate.getMonth() + '-' + startDate.getYear();
+    let endString = endDate.getDate() + "-" + endDate.getMonth() + '-' + endDate.getYear();
+    let out = startDate.toLocaleDateString();
+    if (startString != endString) {
+        out += " - " + endDate.toLocaleDateString();
+    }
+    return out;
 }
+
 function openTab(evt, tabName) {
     // Declare all variables
     var i, tabcontent, tablinks;

@@ -12,7 +12,8 @@ parrygg.on("streamschanged", (stream) => {
 });
 parrygg.on("streamqueuechanged", displayParryggStreamQueue);
 parrygg.on("streamqueuechanged", (sets) => {
-    _ws.send(JSON.stringify({ "type": "stream-queue", "data": sets }));1
+    console.log(sets);
+    _ws.send(JSON.stringify({ "type": "stream-queue", "data": sets }));
 });
 
 on("ws-ready", async () => {
@@ -117,6 +118,7 @@ async function displayParryggStreamQueue(sets) {
     if (streamvar != sets) {
         // scoreboard.streamlist = sets;
         // streamvar = sets;
+        console.log(sets);
         streamQueue = sets;
         // fire("scoreboardchanged");
         fire("streamqueuechanged");
