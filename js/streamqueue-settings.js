@@ -22,9 +22,9 @@ ipcRenderer.on("data", async (event, data) => {
     parrygg.cache = data['parrygg-cache'];
     parrygg.token = data['parrygg-token'];
     console.log(data);
-	smashgg.SelectedTournament = data.tournamentSlug;
-	smashgg.SelectedStream = data.streamId;
-    parrygg.SelectedTournament = data.tournamentSlug;
+	smashgg.selectedTournament = data.tournamentSlug;
+	smashgg.selectedStream = data.streamId;
+    parrygg.selectedTournament = data.tournamentSlug;
     parrygg.SelectedStream = data.streamId;
     usedTournamentWebsite = data.tournamentWebsite;
     selectedStream = data.streamId;
@@ -92,23 +92,60 @@ async function fillTournamentInfo() {
 }
 
 function displayChannels(channels) {
-	let el = document.getElementById('channel-select').truncate();
-	let tpl = document.getElementById('channel-item');
-	channels.forEach((stream) => {
-		let channelItem = tpl.content.cloneNode(true);
-		let itemEl = channelItem.querySelector('.item');
-		itemEl.classList.toggle("selected", stream.id == smashgg.selectedStream);
-		itemEl.querySelector(".name").innerText = stream.streamName;
-		itemEl.querySelector(".logo").style.backgroundImage = "url('img/" + stream.streamSource.toLowerCase() + "-icon.svg')";
+    switch(usedTournamentWebsite) {
+        case "smashgg":
+            var el = document.getElementById('channel-select').truncate();
+            var tpl = document.getElementById('channel-item');
+            channels.forEach((stream) => {
+                var channelItem = tpl.content.cloneNode(true);
+                var itemEl = channelItem.querySelector('.item');
+                itemEl.classList.toggle("selected", stream.id == smashgg.selectedStream);
+                itemEl.querySelector(".name").innerText = stream.streamName;
+                itemEl.querySelector(".logo").style.backgroundImage = "url('img/" + stream.streamSource.toLowerCase() + "-icon.svg')";
 
-		itemEl.onclick = () => {
-			smashgg.SelectedStream = stream.id;
-			el.querySelectorAll(".item").forEach((elm) => elm.classList.remove("selected"));
-			itemEl.classList.add("selected");
-            selectedStream = smashgg.selectedStream;
-		};
-		el.appendChild(itemEl);
-	});
+                itemEl.onclick = () => {
+                    smashgg.SelectedStream = stream.id;
+                    el.querySelectorAll(".item").forEach((elm) => elm.classList.remove("selected"));
+                    itemEl.classList.add("selected");
+                    selectedStream = smashgg.selectedStream;
+                };
+                el.appendChild(itemEl);
+            });
+            break;
+        case "parrygg":
+            var el = document.getElementById('channel-select').truncate();
+            var tpl = document.getElementById('channel-item');
+            var channelItem = tpl.content.cloneNode(true);
+            var itemEl = channelItem.querySelector('.item');
+            // For parrygg, the "All Matches" stream has an id of '', so we toggle selected based on that
+            itemEl.classList.toggle("selected", parrygg.selectedStream == '');
+            itemEl.querySelector(".name").innerText = "All Matches";
+            itemEl.querySelector(".logo").style.backgroundImage = "url('img/parrygg-icon.svg')";
+
+            itemEl.onclick = () => {
+                parrygg.selectedStream = '';
+                el.querySelectorAll(".item").forEach((elm) => elm.classList.remove("selected"));
+                itemEl.classList.add("selected");
+                selectedStream = '';
+            };
+            el.appendChild(itemEl);
+            channels.forEach((stream) => {
+                channelItem = tpl.content.cloneNode(true);
+                var itemEl2 = channelItem.querySelector('.item');
+                itemEl2.classList.toggle("selected", stream.id == parrygg.selectedStream);
+                itemEl2.querySelector(".name").innerText = stream.displayName;
+                itemEl2.querySelector(".logo").style.backgroundImage = "url('img/" + stream.platformName.toLowerCase() + "-icon.svg')";
+
+                itemEl2.onclick = () => {
+                    parrygg.selectedStream = stream.id;
+                    el.querySelectorAll(".item").forEach((elm) => elm.classList.remove("selected"));
+                    itemEl2.classList.add("selected");
+                    selectedStream = parrygg.selectedStream;
+                };
+                el.appendChild(itemEl2);
+            });
+            break;
+    }
 }
 
 var _fetchResultTimeout;

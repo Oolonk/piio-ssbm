@@ -708,6 +708,7 @@ class ParryggWrapper extends WebsiteWrapper{
         this.tournamentObject = null;
         this.eventClient = new this.parrygg.EventServiceClient(ParryggWrapper.ENDPOINT);
         this.phaseClient = new this.parrygg.PhaseServiceClient(ParryggWrapper.ENDPOINT);
+        this.streamClient = new this.parrygg.StreamServiceClient(ParryggWrapper.ENDPOINT);
     }
 
     get createAuthMetadata() {
@@ -723,7 +724,12 @@ class ParryggWrapper extends WebsiteWrapper{
     set SelectedTournament(val) {
         if (this.selectedTournament == val) { return; }
         this.selectedTournament = val;
-        this.SelectedStream = null;
+        this.selectedStream = null;
+    }
+
+    set SelectedStream(val) {
+        if (this.selectedStream == val) { return; }
+        this.selectedStream = val;
     }
 
     static comparePlayer(local, remote, includeIgnore) {
@@ -859,6 +865,21 @@ class ParryggWrapper extends WebsiteWrapper{
             primarySlug: this.getSlug(tournament, true),
             pictures: this.getTournamentPictures(tournament)
         }
+    }
+    getAdditionalStreamInfos(stream) {
+        var ret = {};
+        switch(stream.platform){
+            case this.parrygg.StreamPlatform.STREAM_PLATFORM_TWITCH:
+                ret.platformName = "Twitch";
+                break;
+            case this.parrygg.StreamPlatform.STREAM_PLATFORM_YOUTUBE:
+                ret.platformName = "YouTube";
+                break;
+            default:
+                ret.platformName = "Unknown";
+                break;
+        }
+        return ret;
     }
 
     async getAdditionalUserInfos(user) {
@@ -1003,7 +1024,11 @@ class ParryggWrapper extends WebsiteWrapper{
                     this.createAuthMetadata,
                 );
                 var returnObject = Object.assign(response.getTournament().toObject(), this.getAdditionalTournamentInfos(response.getTournament().toObject()));
+                if(returnObject != null){
+                    returnObject.streams = await this.getStreamsForTournament(tournamentSlug);
+                }
                 this.setCache("tournament-parry", tournamentSlug, returnObject);
+                console.log(returnObject);
                 return returnObject;
             } catch (error) {
                 return null;
@@ -1011,6 +1036,23 @@ class ParryggWrapper extends WebsiteWrapper{
         }
         return tournament;
     }
+
+    async getStreamsForTournament(tournamentSlug){
+        const request = new this.parrygg.GetTournamentStreamsRequest();
+        const tournamentIdentifier = new this.parrygg.TournamentIdentifier();
+        tournamentIdentifier.setTournamentSlug(tournamentSlug);
+        request.setTournamentIdentifier(tournamentIdentifier);
+        try {
+            const response = await this.streamClient.getTournamentStreams(
+                request,
+                this.createAuthMetadata,
+            );
+            return response.getStreamsList().map(stream => Object.assign(stream.toObject(), this.getAdditionalStreamInfos(stream.toObject())));
+        } catch (error) {
+            return [];
+        }
+    }
+
     async getTournamentById(tournamentId, cacheMaxAge) {
         if (tournamentId == null) { return; }
         let tournament = this.getCache("tournamentId-parry", tournamentId, cacheMaxAge);
@@ -1096,7 +1138,7 @@ class ParryggWrapper extends WebsiteWrapper{
         this.brackets = {tournament: tournamentSlug, events: events};
     }
 
-    async getSetsFromStreamQueue(){
+    async getSetsFromTournamentQueue(){
         var sets = [];
 
         var request = new this.parrygg.GetMatchesRequest();
@@ -1117,6 +1159,26 @@ class ParryggWrapper extends WebsiteWrapper{
                 rightStates.push(this.parrygg.MatchState.MATCH_STATE_PENDING);
             }
             sets = await sets.filter(match => rightStates.includes(match.match.state));
+        }catch (error) {
+            console.error(error);
+        }
+        return await sets;
+    }
+
+    async getSetsFromStreamQueue(){
+        var sets = [];
+        var request = new this.parrygg.GetStreamQueueRequest;
+        request.setStreamId(this.selectedStream);
+        try {
+            const response = await this.streamClient.getStreamQueue(
+                request,
+                this.createAuthMetadata,
+            );
+            var obj = response.toObject();
+            var sets = [];
+            for (const queue of obj.entriesList) {
+                    sets[queue.position] = await this.getSet(queue.matchId);
+            }
         }catch (error) {
             console.error(error);
         }
@@ -1206,32 +1268,27 @@ class ParryggWrapper extends WebsiteWrapper{
     }
 
     async fetchStreamQueue() {
-        // if (this.selectedTournament == null || this.selectedStream == null) {
         if (this.selectedTournament == null) {
             this.stopStreamQueuePolling();
         }
 
-        var sets = await this.getSetsFromStreamQueue();
-        // if (res.tournament.streams.some(x => x.id == this.selectedStream) == false) {
-        //     // this tournament does not have a stream with selectedStream slug
-        //     this.selectedStream = null;
-        //     this.stopStreamQueuePolling();
-        // }
+        if(this.selectedStream == '') {
+            var sets = await this.getSetsFromTournamentQueue();
+            if (sets.map(x => x.match.id).join("-") !== this.streamQueueSetIdList.join("-")) {
+                console.log("Stream queue set ID list changed, updating...");
+                this.streamQueueSetIdList = sets.map(x => x.match.id);
+                this.emit("streamqueuechanged", sets);
+            }
 
-        // let queues = res.tournament.streamQueue;
-        // if (queues != null && queues.length > 0) {
-        //     let queue = queues.find(x => x.stream.id == this.selectedStream);
-        //     if (queue != null && queue.sets != null && queue.sets.length > 0) {
-        //         sets = queue.sets;
-        //   sets  }
-        // }
-        if (sets.map(x => x.match.id).join("-") !== this.streamQueueSetIdList.join("-")) {
-            console.log("Stream queue set ID list changed, updating...");
-            this.streamQueueSetIdList = sets.map(x => x.match.id);
-            this.emit("streamqueuechanged", sets);
-        }
-
-        return sets;
+            return sets;
+        }else{
+            var sets = await this.getSetsFromStreamQueue();
+            if (sets.map(x => x.match.id).join("-") !== this.streamQueueSetIdList.join("-")) {
+                console.log("Stream queue set ID list changed, updating...");
+                this.streamQueueSetIdList = sets.map(x => x.match.id);
+                this.emit("streamqueuechanged", sets);
+            }
+            }
     }
 
     async getSet(setId, cacheMaxAge) {
@@ -1267,8 +1324,11 @@ class ParryggWrapper extends WebsiteWrapper{
 
     startStreamQueuePolling(pollInterval) {
         this.stopStreamQueuePolling();
-
-        this.emit("streamschanged", 'no stream rn');
+        var stream = '';
+        if(this.selectedStream != ''){
+            stream = this.tournamentObject.streams.find(x => x.id == this.selectedStream);
+        }
+        this.emit("streamschanged", stream);
 
         this.fetchStreamQueue();
         this.timers.streamQueuePoll = setInterval(() => this.fetchStreamQueue(), pollInterval || this.streamQueuePollInterval);

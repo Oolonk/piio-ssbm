@@ -2184,7 +2184,7 @@ async function openStreamQueueOptions(){
             break;
         case "parrygg":
             applyParryggSettings(windowSettings.tournamentSlug, windowSettings.streamId);
-            ipcRenderer.invoke('set', 'parrygg', { "tournament": parrygg.selectedTournament, "stream": parrygg.selectedStream });
+            ipcRenderer.invoke('set', 'parrygg', { "tournament": parrygg.selectedTournament, "stream": windowSettings.streamId });
             ipcRenderer.invoke('set', 'smashgg', { "tournament": "", "stream": null });
             break;
     }

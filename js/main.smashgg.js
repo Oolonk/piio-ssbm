@@ -111,8 +111,8 @@ async function displaySmashggCurrent() {
 on("scoreboardsmashggchanged", displaySmashggCurrent);
 
 function applySmashggSettings(tournamentSlug, streamId) {
-	smashgg.SelectedTournament = tournamentSlug;
-	smashgg.SelectedStream = streamId;
+	smashgg.selectedTournament = tournamentSlug;
+	smashgg.selectedStream = streamId;
     if(tournamentSlug != null) {
         smashgg.startStreamQueuePolling();
     }else {

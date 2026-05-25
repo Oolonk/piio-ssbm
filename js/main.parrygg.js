@@ -1,7 +1,13 @@
 const parrygg = new ParryggWrapper();
 var streamvar = {}
 parrygg.on("streamschanged", (stream) => {
-    document.querySelector("#stream-queue .list .title .channel").innerText = (stream == null ? "No stream selected" : parrygg.tournamentObject.name);
+    if(stream == null) {
+        document.querySelector("#stream-queue .list .title .channel").innerText = "No stream selected";
+    } else if(stream === ''){
+        document.querySelector("#stream-queue .list .title .channel").innerText = parrygg.tournamentObject.name;
+    }else {
+        document.querySelector("#stream-queue .list .title .channel").innerText = stream.displayName;
+    }
     document.querySelector("#stream-queue .list .title").dataset.site = "parrygg";
 });
 parrygg.on("streamqueuechanged", displayParryggStreamQueue);
