@@ -85,6 +85,10 @@ function createElement(params) {
 	return el;
 }
 
+function escapeRegExp(val) {
+	return String(val == null ? "" : val).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 HTMLInputElement.prototype.insertValue = function (val) {
 	let start = this.selectionStart;
 	let end = this.selectionEnd;

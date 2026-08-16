@@ -542,7 +542,7 @@ function buildCasterList() {
         nameTxbInput = e => {
             let value = e.target.value.trim().toLowerCase();
             let selectionElm = e.target.parentNode.querySelector(".selection");
-            db.get("player", {"name": {$regex: new RegExp(`${value}`, 'i')}}, {limit: 20}).then((list) => {
+            db.get("player", {"name": {$regex: new RegExp(`${escapeRegExp(value)}`, 'i')}}, {limit: 20}).then((list) => {
                 list = list.map(x => new Player(x));
                 selectionElm.truncate();
                 selectedIndex = -1;
@@ -776,7 +776,7 @@ async function playerNameInput(e) {
     let parent = txb.closest("div.player-item");
     let {team, player} = parent.dataset;
     let name = txb.value;
-    let players = await db.get("player", {"name": {$regex: new RegExp(`^${name}$`, 'i')}}, {"sort": {"lastActivity": -1}});
+    let players = await db.get("player", {"name": {$regex: new RegExp(`^${escapeRegExp(name)}$`, 'i')}}, {"sort": {"lastActivity": -1}});
     let po = {"name": name};
 
     if (players.length > 0) {
@@ -1290,7 +1290,7 @@ async function insertPlayerUI(teamNum, playerNum) {
             pEl.querySelector(".team").innerText = value;
             pEl.classList.toggle("hasteam", value.length > 0);
         });
-        db.count("player", {"name": {$regex: new RegExp(`^${po.name}$`, 'i')}})
+        db.count("player", {"name": {$regex: new RegExp(`^${escapeRegExp(po.name)}$`, 'i')}})
             .then(count => pEl.getElementsByClassName("player-multi-btn")[0].disabled = count <= 1);
         pEl.querySelector('.country').style.backgroundImage = `url('${country}')`;
     } else {

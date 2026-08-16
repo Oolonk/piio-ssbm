@@ -146,7 +146,7 @@ async function displayList(entries) {
 
 		let title = titlePattern;
 		patternReplacements.forEach((replace) => {
-			title = title.replace(new RegExp("{" + replace[0] + "}", 'g'), replace[1]);
+			title = title.replace(new RegExp("{" + escapeRegExp(replace[0]) + "}", 'g'), () => replace[1]);
 		});
 
 

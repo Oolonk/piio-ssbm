@@ -37,8 +37,8 @@ class Player {
 		if (teams.length == 1 && teams[0].regex != "") {
 			//teams[0].regex = "^[A]";
 			let re = new RegExp(teams[0].regex);
-			if (this.name.match(teams[0].prefix)) {
-				return this.name.replace(re, teams[0].prefix);
+			if (this.name.match(escapeRegExp(teams[0].prefix))) {
+				return this.name.replace(re, () => teams[0].prefix);
 			}
 		}
 		if (prefix.length > 0) {
