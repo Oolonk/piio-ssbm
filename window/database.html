@@ -24,12 +24,37 @@
 		<div id="options">
 			<input type="text" id="search-txb" oninput="getList();" value="" placeholder="Search..." />
 			<button onclick="editEntry(null)">Add entry</button>
+			<button id="merge-check-btn" onclick="openMergeCheck()" disabled>Check merges</button>
 		</div>
 		<div id="list">
 			<div id="list-grid"></div>
 		</div>
 		<div id="page-list"></div>
 	</div>
+
+	<div id="modal" onclick="hideModal();">
+		<div class="close" onclick="hideModal()"></div>
+		<div class="panel" onclick="event.stopPropagation();"></div>
+	</div>
+
+	<template id="merge-check-modal-tpl">
+		<div class="merge-title">Mergeable entries</div>
+		<div class="merge-hint">
+			Entries that share a name, a start.gg ID or a parry.gg ID. Choose the main entry per group - it is kept.
+			Every entry checked as "merge" is removed and its start.gg / parry.gg ID can be taken over by the main
+			entry.
+		</div>
+		<div class="merge-toolbar">
+			<button onclick="setAllMergeSelections(true)">Select all</button>
+			<button onclick="setAllMergeSelections(false)">Deselect all</button>
+		</div>
+		<div id="merge-list"></div>
+		<div class="merge-footer">
+			<div id="merge-summary"></div>
+			<button onclick="hideModal()">Cancel</button>
+			<button id="merge-apply-btn" onclick="applyMerges()" disabled>Merge selected</button>
+		</div>
+	</template>
 </body>
 
 </html>
