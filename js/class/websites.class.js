@@ -842,7 +842,7 @@ class ParryggWrapper extends WebsiteWrapper{
                     return "Losers Round " + set.match.round;
                 }
             break;
-            case parrygg.parrygg.BracketType.BRACKET_TYPE_DOUBLE_ELIMINATION:
+            case parrygg.parrygg.BracketType.BRACKET_TYPE_SINGLE_ELIMINATION:
                 return "Round " + set.match.round;
             break;
             case parrygg.parrygg.BracketType.BRACKET_TYPE_ROUND_ROBIN:
@@ -850,6 +850,7 @@ class ParryggWrapper extends WebsiteWrapper{
                 if(round == "Bracket"){
                     round = "Round Robin";
                 }
+                return round;
                 break;
             default:
                 return "";
@@ -857,6 +858,7 @@ class ParryggWrapper extends WebsiteWrapper{
 
 
         }
+        return '';
     }
 
     getAdditionalTournamentInfos(tournament) {

@@ -91,7 +91,7 @@ async function displayParryggStreamQueue(sets) {
     toRemove.forEach(x => x.remove());
     // add/edit sets - await all name lookups before firing streamqueuechanged
     await Promise.all(sets.map(async (set, idx) => {
-        set.fullRoundText = set.round.label;
+        set.fullRoundText = parrygg.getSetRoundName(set, await parrygg.getBracket(set.bracket.id, 0));
         var entrants = await Promise.all(set.match.slotsList.map(async slot => (
             await parrygg.getEntrantFromSeedAndBracket(slot.seedId, set.bracket.id)
         )));
