@@ -1,5 +1,5 @@
 const { clipboard } = require('electron');
-const path = require("path");
+// const path = require("path");
 const fs = require("fs");
 const APPROOT = remote.getGlobal("APPROOT");
 const APPRES = remote.getGlobal("APPRES");

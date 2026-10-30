@@ -1,7 +1,8 @@
+const path = require('path');
 const { ipcRenderer } = require('electron');
 const remote = require('@electron/remote');
 const { BrowserWindow } = require('@electron/remote');
-const db = remote.require("./main").database;
+const db = remote.require(path.join(__dirname, '../app/main.js')).database;
 
 window.addEventListener("load", () => {
 	let el = document.getElementById('titlebar');

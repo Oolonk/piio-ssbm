@@ -1,6 +1,6 @@
 const { clipboard } = require('electron');
 const dialog = remote.dialog;
-const path = require('path');
+// const path = require('path');
 const fs = require('fs');
 const { contextBridge, webUtils } = require('electron')
 
