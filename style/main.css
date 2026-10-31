@@ -1105,6 +1105,13 @@ body.modal #modal {
     font-size: 14px;
 }
 
+#caster > .item .info .name:empty:after {
+    content: 'Empty Commentator Slot';
+    font-style: italic;
+    font-weight: normal;
+    color: #737373;
+}
+
 #caster > .item .info .player-options {
     position: absolute;
     right: 1px;
